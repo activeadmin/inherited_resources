@@ -1,0 +1,4 @@
+Version 0.1
+
+* Initial release. Support to I18n, singleton controllers, polymorphic
+controllers, belongs_to, nested_belongs_to and url helpers.

@@ -1,0 +1,362 @@
+Inherited Resources
+License: MIT
+Version: 0.1
+
+You can also read this README in pretty html at the GitHub project Wiki page:
+
+  http://github.com/josevalim/inherited_resources/wikis/home
+
+Description
+-----------
+
+Inherited Resources speeds up development by making your controllers inherit
+all restful actions so you just have to focus on what is important. It makes
+your controllers more powerful and cleaner at the same time.
+
+keywords: resources, controller, singleton, belongs_to, polymorphic and I18n
+
+Installation
+------------
+
+Install Inherited Resources is very easy. It is stored in GitHub, so just run
+the following:
+
+   gem sources -a http://gems.github.com
+   sudo gem install josevalim-inherited_resources
+
+If you want it as plugin, just do:
+
+   script/plugin install git://github.com/josevalim/inherited_resources.git
+
+Basic Usage
+-----------
+
+To use Inherited Resources you just have to inherit (duh) it:
+
+   class ProjectsController < ResourceController::Base
+   end
+
+And all actions are defined and working, check it! Your projects collection
+(in the index action) is still available in the instance variable @projects
+and your project resource (all other actions) is available as @ project.
+
+The next step is to define which mime types this controller provides:
+
+   class ProjectsController < InheritedResources::Base
+     respond_to :html, :xml, :json
+   end
+
+You can also specify them based per action:
+
+   class ProjectsController < InheritedResources::Base
+     respond_to :html, :xml, :json
+     respond_to :js, :only => :create
+     respond_to :iphone, :except => [ :edit, :update ]
+   end
+
+Let's take a request on create with :rjs as example of how it works. After the
+action is processed, it will check if the view "projects/create.js.rjs" exist.
+If it does exist, it will render it, otherwise it will check if the resource
+@project respond to :to_js. If it is true, it will render the result of :to_js,
+otherwise it will render a 404.
+
+Another option is to specify which actions the controller will inherit from
+the InheritedResources::Base:
+
+   class ProjectsController < InheritedResources::Base
+     actions :index, :show, :new, :create
+   end
+
+Or:
+
+   class ProjectsController < InheritedResources::Base
+     actions :all, :except => [ :edit, :update, :destroy ]
+   end
+
+Overwriting defaults
+--------------------
+
+Now that you learned the default behavior and basic configuration, let's see
+how to extend it.
+
+Assuming that you have a PeopleController, but the resource is actually called
+User, you could overwrite the resource name, collection name and instance name
+just doing:
+
+   class PeopleController < InheritedResources::Base
+     defaults :resource_class => User, :collection_name => 'users', :instance_name => 'user'
+   end
+
+Further extensions is done by overwriting two methods. Let's suppose you want
+to add pagination to your projects collection:
+
+   class ProjectsController < InheritedResources::Base
+     protected
+       def collection
+         @projects ||= end_of_association_chain.paginate(params[:page]).all
+       end
+   end
+
+In this case you could just have done:
+
+   class ProjectsController < InheritedResources::Base
+     protected
+       def collection
+         @projects ||= Project.paginate(params[:page]).all
+       end
+   end
+
+But you should get used if end_of_association_chain. When you have nested
+resources it's very handy and it will deal with all nesting stuff. It was first
+introduced in resource_controller by Jamis Golick and we will talk more about it
+soon.
+
+On the other hand, if you just added pretty urls for in your ProjectsController
+(/projects/my-project-name), you can overwrite how projects are being found by:
+
+   class ProjectsController < InheritedResources::Base
+     protected
+       def resource
+         @project ||= end_of_association_chain.find_by_title!(params[:title])
+       end
+   end
+
+And now since you is acquainted to end_of_association_chain let's meet its
+twin brother: begin_of_association_chain.
+
+It's mostly used when you want to create resources based on the @current_user.
+In such cases, you don't have your @current_user in the url, but in the session.
+
+So if you have to do: @current_user.projects.find or @current_user.projects.build
+you can deal with both just doing:
+
+   class ProjectsController < InheritedResources::Base
+     protected
+       def begin_of_association_chain
+         @current_user
+       end
+   end
+
+Overwriting actions
+-------------------
+
+Let's suppose that after destroying a project you want to redirect to your
+root url instead of redirecting to projects url. You just have to do:
+
+   class ProjectsController < InheritedResources::Base
+     def destroy
+       super do |format|
+         format.html { redirect_to root_url }
+       end
+     end
+   end
+
+You are opening your action and giving the parent action a new behavior. No
+tricks, no DSL, just Ruby.
+
+On the other hand, I have to agree that calling super is the right thing but
+is not very readable. That's why all methods have aliases. So this is
+equivalent:
+
+   class ProjectsController < InheritedResources::Base
+     def destroy
+       destroy! do |format|
+         format.html { redirect_to projects_url }
+       end
+     end
+   end
+
+Now let's suppose that before create a project you have to do something special
+but you don't want to create a before filter for it:
+
+   class ProjectsController < InheritedResources::Base
+     def create
+       @project = Project.new(params[:project])
+       @project.something_special!
+       create!
+     end   end
+
+Yeap, that simple! The nice part is since you already set the instance variable
+@project, it will not do it again and overwrite your @project with something
+special. :)
+
+Flash messages and I18n
+-----------------------
+
+Flash messages are powered by I18n api. It checks for messages in the following
+order:
+
+   flash.controller_name.action_name.status
+   flash.actions.action_name.status
+
+If none is available, a default message in english set. Let's have a break from
+projects and talk about CarsController. So in a create action, it will check for
+flash messages in the following order:
+
+   flash.cars.create.status
+   flash.actions.create.status
+
+The status can be :notice (when the object can be created, updated
+or destroyed with success) or :error (when the objecy cannot be created
+or updated).
+
+Those messages are interpolated by using the resource class human name, which 
+is also localized and it means you can set:
+
+   flash:
+     actions:
+       create:
+         notice: "Hooray! {{resource}} was successfully created!"
+
+It will replace {{resource}} for Car properly.
+
+But sometimes, flash messages are not that simple. Going back
+to cars example, you might want to say the brand of the car when it's
+updated. Well, that's easy also:
+
+   flash:
+     cars:
+       update:
+         notice: "Hooray! You just tuned your {{car_brand}}!"
+
+Since :car_name is not available for interpolation by default, you have
+to overwrite interpolation_options.
+
+   def interpolation_options
+     { :car_brand => @car.brand }
+   end
+
+Then you will finally have:
+
+   'Hooray! You just tuned your Aston Martin!'
+
+Belongs to
+----------
+
+Finally, our Projects are going to get some Tasks. Then you create a
+TasksController and do:
+
+   class TasksController < InheritedResources::Base
+     belongs_to :project
+   end
+
+belongs_to accepts several options to be able to configure the association.
+Remember that our projects have pretty urls? So if you thought that url like
+/projects/:project_title/tasks would be a problem, I can assure you it won't:
+
+   class TasksController < InheritedResources::Base
+     belongs_to :project, :finder => :find_by_title!, :param => :project_title
+   end
+
+Check belongs_to file for more customization. :)
+
+Nested belongs to
+-----------------
+
+Now, our Tasks get some Comments and you need to nest even deeper. Good
+practices says that you should never nest more than two resources, but sometimes
+you have to for security reasons. So this is an example of how you can do it:
+
+   class CommentsController < InheritedResources::Base
+     nested_belongs_to :project
+     nested_belongs_to :task
+   end
+
+nested_belongs_to is actually just an alias to belongs_to. This is an
+alternative declaration:
+
+   class CommentsController < InheritedResources::Base
+     belongs_to :project do
+       belongs_to :task
+     end
+   end
+
+Polymorphic belongs to
+----------------------
+
+Now let's go even further. Our Projects is getting some Files and Messages
+besides Tasks, and they are all commentable:
+
+   class CommentsController < InheritedResources::Base
+     belongs_to :task, :file, :message, :polymorphic => true
+   end
+
+You can even use it with nested resources:
+
+   class CommentsController < InheritedResources::Base
+     belongs_to :project do
+       belongs_to :task, :file, :message, :polymorphic => true
+     end
+   end
+
+When using polymorphic associations, you get some free helpers:
+
+   parent?         #=> true
+   parent_type     #=> :task
+   parent_class    #=> Task
+   parent_instance #=> @task
+
+Polymorphic controller is another great idea by James Golick and he also uses
+that on resource_controller.
+
+Singletons
+----------
+
+Now we are going to add manager to projects. We say that Manager is a singleton
+resource because a Project has just one manager. You should declare it as
+has_one (or resource) in your routes.
+
+To declare an association as singleton, you just have to give the :singleton
+option.
+
+   class ManagersController < InheritedResources::Base
+     belongs_to :project, :singleton => true
+   end
+
+It will deal with everything again and hide the action :index from you.
+
+URL Helpers
+-----------
+
+When you use InheritedResources it creates some URL helpers for you.
+And they handle everything for you.
+
+   # /posts/1/comments
+   resource_url          # => /posts/1/comments/#{@comment.to_param}
+   resource_url(comment) # => /posts/1/comments/#{comment.to_param}
+   new_resource_url      # => /posts/1/comments/new
+   edit_resource_url     # => /posts/1/comments/#{@comment.to_param}/edit
+   collection_url        # => /posts/1/comments
+
+   # /projects/1/tasks
+   resource_url          # => /products/1/tasks/#{@task.to_param}
+   resource_url(task)    # => /products/1/tasks/#{task.to_param}
+   new_resource_url      # => /products/1/tasks/new
+   edit_resource_url     # => /products/1/tasks/#{@task.to_param}/edit
+   collection_url        # => /products/1/tasks
+ 
+   # /users
+   resource_url          # => /users/#{@user.to_param}
+   resource_url(user)    # => /users/#{user.to_param}
+   new_resource_url      # => /users/new
+   edit_resource_url     # => /users/#{@user.to_param}/edit
+   collection_url        # => /users
+
+The nice thing is that those urls are not guessed during runtime. They are
+all created when your application is loaded (except for polymorphic
+associations, that relies on Rails polymorphic_url).
+
+What's next
+-----------
+
+I'm working on generators and some nice things to speed up and make easier
+your controllers tests with mocking and stubs. :)
+
+Bugs and Feedback
+-----------------
+
+If you discover any bugs, please send an e-mail to jose.valim@gmail.com
+If you just want to give some positive feedback or drop a line, that's fine too!
+
+Copyright (c) 2009 José Valim
+http://josevalim.blogspot.com/

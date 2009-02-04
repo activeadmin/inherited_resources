@@ -1,0 +1,9 @@
+en:
+  flash:
+    addresses:
+      create:
+        notice: "You created a new address close to <b>{{reference}}</b>."
+      update:
+        notice: "Nice! {{resource}} was updated with success!"
+        error: "Oh no! We could not update your address!"
+
