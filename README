@@ -13,6 +13,9 @@ Inherited Resources speeds up development by making your controllers inherit
 all restful actions so you just have to focus on what is important. It makes
 your controllers more powerful and cleaner at the same time.
 
+Plus, making your controllers follow a pattern, it helps you to write better
+code by following fat models and skinny controllers convention.
+
 keywords: resources, controller, singleton, belongs_to, polymorphic and I18n
 
 Installation
