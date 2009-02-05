@@ -1,4 +1,8 @@
-Version 0.1
+# Version 0.1.1
+
+* Added Rails 2.3.0 and changed tests to work with ActionController::TestCase.
+
+# Version 0.1.0
 
 * Initial release. Support to I18n, singleton controllers, polymorphic
 controllers, belongs_to, nested_belongs_to and url helpers.

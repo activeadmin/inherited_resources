@@ -1,6 +1,6 @@
 Inherited Resources
 License: MIT
-Version: 0.1
+Version: 0.1.1
 
 You can also read this README in pretty html at the GitHub project Wiki page:
 
@@ -15,6 +15,8 @@ your controllers more powerful and cleaner at the same time.
 
 Plus, making your controllers follow a pattern, it helps you to write better
 code by following fat models and skinny controllers convention.
+
+Inherited Resources is tested and compatible with Rails 2.2.2 and Rails 2.3.0.
 
 keywords: resources, controller, singleton, belongs_to, polymorphic and I18n
 
@@ -261,12 +263,11 @@ practices says that you should never nest more than two resources, but sometimes
 you have to for security reasons. So this is an example of how you can do it:
 
    class CommentsController < InheritedResources::Base
-     nested_belongs_to :project
-     nested_belongs_to :task
+     nested_belongs_to :project, :task
    end
 
-nested_belongs_to is actually just an alias to belongs_to. This is an
-alternative declaration:
+nested_belongs_to is actually just an alias to belongs_to created to make clear
+what is happening. You can also declare nested_belongs_to like this:
 
    class CommentsController < InheritedResources::Base
      belongs_to :project do
