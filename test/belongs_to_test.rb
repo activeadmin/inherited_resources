@@ -19,7 +19,7 @@ class ProfessorsController < InheritedResources::Base
 end
 
 # Create a TestHelper module with some helpers
-class BelongsToTest < Test::Unit::TestCase
+class BelongsToTest < TEST_CLASS
   def setup
     @controller          = ProfessorsController.new
     @controller.request  = @request  = ActionController::TestRequest.new

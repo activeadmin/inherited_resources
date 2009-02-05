@@ -24,7 +24,7 @@ module UserTestHelper
     end
 end
 
-class IndexActionBaseTest < Test::Unit::TestCase
+class IndexActionBaseTest < TEST_CLASS
   include UserTestHelper
 
   def test_expose_all_users_as_instance_variable
@@ -50,7 +50,7 @@ class IndexActionBaseTest < Test::Unit::TestCase
   end
 end
 
-class ShowActionBaseTest < Test::Unit::TestCase
+class ShowActionBaseTest < TEST_CLASS
   include UserTestHelper
 
   def test_expose_the_resquested_user
@@ -76,7 +76,7 @@ class ShowActionBaseTest < Test::Unit::TestCase
   end
 end
 
-class NewActionBaseTest < Test::Unit::TestCase
+class NewActionBaseTest < TEST_CLASS
   include UserTestHelper
 
   def test_expose_a_new_user
@@ -102,7 +102,7 @@ class NewActionBaseTest < Test::Unit::TestCase
   end
 end
 
-class EditActionBaseTest < Test::Unit::TestCase
+class EditActionBaseTest < TEST_CLASS
   include UserTestHelper
 
   def test_expose_the_resquested_user
@@ -120,7 +120,7 @@ class EditActionBaseTest < Test::Unit::TestCase
   end
 end
 
-class CreateActionBaseTest < Test::Unit::TestCase
+class CreateActionBaseTest < TEST_CLASS
   include UserTestHelper
 
   def test_expose_a_newly_create_user_when_saved_with_success
@@ -146,7 +146,7 @@ class CreateActionBaseTest < Test::Unit::TestCase
     User.stubs(:new).returns(mock_user(:save => false, :errors => []))
     post :create
     assert_response :success
-    assert_template 'new'
+    assert_template :new
   end
 
   def test_dont_show_flash_message_when_user_cannot_be_saved
@@ -156,7 +156,7 @@ class CreateActionBaseTest < Test::Unit::TestCase
   end
 end
 
-class UpdateActionBaseTest < Test::Unit::TestCase
+class UpdateActionBaseTest < TEST_CLASS
   include UserTestHelper
 
   def test_update_the_requested_object
@@ -183,7 +183,7 @@ class UpdateActionBaseTest < Test::Unit::TestCase
     User.stubs(:find).returns(mock_user(:update_attributes => false, :errors => []))
     put :update
     assert_response :success
-    assert_template 'edit'
+    assert_template :edit
   end
 
   def test_dont_show_flash_message_when_user_cannot_be_saved
@@ -193,7 +193,7 @@ class UpdateActionBaseTest < Test::Unit::TestCase
   end
 end
 
-class DestroyActionBaseTest < Test::Unit::TestCase
+class DestroyActionBaseTest < TEST_CLASS
   include UserTestHelper
   
   def test_the_resquested_user_is_destroyed

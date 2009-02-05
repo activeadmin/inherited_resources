@@ -14,7 +14,7 @@ end
 class FoldersController < InheritedResources::Base
 end
 
-class ActionsTest < Test::Unit::TestCase
+class ActionsTest < ActiveSupport::TestCase
   def test_actions_are_undefined_when_only_option_is_given
     action_methods = BooksController.send(:action_methods)
     assert_equal 2, action_methods.size
@@ -34,8 +34,8 @@ class ActionsTest < Test::Unit::TestCase
   end
 end
 
-class DefaultsTest < Test::Unit::TestCase
-  def test_resource_class_is_set_to_nil_when_resource_model_cannot_be_found
+class DefaultsTest < ActiveSupport::TestCase
+  def test_resource_class_is_set_to_nil_when_resource_model_cannot_be_found
     assert_nil ReadersController.send(:resource_class)
   end
 

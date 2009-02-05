@@ -19,7 +19,7 @@ class StudentsController < InheritedResources::Base
 
 end
 
-class AliasesBaseTest < Test::Unit::TestCase
+class AliasesBaseTest < TEST_CLASS
 
   def setup
     @controller          = StudentsController.new

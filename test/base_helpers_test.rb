@@ -11,7 +11,7 @@ class AddressesController < InheritedResources::Base
     end
 end
 
-class FlashBaseHelpersTest < Test::Unit::TestCase
+class FlashBaseHelpersTest < TEST_CLASS
 
   def setup
     @controller          = AddressesController.new
@@ -75,7 +75,7 @@ class PetsController < InheritedResources::Base
     end
 end
 
-class AssociationChainBaseHelpersTest < Test::Unit::TestCase
+class AssociationChainBaseHelpersTest < TEST_CLASS
 
   def setup
     @controller              = PetsController.new

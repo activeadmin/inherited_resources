@@ -51,7 +51,7 @@ end
 class SuperProjectsController < ProjectsController
 end
 
-class RespondToUnitTest < Test::Unit::TestCase
+class RespondToUnitTest < TEST_CLASS
   def setup(class_controller = ProjectsController)
     @controller          = class_controller.new
     @controller.request  = @request  = ActionController::TestRequest.new
@@ -172,7 +172,7 @@ class RespondToUnitTest < Test::Unit::TestCase
     end
 end
 
-class RespondToFunctionalTest < Test::Unit::TestCase
+class RespondToFunctionalTest < TEST_CLASS
   def setup
     @controller          = ProjectsController.new
     @controller.request  = @request  = ActionController::TestRequest.new

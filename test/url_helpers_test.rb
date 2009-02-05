@@ -45,7 +45,7 @@ class CentersController < InheritedResources::Base
 end
 
 # Create a TestHelper module with some helpers
-class UrlHelpersTest < Test::Unit::TestCase
+class UrlHelpersTest < ActiveSupport::TestCase
 
   def test_url_helpers_on_simple_inherited_resource
     controller = HousesController.new

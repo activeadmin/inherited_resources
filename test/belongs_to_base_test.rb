@@ -32,7 +32,7 @@ module CommentTestHelper
     end
 end
 
-class IndexActionBelongsToTest < Test::Unit::TestCase
+class IndexActionBelongsToTest < TEST_CLASS
   include CommentTestHelper
 
   def test_expose_all_comments_as_instance_variable
@@ -64,7 +64,7 @@ class IndexActionBelongsToTest < Test::Unit::TestCase
   end
 end
 
-class ShowActionBelongsToTest < Test::Unit::TestCase
+class ShowActionBelongsToTest < TEST_CLASS
   include CommentTestHelper
 
   def test_expose_the_resquested_comment
@@ -96,7 +96,7 @@ class ShowActionBelongsToTest < Test::Unit::TestCase
   end
 end
 
-class NewActionBelongsToTest < Test::Unit::TestCase
+class NewActionBelongsToTest < TEST_CLASS
   include CommentTestHelper
 
   def test_expose_a_new_comment
@@ -128,7 +128,7 @@ class NewActionBelongsToTest < Test::Unit::TestCase
   end
 end
 
-class EditActionBelongsToTest < Test::Unit::TestCase
+class EditActionBelongsToTest < TEST_CLASS
   include CommentTestHelper
 
   def test_expose_the_resquested_comment
@@ -150,7 +150,7 @@ class EditActionBelongsToTest < Test::Unit::TestCase
   end
 end
 
-class CreateActionBelongsToTest < Test::Unit::TestCase
+class CreateActionBelongsToTest < TEST_CLASS
   include CommentTestHelper
 
   def test_expose_a_newly_create_comment_when_saved_with_success
@@ -182,7 +182,7 @@ class CreateActionBelongsToTest < Test::Unit::TestCase
     Comment.stubs(:build).returns(mock_comment(:save => false, :errors => []))
     post :create
     assert_response :success
-    assert_template 'new'
+    assert_template :new
   end
 
   def test_dont_show_flash_message_when_comment_cannot_be_saved
@@ -193,7 +193,7 @@ class CreateActionBelongsToTest < Test::Unit::TestCase
   end
 end
 
-class UpdateActionBelongsToTest < Test::Unit::TestCase
+class UpdateActionBelongsToTest < TEST_CLASS
   include CommentTestHelper
 
   def test_update_the_requested_object
@@ -226,7 +226,7 @@ class UpdateActionBelongsToTest < Test::Unit::TestCase
     Comment.stubs(:find).returns(mock_comment(:update_attributes => false, :errors => []))
     put :update
     assert_response :success
-    assert_template 'edit'
+    assert_template :edit
   end
 
   def test_dont_show_flash_message_when_comment_cannot_be_saved
@@ -237,7 +237,7 @@ class UpdateActionBelongsToTest < Test::Unit::TestCase
   end
 end
 
-class DestroyActionBelongsToTest < Test::Unit::TestCase
+class DestroyActionBelongsToTest < TEST_CLASS
   include CommentTestHelper
   
   def test_the_resquested_comment_is_destroyed

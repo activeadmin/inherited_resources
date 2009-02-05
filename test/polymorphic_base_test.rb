@@ -29,7 +29,7 @@ module EmployeeTestHelper
     end
 end
 
-class IndexActionPolymorphicTest < Test::Unit::TestCase
+class IndexActionPolymorphicTest < TEST_CLASS
   include EmployeeTestHelper
 
   def test_expose_all_employees_as_instance_variable
@@ -61,7 +61,7 @@ class IndexActionPolymorphicTest < Test::Unit::TestCase
   end
 end
 
-class ShowActionPolymorphicTest < Test::Unit::TestCase
+class ShowActionPolymorphicTest < TEST_CLASS
   include EmployeeTestHelper
 
   def test_expose_the_resquested_employee
@@ -93,7 +93,7 @@ class ShowActionPolymorphicTest < Test::Unit::TestCase
   end
 end
 
-class NewActionPolymorphicTest < Test::Unit::TestCase
+class NewActionPolymorphicTest < TEST_CLASS
   include EmployeeTestHelper
 
   def test_expose_a_new_employee
@@ -125,7 +125,7 @@ class NewActionPolymorphicTest < Test::Unit::TestCase
   end
 end
 
-class EditActionPolymorphicTest < Test::Unit::TestCase
+class EditActionPolymorphicTest < TEST_CLASS
   include EmployeeTestHelper
 
   def test_expose_the_resquested_employee
@@ -147,7 +147,7 @@ class EditActionPolymorphicTest < Test::Unit::TestCase
   end
 end
 
-class CreateActionPolymorphicTest < Test::Unit::TestCase
+class CreateActionPolymorphicTest < TEST_CLASS
   include EmployeeTestHelper
 
   def test_expose_a_newly_create_employee_when_saved_with_success
@@ -179,7 +179,7 @@ class CreateActionPolymorphicTest < Test::Unit::TestCase
     Employee.stubs(:build).returns(mock_employee(:save => false, :errors => []))
     post :create, :factory_id => '37'
     assert_response :success
-    assert_template 'new'
+    assert_template :new
   end
 
   def test_dont_show_flash_message_when_employee_cannot_be_saved
@@ -190,7 +190,7 @@ class CreateActionPolymorphicTest < Test::Unit::TestCase
   end
 end
 
-class UpdateActionPolymorphicTest < Test::Unit::TestCase
+class UpdateActionPolymorphicTest < TEST_CLASS
   include EmployeeTestHelper
 
   def test_update_the_requested_object
@@ -223,7 +223,7 @@ class UpdateActionPolymorphicTest < Test::Unit::TestCase
     Employee.stubs(:find).returns(mock_employee(:update_attributes => false, :errors => []))
     put :update, :factory_id => '37'
     assert_response :success
-    assert_template 'edit'
+    assert_template :edit
   end
 
   def test_dont_show_flash_message_when_employee_cannot_be_saved
@@ -234,9 +234,9 @@ class UpdateActionPolymorphicTest < Test::Unit::TestCase
   end
 end
 
-class DestroyActionPolymorphicTest < Test::Unit::TestCase
+class DestroyActionPolymorphicTest < TEST_CLASS
   include EmployeeTestHelper
-  
+
   def test_the_resquested_employee_is_destroyed
     Factory.expects(:find).with('37').returns(mock_factory)
     mock_factory.expects(:employees).returns(Employee)
@@ -262,7 +262,7 @@ class DestroyActionPolymorphicTest < Test::Unit::TestCase
     assert_redirected_to 'http://test.host/'
   end
 end
-class PolymorphicHelpersTest < Test::Unit::TestCase
+class PolymorphicHelpersTest < TEST_CLASS
   include EmployeeTestHelper
 
   def test_polymorphic_helpers

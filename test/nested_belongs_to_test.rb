@@ -15,7 +15,7 @@ class CitiesController < InheritedResources::Base
 end
 
 # Create a TestHelper module with some helpers
-class NestedBelongsToTest < Test::Unit::TestCase
+class NestedBelongsToTest < TEST_CLASS
 
   def setup
     @controller          = CitiesController.new

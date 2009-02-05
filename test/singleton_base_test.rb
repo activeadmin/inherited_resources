@@ -32,7 +32,7 @@ module ManagerTestHelper
     end
 end
 
-class ShowActionSingletonTest < Test::Unit::TestCase
+class ShowActionSingletonTest < TEST_CLASS
   include ManagerTestHelper
 
   def test_expose_the_resquested_manager
@@ -61,7 +61,7 @@ class ShowActionSingletonTest < Test::Unit::TestCase
   end
 end
 
-class NewActionSingletonTest < Test::Unit::TestCase
+class NewActionSingletonTest < TEST_CLASS
   include ManagerTestHelper
 
   def test_expose_a_new_manager
@@ -91,7 +91,7 @@ class NewActionSingletonTest < Test::Unit::TestCase
   end
 end
 
-class EditActionSingletonTest < Test::Unit::TestCase
+class EditActionSingletonTest < TEST_CLASS
   include ManagerTestHelper
 
   def test_expose_the_resquested_manager
@@ -112,7 +112,7 @@ class EditActionSingletonTest < Test::Unit::TestCase
   end
 end
 
-class CreateActionSingletonTest < Test::Unit::TestCase
+class CreateActionSingletonTest < TEST_CLASS
   include ManagerTestHelper
 
   def test_expose_a_newly_create_manager_when_saved_with_success
@@ -143,7 +143,7 @@ class CreateActionSingletonTest < Test::Unit::TestCase
     mock_store.stubs(:build_manager).returns(mock_manager(:save => false, :errors => []))
     post :create
     assert_response :success
-    assert_template 'new'
+    assert_template :new
   end
 
   def test_dont_show_flash_message_when_manager_cannot_be_saved
@@ -154,7 +154,7 @@ class CreateActionSingletonTest < Test::Unit::TestCase
   end
 end
 
-class UpdateActionSingletonTest < Test::Unit::TestCase
+class UpdateActionSingletonTest < TEST_CLASS
   include ManagerTestHelper
 
   def test_update_the_requested_object
@@ -185,7 +185,7 @@ class UpdateActionSingletonTest < Test::Unit::TestCase
     mock_manager.stubs(:update_attributes).returns(false)
     put :update
     assert_response :success
-    assert_template 'edit'
+    assert_template :edit
   end
 
   def test_dont_show_flash_message_when_manager_cannot_be_saved
@@ -196,7 +196,7 @@ class UpdateActionSingletonTest < Test::Unit::TestCase
   end
 end
 
-class DestroyActionSingletonTest < Test::Unit::TestCase
+class DestroyActionSingletonTest < TEST_CLASS
   include ManagerTestHelper
 
   def test_the_resquested_manager_is_destroyed
