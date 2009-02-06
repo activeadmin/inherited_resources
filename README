@@ -78,6 +78,15 @@ Or:
      actions :all, :except => [ :edit, :update, :destroy ]
    end
 
+In your views, you will get the following helpers:
+
+   resource        #=> @project
+   collection      #=> @projects
+   resource_class  #=> Project
+
+As you might expect, collection (@projects instance variable) is only available
+on index actions.
+
 Overwriting defaults
 --------------------
 
@@ -179,7 +188,8 @@ but you don't want to create a before filter for it:
        @project = Project.new(params[:project])
        @project.something_special!
        create!
-     end   end
+     end
+   end
 
 Yeap, that simple! The nice part is since you already set the instance variable
 @project, it will not do it again and overwrite your @project with something
@@ -298,7 +308,7 @@ When using polymorphic associations, you get some free helpers:
    parent?         #=> true
    parent_type     #=> :task
    parent_class    #=> Task
-   parent_instance #=> @task
+   parent          #=> @task
 
 Polymorphic controller is another great idea by James Golick and he also uses
 that on resource_controller.

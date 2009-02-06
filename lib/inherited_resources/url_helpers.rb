@@ -52,7 +52,7 @@ module InheritedResources #:nodoc:
       base.parents_symbols.map do |symbol|
         if symbol == :polymorphic
           polymorphic = true
-          resource_ivars << :parent_instance
+          resource_ivars << :parent
         else
           config = base.resources_configuration[symbol]
           resource_segments << config[:route_name]
@@ -90,7 +90,7 @@ module InheritedResources #:nodoc:
     end
 
     def self.generate_url_and_path_helpers(base, prefix, name, resource_segments, resource_ivars, polymorphic=false)
-        ivars = resource_ivars.map{|i| i == :parent_instance ? :parent_instance : "@#{i}" }
+        ivars = resource_ivars.map{|i| i == :parent ? :parent : "@#{i}" }
 
         # If it's not a singleton, ivars are not empty, not a collection or
         # not a new hew helper, we can add args to the method.

@@ -123,7 +123,7 @@
 #   parent?         #=> true
 #   parent_type     #=> :task
 #   parent_class    #=> Task
-#   parent_instance #=> @task
+#   parent          #=> @task
 #
 # This polymorphic controllers thing is a great idea by James Golick and he
 # built it in resource_controller. Here is just a re-implementation.

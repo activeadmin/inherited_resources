@@ -113,6 +113,7 @@ module InheritedResources #:nodoc:
       def acts_as_polymorphic!
         if self.polymorphic_symbols.empty?
           include PolymorphicHelpers
+          helper_method :parent?, :parent_type, :parent_class, :parent
         end
       end
 

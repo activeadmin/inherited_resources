@@ -277,6 +277,6 @@ class PolymorphicHelpersTest < TEST_CLASS
     assert_equal :factory, @controller.send(:parent_type)
     assert_equal Factory, @controller.send(:parent_class)
     assert_equal new_factory, assigns(:factory)
-    assert_equal new_factory, @controller.send(:parent_instance)
+    assert_equal new_factory, @controller.send(:parent)
   end
 end

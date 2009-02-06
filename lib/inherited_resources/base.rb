@@ -168,7 +168,7 @@ module InheritedResources
 
     helper_method :collection_url, :collection_path, :resource_url, :resource_path,
                   :new_resource_url, :new_resource_path, :edit_resource_url, :edit_resource_path,
-                  :resource, :collection
+                  :resource, :collection, :resource_class
 
     def self.inherited(base)
       base.class_eval do

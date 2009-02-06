@@ -8,12 +8,13 @@ module InheritedResources #:nodoc:
       end
 
       def parent_class
-        parent_instance.class
+        parent.class
       end
 
-      def parent_instance
+      def parent
         instance_variable_get("@#{@parent_type}")
       end
+
   end
 end
 
