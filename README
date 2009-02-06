@@ -1,6 +1,6 @@
 Inherited Resources
 License: MIT
-Version: 0.1.1
+Version: 0.2.0
 
 You can also read this README in pretty html at the GitHub project Wiki page:
 
@@ -195,6 +195,39 @@ but you don't want to create a before filter for it:
 Yeap, that simple! The nice part is since you already set the instance variable
 @project, it will not do it again and overwrite your @project with something
 special. :)
+
+Before we finish this topic, we should talk about one more thing: "success/failure
+blocks". Let's suppose that when we update our project, in case of failure, we
+want to redirect to the project url instead of re-rendering the edit template.
+
+Our first attempt to do this would be:
+
+   class ProjectsController < InheritedResources::Base
+     def update
+       update! do |format|
+         unless @project.errors.empty? # failure
+           format.html { redirect_to project_url(@project) }
+         end
+       end
+     end
+   end
+
+Looks to verbose, right? (Maybe it reminds you of something! :P)
+But this is Ruby and we can actually do:
+
+   class ProjectsController < InheritedResources::Base
+     def update
+       update! do |success, failure|
+         failure.html { redirect_to project_url(@project) }
+       end
+     end
+   end
+
+Much better! So explaning everything: when you give a block which expects one
+argument it will be executed in both scenarios: success and failure. But If you
+give a block that expects two arguments, the first will be executed only in
+success scenarios and the second in failure scenarios. You keep everything
+clean and organized inside the same action.
 
 Flash messages and I18n
 -----------------------
