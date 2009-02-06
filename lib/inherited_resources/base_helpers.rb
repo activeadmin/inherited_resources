@@ -195,5 +195,26 @@ module InheritedResources #:nodoc:
         { }
       end
 
+      # Used to allow to specify success and failure within just one block:
+      #
+      #   def create
+      #     create! do |success, failure|
+      #       failure.html { redirect_to root_url }
+      #     end
+      #   end
+      #
+      def args_for_block(block_to_check_args, format, success = true)
+        if block_to_check_args.arity == 2
+          dumb_responder = InheritedResources::DumbResponder.new
+          if success
+            return format, dumb_responder
+          else
+            return dumb_responder, format
+          end
+        else
+          return format
+        end
+      end
+
   end
 end

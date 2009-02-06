@@ -141,8 +141,9 @@ twin brother: begin_of_association_chain.
 It's mostly used when you want to create resources based on the @current_user.
 In such cases, you don't have your @current_user in the url, but in the session.
 
-So if you have to do: @current_user.projects.find or @current_user.projects.build
-you can deal with both just doing:
+This is usually when you have urls like "account/projects" and you have to do
+@current_user.projects.find or @current_user.projects.build in your actions.
+You can deal with it just doing:
 
    class ProjectsController < InheritedResources::Base
      protected

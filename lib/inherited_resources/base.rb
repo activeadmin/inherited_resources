@@ -217,14 +217,14 @@ module InheritedResources
           set_flash_message!(:notice, '{{resource}} was successfully created.')
 
           respond_to(:with => object, :status => :created, :location => resource_url) do |format|
-            yield(format) if block_given?
+            block.call args_for_block(block, format, true) if block_given?
             format.html { redirect_to(resource_url) }
           end
         else
           set_flash_message!(:error)
 
           respond_to(:with => object.errors, :status => :unprocessable_entity) do |format|
-            yield(format) if block_given?
+            block.call args_for_block(block, format, false) if block_given?
             format.html { render :action => "new" }
           end
         end
@@ -239,7 +239,7 @@ module InheritedResources
           set_flash_message!(:notice, '{{resource}} was successfully updated.')
 
           respond_to do |format|
-            yield(format) if block_given?
+            block.call args_for_block(block, format, true) if block_given?
             format.html { redirect_to(resource_url) }
             format.all  { head :ok }
           end
@@ -247,7 +247,7 @@ module InheritedResources
           set_flash_message!(:error)
 
           respond_to(:with => object.errors, :status => :unprocessable_entity) do |format|
-            yield(format) if block_given?
+            block.call args_for_block(block, format, false) if block_given?
             format.html { render :action => "edit" }
           end
         end
@@ -255,7 +255,7 @@ module InheritedResources
       alias :update! :update
 
       # DELETE /resources/1
-      def destroy(&block)
+      def destroy
         resource.destroy
 
         set_flash_message!(:notice, '{{resource}} was successfully destroyed.')
