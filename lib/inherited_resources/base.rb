@@ -157,7 +157,18 @@
 #
 # Further customizations can be done replacing some methods. Check
 # base_helpers.rb file for more information.
-#
+
+# Let's require all needed files here. We are still on time to eager load
+# everything on multithreaded environments.
+require File.dirname(__FILE__) + '/base_helpers.rb'
+require File.dirname(__FILE__) + '/belongs_to.rb'
+require File.dirname(__FILE__) + '/belongs_to_helpers.rb'
+require File.dirname(__FILE__) + '/class_methods.rb'
+require File.dirname(__FILE__) + '/dumb_responder.rb'
+require File.dirname(__FILE__) + '/polymorphic_helpers.rb'
+require File.dirname(__FILE__) + '/singleton_helpers.rb'
+require File.dirname(__FILE__) + '/url_helpers.rb'
+
 module InheritedResources
   RESOURCES_ACTIONS = [ :index, :show, :new, :edit, :create, :update, :destroy ]
 
