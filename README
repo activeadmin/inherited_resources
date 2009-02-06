@@ -38,7 +38,7 @@ Basic Usage
 
 To use Inherited Resources you just have to inherit (duh) it:
 
-   class ProjectsController < ResourceController::Base
+   class ProjectsController < InheritedResources::Base
    end
 
 And all actions are defined and working, check it! Your projects collection
