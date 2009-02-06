@@ -11,7 +11,7 @@ module InheritedResources #:nodoc:
 
     # This is like a good husband, he will just listen everything that his wife
     # says (which is a lot) without complaining. :)
-    def method_missing(*args, &block)
+    def method_missing(*args)
       return true
     end
 

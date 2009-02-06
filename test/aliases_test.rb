@@ -27,6 +27,7 @@ class StudentsController < InheritedResources::Base
 
   def update
     update! do |success, failure|
+      success.html { redirect_to(resource_url) }
       failure.html { render :text => "I won't render!" }
     end
   end
