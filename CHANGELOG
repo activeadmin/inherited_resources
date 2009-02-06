@@ -1,3 +1,12 @@
+# Version 0.2.0
+
+* Added support for success/failure block;
+* Eager loading all files to work on multithreaded environments.
+
+# Version 0.1.2
+
+* Added more helper methods.
+
 # Version 0.1.1
 
 * Added Rails 2.3.0 and changed tests to work with ActionController::TestCase.
