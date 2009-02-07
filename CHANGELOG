@@ -1,3 +1,7 @@
+# Version 0.2.1
+
+* Bug fix when ApplicationController is already loaded when we load respond_to.
+
 # Version 0.2.0
 
 * Added support success/failure blocks.

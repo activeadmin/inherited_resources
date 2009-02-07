@@ -267,6 +267,14 @@ module ActionController #:nodoc:
         end
       end
 
+    # If ApplicationController is already defined around here, we should call
+    # inherited_with_inheritable_attributes to insert formats_for_respond_to.
+    # This usually happens only on Rails 2.3.
+    #
+    if defined?(ApplicationController)
+      self.send(:inherited_with_inheritable_attributes, ApplicationController)
+    end
+
   end
 
   module MimeResponds #:nodoc:
