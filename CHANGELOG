@@ -1,3 +1,9 @@
+# Version 0.2.2
+
+* Bug fix when having root singleton resources. Calling collection_url would
+  raise "NoMethodError _url", not it will call root_url.
+* More comments on UrlHelpers.
+
 # Version 0.2.1
 
 * Bug fix when ApplicationController is already loaded when we load respond_to.
