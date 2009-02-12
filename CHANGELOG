@@ -1,5 +1,8 @@
-# Version 0.2.2
+# Version 0.3
 
+* Minor bump after three bug fixes.
+* Bug fix when showing warning of constant redefinition.
+* Bug fix with ApplicationController not being unloaded properly on development.
 * Bug fix when having root singleton resources. Calling collection_url would
   raise "NoMethodError _url", not it will call root_url.
 * More comments on UrlHelpers.
