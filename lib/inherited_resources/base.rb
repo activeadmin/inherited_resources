@@ -170,9 +170,11 @@ require File.dirname(__FILE__) + '/singleton_helpers.rb'
 require File.dirname(__FILE__) + '/url_helpers.rb'
 
 module InheritedResources
-  RESOURCES_ACTIONS = [ :index, :show, :new, :edit, :create, :update, :destroy ]
+  RESOURCES_ACTIONS = [ :index, :show, :new, :edit, :create, :update, :destroy ] unless self.const_defined? "RESOURCES_ACTIONS"
 
   class Base < ::ApplicationController
+    unloadable
+
     include InheritedResources::BaseHelpers
     extend InheritedResources::BelongsTo
     extend InheritedResources::ClassMethods

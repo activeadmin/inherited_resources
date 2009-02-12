@@ -33,7 +33,7 @@
 # When you have a singleton controller, the action index is removed.
 #
 module InheritedResources #:nodoc:
-  RESOURCES_CLASS_ACCESSORS = [ :resource_class, :resources_configuration, :parents_symbols, :singleton, :polymorphic_symbols ]
+  RESOURCES_CLASS_ACCESSORS = [ :resource_class, :resources_configuration, :parents_symbols, :singleton, :polymorphic_symbols ] unless self.const_defined? "RESOURCES_CLASS_ACCESSORS"
 
   module ClassMethods #:nodoc:
 
