@@ -44,10 +44,9 @@ module InheritedResources #:nodoc:
       resource_config = base.resources_configuration[:self]
       polymorphic = false
 
-      # Deal with belongs_to associations.
-      #
-      # If we find a :polymorphic symbol, it means that we should not add
-      # :route_name to resource_segments (which will be useless anyway).
+      # Deal with belongs_to associations and polymorphic associations.
+      # Remember that we don't have to build the segments in polymorphic cases,
+      # because the url will be polymorphic_url.
       #
       base.parents_symbols.map do |symbol|
         if symbol == :polymorphic
@@ -61,13 +60,18 @@ module InheritedResources #:nodoc:
       end
 
       # Deals with singleton.
-      # We define collection_url to singletons just for compatibility mode.
       #
+      # If not a singleton, we add the current collection name and build the
+      # collection url. It can build for example:
+      #
+      #   project_tasks_url
+      #
+      # If it's a singleton we also build a collection, just for compatibility.
       # The collection_url for singleton is the parent show url. For example,
       # if we have ProjectsController with ManagerController, where the second
-      # is the singleton, the collection url would be: project_url.
+      # is the singleton, the collection url would be: project_url(@project).
       #
-      # This is where you are going to be redirected after destroing the manager.
+      # This is where you are going to be redirected after destroying the manager.
       #
       unless base.singleton
         resource_segments << resource_config[:collection_name] 
@@ -81,7 +85,15 @@ module InheritedResources #:nodoc:
       resource_segments << resource_config[:instance_name]
       generate_url_and_path_helpers(base, :new, :resource, resource_segments, resource_ivars, polymorphic)
 
-      # We don't add the resource ivar to edit and resource url if singleton
+      # We don't add the resource_ivar to edit and show url if singleton.
+      # Singletons are simply:
+      #
+      #   edit_project_manager_url(@project)
+      #
+      # Instead of:
+      #
+      #   edit_project_task_url(@project, @task)
+      #
       resource_ivars << resource_config[:instance_name] unless base.singleton
 
       # Prepare and add resource_url and edit_resource_url
@@ -93,10 +105,10 @@ module InheritedResources #:nodoc:
         ivars = resource_ivars.map{|i| i == :parent ? :parent : "@#{i}" }
 
         # If it's not a singleton, ivars are not empty, not a collection or
-        # not a new hew helper, we can add args to the method.
+        # not a new named route, we can add args to the method.
         #
         arg = unless base.singleton || ivars.empty? || name == :collection || prefix == :new
-          ivars.push("(given_arg || #{ivars.pop})")
+          ivars.push "(given_arg || #{ivars.pop})"
           'given_arg=nil'
         else
           ''
@@ -110,12 +122,44 @@ module InheritedResources #:nodoc:
 
           # Customization to allow polymorphic with singletons.
           #
-          # In such cases, we must send a string with the resource instance name
-          # to polymorphic_url.
+          # Let's take the projects and companies where each one has one manager
+          # example. The url helpers would be:
           #
-          # When not a singleton, but a collection or new url, we should add
-          # resource_class.new to instance ivars to allow polymorphic_url to
-          # deal with it properly.
+          #   company_manager_url(@company)
+          #   project_manager_url(@project)
+          #
+          # Notice how the manager is not sent in the helper, because it's a
+          # singleton. So, polymorphic urls would be:
+          #
+          #   polymorphic_url(@company)
+          #   polymorphic_url(@project)
+          #
+          # Obviously, this won't work properly. So in such cases, polymorphic
+          # with singlestons we have to send this:
+          #
+          #   polymorphic_url(@company, 'manager')
+          #   polymorphic_url(@project, 'manager')
+          #
+          # This is exactly what we are doing here.
+          #
+          # The other case to be handle, is collection and new helpers with
+          # polymorphic urls.
+          #
+          # In such cases, we usually would not send anything:
+          #
+          #   project_tasks_url(@project)
+          #   new_project_task_url(@project)
+          #
+          # But this wouldn't work with polymorphic urls by the same reason as
+          # singletons:
+          #
+          #   polymorphic_url(@project)
+          #   new_polymorphic_url(@project)
+          #
+          # So we have to do this:
+          #
+          #   polymorphic_url(@project, Task.new)
+          #   new_polymorphic_url(@project, Task.new)
           #
           if base.singleton
             ivars << base.resources_configuration[:self][:instance_name].inspect unless name == :collection
@@ -125,7 +169,10 @@ module InheritedResources #:nodoc:
 
           ivars  = "[#{ivars.join(', ')}]"
         else
-          segments = resource_segments.join('_')
+          # In the last case, if segments is empty (this usually happens with
+          # root singleton resources, we set it to root)
+          #
+          segments = resource_segments.empty? ? 'root' : resource_segments.join('_')
           ivars    = ivars.join(', ')
         end
 

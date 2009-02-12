@@ -1,5 +1,10 @@
 require File.dirname(__FILE__) + '/test_helper'
 
+class Universe; end
+class UniversesController < InheritedResources::Base
+  defaults :singleton => true # Let's not discuss about this :P
+end
+
 class House; end
 class HousesController < InheritedResources::Base
 end
@@ -70,6 +75,28 @@ class UrlHelpersTest < ActiveSupport::TestCase
 
       controller.expects("house_#{path_or_url}").with(:arg).once
       controller.send("resource_#{path_or_url}", :arg)
+    end
+  end
+
+  def test_url_helpers_on_simple_inherited_singleton_resource
+    controller = UniversesController.new
+    controller.instance_variable_set('@universe', :universe)
+
+    [:url, :path].each do |path_or_url|
+      controller.expects("root_#{path_or_url}").with().once
+      controller.send("collection_#{path_or_url}")
+
+      controller.expects("universe_#{path_or_url}").with().once
+      controller.send("resource_#{path_or_url}")
+
+      controller.expects("new_universe_#{path_or_url}").with().once
+      controller.send("new_resource_#{path_or_url}")
+
+      controller.expects("edit_universe_#{path_or_url}").with().once
+      controller.send("edit_resource_#{path_or_url}")
+
+      # With arg
+      assert_raise(ArgumentError){ controller.send("resource_#{path_or_url}", :arg) }
     end
   end
 
