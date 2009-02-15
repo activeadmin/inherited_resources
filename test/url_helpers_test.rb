@@ -30,7 +30,7 @@ end
 
 class Bed; end
 class BedsController < InheritedResources::Base
-  belongs_to :house, :building, :polymorphic => true
+  belongs_to :house, :building, :polymorphic => true, :optional => true
 end
 
 class Dish; end
@@ -182,7 +182,7 @@ class UrlHelpersTest < ActiveSupport::TestCase
     end
   end
 
-  def test_url_helpers_on_singletons
+  def test_url_helpers_on_singletons_with_belongs_to
     controller = OwnersController.new
     controller.instance_variable_set('@house', :house)
     controller.instance_variable_set('@owner', :owner)
@@ -204,7 +204,7 @@ class UrlHelpersTest < ActiveSupport::TestCase
     end
   end
 
-  def test_url_helpers_on_house_polymorphic_belongs_to
+  def test_url_helpers_on_polymorphic_belongs_to
     house = House.new
     bed   = Bed.new
     
@@ -277,7 +277,7 @@ class UrlHelpersTest < ActiveSupport::TestCase
   end
 
   def test_url_helpers_on_singleton_nested_polymorphic_belongs_to
-    # Thus must not be usefull in singleton controllers...
+    # This must not be usefull in singleton controllers...
     # Center.new
     house = House.new
     table = Table.new
@@ -306,6 +306,38 @@ class UrlHelpersTest < ActiveSupport::TestCase
       # With arg
       assert_raise(ArgumentError){ controller.send("resource_#{path_or_url}", :arg) }
     end
+  end
+
+  def test_url_helpers_on_optional_polymorphic_belongs_to
+    bed   = Bed.new
+    new_bed = Bed.new
+    Bed.stubs(:new).returns(new_bed)
+    new_bed.stubs(:new_record?).returns(true)
+
+    controller = BedsController.new
+    controller.instance_variable_set('@parent_type', nil)
+    controller.instance_variable_set('@bed', bed)
+
+    [:url, :path].each do |path_or_url|
+      controller.expects("beds_#{path_or_url}").with().once
+      controller.send("collection_#{path_or_url}")
+
+      controller.expects("bed_#{path_or_url}").with(bed).once
+      controller.send("resource_#{path_or_url}")
+
+      controller.expects("new_bed_#{path_or_url}").with().once
+      controller.send("new_resource_#{path_or_url}")
+
+      controller.expects("edit_bed_#{path_or_url}").with(bed).once
+      controller.send("edit_resource_#{path_or_url}")
+    end
+
+    # Testing if it accepts args...
+    controller.expects("polymorphic_url").with([:arg]).once
+    controller.send("resource_url", :arg)
+
+    controller.expects("edit_polymorphic_url").with([:arg]).once
+    controller.send("edit_resource_url", :arg)
   end
 
 end
