@@ -1,3 +1,10 @@
+# Version 0.4
+
+* Added :optional to belongs_to associations. It allows you to deal with
+  categories/1/products/2 and /products/2 with just one controller.
+
+* Cleaned up tests.
+
 # Version 0.3
 
 * Minor bump after three bug fixes.
