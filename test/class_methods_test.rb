@@ -34,7 +34,7 @@ class ProfessorsController < InheritedResources::Base
 end
 
 
-class ActionsTest < ActiveSupport::TestCase
+class ActionsClassMethodTest < ActiveSupport::TestCase
   def test_actions_are_undefined_when_only_option_is_given
     action_methods = BooksController.send(:action_methods)
     assert_equal 2, action_methods.size
@@ -55,7 +55,7 @@ class ActionsTest < ActiveSupport::TestCase
 end
 
 
-class DefaultsTest < ActiveSupport::TestCase
+class DefaultsClassMethodTest < ActiveSupport::TestCase
   def test_resource_class_is_set_to_nil_when_resource_model_cannot_be_found
     assert_nil ReadersController.send(:resource_class)
   end
@@ -93,7 +93,7 @@ class DefaultsTest < ActiveSupport::TestCase
 end
 
 
-class BelongsToTest < TEST_CLASS
+class BelongsToClassMethodTest < TEST_CLASS
   def setup
     @controller          = ProfessorsController.new
     @controller.request  = @request  = ActionController::TestRequest.new
