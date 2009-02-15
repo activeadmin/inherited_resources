@@ -161,7 +161,6 @@
 # Let's require all needed files here. We are still on time to eager load
 # everything on multithreaded environments.
 require File.dirname(__FILE__) + '/base_helpers.rb'
-require File.dirname(__FILE__) + '/belongs_to.rb'
 require File.dirname(__FILE__) + '/belongs_to_helpers.rb'
 require File.dirname(__FILE__) + '/class_methods.rb'
 require File.dirname(__FILE__) + '/dumb_responder.rb'
@@ -176,12 +175,11 @@ module InheritedResources
     unloadable
 
     include InheritedResources::BaseHelpers
-    extend InheritedResources::BelongsTo
     extend InheritedResources::ClassMethods
 
     helper_method :collection_url, :collection_path, :resource_url, :resource_path,
                   :new_resource_url, :new_resource_path, :edit_resource_url, :edit_resource_path,
-                  :resource, :collection, :resource_class
+                  :resource, :collection, :resource_class, :parent?
 
     def self.inherited(base)
       base.class_eval do

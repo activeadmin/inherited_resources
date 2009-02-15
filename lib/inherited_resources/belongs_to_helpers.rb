@@ -33,14 +33,13 @@ module InheritedResources #:nodoc:
       # parents chain and returns the scoped association.
       #
       def end_of_association_chain
-        return resource_class unless parent?
-
         chain = symbols_for_chain.inject(begin_of_association_chain) do |chain, symbol|
           evaluate_parent(resources_configuration[symbol], chain)
         end
 
-        chain = chain.send(method_for_association_chain) if method_for_association_chain
+        return resource_class unless chain
 
+        chain = chain.send(method_for_association_chain) if method_for_association_chain
         return chain
       end
 
@@ -64,6 +63,8 @@ module InheritedResources #:nodoc:
       # params keys to see which polymorphic parent matches the given params.
       #
       def symbols_for_chain
+        polymorphic_symbols = resources_configuration[:polymorphic][:symbols]
+
         parents_symbols.map do |symbol|
           if symbol == :polymorphic
             params_keys = params.keys
@@ -81,8 +82,7 @@ module InheritedResources #:nodoc:
           else
             symbol
           end
-        end
-
+        end.compact
       end
 
   end
