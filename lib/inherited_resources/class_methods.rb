@@ -291,14 +291,14 @@ module InheritedResources #:nodoc:
         singleton   = options.delete(:singleton)
         polymorphic = options.delete(:polymorphic)
 
+        # Add BelongsToHelpers if we haven't yet.
+        include BelongsToHelpers if self.parents_symbols.empty?
+
         acts_as_singleton!   if singleton
         acts_as_polymorphic! if polymorphic || optional
 
         raise ArgumentError, 'You have to give me at least one association name.' if symbols.empty?
         raise ArgumentError, 'You cannot define multiple associations with the options: #{options.keys.inspect}.' unless symbols.size == 1 || options.empty?
-
-        # Add BelongsToHelpers if we haven't yet.
-        include BelongsToHelpers if self.parents_symbols.empty?
 
         # Set configuration default values
         symbols.each do |symbol|

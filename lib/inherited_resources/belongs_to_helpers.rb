@@ -5,11 +5,7 @@ module InheritedResources #:nodoc:
     private
 
       def parent?
-        if resources_configuration[:polymorphic][:optional]
-          !@parent_type.nil?
-        else
-          true
-        end
+        true
       end
 
       # Evaluate the parent given. This is used to nest parents in the
@@ -57,39 +53,12 @@ module InheritedResources #:nodoc:
         singleton ? nil : resource_collection_name
       end
 
-      # Maps parents_symbols to build association chain.
-      #
-      # If the parents_symbols find :polymorphic, it goes through the
-      # params keys to see which polymorphic parent matches the given params.
-      #
-      # When optional is given, it does not raise errors if the polymorphic
-      # params are missing.
+      # Maps parents_symbols to build association chain. In this case, it
+      # simply return the parent_symbols, however on polymorphic belongs to,
+      # it has some customization to deal with properly.
       #
       def symbols_for_chain
-        polymorphic_config = resources_configuration[:polymorphic]
-
-        parents_symbols.map do |symbol|
-          if symbol == :polymorphic
-            params_keys = params.keys
-
-            key = polymorphic_config[:symbols].find do |poly|
-              params_keys.include? resources_configuration[poly][:param].to_s
-            end
-
-            if key.nil?
-              raise ScriptError, "Could not find param for polymorphic association.
-                                  The request params keys are #{params.keys.inspect}
-                                  and the polymorphic associations are
-                                  #{polymorphic_symbols.inspect}." unless polymorphic_config[:optional]
-
-              nil
-            else
-              @parent_type = key.to_sym
-            end
-          else
-            symbol
-          end
-        end.compact
+        parents_symbols
       end
 
   end
