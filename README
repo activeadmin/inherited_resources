@@ -347,6 +347,35 @@ When using polymorphic associations, you get some free helpers:
 Polymorphic controller is another great idea by James Golick and he also uses
 that on resource_controller.
 
+Optional belongs to
+-------------------
+
+Let's take another break from Projects. Let's suppose that we are now building
+a store, which sell products.
+
+On the website, we can show all products, but also products scoped to
+categories, brands, users, etc. In this case case, the association is optional,
+and we deal with it in the following way:
+
+  class ProductsController < InheritedResources::Base
+    belongs_to :category, :brand, :user, :polymorphic => true, :optional => true
+  end
+
+This will handle all those urls properly:
+
+  /products/1
+  /categories/2/products/5
+  /brands/10/products/3
+  /user/13/products/11
+
+This is treated as a special type of polymorphic associations, thus all helpers
+are available. As you expect, when no parent is found, the helpers return:
+
+   parent?         #=> false
+   parent_type     #=> nil
+   parent_class    #=> nil
+   parent          #=> nil
+
 Singletons
 ----------
 

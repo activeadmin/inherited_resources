@@ -130,8 +130,8 @@
 #
 # = optional polymorphic associations
 #
-# Let's take another vacation from our ProjectsController. Let's suppose we are
-# building an store, which has products to sell.
+# Let's take another break from ProjectsController. Let's suppose we are
+# building a store, which sell products.
 #
 # On the website, we can show all products, but also products scoped to
 # categories, brands, users. In this case case, the association is optional, and
