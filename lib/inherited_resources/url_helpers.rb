@@ -167,7 +167,8 @@ module InheritedResources #:nodoc:
             ivars << 'resource_class.new'
           end
 
-          ivars  = "[#{ivars.join(', ')}]"
+          # Add compact to deal with polymorphic optional associations.
+          ivars  = "[#{ivars.join(', ')}].compact"
         else
           # In the last case, if segments is empty (this usually happens with
           # root singleton resources, we set it to root)

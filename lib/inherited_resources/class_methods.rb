@@ -1,4 +1,4 @@
-# = belongs_to
+# = belongs to
 #
 # This allows you to specify to belongs_to in your controller. You might use
 # this when you are having nested resources in your routes:
@@ -128,6 +128,26 @@
 # This polymorphic controllers thing is a great idea by James Golick and he
 # built it in resource_controller. Here is just a re-implementation.
 #
+# = optional polymorphic associations
+#
+# Let's take another vacation from our ProjectsController. Let's suppose we are
+# building an store, which has products to sell.
+#
+# On the website, we can show all products, but also products scoped to
+# categories, brands, users. In this case case, the association is optional, and
+# we deal with it in the following way:
+#
+#   class ProductsController < InheritedResources::Base
+#     belongs_to :category, :brand, :user, :polymorphic => true, :optional => true
+#   end
+#
+# This will handle all those urls properly:
+#
+#   /products/1
+#   /categories/2/products/5
+#   /brands/10/products/3
+#   /user/13/products/11
+#
 # = nested polymorphic associations
 #
 # You can have polymorphic associations with nested resources. Let's suppose
@@ -136,7 +156,7 @@
 #
 # This way we can have:
 #
-#   class Comment < InheritedResources::Base
+#   class CommentsController < InheritedResources::Base
 #     belongs_to :project {
 #       belongs_to :file, :message, :task, :polymorphic => true
 #     }
@@ -144,7 +164,7 @@
 #
 # Or:
 #
-#   class Comment < InheritedResources::Base
+#   class CommentsController < InheritedResources::Base
 #     nested_belongs_to :project
 #     nested_belongs_to :file, :message, :task, :polymorphic => true
 #   end
@@ -265,10 +285,14 @@ module InheritedResources #:nodoc:
         options = symbols.extract_options!
 
         options.symbolize_keys!
-        options.assert_valid_keys(:class_name, :parent_class, :instance_name, :param, :finder, :route_name, :collection_name, :singleton, :polymorphic)
+        options.assert_valid_keys(:class_name, :parent_class, :instance_name, :param, :finder, :route_name, :collection_name, :singleton, :polymorphic, :optional)
 
-        acts_as_singleton!   if singleton   = options.delete(:singleton)
-        acts_as_polymorphic! if polymorphic = options.delete(:polymorphic)
+        optional    = options.delete(:optional)
+        singleton   = options.delete(:singleton)
+        polymorphic = options.delete(:polymorphic)
+
+        acts_as_singleton!   if singleton
+        acts_as_polymorphic! if polymorphic || optional
 
         raise ArgumentError, 'You have to give me at least one association name.' if symbols.empty?
         raise ArgumentError, 'You cannot define multiple associations with the options: #{options.keys.inspect}.' unless symbols.size == 1 || options.empty?
@@ -280,9 +304,10 @@ module InheritedResources #:nodoc:
         symbols.each do |symbol|
           symbol = symbol.to_sym
 
-          if polymorphic
+          if polymorphic || optional
             self.parents_symbols << :polymorphic unless self.parents_symbols.include? :polymorphic
-            self.resources_configuration[:polymorphic][:symbols] << symbol
+            self.resources_configuration[:polymorphic][:symbols]   << symbol
+            self.resources_configuration[:polymorphic][:optional] ||= optional
           else
             self.parents_symbols << symbol
           end

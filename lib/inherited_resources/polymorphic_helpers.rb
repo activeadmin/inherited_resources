@@ -8,11 +8,11 @@ module InheritedResources #:nodoc:
       end
 
       def parent_class
-        parent.class
+        parent.class if @parent_type
       end
 
       def parent
-        instance_variable_get("@#{@parent_type}")
+        instance_variable_get("@#{@parent_type}") if @parent_type
       end
 
   end

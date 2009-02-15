@@ -17,7 +17,6 @@ Gem::Specification.new do |s|
     "lib/inherited_resources.rb",
     "lib/inherited_resources/base.rb",
     "lib/inherited_resources/base_helpers.rb",
-    "lib/inherited_resources/belongs_to.rb",
     "lib/inherited_resources/belongs_to_helpers.rb",
     "lib/inherited_resources/class_methods.rb",
     "lib/inherited_resources/dumb_responder.rb",
