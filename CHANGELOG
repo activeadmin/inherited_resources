@@ -1,6 +1,7 @@
-# Edge
+# Version 0.4.1
 
 * parent? does not take begin_of_association_chain into account anymore
+* Added options to url helpers.
 
 # Version 0.4
 
