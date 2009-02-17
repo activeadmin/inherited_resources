@@ -19,7 +19,7 @@ module InheritedResources #:nodoc:
 
       def parent?
         if resources_configuration[:polymorphic][:optional]
-          !@parent_type.nil?
+          parents_symbols.size > 1 || !@parent_type.nil?
         else
           true
         end

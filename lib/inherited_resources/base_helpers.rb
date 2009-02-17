@@ -88,14 +88,14 @@ module InheritedResources #:nodoc:
       # set at begin_of_association_chain is not nil.
       #
       def parent?
-        !begin_of_association_chain.nil?
+        false
       end
 
       # This methods gets your begin_of_association_chain and returns the
       # scoped association.
       #
       def end_of_association_chain
-        if parent?
+        if begin_of_association_chain || parent?
           begin_of_association_chain.send(resource_collection_name)
         else
           resource_class
@@ -105,7 +105,7 @@ module InheritedResources #:nodoc:
       # Returns the appropriated method to build the resource.
       #
       def method_for_build
-        parent? ? :build : :new
+        (begin_of_association_chain || parent?) ? :build : :new
       end
 
       # Get resource ivar based on the current resource controller.

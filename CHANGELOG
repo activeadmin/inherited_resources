@@ -1,3 +1,7 @@
+# Edge
+
+* parent? does not take begin_of_association_chain into account anymore
+
 # Version 0.4
 
 * Added :optional to belongs_to associations. It allows you to deal with
