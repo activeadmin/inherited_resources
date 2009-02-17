@@ -105,13 +105,10 @@ module InheritedResources #:nodoc:
         ivars = resource_ivars.map{|i| i == :parent ? :parent : "@#{i}" }
 
         # If it's not a singleton, ivars are not empty, not a collection or
-        # not a new named route, we can add args to the method.
+        # not a "new" named route, we can pass a resource as argument.
         #
-        arg = unless base.singleton || ivars.empty? || name == :collection || prefix == :new
-          ivars.push "(given_arg || #{ivars.pop})"
-          'given_arg=nil'
-        else
-          ''
+        unless base.singleton || ivars.empty? || name == :collection || prefix == :new
+          ivars.push "(given_args.first || #{ivars.pop})"
         end
 
         # When polymorphic is true, the segments must be replace by :polymorphic
@@ -167,8 +164,10 @@ module InheritedResources #:nodoc:
             ivars << 'resource_class.new'
           end
 
+          ivars  = "[#{ivars.join(', ')}]"
+
           # Add compact to deal with polymorphic optional associations.
-          ivars  = "[#{ivars.join(', ')}].compact"
+          ivars << '.compact' if base.resources_configuration[:polymorphic][:optional]
         else
           # In the last case, if segments is empty (this usually happens with
           # root singleton resources, we set it to root)
@@ -177,15 +176,20 @@ module InheritedResources #:nodoc:
           ivars    = ivars.join(', ')
         end
 
-        prefix   = prefix ? "#{prefix}_" : ''
+        prefix = prefix ? "#{prefix}_" : ''
+
+        # Add given_options to ivars
+        ivars << (ivars.empty? ? 'given_options' : ', given_options')
 
         base.class_eval <<URL_HELPERS, __FILE__, __LINE__
 protected
-  def #{prefix}#{name}_path(#{arg})
+  def #{prefix}#{name}_path(*given_args)
+    given_options = given_args.extract_options!
     #{prefix}#{segments}_path(#{ivars})
   end
 
-  def #{prefix}#{name}_url(#{arg})
+  def #{prefix}#{name}_url(*given_args)
+    given_options = given_args.extract_options!
     #{prefix}#{segments}_url(#{ivars})
   end
 URL_HELPERS

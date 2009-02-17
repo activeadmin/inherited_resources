@@ -57,24 +57,28 @@ class UrlHelpersTest < ActiveSupport::TestCase
     controller.instance_variable_set('@house', :house)
 
     [:url, :path].each do |path_or_url|
-      controller.expects("houses_#{path_or_url}").with().once
+      controller.expects("houses_#{path_or_url}").with({}).once
       controller.send("collection_#{path_or_url}")
 
-      controller.expects("house_#{path_or_url}").with(:house).once
+      controller.expects("house_#{path_or_url}").with(:house, {}).once
       controller.send("resource_#{path_or_url}")
 
-      controller.expects("new_house_#{path_or_url}").with().once
+      controller.expects("new_house_#{path_or_url}").with({}).once
       controller.send("new_resource_#{path_or_url}")
 
-      controller.expects("edit_house_#{path_or_url}").with(:house).once
+      controller.expects("edit_house_#{path_or_url}").with(:house, {}).once
       controller.send("edit_resource_#{path_or_url}")
 
       # With arg
-      controller.expects("house_#{path_or_url}").with(:arg).once
+      controller.expects("house_#{path_or_url}").with(:arg, {}).once
       controller.send("resource_#{path_or_url}", :arg)
 
-      controller.expects("house_#{path_or_url}").with(:arg).once
+      controller.expects("house_#{path_or_url}").with(:arg, {}).once
       controller.send("resource_#{path_or_url}", :arg)
+
+      # With options
+      controller.expects("house_#{path_or_url}").with(:arg, :page => 1).once
+      controller.send("resource_#{path_or_url}", :arg, :page => 1)
     end
   end
 
@@ -83,20 +87,22 @@ class UrlHelpersTest < ActiveSupport::TestCase
     controller.instance_variable_set('@universe', :universe)
 
     [:url, :path].each do |path_or_url|
-      controller.expects("root_#{path_or_url}").with().once
+      controller.expects("root_#{path_or_url}").with({}).once
       controller.send("collection_#{path_or_url}")
 
-      controller.expects("universe_#{path_or_url}").with().once
+      controller.expects("universe_#{path_or_url}").with({}).once
       controller.send("resource_#{path_or_url}")
 
-      controller.expects("new_universe_#{path_or_url}").with().once
+      controller.expects("new_universe_#{path_or_url}").with({}).once
       controller.send("new_resource_#{path_or_url}")
 
-      controller.expects("edit_universe_#{path_or_url}").with().once
+      controller.expects("edit_universe_#{path_or_url}").with({}).once
       controller.send("edit_resource_#{path_or_url}")
 
-      # With arg
-      assert_raise(ArgumentError){ controller.send("resource_#{path_or_url}", :arg) }
+      # With options
+      # Also tests that argument sent are not used
+      controller.expects("universe_#{path_or_url}").with(:page => 1).once
+      controller.send("resource_#{path_or_url}", :arg, :page => 1)
     end
   end
 
@@ -106,24 +112,28 @@ class UrlHelpersTest < ActiveSupport::TestCase
     controller.instance_variable_set('@table', :table)
 
     [:url, :path].each do |path_or_url|
-      controller.expects("house_tables_#{path_or_url}").with(:house).once
+      controller.expects("house_tables_#{path_or_url}").with(:house, {}).once
       controller.send("collection_#{path_or_url}")
 
-      controller.expects("house_table_#{path_or_url}").with(:house, :table).once
+      controller.expects("house_table_#{path_or_url}").with(:house, :table, {}).once
       controller.send("resource_#{path_or_url}")
 
-      controller.expects("new_house_table_#{path_or_url}").with(:house).once
+      controller.expects("new_house_table_#{path_or_url}").with(:house, {}).once
       controller.send("new_resource_#{path_or_url}")
 
-      controller.expects("edit_house_table_#{path_or_url}").with(:house, :table).once
+      controller.expects("edit_house_table_#{path_or_url}").with(:house, :table, {}).once
       controller.send("edit_resource_#{path_or_url}")
 
       # With arg
-      controller.expects("house_table_#{path_or_url}").with(:house, :arg).once
+      controller.expects("house_table_#{path_or_url}").with(:house, :arg, {}).once
       controller.send("resource_#{path_or_url}", :arg)
 
-      controller.expects("edit_house_table_#{path_or_url}").with(:house, :arg).once
+      controller.expects("edit_house_table_#{path_or_url}").with(:house, :arg, {}).once
       controller.send("edit_resource_#{path_or_url}", :arg)
+
+      # With options
+      controller.expects("house_table_#{path_or_url}").with(:house, :arg, :page => 1).once
+      controller.send("resource_#{path_or_url}", :arg, :page => 1)
     end
   end
 
@@ -133,24 +143,28 @@ class UrlHelpersTest < ActiveSupport::TestCase
     controller.instance_variable_set('@room', :room)
 
     [:url, :path].each do |path_or_url|
-      controller.expects("big_house_rooms_#{path_or_url}").with(:house).once
+      controller.expects("big_house_rooms_#{path_or_url}").with(:house, {}).once
       controller.send("collection_#{path_or_url}")
 
-      controller.expects("big_house_room_#{path_or_url}").with(:house, :room).once
+      controller.expects("big_house_room_#{path_or_url}").with(:house, :room, {}).once
       controller.send("resource_#{path_or_url}")
 
-      controller.expects("new_big_house_room_#{path_or_url}").with(:house).once
+      controller.expects("new_big_house_room_#{path_or_url}").with(:house, {}).once
       controller.send("new_resource_#{path_or_url}")
 
-      controller.expects("edit_big_house_room_#{path_or_url}").with(:house, :room).once
+      controller.expects("edit_big_house_room_#{path_or_url}").with(:house, :room, {}).once
       controller.send("edit_resource_#{path_or_url}")
 
       # With args
-      controller.expects("big_house_room_#{path_or_url}").with(:house, :arg).once
+      controller.expects("big_house_room_#{path_or_url}").with(:house, :arg, {}).once
       controller.send("resource_#{path_or_url}", :arg)
 
-      controller.expects("edit_big_house_room_#{path_or_url}").with(:house, :arg).once
+      controller.expects("edit_big_house_room_#{path_or_url}").with(:house, :arg, {}).once
       controller.send("edit_resource_#{path_or_url}", :arg)
+
+      # With options
+      controller.expects("big_house_room_#{path_or_url}").with(:house, :arg, :page => 1).once
+      controller.send("resource_#{path_or_url}", :arg, :page => 1)
     end
   end
 
@@ -161,24 +175,28 @@ class UrlHelpersTest < ActiveSupport::TestCase
     controller.instance_variable_set('@chair', :chair)
 
     [:url, :path].each do |path_or_url|
-      controller.expects("house_table_chairs_#{path_or_url}").with(:house, :table).once
+      controller.expects("house_table_chairs_#{path_or_url}").with(:house, :table, {}).once
       controller.send("collection_#{path_or_url}")
 
-      controller.expects("house_table_chair_#{path_or_url}").with(:house, :table, :chair).once
+      controller.expects("house_table_chair_#{path_or_url}").with(:house, :table, :chair, {}).once
       controller.send("resource_#{path_or_url}")
 
-      controller.expects("new_house_table_chair_#{path_or_url}").with(:house, :table).once
+      controller.expects("new_house_table_chair_#{path_or_url}").with(:house, :table, {}).once
       controller.send("new_resource_#{path_or_url}")
 
-      controller.expects("edit_house_table_chair_#{path_or_url}").with(:house, :table, :chair).once
+      controller.expects("edit_house_table_chair_#{path_or_url}").with(:house, :table, :chair, {}).once
       controller.send("edit_resource_#{path_or_url}")
 
       # With args
-      controller.expects("edit_house_table_chair_#{path_or_url}").with(:house, :table, :arg).once
+      controller.expects("edit_house_table_chair_#{path_or_url}").with(:house, :table, :arg, {}).once
       controller.send("edit_resource_#{path_or_url}", :arg)
 
-      controller.expects("house_table_chair_#{path_or_url}").with(:house, :table, :arg).once
+      controller.expects("house_table_chair_#{path_or_url}").with(:house, :table, :arg, {}).once
       controller.send("resource_#{path_or_url}", :arg)
+
+      # With options
+      controller.expects("edit_house_table_chair_#{path_or_url}").with(:house, :table, :arg, :page => 1).once
+      controller.send("edit_resource_#{path_or_url}", :arg, :page => 1)
     end
   end
 
@@ -188,19 +206,22 @@ class UrlHelpersTest < ActiveSupport::TestCase
     controller.instance_variable_set('@owner', :owner)
 
     [:url, :path].each do |path_or_url|
-      controller.expects("house_#{path_or_url}").with(:house).once
+      controller.expects("house_#{path_or_url}").with(:house, {}).once
       controller.send("collection_#{path_or_url}")
 
-      controller.expects("house_owner_#{path_or_url}").with(:house).once
+      controller.expects("house_owner_#{path_or_url}").with(:house, {}).once
       controller.send("resource_#{path_or_url}")
 
-      controller.expects("new_house_owner_#{path_or_url}").with(:house).once
+      controller.expects("new_house_owner_#{path_or_url}").with(:house, {}).once
       controller.send("new_resource_#{path_or_url}")
 
-      controller.expects("edit_house_owner_#{path_or_url}").with(:house).once
+      controller.expects("edit_house_owner_#{path_or_url}").with(:house, {}).once
       controller.send("edit_resource_#{path_or_url}")
 
-      assert_raise(ArgumentError){ controller.send("resource_#{path_or_url}", :arg) }
+      # With options
+      # Also tests that argument sent are not used
+      controller.expects("house_owner_#{path_or_url}").with(:house, :page => 1).once
+      controller.send("resource_#{path_or_url}", :arg, :page => 1)
     end
   end
 
@@ -230,12 +251,16 @@ class UrlHelpersTest < ActiveSupport::TestCase
       controller.expects("edit_house_bed_#{path_or_url}").with(house, bed).once
       controller.send("edit_resource_#{path_or_url}")
     end
-    
-    # Testing if it accepts args...
-    controller.expects("polymorphic_url").with([house, :arg]).once
+
+    # With options
+    controller.expects("house_bed_url").with(house, bed, :page => 1).once
+    controller.send("resource_url", :page => 1)
+
+    # With args
+    controller.expects("polymorphic_url").with([house, :arg], {}).once
     controller.send("resource_url", :arg)
 
-    controller.expects("edit_polymorphic_url").with([house, :arg]).once
+    controller.expects("edit_polymorphic_url").with([house, :arg], {}).once
     controller.send("edit_resource_url", :arg)
   end
 
@@ -268,11 +293,15 @@ class UrlHelpersTest < ActiveSupport::TestCase
       controller.send("edit_resource_#{path_or_url}")
     end
 
-    # Testing if it accepts args...
-    controller.expects("polymorphic_url").with([house, table, :arg]).once
+    # With options
+    controller.expects("house_table_dish_url").with(house, table, dish, :page => 1).once
+    controller.send("resource_url", :page => 1)
+
+    # With args
+    controller.expects("polymorphic_url").with([house, table, :arg], {}).once
     controller.send("resource_url", :arg)
 
-    controller.expects("edit_polymorphic_url").with([house, table, :arg]).once
+    controller.expects("edit_polymorphic_url").with([house, table, :arg], {}).once
     controller.send("edit_resource_url", :arg)
   end
 
@@ -302,10 +331,15 @@ class UrlHelpersTest < ActiveSupport::TestCase
 
       controller.expects("edit_house_table_center_#{path_or_url}").with(house, table).once
       controller.send("edit_resource_#{path_or_url}")
-
-      # With arg
-      assert_raise(ArgumentError){ controller.send("resource_#{path_or_url}", :arg) }
     end
+
+    # With options
+    controller.expects("house_table_center_url").with(house, table, :page => 1)
+    controller.send("resource_url", :page => 1)
+
+    # With args
+    controller.expects("polymorphic_url").with([house, table, :center], {}).once
+    controller.send("resource_url", :arg)
   end
 
   def test_url_helpers_on_optional_polymorphic_belongs_to
@@ -332,11 +366,15 @@ class UrlHelpersTest < ActiveSupport::TestCase
       controller.send("edit_resource_#{path_or_url}")
     end
 
-    # Testing if it accepts args...
-    controller.expects("polymorphic_url").with([:arg]).once
+    # With options
+    controller.expects("bed_url").with(bed, :page => 1).once
+    controller.send("resource_url", :page => 1)
+
+    # With args
+    controller.expects("polymorphic_url").with([:arg], {}).once
     controller.send("resource_url", :arg)
 
-    controller.expects("edit_polymorphic_url").with([:arg]).once
+    controller.expects("edit_polymorphic_url").with([:arg], {}).once
     controller.send("edit_resource_url", :arg)
   end
 
