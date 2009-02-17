@@ -407,12 +407,12 @@ And they handle everything for you. :)
    collection_url             # => /posts/1/comments
 
    # /projects/1/tasks
-   resource_url               # => /products/1/tasks/#{@task.to_param}
-   resource_url(task)         # => /products/1/tasks/#{task.to_param}
-   new_resource_url           # => /products/1/tasks/new
-   edit_resource_url          # => /products/1/tasks/#{@task.to_param}/edit
-   edit_resource_url(task)    # => /products/1/tasks/#{task.to_param}/edit
-   collection_url             # => /products/1/tasks
+   resource_url               # => /projects/1/tasks/#{@task.to_param}
+   resource_url(task)         # => /projects/1/tasks/#{task.to_param}
+   new_resource_url           # => /projects/1/tasks/new
+   edit_resource_url          # => /projects/1/tasks/#{@task.to_param}/edit
+   edit_resource_url(task)    # => /projects/1/tasks/#{task.to_param}/edit
+   collection_url             # => /projects/1/tasks
 
    # /users
    resource_url               # => /users/#{@user.to_param}
@@ -425,7 +425,7 @@ And they handle everything for you. :)
 Those urls helpers also accepts a hash as options, just as in named routes.
 
    # /projects/1/tasks
-   collection_url(:page => 1, :limit => 10) #=> /products/1/tasks?page=1&limit=10
+   collection_url(:page => 1, :limit => 10) #=> /projects/1/tasks?page=1&limit=10
 
 Another nice thing is that those urls are not guessed during runtime. They are
 all created when your application is loaded (except for polymorphic
