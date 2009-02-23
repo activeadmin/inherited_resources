@@ -166,6 +166,7 @@ require File.dirname(__FILE__) + '/class_methods.rb'
 require File.dirname(__FILE__) + '/dumb_responder.rb'
 require File.dirname(__FILE__) + '/polymorphic_helpers.rb'
 require File.dirname(__FILE__) + '/singleton_helpers.rb'
+require File.dirname(__FILE__) + '/spec.rb'
 require File.dirname(__FILE__) + '/url_helpers.rb'
 
 module InheritedResources
