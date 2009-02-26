@@ -1,6 +1,6 @@
 Inherited Resources
 License: MIT
-Version: 0.4.2
+Version: 0.4.3
 
 You can also read this README in pretty html at the GitHub project Wiki page:
 
@@ -32,6 +32,16 @@ the following:
 If you want it as plugin, just do:
 
    script/plugin install git://github.com/josevalim/inherited_resources.git
+
+rspec-rails <= 1.1.12 known bug
+-------------------------------
+
+InheritedResources has a known bug with rspec-rails when using blocks inside
+actions. This will be fixed in the next rspec release, but until it comes out,
+InheritedResources ships with a patch. To apply it, just put the line below on
+your spec_helper.rb after loading rspec and rspec-rails:
+
+  require 'inherited_resources/spec'
 
 Basic Usage
 -----------

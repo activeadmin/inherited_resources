@@ -1,3 +1,8 @@
+# Version 0.4.3
+
+* rspec bug fix is not automatically required anymore. User has to do it
+  explicitly.
+
 # Version 0.4.2
 
 * Added a file which fix a rspec bug when render is called inside a method
