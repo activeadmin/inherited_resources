@@ -58,11 +58,11 @@ module InheritedResources #:nodoc:
       #   @current_user.projects.find(params[:id])
       #
       # The variable set in begin_of_association_chain is not sent when building
-      # urls, so this is never going to happen:
+      # urls, so this is never going to happen when calling resource_url:
       #
       #   project_url(@current_user, @project)
       #
-      # If the user actually scopes the url, you should user belongs_to method
+      # If the user actually scopes the url, you should use belongs_to method
       # and declare that projects belong to user.
       #
       def begin_of_association_chain
