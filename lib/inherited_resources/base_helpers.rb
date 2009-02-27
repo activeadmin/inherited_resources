@@ -154,7 +154,7 @@ module InheritedResources #:nodoc:
       #   flash:
       #     actions:
       #       create:
-      #         notice: "Hooray! {{resource}} was successfully created!"
+      #         notice: "Hooray! {{resource_name}} was successfully created!"
       #
       # But sometimes, flash messages are not that simple. Going back
       # to cars example, you might want to say the brand of the car when it's
@@ -177,19 +177,35 @@ module InheritedResources #:nodoc:
       #   'Hooray! You just tuned your Aston Martin!'
       #
       def set_flash_message!(status, default_message = '')
-        options = {
-          :default  => [ :"flash.actions.#{action_name}.#{status}", default_message ],
-          :resource => resource_class.human_name
-        }.merge(interpolation_options)
-      
-        message = I18n.t "flash.#{controller_name}.#{action_name}.#{status}", options
+        options = interpolation_options.merge({
+          :default  => [ :"flash.#{controller_name}.#{action_name}.#{status}",
+                         :"flash.actions.#{action_name}.#{status}",
+                         default_message ],
+          :resource_name => resource_class.human_name,
+        })
+
+        # TODO Deprecate this whole begin/rescue block and replace it for:
+        #
+        #   message = I18n.t options[:default].shift, options
+        #
+        first = options[:default].shift
+        begin
+          message = I18n.t first, options
+        rescue Exception => e
+          options[:resource] = options[:resource_name]
+          warn "[DEPRECATION] {{resource}} is deprecated as interpolation option " <<
+               "in InheritedResources I18n. Please use {{resource_name}} instead."
+          message = I18n.t first, options
+        end
 
         flash[status] = message unless message.blank?
       end
 
       # Overwrite this method to provide other interpolation options when
-      # the flash message is going to be set. Check set_flash_message! for
-      # more information.
+      # the flash message is going to be set.
+      #
+      # You cannot overwrite :resource_name and :default options using this
+      # method. Check <tt>set_flash_message!</tt> for more information.
       #
       def interpolation_options
         { }

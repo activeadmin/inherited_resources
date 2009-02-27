@@ -265,9 +265,10 @@ is also localized and it means you can set:
    flash:
      actions:
        create:
-         notice: "Hooray! {{resource}} was successfully created!"
+         notice: "Hooray! {{resource_name}} was successfully created!"
 
-It will replace {{resource}} for Car properly.
+It will replace {{resource_name}} by the human name of the resource class,
+which is "Car" in this case.
 
 But sometimes, flash messages are not that simple. Going back
 to cars example, you might want to say the brand of the car when it's

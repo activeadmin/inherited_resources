@@ -117,9 +117,9 @@
 #   flash:
 #     actions:
 #       update:
-#         notice: "Hooray! {{resource}} was updated with success!"
+#         notice: "Hooray! {{resource_name}} was updated with success!"
 #
-# It will replace {{resource}} by Project.human_name, which is also localized
+# It will replace {{resource_name}} by Project.human_name, which is also localized
 # (check http://rails-i18n.org/wiki/pages/i18n-rails-guide for more info).
 #
 # But sometimes, flash messages are not that simple. You might want to say the
@@ -225,7 +225,7 @@ module InheritedResources
         object = build_resource(params[resource_instance_name])
 
         if object.save
-          set_flash_message!(:notice, '{{resource}} was successfully created.')
+          set_flash_message!(:notice, '{{resource_name}} was successfully created.')
 
           respond_to(:with => object, :status => :created, :location => resource_url) do |format|
             block.call args_for_block(block, format, true) if block_given?
@@ -247,7 +247,7 @@ module InheritedResources
         object = resource
 
         if object.update_attributes(params[resource_instance_name])
-          set_flash_message!(:notice, '{{resource}} was successfully updated.')
+          set_flash_message!(:notice, '{{resource_name}} was successfully updated.')
 
           respond_to do |format|
             block.call args_for_block(block, format, true) if block_given?
@@ -269,7 +269,7 @@ module InheritedResources
       def destroy
         resource.destroy
 
-        set_flash_message!(:notice, '{{resource}} was successfully destroyed.')
+        set_flash_message!(:notice, '{{resource_name}} was successfully destroyed.')
 
         respond_to do |format|
           yield(format) if block_given?
