@@ -12,6 +12,9 @@ module InheritedResources #:nodoc:
       # association chain.
       #
       def evaluate_parent(parent_config, chain = nil)
+        instantiated_object = instance_variable_get("@#{parent_config[:instance_name]}")
+        return instantiated_object if instantiated_object
+
         scoped_parent = if chain
           chain.send(parent_config[:collection_name])
         else
