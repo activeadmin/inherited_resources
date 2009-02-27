@@ -176,6 +176,13 @@ module InheritedResources #:nodoc:
       #
       #   'Hooray! You just tuned your Aston Martin!'
       #
+      # If your controller is namespaced, for example Deluxe::CarsController, the
+      # the messages will be checked in the following order:
+      #
+      #   flash.deluxe.cars.create.status
+      #   flash.cars.create.status
+      #   flash.actions.create.status
+      #
       def set_flash_message!(status, default_message = '')
         options = interpolation_options.merge({
           :default  => [ :"flash.#{controller_name}.#{action_name}.#{status}",
@@ -183,6 +190,10 @@ module InheritedResources #:nodoc:
                          default_message ],
           :resource_name => resource_class.human_name,
         })
+
+        unless controller_path == controller_name
+          options[:default].unshift(:"flash.#{controller_path.gsub('/','.')}.#{action_name}.#{status}")
+        end
 
         # TODO Deprecate this whole begin/rescue block and replace it for:
         #

@@ -1,3 +1,9 @@
+# Version 0.4.4
+
+* Added better handling for namespaced controllers;
+* Added flash messages scoped by namespaced controllers;
+* Deprecated {{resource}} in I18n, use {{resource_name}} instead.
+
 # Version 0.4.3
 
 * rspec bug fix is not automatically required anymore. User has to do it

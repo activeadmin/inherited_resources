@@ -290,6 +290,13 @@ Then you will finally have:
 
    'Hooray! You just tuned your Aston Martin!'
 
+If your controller is namespaced, for example Deluxe::CarsController, the
+the messages will be checked in the following order:
+
+   flash.deluxe.cars.create.status
+   flash.cars.create.status
+   flash.actions.create.status
+
 Belongs to
 ----------
 

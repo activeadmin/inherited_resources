@@ -11,6 +11,14 @@ class AddressesController < InheritedResources::Base
     end
 end
 
+module Admin; end
+class Admin::AddressesController < InheritedResources::Base
+  protected
+    def interpolation_options
+      { :reference => 'Ocean Avenue' }
+    end
+end
+
 class FlashBaseHelpersTest < TEST_CLASS
 
   def setup
@@ -25,6 +33,14 @@ class FlashBaseHelpersTest < TEST_CLASS
     @controller.stubs(:address_url)
     post :create
     assert_equal 'You created a new address close to <b>Ocean Avenue</b>.', flash[:notice]
+  end
+
+  def test_default_success_flash_message_on_create_for_namespaced_controller
+    @controller = Admin::AddressesController.new
+    Address.stubs(:new).returns(mock_address(:save => true))
+    @controller.stubs(:address_url)
+    post :create
+    assert_equal 'Admin, you created a new address close to <b>Ocean Avenue</b>.', flash[:notice]
   end
 
   def test_set_success_flash_message_on_update
