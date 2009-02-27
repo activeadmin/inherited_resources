@@ -259,9 +259,11 @@ module ActionController #:nodoc:
     private
 
       # Define template_exists? for Rails 2.3
-      unless ActionController::Base.private_instance_methods.include? 'template_exists?'
+      unless ActionController::Base.private_instance_methods.include?('template_exists?') ||
+             ActionController::Base.private_instance_methods.include?(:template_exists?)
+
         def template_exists?
-          self.view_paths.find_template("#{controller_name}/#{action_name}", response.template.template_format)
+          default_template ? true : false
         rescue ActionView::MissingTemplate
           false
         end
