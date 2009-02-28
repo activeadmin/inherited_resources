@@ -16,7 +16,7 @@ require 'action_controller/test_process'
 
 TEST_CLASS = ActionController::TestCase
 
-I18n.load_path << File.join(File.dirname(__FILE__), 'fixtures', 'en.yml') 
+I18n.load_path << File.join(File.dirname(__FILE__), 'locales', 'en.yml')
 I18n.reload!
 
 # Load respond_to before defining ApplicationController

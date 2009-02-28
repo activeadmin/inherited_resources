@@ -7,6 +7,10 @@ en:
         notice: "Nice! {{resource_name}} was updated with success!"
         error: "Oh no! We could not update your address!"
     admin:
+      actions:
+        create:
+          notice: "Admin notice message."
+          error: "Admin error message."
       addresses:
         create:
           notice: "Admin, you created a new address close to <b>{{reference}}</b>."
