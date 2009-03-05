@@ -226,17 +226,18 @@ module InheritedResources
 
         if object.save
           set_flash_message!(:notice, '{{resource_name}} was successfully created.')
+          location_url = resource_url rescue nil # Sometimes resource_url is undefined
 
-          respond_to(:with => object, :status => :created, :location => resource_url) do |format|
-            block.call args_for_block(block, format, true) if block_given?
+          respond_to(:with => object, :status => :created, :location => location_url) do |format|
+            block.call(args_for_block(block, format, true)) if block_given?
             format.html { redirect_to(resource_url) }
           end
         else
           set_flash_message!(:error)
 
           respond_to(:with => object.errors, :status => :unprocessable_entity) do |format|
-            block.call args_for_block(block, format, false) if block_given?
-            format.html { render :action => "new" }
+            block.call(args_for_block(block, format, false)) if block_given?
+            format.html { render :action => 'new' }
           end
         end
       end
@@ -250,7 +251,7 @@ module InheritedResources
           set_flash_message!(:notice, '{{resource_name}} was successfully updated.')
 
           respond_to do |format|
-            block.call args_for_block(block, format, true) if block_given?
+            block.call(args_for_block(block, format, true)) if block_given?
             format.html { redirect_to(resource_url) }
             format.all  { head :ok }
           end
@@ -258,8 +259,8 @@ module InheritedResources
           set_flash_message!(:error)
 
           respond_to(:with => object.errors, :status => :unprocessable_entity) do |format|
-            block.call args_for_block(block, format, false) if block_given?
-            format.html { render :action => "edit" }
+            block.call(args_for_block(block, format, false)) if block_given?
+            format.html { render :action => 'edit' }
           end
         end
       end
