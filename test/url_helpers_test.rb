@@ -9,6 +9,11 @@ class House; end
 class HousesController < InheritedResources::Base
 end
 
+class Backpack; end
+class BackpacksController < InheritedResources::Base
+  defaults :route_prefix => :admin
+end
+
 class Table; end
 class TablesController < InheritedResources::Base
   belongs_to :house
@@ -78,6 +83,36 @@ class UrlHelpersTest < ActiveSupport::TestCase
 
       # With options
       controller.expects("house_#{path_or_url}").with(:arg, :page => 1).once
+      controller.send("resource_#{path_or_url}", :arg, :page => 1)
+    end
+  end
+
+  def test_url_helpers_on_simple_inherited_resource_with_route_prefix
+    controller = BackpacksController.new
+    controller.instance_variable_set('@backpack', :backpack)
+
+    [:url, :path].each do |path_or_url|
+      controller.expects("admin_backpacks_#{path_or_url}").with({}).once
+      controller.send("collection_#{path_or_url}")
+
+      controller.expects("admin_backpack_#{path_or_url}").with(:backpack, {}).once
+      controller.send("resource_#{path_or_url}")
+
+      controller.expects("new_admin_backpack_#{path_or_url}").with({}).once
+      controller.send("new_resource_#{path_or_url}")
+
+      controller.expects("edit_admin_backpack_#{path_or_url}").with(:backpack, {}).once
+      controller.send("edit_resource_#{path_or_url}")
+
+      # With arg
+      controller.expects("admin_backpack_#{path_or_url}").with(:arg, {}).once
+      controller.send("resource_#{path_or_url}", :arg)
+
+      controller.expects("admin_backpack_#{path_or_url}").with(:arg, {}).once
+      controller.send("resource_#{path_or_url}", :arg)
+
+      # With options
+      controller.expects("admin_backpack_#{path_or_url}").with(:arg, :page => 1).once
       controller.send("resource_#{path_or_url}", :arg, :page => 1)
     end
   end
