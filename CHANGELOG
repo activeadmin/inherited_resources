@@ -1,6 +1,10 @@
+# Version 0.4.6
+
+* Dealing with namespaced controllers out of the box;
+* Added support to namespaced routes through :route_prefix.
+
 # Version 0.4.5
 
-* Added support to namespaced routes through :route_prefix;
 * Added fix when resource_url is not defined.
 
 # Version 0.4.4

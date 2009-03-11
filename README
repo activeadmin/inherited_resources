@@ -1,6 +1,6 @@
 Inherited Resources
 License: MIT
-Version: 0.4.5
+Version: 0.4.6
 
 You can also read this README in pretty html at the GitHub project Wiki page:
 
@@ -111,9 +111,10 @@ just doing:
      defaults :resource_class => User, :collection_name => 'users', :instance_name => 'user'
    end
 
-You can also specify a route_prefix for namespaced controllers:
+Namespaced controllers work out of the box, but if you need to specify a
+different route prefix, you can do the following:
 
-   class Admin::PeopleController < InheritedResources::Base
+   class Administrators::PeopleController < InheritedResources::Base
      defaults :route_prefix => 'admin'
    end
 

@@ -1,7 +1,7 @@
 Gem::Specification.new do |s|
   s.name     = "inherited_resources"
-  s.version  = "0.4.5"
-  s.date     = "2009-03-06"
+  s.version  = "0.4.6"
+  s.date     = "2009-03-11"
   s.summary  = "Inherited Resources speeds up development by making your controllers inherit all restful actions so you just have to focus on what is important."
   s.email    = "jose.valim@gmail.com"
   s.homepage = "http://github.com/josevalim/inherited_resources"
@@ -32,6 +32,7 @@ Gem::Specification.new do |s|
     "test/base_test.rb",
     "test/belongs_to_test.rb",
     "test/class_methods_test.rb",
+    "test/defaults_test.rb",
     "test/nested_belongs_to_test.rb",
     "test/optional_belongs_to_test.rb",
     "test/polymorphic_test.rb",
@@ -55,6 +56,10 @@ Gem::Specification.new do |s|
     "test/views/managers/edit.html.erb",
     "test/views/managers/new.html.erb",
     "test/views/managers/show.html.erb",
+    "test/views/painters/edit.html.erb",
+    "test/views/painters/index.html.erb",
+    "test/views/painters/new.html.erb",
+    "test/views/painters/show.html.erb",
     "test/views/pets/edit.html.erb",
     "test/views/products/edit.html.erb",
     "test/views/products/index.html.erb",

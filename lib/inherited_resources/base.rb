@@ -155,9 +155,10 @@
 #     defaults :resource_class => User, :instance_name => 'user', :collection_name => 'users'
 #   end
 #
-# You can also specify a route_prefix for namespaced controllers:
+# Namespaced controllers work out of the box, but if you need to specify a
+# different route prefix, you can do the following:
 #
-#   class PeopleController < InheritedResources::Base
+#   class Administrators::PeopleController < InheritedResources::Base
 #     defaults :route_prefix => 'admin'
 #   end
 #

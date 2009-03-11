@@ -389,6 +389,10 @@ module InheritedResources #:nodoc:
         config[:collection_name] = base.controller_name.to_sym
         config[:instance_name]   = base.controller_name.singularize.to_sym
 
+        # Deal with namespaced controllers
+        namespaces = base.controller_path.split('/')[0..-2]
+        config[:route_prefix] = namespaces.join('_') unless namespaces.empty?
+
         # Initialize polymorphic, singleton and belongs_to parameters
         base.singleton           = false
         base.parents_symbols     = []

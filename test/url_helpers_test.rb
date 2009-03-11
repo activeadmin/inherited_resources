@@ -10,8 +10,8 @@ class HousesController < InheritedResources::Base
 end
 
 class Backpack; end
-class BackpacksController < InheritedResources::Base
-  defaults :route_prefix => :admin
+module Admin; end
+class Admin::BackpacksController < InheritedResources::Base
 end
 
 class Table; end
@@ -87,9 +87,11 @@ class UrlHelpersTest < ActiveSupport::TestCase
     end
   end
 
-  def test_url_helpers_on_simple_inherited_resource_with_route_prefix
-    controller = BackpacksController.new
+  def test_url_helpers_on_simple_inherited_namespaced_resource
+    controller = Admin::BackpacksController.new
     controller.instance_variable_set('@backpack', :backpack)
+
+    assert_equal 'admin', controller.class.resources_configuration[:self][:route_prefix]
 
     [:url, :path].each do |path_or_url|
       controller.expects("admin_backpacks_#{path_or_url}").with({}).once
