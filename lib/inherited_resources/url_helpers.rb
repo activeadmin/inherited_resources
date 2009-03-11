@@ -44,6 +44,9 @@ module InheritedResources #:nodoc:
       resource_config = base.resources_configuration[:self]
       polymorphic = false
 
+      # Add route_prefix if any.
+      resource_segments << resource_config[:route_prefix] if resource_config[:route_prefix]
+
       # Deal with belongs_to associations and polymorphic associations.
       # Remember that we don't have to build the segments in polymorphic cases,
       # because the url will be polymorphic_url.

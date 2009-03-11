@@ -111,6 +111,14 @@ just doing:
      defaults :resource_class => User, :collection_name => 'users', :instance_name => 'user'
    end
 
+You can also specify a route_prefix for namespaced controllers:
+
+   class Admin::PeopleController < InheritedResources::Base
+     defaults :route_prefix => 'admin'
+   end
+
+Then your named routes will be: 'admin_people_url', 'admin_person_url' and so on.
+
 Further extensions is done by overwriting two methods. Let's suppose you want
 to add pagination to your projects collection:
 

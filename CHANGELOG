@@ -1,6 +1,7 @@
 # Version 0.4.5
 
-* Added fix when resource_url is not defined;
+* Added support to namespaced routes through :route_prefix;
+* Added fix when resource_url is not defined.
 
 # Version 0.4.4
 

@@ -46,9 +46,15 @@
 #
 # * route_name => Allows you to specify what is the route name in your url
 #   helper. By default is 'project'. But if your url helper should be
-#   "admin_project_task_url" instead of "project_task_url", just do:
+#   "myproject_task_url" instead of "project_task_url", just do:
 #
-#     belongs_to :project, :route_name => "admin_project"
+#     belongs_to :project, :route_name => "myproject"
+#
+#   But if you want to use namespaced routes, you can do:
+#
+#     defaults :route_prefix => :admin
+#
+#   That would generate "admin_project_task_url".
 #
 # = nested_belongs_to
 #
@@ -238,7 +244,8 @@ module InheritedResources #:nodoc:
         raise ArgumentError, 'Class method :defaults expects a hash of options.' unless options.is_a? Hash
 
         options.symbolize_keys!
-        options.assert_valid_keys(:resource_class, :collection_name, :instance_name, :class_name, :singleton)
+        options.assert_valid_keys(:resource_class, :collection_name, :instance_name,
+                                  :class_name, :route_prefix, :singleton)
 
         # Checks for special argument :resource_class and :class_name and sets it right away.
         self.resource_class = options.delete(:resource_class)         if options[:resource_class]
@@ -285,7 +292,9 @@ module InheritedResources #:nodoc:
         options = symbols.extract_options!
 
         options.symbolize_keys!
-        options.assert_valid_keys(:class_name, :parent_class, :instance_name, :param, :finder, :route_name, :collection_name, :singleton, :polymorphic, :optional)
+        options.assert_valid_keys(:class_name, :parent_class, :instance_name, :param,
+                                  :finder, :route_name, :collection_name, :singleton,
+                                  :polymorphic, :optional)
 
         optional    = options.delete(:optional)
         singleton   = options.delete(:singleton)

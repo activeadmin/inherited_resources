@@ -155,6 +155,15 @@
 #     defaults :resource_class => User, :instance_name => 'user', :collection_name => 'users'
 #   end
 #
+# You can also specify a route_prefix for namespaced controllers:
+#
+#   class PeopleController < InheritedResources::Base
+#     defaults :route_prefix => 'admin'
+#   end
+#
+# Then your named routes will be: 'admin_people_url', 'admin_person_url' and
+# so on.
+#
 # Further customizations can be done replacing some methods. Check
 # base_helpers.rb file for more information.
 
