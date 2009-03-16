@@ -51,6 +51,14 @@ class FlashBaseHelpersTest < TEST_CLASS
     assert_equal 'Admin error message.', flash[:error]
   end
 
+  def test_inherited_success_flash_message_on_update_on_namespaced_controllers
+    @controller = Admin::AddressesController.new
+    Address.stubs(:find).returns(mock_address(:update_attributes => true))
+    put :update
+    assert_response :success
+    assert_equal 'Nice! Address was updated with success!', flash[:notice]
+  end
+
   def test_success_flash_message_on_update
     Address.stubs(:find).returns(mock_address(:update_attributes => true))
     put :update

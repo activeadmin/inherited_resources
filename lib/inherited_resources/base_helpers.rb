@@ -185,22 +185,26 @@ module InheritedResources #:nodoc:
       #   flash.actions.create.status
       #
       def set_flash_message!(status, default_message = '')
+        return flash[status] = default_message unless defined?(::I18n)
+
         options = {
-          :default  => default_message,
+          :default  => default_message || '',
           :resource_name => resource_class.human_name,
         }.merge(interpolation_options)
 
         defaults = []
-        slices   = [:flash]
-        controller_path.split('/').each do |path|
-          slices << path
-          defaults << :"#{slices[0..-1].join('.')}.#{action_name}.#{status}"
-          defaults << :"#{slices[0..-2].join('.')}.actions.#{action_name}.#{status}"
+        slices   = controller_path.split('/')
+
+        while slices.size > 0
+          defaults << :"flash.#{slices.fill(controller_name, -1).join('.')}.#{action_name}.#{status}"
+          defaults << :"flash.#{slices.fill(:actions, -1).join('.')}.#{action_name}.#{status}"
+          slices.shift
         end
+
         options[:default] = defaults.push(options[:default])
         options[:default].flatten!
 
-        message = I18n.t options[:default].shift, options
+        message = ::I18n.t options[:default].shift, options
         flash[status] = message unless message.blank?
       end
 
