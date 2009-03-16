@@ -1,3 +1,7 @@
+# Version 0.5.0
+
+* Only call I18n if it's defined.
+
 # Version 0.4.6
 
 * Dealing with namespaced controllers out of the box;
