@@ -16,7 +16,7 @@ your controllers more powerful and cleaner at the same time.
 Plus, making your controllers follow a pattern, it helps you to write better
 code by following fat models and skinny controllers convention.
 
-Inherited Resources is tested and compatible with Rails 2.2.2 and Rails 2.3.0.
+Inherited Resources is tested and compatible with Rails 2.2.x and Rails 2.3.x.
 
 keywords: resources, controller, singleton, belongs_to, polymorphic and I18n
 
