@@ -369,6 +369,8 @@ module InheritedResources #:nodoc:
       def initialize_resources_class_accessors!(base)
         # Add and protect class accessors
         base.class_eval do
+          metaklass = (class << self; self; end)
+
           RESOURCES_CLASS_ACCESSORS.each do |cattr|
             cattr_accessor "#{cattr}", :instance_writer => false
 
@@ -376,7 +378,7 @@ module InheritedResources #:nodoc:
             self.send :protected, cattr
 
             # Protect class writer
-            metaclass.send :protected, "#{cattr}="
+            metaklass.send :protected, "#{cattr}="
           end
         end
 
