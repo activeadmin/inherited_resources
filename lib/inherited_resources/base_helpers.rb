@@ -200,20 +200,7 @@ module InheritedResources #:nodoc:
         options[:default] = defaults.push(options[:default])
         options[:default].flatten!
 
-        # TODO Deprecate this whole begin/rescue block and replace it for:
-        #
-        #   message = I18n.t options[:default].shift, options
-        #
-        first = options[:default].shift
-        begin
-          message = I18n.t first, options
-        rescue Exception => e
-          options[:resource] = options[:resource_name]
-          warn "[DEPRECATION] {{resource}} is deprecated as interpolation option " <<
-               "in InheritedResources I18n. Please use {{resource_name}} instead."
-          message = I18n.t first, options
-        end
-
+        message = I18n.t options[:default].shift, options
         flash[status] = message unless message.blank?
       end
 
