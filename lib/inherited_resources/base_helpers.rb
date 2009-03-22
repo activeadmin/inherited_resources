@@ -189,7 +189,7 @@ module InheritedResources #:nodoc:
 
         options = {
           :default  => default_message || '',
-          :resource_name => resource_class.human_name,
+          :resource_name => resource_class ? resource_class.human_name : 'Resource',
         }.merge(interpolation_options)
 
         defaults = []

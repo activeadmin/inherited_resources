@@ -1,45 +1,30 @@
-# Version 0.5.0
+# Version 0.5.2
 
+* Decoupled routes name from :instance_name and :collection_name. This way we
+  have more flexibility. Use route_instance_name and route_collection_name to
+  to change routes.
+* Avoid calling human_name on nil when a resource class is not defined.
 * Only call I18n if it's defined.
 
-# Version 0.4.6
+# Version 0.4.6-0
 
-* Dealing with namespaced controllers out of the box;
+* Dealing with namespaced controllers out of the box.
 * Added support to namespaced routes through :route_prefix.
-
-# Version 0.4.5
-
 * Added fix when resource_url is not defined.
-
-# Version 0.4.4
-
-* Added better handling for namespaced controllers;
-* Added flash messages scoped by namespaced controllers;
+* Added better handling for namespaced controllers.
+* Added flash messages scoped by namespaced controllers.
 * Deprecated {{resource}} in I18n, use {{resource_name}} instead.
-
-# Version 0.4.3
-
 * rspec bug fix is not automatically required anymore. User has to do it
   explicitly.
-
-# Version 0.4.2
-
 * Added a file which fix a rspec bug when render is called inside a method
   which receives a block.
-
-# Version 0.4.1
-
 * parent? does not take begin_of_association_chain into account anymore
 * Added options to url helpers.
-
-# Version 0.4
-
 * Added :optional to belongs_to associations. It allows you to deal with
   categories/1/products/2 and /products/2 with just one controller.
-
 * Cleaned up tests.
 
-# Version 0.3
+# Version 0.3.0
 
 * Minor bump after three bug fixes.
 * Bug fix when showing warning of constant redefinition.
@@ -48,24 +33,15 @@
   raise "NoMethodError _url", not it will call root_url.
 * More comments on UrlHelpers.
 
-# Version 0.2.1
+# Version 0.2.1-0
 
 * Bug fix when ApplicationController is already loaded when we load respond_to.
-
-# Version 0.2.0
-
 * Added support success/failure blocks.
 * Eager loading of files to work properly in multithreaded environments.
 
-# Version 0.1.2
+# Version 0.1.2-0
 
 * Added more helper_methods.
-
-# Version 0.1.1
-
 * Added Rails 2.3.0 and changed tests to work with ActionController::TestCase.
-
-# Version 0.1.0
-
-* Initial release. Support to I18n, singleton controllers, polymorphic
+* First release. Support to I18n, singleton controllers, polymorphic
 controllers, belongs_to, nested_belongs_to and url helpers.
