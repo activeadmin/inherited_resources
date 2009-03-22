@@ -100,49 +100,49 @@ class BelongsToClassMethodTest < TEST_CLASS
     @controller.response = @response = ActionController::TestResponse.new
   end
 
-  def test_expose_the_resquested_school_with_chosen_instance_variable
+  def test_expose_the_resquested_school_with_chosen_instance_variable_on_index
     GreatSchool.expects(:find_by_title!).with('nice').returns(mock_school(:professors => Professor))
     Professor.stubs(:find).returns([mock_professor])
     get :index, :school_title => 'nice'
     assert_equal mock_school, assigns(:great_school)
   end
 
-  def test_expose_the_resquested_school_with_chosen_instance_variable
+  def test_expose_the_resquested_school_with_chosen_instance_variable_on_show
     GreatSchool.expects(:find_by_title!).with('nice').returns(mock_school(:professors => Professor))
     Professor.stubs(:find).returns(mock_professor)
     get :show, :school_title => 'nice'
     assert_equal mock_school, assigns(:great_school)
   end
 
-  def test_expose_the_resquested_school_with_chosen_instance_variable
+  def test_expose_the_resquested_school_with_chosen_instance_variable_on_new
     GreatSchool.expects(:find_by_title!).with('nice').returns(mock_school(:professors => Professor))
     Professor.stubs(:build).returns(mock_professor)
     get :new, :school_title => 'nice'
     assert_equal mock_school, assigns(:great_school)
   end
 
-  def test_expose_the_resquested_school_with_chosen_instance_variable
+  def test_expose_the_resquested_school_with_chosen_instance_variable_on_edit
     GreatSchool.expects(:find_by_title!).with('nice').returns(mock_school(:professors => Professor))
     Professor.stubs(:find).returns(mock_professor)
     get :edit, :school_title => 'nice'
     assert_equal mock_school, assigns(:great_school)
   end
 
-  def test_expose_the_resquested_school_with_chosen_instance_variable
+  def test_expose_the_resquested_school_with_chosen_instance_variable_on_create
     GreatSchool.expects(:find_by_title!).with('nice').returns(mock_school(:professors => Professor))
     Professor.stubs(:build).returns(mock_professor(:save => true))
     post :create, :school_title => 'nice'
     assert_equal mock_school, assigns(:great_school)
   end
 
-  def test_expose_the_resquested_school_with_chosen_instance_variable
+  def test_expose_the_resquested_school_with_chosen_instance_variable_on_update
     GreatSchool.expects(:find_by_title!).with('nice').returns(mock_school(:professors => Professor))
     Professor.stubs(:find).returns(mock_professor(:update_attributes => true))
     put :update, :school_title => 'nice'
     assert_equal mock_school, assigns(:great_school)
   end
 
-  def test_expose_the_resquested_school_with_chosen_instance_variable
+  def test_expose_the_resquested_school_with_chosen_instance_variable_on_destroy
     GreatSchool.expects(:find_by_title!).with('nice').returns(mock_school(:professors => Professor))
     Professor.stubs(:find).returns(mock_professor(:destroy => true))
     delete :destroy, :school_title => 'nice'

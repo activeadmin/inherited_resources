@@ -103,13 +103,17 @@ Overwriting defaults
 Now that you learned the default behavior and basic configuration, let's see
 how to extend it.
 
-Assuming that you have a PeopleController, but the resource is actually called
-User, you could overwrite the resource name, collection name and instance name
-just doing:
+Some people usually have an AccountsController to deal with all account
+management while the resource is an User. So you can overwrite the resource class,
+collection name and instance name just doing:
 
-   class PeopleController < InheritedResources::Base
-     defaults :resource_class => User, :collection_name => 'users', :instance_name => 'user'
+   class AccountsController < InheritedResources::Base
+     defaults :resource_class => User, :collection_name, 'users', :instance_name => 'user'
    end
+
+In the case above, in your views you will have @users and @user variables, but
+the routes used will still be accounts_url and account_url. If you plan also to
+change the routes, you can use :route_collection_name and :route_instance_name.
 
 Namespaced controllers work out of the box, but if you need to specify a
 different route prefix, you can do the following:

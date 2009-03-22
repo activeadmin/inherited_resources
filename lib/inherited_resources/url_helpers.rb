@@ -77,7 +77,7 @@ module InheritedResources #:nodoc:
       # This is where you are going to be redirected after destroying the manager.
       #
       unless base.singleton
-        resource_segments << resource_config[:collection_name] 
+        resource_segments << resource_config[:route_collection_name]
         generate_url_and_path_helpers(base, nil, :collection, resource_segments, resource_ivars, polymorphic)
         resource_segments.pop
       else
@@ -85,7 +85,7 @@ module InheritedResources #:nodoc:
       end
 
       # Prepare and add new_resource_url
-      resource_segments << resource_config[:instance_name]
+      resource_segments << resource_config[:route_instance_name]
       generate_url_and_path_helpers(base, :new, :resource, resource_segments, resource_ivars, polymorphic)
 
       # We don't add the resource_ivar to edit and show url if singleton.
@@ -95,7 +95,7 @@ module InheritedResources #:nodoc:
       #
       # Instead of:
       #
-      #   edit_project_task_url(@project, @task)
+      #   edit_project_manager_url(@project, @manager)
       #
       resource_ivars << resource_config[:instance_name] unless base.singleton
 
@@ -134,18 +134,16 @@ module InheritedResources #:nodoc:
           #   polymorphic_url(@company)
           #   polymorphic_url(@project)
           #
-          # Obviously, this won't work properly. So in such cases, polymorphic
-          # with singlestons we have to send this:
+          # Obviously, this won't work properly. So in such polymorphic with
+          # singletons cases we have to do this:
           #
           #   polymorphic_url(@company, 'manager')
           #   polymorphic_url(@project, 'manager')
           #
           # This is exactly what we are doing here.
           #
-          # The other case to be handle, is collection and new helpers with
-          # polymorphic urls.
-          #
-          # In such cases, we usually would not send anything:
+          # The other case to handle is collection and new helpers with
+          # polymorphic urls. In such cases, we usually would not send anything:
           #
           #   project_tasks_url(@project)
           #   new_project_task_url(@project)

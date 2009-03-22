@@ -2,7 +2,7 @@ require File.dirname(__FILE__) + '/test_helper'
 
 class Universe; end
 class UniversesController < InheritedResources::Base
-  defaults :singleton => true # Let's not discuss about this :P
+  defaults :singleton => true, :route_instance_name => 'universum'
 end
 
 class House; end
@@ -12,6 +12,7 @@ end
 class Backpack; end
 module Admin; end
 class Admin::BackpacksController < InheritedResources::Base
+  defaults :route_collection_name => 'tour_backpacks'
 end
 
 class Table; end
@@ -94,7 +95,7 @@ class UrlHelpersTest < ActiveSupport::TestCase
     assert_equal 'admin', controller.class.resources_configuration[:self][:route_prefix]
 
     [:url, :path].each do |path_or_url|
-      controller.expects("admin_backpacks_#{path_or_url}").with({}).once
+      controller.expects("admin_tour_backpacks_#{path_or_url}").with({}).once
       controller.send("collection_#{path_or_url}")
 
       controller.expects("admin_backpack_#{path_or_url}").with(:backpack, {}).once
@@ -127,18 +128,18 @@ class UrlHelpersTest < ActiveSupport::TestCase
       controller.expects("root_#{path_or_url}").with({}).once
       controller.send("collection_#{path_or_url}")
 
-      controller.expects("universe_#{path_or_url}").with({}).once
+      controller.expects("universum_#{path_or_url}").with({}).once
       controller.send("resource_#{path_or_url}")
 
-      controller.expects("new_universe_#{path_or_url}").with({}).once
+      controller.expects("new_universum_#{path_or_url}").with({}).once
       controller.send("new_resource_#{path_or_url}")
 
-      controller.expects("edit_universe_#{path_or_url}").with({}).once
+      controller.expects("edit_universum_#{path_or_url}").with({}).once
       controller.send("edit_resource_#{path_or_url}")
 
       # With options
       # Also tests that argument sent are not used
-      controller.expects("universe_#{path_or_url}").with(:page => 1).once
+      controller.expects("universum_#{path_or_url}").with(:page => 1).once
       controller.send("resource_#{path_or_url}", :arg, :page => 1)
     end
   end

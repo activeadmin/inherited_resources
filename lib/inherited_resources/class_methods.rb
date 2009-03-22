@@ -231,11 +231,17 @@ module InheritedResources #:nodoc:
       # When you inherit from InheritedResources::Base, we make some assumptions on
       # what is your resource_class, instance_name and collection_name.
       #
-      # You can change those values by calling the class method defaults:
+      # You can change those values by calling the class method <tt>defaults</tt>.
+      # This is useful, for example, in an accounts controller, where the object
+      # is an User but controller and routes are accounts.
       #
-      #   class PeopleController < InheritedResources::Base
-      #     defaults :resource_class => User, :instance_name => 'user', :collection_name => 'users'
+      #   class AccountController < InheritedResources::Base
+      #     defaults :resource_class => User, :instance_name => 'user',
+      #              :collection_name => 'users', :singleton => true
       #   end
+      #
+      # If you want to change your urls, you can use :route_instance_name and
+      # :route_collection_name helpers.
       #
       # You can also provide :class_name, which is the same as :resource_class
       # but accepts string (this is given for ActiveRecord compatibility).
@@ -245,7 +251,8 @@ module InheritedResources #:nodoc:
 
         options.symbolize_keys!
         options.assert_valid_keys(:resource_class, :collection_name, :instance_name,
-                                  :class_name, :route_prefix, :singleton)
+                                  :class_name, :route_prefix, :route_collection_name,
+                                  :route_instance_name, :singleton)
 
         # Checks for special argument :resource_class and :class_name and sets it right away.
         self.resource_class = options.delete(:resource_class)         if options[:resource_class]
@@ -390,6 +397,9 @@ module InheritedResources #:nodoc:
         config = base.resources_configuration[:self] = {}
         config[:collection_name] = base.controller_name.to_sym
         config[:instance_name]   = base.controller_name.singularize.to_sym
+
+        config[:route_collection_name] = config[:collection_name]
+        config[:route_instance_name]   = config[:instance_name]
 
         # Deal with namespaced controllers
         namespaces = base.controller_path.split('/')[0..-2]
