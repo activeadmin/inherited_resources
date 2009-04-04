@@ -36,6 +36,7 @@ Gem::Specification.new do |s|
     "test/nested_belongs_to_test.rb",
     "test/optional_belongs_to_test.rb",
     "test/polymorphic_test.rb",
+    "test/redirect_to_test.rb",
     "test/respond_to_test.rb",
     "test/singleton_test.rb",
     "test/test_helper.rb",

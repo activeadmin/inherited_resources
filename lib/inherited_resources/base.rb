@@ -231,16 +231,15 @@ module InheritedResources
       alias :edit! :edit
 
       # POST /resources
-      def create(&block)
+      def create(redirect_to=nil, &block)
         object = build_resource(params[resource_instance_name])
 
         if object.save
           set_flash_message!(:notice, '{{resource_name}} was successfully created.')
-          location_url = resource_url rescue nil # Sometimes resource_url is undefined
 
-          respond_to(:with => object, :status => :created, :location => location_url) do |format|
+          respond_to(:with => object, :status => :created, :location => (resource_url rescue nil)) do |format|
             block.call(args_for_block(block, format, true)) if block_given?
-            format.html { redirect_to(resource_url) }
+            format.html { redirect_to(redirect_to || resource_url) }
           end
         else
           set_flash_message!(:error)
@@ -254,7 +253,7 @@ module InheritedResources
       alias :create! :create
 
       # PUT /resources/1
-      def update(&block)
+      def update(redirect_to=nil, &block)
         object = resource
 
         if object.update_attributes(params[resource_instance_name])
@@ -262,7 +261,7 @@ module InheritedResources
 
           respond_to do |format|
             block.call(args_for_block(block, format, true)) if block_given?
-            format.html { redirect_to(resource_url) }
+            format.html { redirect_to(redirect_to || resource_url) }
             format.all  { head :ok }
           end
         else
@@ -277,14 +276,14 @@ module InheritedResources
       alias :update! :update
 
       # DELETE /resources/1
-      def destroy
+      def destroy(redirect_to=nil)
         resource.destroy
 
         set_flash_message!(:notice, '{{resource_name}} was successfully destroyed.')
 
         respond_to do |format|
           yield(format) if block_given?
-          format.html { redirect_to(collection_url) }
+          format.html { redirect_to(redirect_to || collection_url) }
           format.all  { head :ok }
         end
       end
