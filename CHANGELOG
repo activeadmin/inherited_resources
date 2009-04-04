@@ -1,3 +1,5 @@
+* Added a quick way to overwrite the redirect to url in :create, :update and :destroy
+
 # Version 0.5.2
 
 * Decoupled routes name from :instance_name and :collection_name. This way we

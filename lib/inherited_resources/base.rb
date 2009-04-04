@@ -54,7 +54,7 @@
 #   class ProjectController < InheritedResources::Base
 #     def destroy
 #       super do |format|
-#         format.html { redirect_to projects_url }
+#         format.html { redirect_to root_url }
 #       end
 #     end
 #   end
@@ -65,8 +65,18 @@
 #   class ProjectController < InheritedResources::Base
 #     def destroy
 #       destroy! do |format|
-#         format.html { redirect_to projects_url }
+#         format.html { redirect_to root_url }
 #       end
+#     end
+#   end
+#
+# Even more, since most of the times that you change a :create, :update or :destroy
+# action is because you want to to change to where it redirects, a shortcut is
+# provided. So you can do:
+#
+#   class ProjectsController < InheritedResources::Base
+#     def destroy
+#       destroy!(root_url)
 #     end
 #   end
 #
