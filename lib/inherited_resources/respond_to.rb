@@ -200,7 +200,6 @@ module ActionController #:nodoc:
 
         object              = options.delete(:with)
         responder           = options.delete(:responder) || Responder.new(self)
-        skip_not_acceptable = options.delete(:skip_not_acceptable)
 
         if object.nil?
           block ||= lambda { |responder| types.each { |type| responder.send(type) } }
@@ -216,14 +215,16 @@ module ActionController #:nodoc:
             return true if responder.respond_except_any
           end
 
-          if respond_with(object, options.merge(:to => types, :responder => responder, :skip_not_acceptable => true))
+          options.merge!(:to => types, :responder => responder, :skip_not_acceptable => true)
+
+          if respond_with(object, options)
             return true
           elsif block_given?
             return true if responder.respond_any
           end
         end
 
-        head :not_acceptable unless skip_not_acceptable
+        head :not_acceptable
         return false
       end
 

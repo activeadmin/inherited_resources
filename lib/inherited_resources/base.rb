@@ -247,15 +247,17 @@ module InheritedResources
         if object.save
           set_flash_message!(:notice, '{{resource_name}} was successfully created.')
 
-          respond_to(:with => object, :status => :created, :location => (resource_url rescue nil)) do |format|
-            block.call(args_for_block(block, format, true)) if block_given?
+          options = { :with => object, :status => :created, :location => (resource_url rescue nil) }
+
+          respond_to_with_dual_blocks(true, block, options) do |format|
             format.html { redirect_to(redirect_to || resource_url) }
           end
         else
           set_flash_message!(:error)
 
-          respond_to(:with => object.errors, :status => :unprocessable_entity) do |format|
-            block.call(args_for_block(block, format, false)) if block_given?
+          options = { :with => object.errors, :status => :unprocessable_entity }
+
+          respond_to_with_dual_blocks(false, block, options) do |format|
             format.html { render :action => 'new' }
           end
         end
@@ -269,16 +271,16 @@ module InheritedResources
         if object.update_attributes(params[resource_instance_name])
           set_flash_message!(:notice, '{{resource_name}} was successfully updated.')
 
-          respond_to do |format|
-            block.call(args_for_block(block, format, true)) if block_given?
+          respond_to_with_dual_blocks(true, block) do |format|
             format.html { redirect_to(redirect_to || resource_url) }
             format.all  { head :ok }
           end
         else
           set_flash_message!(:error)
 
-          respond_to(:with => object.errors, :status => :unprocessable_entity) do |format|
-            block.call(args_for_block(block, format, false)) if block_given?
+          options = { :with => object.errors, :status => :unprocessable_entity }
+
+          respond_to_with_dual_blocks(false, block, options) do |format|
             format.html { render :action => 'edit' }
           end
         end
@@ -286,13 +288,12 @@ module InheritedResources
       alias :update! :update
 
       # DELETE /resources/1
-      def destroy(redirect_to=nil)
+      def destroy(redirect_to=nil, &block)
         resource.destroy
 
         set_flash_message!(:notice, '{{resource_name}} was successfully destroyed.')
 
-        respond_to do |format|
-          yield(format) if block_given?
+        respond_to_with_dual_blocks(nil, block) do |format|
           format.html { redirect_to(redirect_to || collection_url) }
           format.all  { head :ok }
         end

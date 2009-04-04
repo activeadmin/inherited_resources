@@ -226,17 +226,26 @@ module InheritedResources #:nodoc:
       #     end
       #   end
       #
-      def args_for_block(block_to_check_args, format, success = true)
-        if block_to_check_args.arity == 2
-          dumb_responder = InheritedResources::DumbResponder.new
-          if success
-            return format, dumb_responder
+      def respond_to_with_dual_blocks(success, dual_block, options={}, &block)
+        responder = ActionController::MimeResponds::Responder.new(self)
+
+        if dual_block
+          if dual_block.arity == 2
+            dumb_responder = InheritedResources::DumbResponder.new
+            if success
+              dual_block.call(responder, dumb_responder)
+            else
+              dual_block.call(dumb_responder, responder)
+            end
           else
-            return dumb_responder, format
+            dual_block.call(responder)
           end
-        else
-          return format
+
+          # Try to respond with the block given
+          responder.respond_except_any
         end
+
+        respond_to(options.merge(:responder => responder), &block) unless performed?
       end
 
   end
