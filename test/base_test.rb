@@ -1,8 +1,5 @@
 require File.dirname(__FILE__) + '/test_helper'
 
-# This test file is instead to test the how controller flow and actions.
-# This is done using mocks a la rspec.
-#
 class User
   def self.human_name; 'User'; end
 end
@@ -11,7 +8,6 @@ class UsersController < InheritedResources::Base
   respond_to :html, :xml
 end
 
-# Create a TestHelper module with some helpers
 module UserTestHelper
   def setup
     @controller          = UsersController.new
@@ -25,7 +21,7 @@ module UserTestHelper
     end
 end
 
-class IndexActionBaseTest < TEST_CLASS
+class IndexActionBaseTest < ActionController::TestCase
   include UserTestHelper
 
   def test_expose_all_users_as_instance_variable
@@ -51,7 +47,7 @@ class IndexActionBaseTest < TEST_CLASS
   end
 end
 
-class ShowActionBaseTest < TEST_CLASS
+class ShowActionBaseTest < ActionController::TestCase
   include UserTestHelper
 
   def test_expose_the_resquested_user
@@ -77,7 +73,7 @@ class ShowActionBaseTest < TEST_CLASS
   end
 end
 
-class NewActionBaseTest < TEST_CLASS
+class NewActionBaseTest < ActionController::TestCase
   include UserTestHelper
 
   def test_expose_a_new_user
@@ -103,7 +99,7 @@ class NewActionBaseTest < TEST_CLASS
   end
 end
 
-class EditActionBaseTest < TEST_CLASS
+class EditActionBaseTest < ActionController::TestCase
   include UserTestHelper
 
   def test_expose_the_resquested_user
@@ -121,7 +117,7 @@ class EditActionBaseTest < TEST_CLASS
   end
 end
 
-class CreateActionBaseTest < TEST_CLASS
+class CreateActionBaseTest < ActionController::TestCase
   include UserTestHelper
 
   def test_expose_a_newly_create_user_when_saved_with_success
@@ -157,7 +153,7 @@ class CreateActionBaseTest < TEST_CLASS
   end
 end
 
-class UpdateActionBaseTest < TEST_CLASS
+class UpdateActionBaseTest < ActionController::TestCase
   include UserTestHelper
 
   def test_update_the_requested_object
@@ -194,7 +190,7 @@ class UpdateActionBaseTest < TEST_CLASS
   end
 end
 
-class DestroyActionBaseTest < TEST_CLASS
+class DestroyActionBaseTest < ActionController::TestCase
   include UserTestHelper
   
   def test_the_resquested_user_is_destroyed

@@ -20,13 +20,8 @@ class MachinesController < InheritedResources::Base
 
 end
 
-class RedirectToTest < TEST_CLASS
-
-  def setup
-    @controller          = MachinesController.new
-    @controller.request  = @request  = ActionController::TestRequest.new
-    @controller.response = @response = ActionController::TestResponse.new
-  end
+class RedirectToTest < ActionController::TestCase
+  tests MachinesController
 
   def test_redirect_to_the_given_url_on_create
     Machine.stubs(:new).returns(mock_machine(:save => true))

@@ -8,11 +8,12 @@ class PaintersController < InheritedResources::Base
   defaults :instance_name => 'malarz', :collection_name => 'malarze', :resource_class => Malarz
 end
 
-class DefaultsTest < TEST_CLASS
+class DefaultsTest < ActionController::TestCase
+  tests PaintersController
+
   def setup
-    @controller          = PaintersController.new
-    @controller.request  = @request  = ActionController::TestRequest.new
-    @controller.response = @response = ActionController::TestResponse.new
+    @controller.stubs(:resource_url).returns('/')
+    @controller.stubs(:collection_url).returns('/')
   end
 
   def test_expose_all_painters_as_instance_variable

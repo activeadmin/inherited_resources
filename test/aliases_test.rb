@@ -1,5 +1,3 @@
-# Now we are going to test aliases defined in base.rb and if overwriting
-# methods works properly.
 require File.dirname(__FILE__) + '/test_helper'
 
 class Student;
@@ -40,13 +38,8 @@ class StudentsController < InheritedResources::Base
 
 end
 
-class AliasesTest < TEST_CLASS
-
-  def setup
-    @controller          = StudentsController.new
-    @controller.request  = @request  = ActionController::TestRequest.new
-    @controller.response = @response = ActionController::TestResponse.new
-  end
+class AliasesTest < ActionController::TestCase
+  tests StudentsController
 
   def test_assignments_before_calling_alias
     Student.stubs(:new).returns(mock_student)
@@ -92,7 +85,7 @@ class AliasesTest < TEST_CLASS
     assert_equal "I won't redirect!", @response.body
   end
 
-  def test_dumb_responder_with_quietly_receive_everything_on_failure
+  def test_dumb_responder_quietly_receives_everything_on_failure
     Student.stubs(:new).returns(mock_student(:save => false, :errors => []))
     @controller.stubs(:resource_url).returns('http://test.host/')
     post :create
@@ -107,8 +100,9 @@ class AliasesTest < TEST_CLASS
     assert_equal "I won't render!", @response.body
   end
 
-  def test_dumb_responder_with_quietly_receive_everything_on_success
+  def test_dumb_responder_quietly_receives_everything_on_success
     Student.stubs(:find).returns(mock_student(:update_attributes => true))
+    @controller.stubs(:resource_url).returns('http://test.host/')
     put :update, :id => '42', :student => {:these => 'params'}
     assert_equal mock_student, assigns(:student)
   end

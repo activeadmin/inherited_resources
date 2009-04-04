@@ -14,12 +14,12 @@ class ManagersController < InheritedResources::Base
   belongs_to :store, :singleton => true
 end
 
-class SingletonTest < TEST_CLASS
+class SingletonTest < ActionController::TestCase
+  tests ManagersController
 
   def setup
-    @controller          = ManagersController.new
-    @controller.request  = @request  = ActionController::TestRequest.new
-    @controller.response = @response = ActionController::TestResponse.new
+    @controller.stubs(:resource_url).returns('/')
+    @controller.stubs(:collection_url).returns('/')
   end
 
   def test_expose_the_resquested_manager_on_show

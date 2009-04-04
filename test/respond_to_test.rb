@@ -51,14 +51,12 @@ end
 class SuperProjectsController < ProjectsController
 end
 
-class RespondToUnitTest < TEST_CLASS
-  def setup(class_controller = ProjectsController)
-    @controller          = class_controller.new
-    @controller.request  = @request  = ActionController::TestRequest.new
-    @controller.response = @response = ActionController::TestResponse.new
+class RespondToUnitTest < ActionController::TestCase
+  tests ProjectsController
 
-    @formats    = @controller.formats_for_respond_to
-    @responder  = ActionController::MimeResponds::Responder.new(@controller)
+  def setup
+    @formats   = @controller.formats_for_respond_to
+    @responder = ActionController::MimeResponds::Responder.new(@controller)
   end
 
   def test_respond_to_class_method_without_options
@@ -109,10 +107,13 @@ class RespondToUnitTest < TEST_CLASS
   end
 
   def test_clear_respond_to
-    setup(SuperProjectsController)
+    @controller = SuperProjectsController.new
+    @controller.request  = ActionController::TestRequest.new
+
+    @controller.action_name = 'index'
+    @responder = ActionController::MimeResponds::Responder.new(@controller)
 
     # Those responses are inherited from ProjectsController
-    @controller.action_name = 'index'
     assert @responder.action_respond_to_format?('html')  # defined
     assert @responder.action_respond_to_format?('xml')   # inherited
     assert @responder.action_respond_to_format?('rss')   # explicit only
@@ -153,7 +154,10 @@ class RespondToUnitTest < TEST_CLASS
   end
  
   protected 
-    def prepare_responder_to_respond!(content_type = '*/*')
+    def prepare_responder_to_respond!(content_type='*/*')
+      @controller.request  = @request  = ActionController::TestRequest.new
+      @controller.response = @response = ActionController::TestResponse.new
+
       @request.accept = content_type
       @responder  = ActionController::MimeResponds::Responder.new(@controller)
       @performed = false
@@ -172,12 +176,8 @@ class RespondToUnitTest < TEST_CLASS
     end
 end
 
-class RespondToFunctionalTest < TEST_CLASS
-  def setup
-    @controller          = ProjectsController.new
-    @controller.request  = @request  = ActionController::TestRequest.new
-    @controller.response = @response = ActionController::TestResponse.new
-  end
+class RespondToFunctionalTest < ActionController::TestCase
+  tests ProjectsController
 
   def test_respond_with_layout_rendering
     @request.accept = 'text/html'

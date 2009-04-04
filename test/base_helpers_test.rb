@@ -19,12 +19,10 @@ class Admin::AddressesController < InheritedResources::Base
     end
 end
 
-class FlashBaseHelpersTest < TEST_CLASS
+class FlashBaseHelpersTest < ActionController::TestCase
+  tests AddressesController
 
   def setup
-    @controller          = AddressesController.new
-    @controller.request  = @request  = ActionController::TestRequest.new
-    @controller.response = @response = ActionController::TestResponse.new
     @request.accept      = 'application/xml'
   end
 
@@ -108,12 +106,10 @@ class PetsController < InheritedResources::Base
     end
 end
 
-class AssociationChainBaseHelpersTest < TEST_CLASS
+class AssociationChainBaseHelpersTest < ActionController::TestCase
+  tests PetsController
 
   def setup
-    @controller              = PetsController.new
-    @controller.request      = @request  = ActionController::TestRequest.new
-    @controller.response     = @response = ActionController::TestResponse.new
     @controller.current_user = mock()
     @request.accept          = 'application/xml'
   end

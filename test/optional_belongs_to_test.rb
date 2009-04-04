@@ -11,26 +11,13 @@ class ProductsController < InheritedResources::Base
   belongs_to :brand, :category, :polymorphic => true, :optional => true
 end
 
-# Create a TestHelper module with some helpers
-module ProductTestHelper
+class OptionalTest < ActionController::TestCase
+  tests ProductsController
+
   def setup
-    @controller          = ProductsController.new
-    @controller.request  = @request  = ActionController::TestRequest.new
-    @controller.response = @response = ActionController::TestResponse.new
+    @controller.stubs(:resource_url).returns('/')
+    @controller.stubs(:collection_url).returns('/')
   end
-
-  protected
-    def mock_category(stubs={})
-      @mock_category ||= mock(stubs)
-    end
-
-    def mock_product(stubs={})
-      @mock_product ||= mock(stubs)
-    end
-end
-
-class IndexActionOptionalTest < TEST_CLASS
-  include ProductTestHelper
 
   def test_expose_all_products_as_instance_variable_with_category
     Category.expects(:find).with('37').returns(mock_category)
@@ -47,10 +34,6 @@ class IndexActionOptionalTest < TEST_CLASS
     assert_equal nil, assigns(:category)
     assert_equal [mock_product], assigns(:products)
   end
-end
-
-class ShowActionOptionalTest < TEST_CLASS
-  include ProductTestHelper
 
   def test_expose_the_resquested_product_with_category
     Category.expects(:find).with('37').returns(mock_category)
@@ -67,10 +50,6 @@ class ShowActionOptionalTest < TEST_CLASS
     assert_equal nil, assigns(:category)
     assert_equal mock_product, assigns(:product)
   end
-end
-
-class NewActionOptionalTest < TEST_CLASS
-  include ProductTestHelper
 
   def test_expose_a_new_product_with_category
     Category.expects(:find).with('37').returns(mock_category)
@@ -87,12 +66,8 @@ class NewActionOptionalTest < TEST_CLASS
     assert_equal nil, assigns(:category)
     assert_equal mock_product, assigns(:product)
   end
-end
 
-class EditActionOptionalTest < TEST_CLASS
-  include ProductTestHelper
-
-  def test_expose_the_resquested_product_with_category
+  def test_expose_the_resquested_product_for_edition_with_category
     Category.expects(:find).with('37').returns(mock_category)
     mock_category.expects(:products).returns(Product)
     Product.expects(:find).with('42').returns(mock_product)
@@ -101,16 +76,12 @@ class EditActionOptionalTest < TEST_CLASS
     assert_equal mock_product, assigns(:product)
   end
 
-  def test_expose_the_resquested_product_without_category
+  def test_expose_the_resquested_product_for_edition_without_category
     Product.expects(:find).with('42').returns(mock_product)
     get :edit, :id => '42'
     assert_equal nil, assigns(:category)
     assert_equal mock_product, assigns(:product)
   end
-end
-
-class CreateActionOptionalTest < TEST_CLASS
-  include ProductTestHelper
 
   def test_expose_a_newly_create_product_with_category
     Category.expects(:find).with('37').returns(mock_category)
@@ -127,16 +98,13 @@ class CreateActionOptionalTest < TEST_CLASS
     assert_equal nil, assigns(:category)
     assert_equal mock_product, assigns(:product)
   end
-end
-
-class UpdateActionOptionalTest < TEST_CLASS
-  include ProductTestHelper
 
   def test_update_the_requested_object_with_category
     Category.expects(:find).with('37').returns(mock_category)
     mock_category.expects(:products).returns(Product)
     Product.expects(:find).with('42').returns(mock_product)
     mock_product.expects(:update_attributes).with({'these' => 'params'}).returns(true)
+
     put :update, :id => '42', :category_id => '37', :product => {:these => 'params'}
     assert_equal mock_category, assigns(:category)
     assert_equal mock_product, assigns(:product)
@@ -145,20 +113,19 @@ class UpdateActionOptionalTest < TEST_CLASS
   def test_update_the_requested_object_without_category
     Product.expects(:find).with('42').returns(mock_product)
     mock_product.expects(:update_attributes).with({'these' => 'params'}).returns(true)
+
     put :update, :id => '42', :product => {:these => 'params'}
     assert_equal nil, assigns(:category)
     assert_equal mock_product, assigns(:product)
   end
-end
-
-class DestroyActionOptionalTest < TEST_CLASS
-  include ProductTestHelper
 
   def test_the_resquested_product_is_destroyed_with_category
     Category.expects(:find).with('37').returns(mock_category)
     mock_category.expects(:products).returns(Product)
     Product.expects(:find).with('42').returns(mock_product)
     mock_product.expects(:destroy)
+    @controller.expects(:collection_url).returns('/')
+
     delete :destroy, :id => '42', :category_id => '37'
     assert_equal mock_category, assigns(:category)
     assert_equal mock_product, assigns(:product)
@@ -167,14 +134,12 @@ class DestroyActionOptionalTest < TEST_CLASS
   def test_the_resquested_product_is_destroyed_without_category
     Product.expects(:find).with('42').returns(mock_product)
     mock_product.expects(:destroy)
+    @controller.expects(:collection_url).returns('/')
+
     delete :destroy, :id => '42'
     assert_equal nil, assigns(:category)
     assert_equal mock_product, assigns(:product)
   end
-end
-
-class OptionalHelpersTest < TEST_CLASS
-  include ProductTestHelper
 
   def test_polymorphic_helpers
     Product.expects(:find).with(:all).returns([mock_product])
@@ -187,4 +152,13 @@ class OptionalHelpersTest < TEST_CLASS
     assert_equal nil, assigns(:category)
     assert_equal nil, @controller.send(:parent)
   end
+
+  protected
+    def mock_category(stubs={})
+      @mock_category ||= mock(stubs)
+    end
+
+    def mock_product(stubs={})
+      @mock_product ||= mock(stubs)
+    end
 end

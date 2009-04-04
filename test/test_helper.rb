@@ -4,17 +4,10 @@ require 'mocha'
 
 ENV["RAILS_ENV"] = "test"
 
-# Used to tests Rails 2.2.2 version
-# gem 'activesupport', '2.2.2'
-# gem 'actionpack', '2.2.2'
-# TEST_CLASS = Test::Unit::TestCase
-
 require 'active_support'
 require 'action_controller'
 require 'action_controller/test_case'
 require 'action_controller/test_process'
-
-TEST_CLASS = ActionController::TestCase
 
 I18n.load_path << File.join(File.dirname(__FILE__), 'locales', 'en.yml')
 I18n.reload!
