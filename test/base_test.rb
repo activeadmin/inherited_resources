@@ -8,6 +8,7 @@ class User
 end
 
 class UsersController < InheritedResources::Base
+  respond_to :html, :xml
 end
 
 # Create a TestHelper module with some helpers

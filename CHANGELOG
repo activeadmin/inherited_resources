@@ -1,3 +1,4 @@
+* Backwards incompatible: by default, Inherited Resources respond only :html requests
 * Added a quick way to overwrite the redirect to url in :create, :update and :destroy
 
 # Version 0.5.2

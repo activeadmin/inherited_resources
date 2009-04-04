@@ -17,7 +17,7 @@ end
 class ProjectsController < ActionController::Base
   # Inherited respond_to definition is:
   # respond_to :html
-  # respond_to :xml, :except => :edit
+  respond_to :xml, :except => :edit
   respond_to :html
   respond_to :rjs => :edit
   respond_to :rss,  :only => 'index'

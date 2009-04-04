@@ -90,6 +90,7 @@ class Pet
 end
 
 class PetsController < InheritedResources::Base
+  respond_to :xml
   attr_accessor :current_user
   
   def edit

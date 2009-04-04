@@ -59,9 +59,8 @@ module ActionController #:nodoc:
       end
       class_inheritable_reader :formats_for_respond_to
 
-      # Define defaults respond_to
+      # By default, responds only to :html
       respond_to :html
-      respond_to :xml, :except => [ :edit ]
 
       # Method to clear all respond_to declared until the current controller.
       # This is like freeing the controller from the inheritance chain. :)
