@@ -126,31 +126,28 @@ class RespondToUnitTest < ActionController::TestCase
     assert !@responder.action_respond_to_format?('rss')
   end
 
-  def test_respond_to_block_does_not_respond_to_mime_all
+  def test_respond_except_any_does_not_respond_to_mime_all
     prepare_responder_to_respond!
 
-    @responder.respond_to_block
+    @responder.respond_except_any
     assert !@performed
-    assert !@responder.responded?
 
     @responder.respond
     assert @performed
   end
 
-  def test_respond_to_all_responds_to_mime_all
+  def test_respond_any_responds_to_mime_all
     prepare_responder_to_respond!
 
-    @responder.respond_to_all
+    @responder.respond_any
     assert @performed
-    assert @responder.responded?
   end
 
-  def test_respond_to_all_responds_only_to_all
+  def test_respond_any_responds_only_to_all
     prepare_responder_to_respond!('text/html')
 
-    @responder.respond_to_all
+    @responder.respond_any
     assert !@performed
-    assert !@responder.responded?
   end
  
   protected 

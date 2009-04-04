@@ -118,19 +118,11 @@ module ActionController #:nodoc:
       def respond_with(object, options = {})
         attempt_to_respond = false
 
-        # You can also send a responder object as parameter.
-        #
-        responder = options.delete(:responder) || Responder.new(self)
+        responder           = options.delete(:responder) || Responder.new(self)
+        skip_not_acceptable = options.delete(:skip_not_acceptable)
 
-        # Check for given mime types
-        #
         mime_types = Array(options.delete(:to))
         mime_types.map!{ |mime| mime.to_sym }
-
-        # If :skip_not_acceptable is sent, it will not render :not_acceptable
-        # if the mime type sent by the client cannot be found.
-        #
-        skip_not_acceptable = options.delete(:skip_not_acceptable)
 
         for priority in responder.mime_type_priority
           if priority == Mime::ALL && template_exists?
@@ -205,58 +197,37 @@ module ActionController #:nodoc:
       #
       def respond_to(*types, &block)
         options = types.extract_options!
-        object = options.delete(:with)
-        responder = Responder.new(self)
-        
-        # This is the default respond_to behaviour, when no object is given.
+
+        object              = options.delete(:with)
+        responder           = options.delete(:responder) || Responder.new(self)
+        skip_not_acceptable = options.delete(:skip_not_acceptable)
+
         if object.nil?
           block ||= lambda { |responder| types.each { |type| responder.send(type) } }
           block.call(responder)
           responder.respond
-          return true # we are done here
-
+          return true
         else
-          # If a block is given, it checks if we can perform the requested format.
-          #
           # Even if Mime::ALL is sent by the client, we do not respond_to it now.
-          # This is done using calling :respond_to_block instead of :respond.
-          #
-          # It's worth to remember that responder_to_block does not respond
-          # :not_acceptable also.
+          # This is done using calling :respond_except_any instead of :respond.
           #
           if block_given?
             block.call(responder)
-            responder.respond_to_block
-            return true if responder.responded? || performed?
+            return true if responder.respond_except_any
           end
 
-          # Let's see if we get lucky rendering with :respond_with.
-          # At the end, respond_with checks for Mime::ALL if any template exist.
-          #
-          # Notice that we are sending the responder (for performance gain) and
-          # sending :skip_not_acceptable because we don't want to respond
-          # :not_acceptable yet.
-          #
           if respond_with(object, options.merge(:to => types, :responder => responder, :skip_not_acceptable => true))
             return true
-
-          # Since respond_with couldn't help us, our last chance is to reply to
-          # any block given if the user send all as mime type.
-          #
           elsif block_given?
-            return true if responder.respond_to_all
+            return true if responder.respond_any
           end
         end
 
-        # If we get here it means that we could not satisfy our request.
-        # Now we finally return :not_acceptable.
-        #
-        head :not_acceptable
+        head :not_acceptable unless skip_not_acceptable
         return false
       end
 
     private
-
       # Define template_exists? for Rails 2.3
       unless ActionController::Base.private_instance_methods.include?('template_exists?') ||
              ActionController::Base.private_instance_methods.include?(:template_exists?)
@@ -281,43 +252,35 @@ module ActionController #:nodoc:
   module MimeResponds #:nodoc:
     class Responder #:nodoc:
 
-      # Create an attr_reader for @mime_type_priority
       attr_reader :mime_type_priority
 
-      # Stores if this Responder instance called any block.
-      def responded?; @responded; end
-
-      # Similar as respond but if we can't find a valid mime type,
-      # we do not send :not_acceptable message as head.
+      # Similar as respond but if we can't find a valid mime type, we do not
+      # send :not_acceptable message as head and it does not respond to
+      # Mime::ALL in any case.
       #
-      # It does not respond to Mime::ALL in priority as well.
-      #
-      def respond_to_block
+      def respond_except_any
         for priority in @mime_type_priority
           next if priority == Mime::ALL
 
           if @responses[priority]
             @responses[priority].call
-            return (@responded = true) # mime type match found, be happy and return
+            return true
           end
         end
 
-        if @order.include?(Mime::ALL)
-          @responses[Mime::ALL].call
-          return (@responded = true)
-        else
-          return (@responded = false)
-        end
+        false
       end
 
       # Respond to the first format given if Mime::ALL is included in the
       # mime type priorites. This is the behaviour expected when the client
       # sends "*/*" as mime type.
       #
-      def respond_to_all
-        if @mime_type_priority.include?(Mime::ALL) && first = @responses[@order.first]
-          first.call
-          return (@responded = true)
+      def respond_any
+        any = @responses[@order.include?(Mime::ALL) ? Mime::ALL : @order.first]
+
+        if any && @mime_type_priority.include?(Mime::ALL)
+          any.call
+          return true
         end
       end
 
