@@ -339,7 +339,9 @@ Remember that our projects have pretty urls? So if you thought that url like
      belongs_to :project, :finder => :find_by_title!, :param => :project_title
    end
 
-Check belongs_to file for more customization. :)
+It also accepts :route_name, :parent_class and :instance_name as options.
+For more information, check the lib/inherited_resources/class_method.rb file
+for more customization. :)
 
 Nested belongs to
 -----------------
