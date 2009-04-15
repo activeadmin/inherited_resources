@@ -254,14 +254,16 @@ module InheritedResources #:nodoc:
                                   :class_name, :route_prefix, :route_collection_name,
                                   :route_instance_name, :singleton)
 
-        # Checks for special argument :resource_class and :class_name and sets it right away.
-        self.resource_class = options.delete(:resource_class)         if options[:resource_class]
-        self.resource_class = options.delete(:class_name).constantize if options[:class_name]
+        self.resource_class = options.delete(:resource_class)         if options.key?(:resource_class)
+        self.resource_class = options.delete(:class_name).constantize if options.key?(:class_name)
 
         acts_as_singleton! if options.delete(:singleton)
 
+        config = self.resources_configuration[:self]
+        config[:route_prefix] = options.delete(:route_prefix) if options.key?(:route_prefix)
+
         options.each do |key, value|
-          self.resources_configuration[:self][key] = value.to_sym
+          config[key] = value.to_sym
         end
 
         InheritedResources::UrlHelpers.create_resources_url_helpers!(self)

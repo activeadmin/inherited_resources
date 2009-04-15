@@ -5,6 +5,7 @@ class Folder; end
 
 class BooksController < InheritedResources::Base
   actions :index, :show
+  defaults :route_prefix => nil
 end
 
 class ReadersController < InheritedResources::Base
