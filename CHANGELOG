@@ -1,9 +1,11 @@
 # Version 0.6
 
+* Stop rescueing any error when constantizing the resource class and allow
+  route_prefix to be nil.
 * Cleaned up tests and responder structure. Whenever you pass a block to aliases
-  and this block responds to the request, the other blocks are not parsed improcing performance.
-* [BACKWARDS INCOMPATIBLE] By default, Inherited Resources respond only :html requests
-* Added a quick way to overwrite the redirect to url in :create, :update and :destroy
+  and this block responds to the request, the other blocks are not parsed improving performance.
+* [BACKWARDS INCOMPATIBLE] By default, Inherited Resources respond only :html requests.
+* Added a quick way to overwrite the redirect to url in :create, :update and :destroy.
 
 # Version 0.5
 

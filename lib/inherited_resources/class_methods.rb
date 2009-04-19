@@ -392,7 +392,11 @@ module InheritedResources #:nodoc:
         end
 
         # Initialize resource class
-        base.resource_class = base.controller_name.classify.constantize rescue nil
+        base.resource_class = begin
+          base.controller_name.classify.constantize
+        rescue NameError
+          nil
+        end
 
         # Initialize resources configuration hash
         base.resources_configuration = {}
