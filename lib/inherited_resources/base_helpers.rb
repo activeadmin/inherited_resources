@@ -245,7 +245,7 @@ module InheritedResources #:nodoc:
           responder.respond_except_any
         end
 
-        respond_to(options.merge(:responder => responder), &block) unless performed?
+        respond_to(options.merge!(:responder => responder, :prioritize => :html), &block) unless performed?
       end
 
   end

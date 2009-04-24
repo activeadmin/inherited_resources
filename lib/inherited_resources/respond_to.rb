@@ -196,11 +196,16 @@ module ActionController #:nodoc:
       #     format.html { render :template => 'new' }
       #   end
       #
+      # It also accepts an option called prioritize. It allows you to put a
+      # format as first, and then when Mime::ALL is sent, it will be the one
+      # used as response.
+      #
       def respond_to(*types, &block)
         options = types.extract_options!
 
-        object              = options.delete(:with)
-        responder           = options.delete(:responder) || Responder.new(self)
+        object     = options.delete(:with)
+        responder  = options.delete(:responder) || Responder.new(self)
+        prioritize = options.delete(:prioritize)
 
         if object.nil?
           block ||= lambda { |responder| types.each { |type| responder.send(type) } }
@@ -224,6 +229,7 @@ module ActionController #:nodoc:
           if respond_with(object, options)
             return true
           elsif block_given?
+            responder.prioritize(prioritize) if prioritize
             return true if responder.respond_any
           end
         end
@@ -306,6 +312,15 @@ module ActionController #:nodoc:
         else
           false
         end
+      end
+
+      # Makes a given format the first in the @order array.
+      #
+      def prioritize(format)
+        if index = @order.index(format)
+          @order.unshift(@order.delete_at(index))
+        end
+        @order
       end
 
     end

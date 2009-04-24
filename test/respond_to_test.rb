@@ -159,6 +159,17 @@ class RespondToUnitTest < ActionController::TestCase
     @responder.respond_any
     assert !@performed
   end
+
+  def test_responder_prioritize
+    prepare_responder_to_respond!
+    assert_equal [Mime::HTML, Mime::XML], @responder.order
+
+    @responder.prioritize(:xml)
+    assert_equal [Mime::XML, Mime::HTML], @responder.order
+
+    @responder.prioritize(:js)
+    assert_equal [Mime::XML, Mime::HTML], @responder.order
+  end
  
   protected 
     def prepare_responder_to_respond!(content_type='*/*')

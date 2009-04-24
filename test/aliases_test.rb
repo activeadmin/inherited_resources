@@ -20,6 +20,7 @@ class StudentsController < InheritedResources::Base
   def create
     create! do |success, failure|
       success.html { render :text => "I won't redirect!" }
+      failure.xml { render :text => "I shouldn't be rendered" }
     end
   end
 
@@ -86,11 +87,21 @@ class AliasesTest < ActionController::TestCase
   end
 
   def test_dumb_responder_quietly_receives_everything_on_failure
+    @request.accept = 'text/html'
     Student.stubs(:new).returns(mock_student(:save => false, :errors => []))
     @controller.stubs(:resource_url).returns('http://test.host/')
     post :create
     assert_response :success
-    assert_template :edit
+    assert_equal "New HTML", @response.body.strip
+  end
+
+  def test_html_is_the_default_when_only_xml_is_overwriten
+    @request.accept = '*/*'
+    Student.stubs(:new).returns(mock_student(:save => false, :errors => []))
+    @controller.stubs(:resource_url).returns('http://test.host/')
+    post :create
+    assert_response :success
+    assert_equal "New HTML", @response.body.strip
   end
 
   def test_wont_render_edit_template_on_update_with_failure_if_failure_block_is_given

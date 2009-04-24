@@ -1,5 +1,7 @@
 # Version 0.6
 
+* Fixed a bug that happens only when format.xml is given to blocks and then it
+  acts as default, instead of format.html.
 * Fixed a strange bug where when you have create.html.erb or update.html.erb,
   it makes IE6 and IE7 return unprocessable entity (because they send Mime::ALL).
 * Stop rescueing any error when constantizing the resource class and allow
