@@ -126,7 +126,7 @@ module ActionController #:nodoc:
         mime_types.map!{ |mime| mime.to_sym }
 
         for priority in responder.mime_type_priority
-          if !skip_default_template && priority == Mime::ALL && template_exists?
+          if !skip_default_template && priority == Mime::ALL && respond_to_default_template?(responder)
             render options.merge(:action => action_name)
             return true
 
@@ -239,6 +239,7 @@ module ActionController #:nodoc:
       end
 
     private
+
       # Define template_exists? for Rails 2.3
       unless ActionController::Base.private_instance_methods.include?('template_exists?') ||
              ActionController::Base.private_instance_methods.include?(:template_exists?)
@@ -250,13 +251,20 @@ module ActionController #:nodoc:
         end
       end
 
-    # If ApplicationController is already defined around here, we should call
-    # inherited_with_inheritable_attributes to insert formats_for_respond_to.
-    # This usually happens only on Rails 2.3.
-    #
-    if defined?(ApplicationController)
-      self.send(:inherited_with_inheritable_attributes, ApplicationController)
-    end
+      # We respond to the default template if it's a valid format AND the template
+      # exists.
+      #
+      def respond_to_default_template?(responder)
+        responder.action_respond_to_format?(default_template_format) && template_exists?
+      end
+
+      # If ApplicationController is already defined around here, we should call
+      # inherited_with_inheritable_attributes to insert formats_for_respond_to.
+      # This usually happens only on Rails 2.3.
+      #
+      if defined?(ApplicationController)
+        self.send(:inherited_with_inheritable_attributes, ApplicationController)
+      end
 
   end
 

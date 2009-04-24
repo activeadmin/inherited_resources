@@ -1,5 +1,14 @@
 # Version 0.6
 
+* Ensure that the default template is not rendered if the default_template_format
+  is not accepted. This is somehow related with the security breach report:
+
+  http://www.rorsecurity.info/journal/2009/4/24/hidden-actions-render-templates.html
+
+  IR forbids based on mime types. For example: respond_to :html, :except => :index
+  ensures that the index.html.erb view is not rendered, making your IR controllers
+  safer.
+
 * Fixed a bug that happens only when format.xml is given to blocks and then it
   acts as default, instead of format.html.
 * Fixed a strange bug where when you have create.html.erb or update.html.erb,

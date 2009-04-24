@@ -17,11 +17,12 @@ end
 class ProjectsController < ActionController::Base
   # Inherited respond_to definition is:
   # respond_to :html
-  respond_to :xml, :except => :edit
   respond_to :html
+  respond_to :xml, :except => :edit
   respond_to :rjs => :edit
   respond_to :rss,  :only => 'index'
   respond_to :json, :except => :index
+  respond_to :csv,  :except => :index
 
   def index
     respond_with(Project.new)
@@ -216,7 +217,7 @@ class RespondToFunctionalTest < ActionController::TestCase
   end
 
   def test_respond_with_renders_status_not_acceptable_if_mime_type_is_not_registered
-    @request.accept = 'application/json'
+    @request.accept = 'text/csv'
     get :index
     assert_equal '406 Not Acceptable', @response.status
   end
@@ -231,6 +232,13 @@ class RespondToFunctionalTest < ActionController::TestCase
     @request.accept = '*/*'
     get :index
     assert_equal 'Index HTML', @response.body.strip
+  end
+
+  def test_default_template_is_not_rendered_if_template_format_is_not_accepted
+    @controller.stubs(:default_template_format).returns(:json)
+    @request.accept = '*/*'
+    get :index
+    assert_equal '406 Not Acceptable', @response.status
   end
 
   def test_respond_with_sets_content_type_properly
