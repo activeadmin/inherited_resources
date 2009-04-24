@@ -37,7 +37,7 @@ rspec-rails <= 1.1.12 known bug
 -------------------------------
 
 InheritedResources has a known bug with rspec-rails when using blocks inside
-actions. This will be fixed in the next rspec release, but until it comes out,
+actions. This is fixed in Rspec >= 1.2.0. But if you have to use 1.1.12, you
 InheritedResources ships with a patch. To apply it, just put the line below on
 your spec_helper.rb after loading rspec and rspec-rails:
 

@@ -46,6 +46,16 @@ class ProjectsController < ActionController::Base
       format.rss  { render :text => 'Render RSS' }
     end
   end
+
+  # If the user request Mime::ALL and we have a template called action.html.erb,
+  # the html template should be rendered *unless* html is specified inside the
+  # block. This tests exactly this case.
+  #
+  def respond_to_skip_default_template
+    respond_to(:with => Project.new) do |format|
+      format.html { render :text => 'Render HTML' }
+    end
+  end
 end
 
 class SuperProjectsController < ProjectsController
@@ -275,5 +285,11 @@ class RespondToFunctionalTest < ActionController::TestCase
     @request.accept = '*/*'
     get :respond_to_with_resource_and_blocks
     assert_equal 'Render JSON', @response.body.strip
+  end
+
+  def test_respond_to_skip_default_template_when_it_is_in_block
+    @request.accept = '*/*'
+    get :respond_to_skip_default_template
+    assert_equal 'Render HTML', @response.body.strip
   end
 end

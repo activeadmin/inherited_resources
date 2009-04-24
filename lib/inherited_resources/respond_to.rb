@@ -118,14 +118,15 @@ module ActionController #:nodoc:
       def respond_with(object, options = {})
         attempt_to_respond = false
 
-        responder           = options.delete(:responder) || Responder.new(self)
-        skip_not_acceptable = options.delete(:skip_not_acceptable)
+        responder             = options.delete(:responder) || Responder.new(self)
+        skip_not_acceptable   = options.delete(:skip_not_acceptable)
+        skip_default_template = options.delete(:skip_default_template)
 
         mime_types = Array(options.delete(:to))
         mime_types.map!{ |mime| mime.to_sym }
 
         for priority in responder.mime_type_priority
-          if priority == Mime::ALL && template_exists?
+          if !skip_default_template && priority == Mime::ALL && template_exists?
             render options.merge(:action => action_name)
             return true
 
@@ -215,7 +216,10 @@ module ActionController #:nodoc:
             return true if responder.respond_except_any
           end
 
-          options.merge!(:to => types, :responder => responder, :skip_not_acceptable => true)
+          # If the block includes the default template format, we don't render
+          # the default template (which uses the default_template_format).
+          options.merge!(:to => types, :responder => responder, :skip_not_acceptable => true,
+                         :skip_default_template => responder.order.include?(default_template_format))
 
           if respond_with(object, options)
             return true
@@ -253,7 +257,7 @@ module ActionController #:nodoc:
   module MimeResponds #:nodoc:
     class Responder #:nodoc:
 
-      attr_reader :mime_type_priority
+      attr_reader :mime_type_priority, :order
 
       # Similar as respond but if we can't find a valid mime type, we do not
       # send :not_acceptable message as head and it does not respond to

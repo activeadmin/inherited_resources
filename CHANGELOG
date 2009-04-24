@@ -1,5 +1,7 @@
 # Version 0.6
 
+* Fixed a strange bug where when you have create.html.erb or update.html.erb,
+  it makes IE6 and IE7 return unprocessable entity (because they send Mime::ALL).
 * Stop rescueing any error when constantizing the resource class and allow
   route_prefix to be nil.
 * Cleaned up tests and responder structure. Whenever you pass a block to aliases
