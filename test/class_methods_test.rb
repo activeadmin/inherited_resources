@@ -122,29 +122,16 @@ class BelongsToErrorsTest < ActiveSupport::TestCase
   ensure
     DeansController.send(:parents_symbols=, [:school])
   end
-
-  def test_belongs_to_raises_an_error_when_multiple_associations_are_given_with_block
-    assert_raise ArgumentError, "You cannot define multiple associations and give a block to belongs_to." do
-      DeansController.send(:belongs_to, :school, :another) do
-        belongs_to :association
-      end
-    end
-  ensure
-    DeansController.send(:parents_symbols=, [:school])
-  end
 end
 
 class HasScopeClassMethods < ActiveSupport::TestCase
-
   def test_scope_configuration_is_stored_as_hashes
     config = SchoolsController.send(:scopes_configuration)
-    assert config.key?(:school)
 
-    assert config[:school].key?(:by_city)
-    assert config[:school].key?(:featured)
+    assert config.key?(:by_city)
+    assert config.key?(:featured)
 
-    assert_equal config[:school][:by_city], { :key => :by_city, :only => [], :except => [] }
-    assert_equal config[:school][:featured], { :key => :by_featured, :only => [ :index ], :except => [], :boolean => true }
+    assert_equal config[:by_city], { :key => :by_city, :only => [], :except => [] }
+    assert_equal config[:featured], { :key => :by_featured, :only => [ :index ], :except => [], :boolean => true }
   end
-
 end

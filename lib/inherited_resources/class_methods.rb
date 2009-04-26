@@ -135,16 +135,13 @@ module InheritedResources
           helper_method :current_scopes
         end
 
-        scope_target  = self.resources_configuration[:self][:instance_name]
-        target_config = self.scopes_configuration[scope_target.to_sym] ||= {}
-
         scopes.each do |scope|
-          target_config[scope]         ||= {}
-          target_config[scope][:key]     = options[:key] || scope
-          target_config[scope][:only]    = Array(options[:only])
-          target_config[scope][:except]  = Array(options[:except])
-          target_config[scope][:boolean] = options[:boolean] if options.key?(:boolean)
-          target_config[scope][:default] = options[:default] if options.key?(:default)
+          self.scopes_configuration[scope]         ||= {}
+          self.scopes_configuration[scope][:key]     = options[:key] || scope
+          self.scopes_configuration[scope][:only]    = Array(options[:only])
+          self.scopes_configuration[scope][:except]  = Array(options[:except])
+          self.scopes_configuration[scope][:boolean] = options[:boolean] if options.key?(:boolean)
+          self.scopes_configuration[scope][:default] = options[:default] if options.key?(:default)
         end
       end
 
@@ -244,20 +241,11 @@ module InheritedResources
           config[:route_name]      = options.delete(:route_name) || symbol
         end
 
-        # Regenerate url helpers only once when blocks are given
         if block_given?
-          raise ArgumentError, "You cannot define multiple associations and give a block to belongs_to." if symbols.size > 1
-
-          unless @@_parent_block_name
-            @@_parent_block_name = symbols.first
-            class_eval(&block)
-            @@_parent_block_name = nil
-          else
-            class_eval(&block)
-          end
+          class_eval(&block)
+        else
+          InheritedResources::UrlHelpers.create_resources_url_helpers!(self)
         end
-
-        InheritedResources::UrlHelpers.create_resources_url_helpers!(self) unless @@_parent_block_name
       end
       alias :nested_belongs_to :belongs_to
 
@@ -307,7 +295,6 @@ module InheritedResources
       def initialize_resources_class_accessors!(base) #:nodoc:
         # Add and protect class accessors
         base.class_eval do
-          @@_parent_block_name = nil # Initialize parent flag
           metaklass = (class << self; self; end)
 
           RESOURCES_CLASS_ACCESSORS.each do |cattr|

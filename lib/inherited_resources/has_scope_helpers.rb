@@ -12,11 +12,10 @@ module InheritedResources
 
       # Overwrites apply to scope to implement default scope logic.
       #
-      def apply_scope_to(target_object, target_name) #:nodoc:
+      def apply_scope_to(target_object) #:nodoc:
         @current_scopes ||= {}
-        scope_config = self.scopes_configuration[target_name] || {}
 
-        scope_config.each do |scope, options|
+        self.scopes_configuration.each do |scope, options|
           next unless apply_scope_to_action?(options)
           key = options[:key]
 

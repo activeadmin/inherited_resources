@@ -1,6 +1,6 @@
 Inherited Resources
 License: MIT
-Version: 0.7.0
+Version: 0.7.1
 
 You can also read this README in pretty html at the GitHub project Wiki page:
 
@@ -288,6 +288,42 @@ messages will be checked in the following order:
    flash.projects.create.notice
    flash.actions.create.notice
 
+Has Scope
+---------
+
+InheritedResources tries to integrate nicely with your model. In order to do so,
+it also is named_scope fluent. Let's suppose our Project model with the scopes:
+
+  class ProjectsController < ActiveRecord::Base
+    named_scope :featured, :conditions => { :featured => true }
+    named_scope :by_methodology, proc {|methodology| { :conditions => { :methodology => methodology } } }
+    named_scope :limit, proc{|limit| :limit => limit.to_i }
+  end
+
+Your controller:
+
+  class GraduationsController < InheritedResources::Base
+    has_scope :featured, :boolean => true, :only => :index
+    has_scope :by_methodology
+    has_scope :limit, :default => 10
+  end
+
+Then for each request:
+
+  /projects
+  #=> acts like a normal request, but returning 10 projects
+
+  /projects?featured=true
+  #=> calls the featured named scope and bring 10 featured projects
+
+  /projects?featured=true&by_methodology=agile&limit=20
+  #=> brings 20 featured projects with methodology agile
+
+You can retrieve the current scopes in use with :current_scopes method.
+In the last case, it would return:
+
+  { :featured => "true", :by_methodology => "agile", :limit => "20" }
+
 Belongs to
 ----------
 
@@ -337,74 +373,12 @@ Warning: calling several belongs_to is the same as nesting them:
 
 In other words, the code above is the same as calling nested_belongs_to.
 
-Has Scope
----------
-
-InheritedResources besides belongs_to also speaks named_scope. Let's have a
-break from projects and talk about graduations. Your model:
-
-  class Graduation < ActiveRecord::Base
-    named_scope :featured, :conditions => { :featured => true }
-    named_scope :by_degree, proc {|degree| { :conditions => { :degree => degree } } }
-    named_scope :limit, proc{|limit| :limit => limit.to_i }
-  end
-
-Your controller:
-
-  class GraduationsController < InheritedResources::Base
-    has_scope :featured, :boolean => true, :only => :index
-    has_scope :by_degree
-    has_scope :limit, :default => 10
-  end
-
-Then for each request:
-
-  /graduations
-  #=> acts like a normal request, but returning 10 resources
-
-  /graduations?featured=true
-  #=> calls the featured named scope and bring 10 featured graduations
-
-  /graduations?featured=true&by_degree=phd&limit=20
-  #=> brings 20 featured graduations with phd degree
-
-You can also specify the target of the scope. Let's suppose that a Graduation
-has many Students:
-
-  class StudentsController < InheritedResources::Base
-    belongs_to :graduation
-
-    has_scope :featured, :on => :graduation, :boolean => true, :only => :index
-    has_scope :by_degree, :on => :graduation, :only => :index
-    has_scope :limit, :on => :graduation, :default => 10
-  end
-
-You can also do this inside the belongs to block:
-
-  class StudentsController < InheritedResources::Base
-    belongs_to :graduation do
-      has_scope :featured,  :boolean => true, :only => :index
-      has_scope :by_degree, :only => :index
-      has_scope :limit, :default => 10
-    end
-  end
-
-Or even better, you can load the scopes from another controller:
-
-  class StudentsController < InheritedResources::Base
-    belongs_to :graduation do
-      load_scopes_from GraduationsController
-    end
-  end
-
-Another feature is that you can retrive the current scopes in use with
-the method <tt>current_scopes</tt>, that returns a hash.
-
 Polymorphic belongs to
 ----------------------
 
-Now let's go back to Projects which can now have Files, Messages and Tasks, and
-they are all commentable:
+We can go even further. Let's suppose our Projects can now have Files, Messages
+and Tasks, and they are all commentable. In this case, the best solution is to
+use polymorphism:
 
    class CommentsController < InheritedResources::Base
      belongs_to :task, :file, :message, :polymorphic => true
@@ -419,6 +393,12 @@ You can even use it with nested resources:
      end
    end
 
+The url in such cases can be:
+
+   /project/1/task/13/comments
+   /project/1/file/11/comments
+   /project/1/message/9/comments
+
 When using polymorphic associations, you get some free helpers:
 
    parent?         #=> true
@@ -429,8 +409,8 @@ When using polymorphic associations, you get some free helpers:
 Optional belongs to
 -------------------
 
-Later you decide to create a view to show all comments, independing they belong
-to a task, file or message. You canm reuse your previous controller just doing:
+Later you decide to create a view to show all comments, independent if they belong
+to a task, file or message. You can reuse your polymorphic controller just doing:
 
   class ProjectsController < InheritedResources::Base
     belongs_to :task, :file, :message, :optional => true

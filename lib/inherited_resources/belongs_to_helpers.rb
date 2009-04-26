@@ -72,7 +72,6 @@ module InheritedResources
           parent_config[:parent_class]
         end
 
-        parent = apply_scope_to(parent, parent_symbol)
         parent = parent.send(parent_config[:finder], params[parent_config[:param]])
 
         instance_variable_set("@#{parent_config[:instance_name]}", parent)

@@ -113,7 +113,7 @@ module InheritedResources
 
         if chain
           if method_for_association_chain
-            apply_scope_to(chain.send(method_for_association_chain), resource_instance_name)
+            apply_scope_to(chain.send(method_for_association_chain))
           else
             # This only happens when we specify begin_of_association_chain in
             # a singletion controller without parents. In this case, the chain
@@ -122,7 +122,7 @@ module InheritedResources
             chain
           end
         else
-          apply_scope_to(resource_class, resource_instance_name)
+          apply_scope_to(resource_class)
         end
       end
 
@@ -273,7 +273,7 @@ module InheritedResources
       # Hook to apply scopes. By default returns only the target_object given.
       # It's extend by HasScopeHelpers.
       #
-      def apply_scope_to(target_object, target_name) #:nodoc:
+      def apply_scope_to(target_object) #:nodoc:
         target_object
       end
 
