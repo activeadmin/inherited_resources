@@ -4,24 +4,11 @@ class Tree
   def self.human_name; 'Tree'; end
 end
 
-class Branch
-  def self.human_name; 'Branch'; end
-end
-
 class TreesController < InheritedResources::Base
   has_scope :color
   has_scope :only_tall, :boolean => true, :only => :index
   has_scope :shadown_range, :default => 10, :except => [ :index, :show, :destroy ]
   has_scope :root_type, :key => :root
-  has_scope :another, :on => :anything, :default => 10, :only => :destroy
-end
-
-class BranchesController < InheritedResources::Base
-  belongs_to :tree do
-    load_scopes_from TreesController
-  end
-
-  has_scope :by_size
 end
 
 class HasScopeTest < ActionController::TestCase
@@ -105,15 +92,6 @@ class HasScopeTest < ActionController::TestCase
     assert_equal({ :root => 'outside' }, assigns(:current_scopes))
   end
 
-  def test_scope_on_another_object_is_never_called
-    Tree.expects(:another).never
-    Tree.expects(:find).with('42').returns(mock_tree)
-    mock_tree.expects(:destroy)
-    delete :destroy, :id => '42'
-    assert_equal(mock_tree, assigns(:tree))
-    assert_equal({ }, assigns(:current_scopes))
-  end
-
   protected
 
     def mock_tree(stubs={})
@@ -122,50 +100,3 @@ class HasScopeTest < ActionController::TestCase
 
 end
 
-class NestedHasScopeTest < ActionController::TestCase
-  tests BranchesController
-
-  def test_scope_is_applied_on_parent
-    Tree.expects(:only_tall).with().returns(Tree).in_sequence
-    Tree.expects(:find).with('42').returns(mock_tree).in_sequence
-    mock_tree.expects(:branches).returns(Branch).in_sequence
-    Branch.expects(:find).with(:all).returns([mock_branch]).in_sequence
-    get :index, :only_tall => 'true', :tree_id => '42'
-    assert_equal(mock_tree, assigns(:tree))
-    assert_equal([mock_branch], assigns(:branches))
-    assert_equal({ :only_tall => 'true' }, assigns(:current_scopes))
-  end
-
-  def test_scope_is_applied_on_resource
-    Tree.expects(:find).with('42').returns(mock_tree).in_sequence
-    mock_tree.expects(:branches).returns(Branch).in_sequence
-    Branch.expects(:by_size).with('10').returns(Branch).in_sequence
-    Branch.expects(:find).with(:all).returns([mock_branch]).in_sequence
-    get :index, :by_size => '10', :tree_id => '42'
-    assert_equal(mock_tree, assigns(:tree))
-    assert_equal([mock_branch], assigns(:branches))
-    assert_equal({ :by_size => '10' }, assigns(:current_scopes))
-  end
-
-  def test_scope_is_applied_on_both_resource_and_parent
-    Tree.expects(:only_tall).with().returns(Tree).in_sequence
-    Tree.expects(:find).with('42').returns(mock_tree).in_sequence
-    mock_tree.expects(:branches).returns(Branch).in_sequence
-    Branch.expects(:by_size).with('10').returns(Branch).in_sequence
-    Branch.expects(:find).with(:all).returns([mock_branch]).in_sequence
-    get :index, :only_tall => 'true', :by_size => '10', :tree_id => '42'
-    assert_equal(mock_tree, assigns(:tree))
-    assert_equal([mock_branch], assigns(:branches))
-    assert_equal({ :by_size => '10', :only_tall => 'true' }, assigns(:current_scopes))
-  end
-
-  protected
-
-    def mock_tree(stubs={})
-      @mock_tree ||= mock(stubs)
-    end
-
-    def mock_branch(stubs={})
-      @mock_branch ||= mock(stubs)
-    end
-end

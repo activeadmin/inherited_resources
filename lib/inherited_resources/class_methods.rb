@@ -106,39 +106,10 @@ module InheritedResources
       #   /graduations?featured=true&by_degree=phd
       #   #=> brings featured graduations with phd degree
       #
-      # You can also specify the target of the scope. Let's suppose that a
-      # Graduation has many students:
-      #
-      #   class StudentsController < InheritedResources::Base
-      #     belongs_to :graduation
-      #
-      #     has_scope :featured, :on => :graduation, :boolean => true, :only => :index
-      #     has_scope :by_degree, :on => :graduation, :only => :index
-      #   end
-      #
-      # You can also do this in a block:
-      #
-      #   class StudentsController < InheritedResources::Base
-      #     belongs_to :graduation do
-      #       has_scope :featured,  :boolean => true, :only => :index
-      #       has_scope :by_degree, :only => :index
-      #     end
-      #   end
-      #
-      # Or even better:
-      #
-      #   class StudentsController < InheritedResources::Base
-      #     belongs_to :graduation do
-      #       load_scopes_from GraduationsController
-      #     end
-      #   end
-      #
-      # Another feature is that you can retrive the current scopes in use with
-      # the method <tt>current_scopes</tt> that returns a hash.
+      # You can retrieve the current scopes in use with <tt>current_scopes</tt>
+      # method. In the last case, it would return: { :featured => "true", :by_degree => "phd" }
       #
       # == Options
-      #
-      # * <tt>:on</tt> - In each resource the scope is applied to. Defaults to the resource class.
       #
       # * <tt>:boolean</tt> - When set to true, call the scope only when the params is true or 1,
       #                       and does not send the value as argument.
@@ -157,11 +128,14 @@ module InheritedResources
         options = scopes.extract_options!
 
         options.symbolize_keys!
-        options.assert_valid_keys(:on, :boolean, :key, :only, :except, :default)
+        options.assert_valid_keys(:boolean, :key, :only, :except, :default)
 
-        acts_as_has_scopes!
+        if self.scopes_configuration.empty?
+          include HasScopeHelpers
+          helper_method :current_scopes
+        end
 
-        scope_target  = options.delete(:on) || @@_parent_block_name || self.resources_configuration[:self][:instance_name]
+        scope_target  = self.resources_configuration[:self][:instance_name]
         target_config = self.scopes_configuration[scope_target.to_sym] ||= {}
 
         scopes.each do |scope|
@@ -172,39 +146,6 @@ module InheritedResources
           target_config[scope][:boolean] = options[:boolean] if options.key?(:boolean)
           target_config[scope][:default] = options[:default] if options.key?(:default)
         end
-      end
-
-      # Load scopes from another controller into the current controller.
-      #
-      # You can give :on as option if you want to load just a set of the another
-      # controller scope.
-      #
-      #   class TasksController < InheritedResources::Base
-      #     belongs_to :project
-      #     load_scopes_from CompaniesController                 # load all scopes
-      #     load_scopes_from ProjectsController, :on => :project # load scopes that apply on :project
-      #   end
-      #
-      # Whenever called inside a belongs to block, the :on value is guessed:
-      #
-      #   class TasksController < InheritedResources::Base
-      #     belongs_to :project do
-      #       load_scopes_from ProjectsController # load scopes that apply on :project
-      #     end
-      #
-      #     load_scopes_from CompaniesController  # load all companies controller scopes
-      #   end
-      #
-      def load_scopes_from(scopes_controller, options={})
-        to_merge = if on = options.delete(:on) || @@_parent_block_name
-          scopes_controller.send(:scopes_configuration).slice(on)
-        else
-          scopes_controller.send(:scopes_configuration)
-        end
-
-        acts_as_has_scopes! # Add the module before merging scopes.
-
-        self.scopes_configuration.deep_merge!(to_merge)
       end
 
       # Defines that this controller belongs to another resource.
@@ -358,13 +299,6 @@ module InheritedResources
         unless self.parents_symbols.include?(:polymorphic)
           include PolymorphicHelpers
           helper_method :parent, :parent_type, :parent_class, :parent?
-        end
-      end
-
-      def acts_as_has_scopes! #:nodoc:
-        if self.scopes_configuration.empty?
-          include HasScopeHelpers
-          helper_method :current_scopes
         end
       end
 
