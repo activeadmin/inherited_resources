@@ -36,7 +36,7 @@ end
 
 
 class ActionsClassMethodTest < ActiveSupport::TestCase
-  def test_actions_are_undefined_when_only_option_is_given
+  def test_actions_are_undefined
     action_methods = BooksController.send(:action_methods)
     assert_equal 2, action_methods.size
 
@@ -164,19 +164,43 @@ class BelongsToErrorsTest < ActiveSupport::TestCase
     end
 
     assert_raise ArgumentError do
-      ProfessorsController.send(:belongs_to, :arguments, :with_options, :parent_class => Professor)
-    end
-
-    assert_raise ArgumentError do
       ProfessorsController.send(:belongs_to, :nice, :invalid_key => '')
     end
   end
 
-  def test_url_helpers_are_recreated_when_defaults_change
+  def test_belongs_to_raises_an_error_when_multiple_associations_are_given_with_options
+    assert_raise ArgumentError do
+      ProfessorsController.send(:belongs_to, :arguments, :with_options, :parent_class => Professor)
+    end
+  end
+
+  def test_url_helpers_are_recreated_just_once_when_belongs_to_is_called_with_block
     InheritedResources::UrlHelpers.expects(:create_resources_url_helpers!).returns(true).once
-    ProfessorsController.send(:defaults, BELONGS_TO_OPTIONS)
+    ProfessorsController.send(:belongs_to, :school, BELONGS_TO_OPTIONS) do
+      belongs_to :association
+    end
   ensure
-    # Restore default settings
+    ProfessorsController.send(:parents_symbols=, [:school])
+  end
+
+  def test_url_helpers_are_recreated_just_once_when_belongs_to_is_called_with_multiple_blocks
+    InheritedResources::UrlHelpers.expects(:create_resources_url_helpers!).returns(true).once
+    ProfessorsController.send(:belongs_to, :school, BELONGS_TO_OPTIONS) do
+      belongs_to :association do
+        belongs_to :nested
+      end
+    end
+  ensure
+    ProfessorsController.send(:parents_symbols=, [:school])
+  end
+
+  def test_belongs_to_raises_an_error_when_multiple_associations_are_given_with_block
+    assert_raise ArgumentError, "You cannot define multiple associations and give a block to belongs_to." do
+      ProfessorsController.send(:belongs_to, :school, :another, BELONGS_TO_OPTIONS) do
+        belongs_to :association
+      end
+    end
+  ensure
     ProfessorsController.send(:parents_symbols=, [:school])
   end
 end

@@ -74,7 +74,6 @@ module InheritedResources
         actions_to_remove += RESOURCES_ACTIONS.map{|a| a.to_s } - actions_to_keep unless actions_to_keep.first == 'all'
         actions_to_remove.uniq!
 
-        # Undefine actions that we don't want
         (instance_methods & actions_to_remove).each do |action|
           undef_method action, "#{action}!"
         end
@@ -232,7 +231,7 @@ module InheritedResources
         acts_as_polymorphic! if polymorphic || optional
 
         raise ArgumentError, 'You have to give me at least one association name.' if symbols.empty?
-        raise ArgumentError, 'You cannot define multiple associations with the options: #{options.keys.inspect}.' unless symbols.size == 1 || options.empty?
+        raise ArgumentError, 'You cannot define multiple associations with options: #{options.keys.inspect} to belongs to.' unless symbols.size == 1 || options.empty?
 
         symbols.each do |symbol|
           symbol = symbol.to_sym
@@ -255,12 +254,22 @@ module InheritedResources
           config[:route_name]      = (options.delete(:route_name) || symbol).to_s
         end
 
-        # Regenerate url helpers unless block is given
+        # Regenerate url helpers only once when blocks are given
+        @@_parent_block_name ||= nil
+
         if block_given?
-          class_eval(&block)
-        else
-          InheritedResources::UrlHelpers.create_resources_url_helpers!(self)
+          raise ArgumentError, "You cannot define multiple associations and give a block to belongs_to." if symbols.size > 1
+
+          unless @@_parent_block_name
+            @@_parent_block_name = symbols.first
+            class_eval(&block)
+            @@_parent_block_name = nil
+          else
+            class_eval(&block)
+          end
         end
+
+        InheritedResources::UrlHelpers.create_resources_url_helpers!(self) unless @@_parent_block_name
       end
       alias :nested_belongs_to :belongs_to
 
