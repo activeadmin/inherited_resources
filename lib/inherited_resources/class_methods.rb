@@ -159,10 +159,7 @@ module InheritedResources
         options.symbolize_keys!
         options.assert_valid_keys(:on, :boolean, :key, :only, :except, :default)
 
-        if self.scopes_configuration.empty?
-          include HasScopeHelpers
-          helper_method :current_scopes
-        end
+        acts_as_has_scopes!
 
         scope_target  = options.delete(:on) || @@_parent_block_name || self.resources_configuration[:self][:instance_name]
         target_config = self.scopes_configuration[scope_target.to_sym] ||= {}
@@ -204,6 +201,8 @@ module InheritedResources
         else
           scopes_controller.send(:scopes_configuration)
         end
+
+        acts_as_has_scopes! # Add the module before merging scopes.
 
         self.scopes_configuration.deep_merge!(to_merge)
       end
@@ -359,6 +358,13 @@ module InheritedResources
         unless self.parents_symbols.include?(:polymorphic)
           include PolymorphicHelpers
           helper_method :parent, :parent_type, :parent_class, :parent?
+        end
+      end
+
+      def acts_as_has_scopes! #:nodoc:
+        if self.scopes_configuration.empty?
+          include HasScopeHelpers
+          helper_method :current_scopes
         end
       end
 
