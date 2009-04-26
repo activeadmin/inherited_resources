@@ -18,7 +18,7 @@ code by following fat models and skinny controllers convention.
 
 Inherited Resources is tested and compatible with Rails 2.2.x and Rails 2.3.x.
 
-keywords: resources, controller, singleton, belongs_to, polymorphic and I18n
+keywords: resources, controller, singleton, belongs_to, polymorphic, named_scope and I18n
 
 Installation
 ------------
@@ -225,7 +225,7 @@ Looks to verbose, right? We can actually do:
      end
    end
 
-Much better! So explaning everything: when you give a block which expects one
+Much better! So explaining everything: when you give a block which expects one
 argument it will be executed in both scenarios: success and failure. But If you
 give a block that expects two arguments, the first will be executed only in
 success scenarios and the second in failure scenarios. You keep everything
