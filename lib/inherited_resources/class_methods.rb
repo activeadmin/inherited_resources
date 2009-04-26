@@ -139,6 +139,9 @@ module InheritedResources
       #
       # * <tt>:except</tt> - In each actions the scope is not applied. By default is :none.
       #
+      # * <tt>:key</tt> - The key in the params hash expected to find the scope.
+      #                   Defaults to the scope name.
+      #
       def has_scope(*scopes)
         options = scopes.extract_options!
 
@@ -147,14 +150,14 @@ module InheritedResources
 
         include HasScopeHelpers if self.scopes_configuration.empty?
 
-        scope_target  = options.delete(:on) || self.resources_configuration[:self][:instance_name]
-        target_config = self.scopes_configuration[scope_target] ||= {}
+        scope_target  = options.delete(:on) || @@_parent_block_name || self.resources_configuration[:self][:instance_name]
+        target_config = self.scopes_configuration[scope_target.to_sym] ||= {}
 
         scopes.each do |scope|
-          target_config[scope][:on]      = options[:on]
-          target_config[scope][:boolean] = options[:boolean]
+          target_config[scope][:key]     = options[:key] || scope
           target_config[scope][:only]    = Array(options[:only])
           target_config[scope][:except]  = Array(options[:except])
+          target_config[scope][:boolean] = options[:boolean]
         end
       end
 
@@ -247,16 +250,14 @@ module InheritedResources
           config = self.resources_configuration[symbol] = {}
           config[:parent_class]    = options.delete(:parent_class)
           config[:parent_class]  ||= (options.delete(:class_name) || symbol).to_s.classify.constantize rescue nil
-          config[:collection_name] = (options.delete(:collection_name) || symbol.to_s.pluralize).to_sym
-          config[:instance_name]   = (options.delete(:instance_name) || symbol).to_sym
-          config[:param]           = (options.delete(:param) || "#{symbol}_id").to_sym
-          config[:finder]          = (options.delete(:finder) || :find).to_sym
-          config[:route_name]      = (options.delete(:route_name) || symbol).to_s
+          config[:collection_name] = options.delete(:collection_name) || symbol.to_s.pluralize.to_sym
+          config[:instance_name]   = options.delete(:instance_name) || symbol
+          config[:param]           = options.delete(:param) || :"#{symbol}_id"
+          config[:finder]          = options.delete(:finder) || :find
+          config[:route_name]      = options.delete(:route_name) || symbol
         end
 
         # Regenerate url helpers only once when blocks are given
-        @@_parent_block_name ||= nil
-
         if block_given?
           raise ArgumentError, "You cannot define multiple associations and give a block to belongs_to." if symbols.size > 1
 
@@ -319,6 +320,7 @@ module InheritedResources
       def initialize_resources_class_accessors!(base) #:nodoc:
         # Add and protect class accessors
         base.class_eval do
+          @@_parent_block_name = nil # Initialize parent flag
           metaklass = (class << self; self; end)
 
           RESOURCES_CLASS_ACCESSORS.each do |cattr|

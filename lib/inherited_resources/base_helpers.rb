@@ -270,7 +270,8 @@ module InheritedResources
         respond_to(options.merge!(:responder => responder, :prioritize => :html), &block) unless performed?
       end
 
-      # Hook to apply scopes. By default returns the target_object given.
+      # Hook to apply scopes. By default returns only the target_object given.
+      # It's extend by HasScopeHelpers.
       #
       def apply_scope_to(target_object, target_name) #:nodoc:
         target_object
