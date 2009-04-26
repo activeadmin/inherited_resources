@@ -76,7 +76,7 @@ module InheritedResources
       #
       # This is where you are going to be redirected after destroying the manager.
       #
-      unless base.singleton
+      unless base.resources_configuration[:self][:singleton]
         resource_segments << resource_config[:route_collection_name]
         generate_url_and_path_helpers(base, nil, :collection, resource_segments, resource_ivars, polymorphic)
         resource_segments.pop
@@ -97,7 +97,7 @@ module InheritedResources
       #
       #   edit_project_manager_url(@project, @manager)
       #
-      resource_ivars << resource_config[:instance_name] unless base.singleton
+      resource_ivars << resource_config[:instance_name] unless base.resources_configuration[:self][:singleton]
 
       # Prepare and add resource_url and edit_resource_url
       generate_url_and_path_helpers(base, nil, :resource, resource_segments, resource_ivars, polymorphic)
@@ -110,7 +110,8 @@ module InheritedResources
         # If it's not a singleton, ivars are not empty, not a collection or
         # not a "new" named route, we can pass a resource as argument.
         #
-        unless base.singleton || ivars.empty? || name == :collection || prefix == :new
+        unless base.resources_configuration[:self][:singleton] || ivars.empty? ||
+               name == :collection || prefix == :new
           ivars.push "(given_args.first || #{ivars.pop})"
         end
 
@@ -159,7 +160,7 @@ module InheritedResources
           #   polymorphic_url(@project, Task.new)
           #   new_polymorphic_url(@project, Task.new)
           #
-          if base.singleton
+          if base.resources_configuration[:self][:singleton]
             ivars << base.resources_configuration[:self][:instance_name].inspect unless name == :collection
           elsif name == :collection || prefix == :new
             ivars << 'resource_class.new'

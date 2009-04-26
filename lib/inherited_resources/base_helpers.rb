@@ -72,7 +72,7 @@ module InheritedResources
         nil
       end
 
-      # Returns if the object has a parent. When only base helpers are loaded,
+      # Returns if the controller has a parent. When only base helpers are loaded,
       # it's always false and should not be overwriten.
       #
       def parent?
@@ -94,23 +94,35 @@ module InheritedResources
       # Fast accessor to resource_collection_name
       #
       def resource_collection_name #:nodoc:
-        resources_configuration[:self][:collection_name]
+        self.resources_configuration[:self][:collection_name]
       end
 
       # Fast accessor to resource_instance_name
       #
       def resource_instance_name #:nodoc:
-        resources_configuration[:self][:instance_name]
+        self.resources_configuration[:self][:instance_name]
       end
 
-      # This methods gets your begin_of_association_chain and returns the
-      # scoped association.
+      # This methods gets your begin_of_association_chain, join it with your
+      # parents chain and returns the scoped association.
       #
       def end_of_association_chain #:nodoc:
-        if begin_of_association_chain || parent?
-          begin_of_association_chain.send(resource_collection_name)
+        chain = symbols_for_association_chain.inject(begin_of_association_chain) do |chain, symbol|
+          evaluate_parent(symbol, resources_configuration[symbol], chain)
+        end
+
+        if chain
+          if method_for_association_chain
+            apply_scope_to(chain.send(method_for_association_chain), resource_instance_name)
+          else
+            # This only happens when we specify begin_of_association_chain in
+            # a singletion controller without parents. In this case, the chain
+            # is exactly the begin_of_association_chain which is already an
+            # instance and then not scopable.
+            chain
+          end
         else
-          resource_class
+          apply_scope_to(resource_class, resource_instance_name)
         end
       end
 
@@ -118,6 +130,14 @@ module InheritedResources
       #
       def method_for_build #:nodoc:
         (begin_of_association_chain || parent?) ? :build : :new
+      end
+
+      # Returns the name of the method to be called, before returning the end
+      # of the association chain. This is overwriten by singleton cases
+      # where no method for association chain is called.
+      #
+      def method_for_association_chain #:nodoc:
+        resource_collection_name
       end
 
       # Get resource ivar based on the current resource controller.
@@ -248,6 +268,19 @@ module InheritedResources
         end
 
         respond_to(options.merge!(:responder => responder, :prioritize => :html), &block) unless performed?
+      end
+
+      # Hook to apply scopes. By default returns the target_object given.
+      #
+      def apply_scope_to(target_object, target_name) #:nodoc:
+        target_object
+      end
+
+      # Symbols chain in base helpers return nothing. This is later overwriten
+      # by belongs_to and can be complex in polymorphic cases.
+      #
+      def symbols_for_association_chain #:nodoc:
+        []
       end
 
   end

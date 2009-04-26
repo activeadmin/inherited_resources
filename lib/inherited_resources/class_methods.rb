@@ -1,12 +1,14 @@
 module InheritedResources
   RESOURCES_CLASS_ACCESSORS = [ :resource_class, :resources_configuration,
-                                :parents_symbols, :singleton, :scopes_configuration ] unless self.const_defined?(:RESOURCES_CLASS_ACCESSORS)
+                                :parents_symbols, :scopes_configuration ] unless self.const_defined?(:RESOURCES_CLASS_ACCESSORS)
 
   module ClassMethods
 
     protected
 
-      # Used to overwrite the default assumptions InheritedResources do.
+      # Used to overwrite the default assumptions InheritedResources do. Whenever
+      # this method is called, it should be on the top of your controller, since
+      # almost other methods depends on the values given to <<tt>>defaults</tt>.
       #
       # == Options
       #
@@ -146,7 +148,7 @@ module InheritedResources
 
         include HasScopeHelpers if self.scopes_configuration.empty?
 
-        scope_target  = options.delete(:on) || :self
+        scope_target  = options.delete(:on) || self.resources_configuration[:self][:instance_name]
         target_config = self.scopes_configuration[scope_target] ||= {}
 
         scopes.each do |scope|
@@ -289,8 +291,8 @@ module InheritedResources
     private
 
       def acts_as_singleton! #:nodoc:
-        unless self.singleton
-          self.singleton = true
+        unless self.resources_configuration[:self][:singleton]
+          self.resources_configuration[:self][:singleton] = true
           include SingletonHelpers
           actions :all, :except => :index
         end
@@ -342,7 +344,6 @@ module InheritedResources
         config[:route_prefix] = namespaces.join('_') unless namespaces.empty?
 
         # Initialize polymorphic, singleton, scopes and belongs_to parameters
-        base.singleton            = false
         base.parents_symbols      = []
         base.scopes_configuration = {}
         base.resources_configuration[:polymorphic] = { :symbols => [], :optional => false }

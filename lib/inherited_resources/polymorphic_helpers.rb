@@ -124,7 +124,7 @@ module InheritedResources
       # When optional is given, it does not raise errors if the polymorphic
       # params are missing.
       #
-      def symbols_for_chain # :nodoc:
+      def symbols_for_association_chain #:nodoc:
         polymorphic_config = resources_configuration[:polymorphic]
 
         parents_symbols.map do |symbol|

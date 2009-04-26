@@ -6,6 +6,6 @@ module InheritedResources
   # first time.
   #
   module HasScopeHelpers
-
+    
   end
 end

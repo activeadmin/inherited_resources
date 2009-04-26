@@ -45,6 +45,7 @@ module InheritedResources
       end
 
       # Overwrites how singleton deals with resource.
+      #
       # If you are going to overwrite it, you should notice that the
       # end_of_association_chain here is not the same as in default belongs_to.
       #
@@ -69,7 +70,7 @@ module InheritedResources
       #
       #   Project.find(params[:project_id])
       #
-      # So we have to call manager on it. And again, this is what happens.
+      # So we have to call manager on it, not find.
       #
       def resource
         get_resource_ivar || set_resource_ivar(end_of_association_chain.send(resource_instance_name))
@@ -81,6 +82,13 @@ module InheritedResources
       #
       def method_for_build #:nodoc:
         "build_#{resource_instance_name}"
+      end
+
+      # Sets the method_for_association_chain to nil. See <tt>resource</tt>
+      # above for more information.
+      #
+      def method_for_association_chain #:nodoc:
+        nil
       end
 
   end
