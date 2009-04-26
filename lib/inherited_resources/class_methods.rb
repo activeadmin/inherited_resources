@@ -148,7 +148,10 @@ module InheritedResources
         options.symbolize_keys!
         options.assert_valid_keys(:on, :boolean, :key, :only, :except)
 
-        include HasScopeHelpers if self.scopes_configuration.empty?
+        if self.scopes_configuration.empty?
+          include HasScopeHelpers
+          helper_method :current_scopes
+        end
 
         scope_target  = options.delete(:on) || @@_parent_block_name || self.resources_configuration[:self][:instance_name]
         target_config = self.scopes_configuration[scope_target.to_sym] ||= {}
@@ -311,7 +314,7 @@ module InheritedResources
       def acts_as_polymorphic! #:nodoc:
         unless self.parents_symbols.include?(:polymorphic)
           include PolymorphicHelpers
-          helper_method :parent, :parent_type, :parent_class
+          helper_method :parent, :parent_type, :parent_class, :parent?
         end
       end
 
