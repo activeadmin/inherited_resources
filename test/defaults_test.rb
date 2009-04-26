@@ -5,7 +5,8 @@ class Malarz
 end
 
 class PaintersController < InheritedResources::Base
-  defaults :instance_name => 'malarz', :collection_name => 'malarze', :resource_class => Malarz
+  defaults :instance_name => 'malarz', :collection_name => 'malarze',
+           :resource_class => Malarz, :route_prefix => nil
 end
 
 class DefaultsTest < ActionController::TestCase

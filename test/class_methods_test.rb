@@ -5,7 +5,6 @@ class Folder; end
 
 class BooksController < InheritedResources::Base
   actions :index, :show
-  defaults :route_prefix => nil
 end
 
 class ReadersController < InheritedResources::Base
@@ -15,20 +14,9 @@ end
 class FoldersController < InheritedResources::Base
 end
 
-# For belongs_to tests
-class GreatSchool
+class Dean
+  def self.human_name; 'Dean'; end
 end
-
-class Professor
-  def self.human_name; 'Professor'; end
-end
-
-BELONGS_TO_OPTIONS = {
-  :parent_class => GreatSchool,
-  :instance_name => :great_school,
-  :finder => :find_by_title!,
-  :param => :school_title
-}
 
 class SchoolsController < InheritedResources::Base
   has_scope :by_city
@@ -36,8 +24,8 @@ class SchoolsController < InheritedResources::Base
   has_scope :limit, :default => 10, :except => :index, :on => :anything
 end
 
-class ProfessorsController < InheritedResources::Base
-  belongs_to :school, BELONGS_TO_OPTIONS
+class DeansController < InheritedResources::Base
+  belongs_to :school
 end
 
 
@@ -99,117 +87,54 @@ class DefaultsClassMethodTest < ActiveSupport::TestCase
   end
 end
 
-
-class BelongsToClassMethodTest < ActionController::TestCase
-  tests ProfessorsController
-
-  def setup
-    GreatSchool.expects(:find_by_title!).with('nice').returns(mock_school(:professors => Professor))
-
-    @controller.stubs(:resource_url).returns('/')
-    @controller.stubs(:collection_url).returns('/')
-  end
-
-  def test_expose_the_resquested_school_with_chosen_instance_variable_on_index
-    Professor.stubs(:find).returns([mock_professor])
-    get :index, :school_title => 'nice'
-    assert_equal mock_school, assigns(:great_school)
-  end
-
-  def test_expose_the_resquested_school_with_chosen_instance_variable_on_show
-    Professor.stubs(:find).returns(mock_professor)
-    get :show, :school_title => 'nice'
-    assert_equal mock_school, assigns(:great_school)
-  end
-
-  def test_expose_the_resquested_school_with_chosen_instance_variable_on_new
-    Professor.stubs(:build).returns(mock_professor)
-    get :new, :school_title => 'nice'
-    assert_equal mock_school, assigns(:great_school)
-  end
-
-  def test_expose_the_resquested_school_with_chosen_instance_variable_on_edit
-    Professor.stubs(:find).returns(mock_professor)
-    get :edit, :school_title => 'nice'
-    assert_equal mock_school, assigns(:great_school)
-  end
-
-  def test_expose_the_resquested_school_with_chosen_instance_variable_on_create
-    Professor.stubs(:build).returns(mock_professor(:save => true))
-    post :create, :school_title => 'nice'
-    assert_equal mock_school, assigns(:great_school)
-  end
-
-  def test_expose_the_resquested_school_with_chosen_instance_variable_on_update
-    Professor.stubs(:find).returns(mock_professor(:update_attributes => true))
-    put :update, :school_title => 'nice'
-    assert_equal mock_school, assigns(:great_school)
-  end
-
-  def test_expose_the_resquested_school_with_chosen_instance_variable_on_destroy
-    Professor.stubs(:find).returns(mock_professor(:destroy => true))
-    delete :destroy, :school_title => 'nice'
-    assert_equal mock_school, assigns(:great_school)
-  end
-
-  protected
-
-    def mock_school(stubs={})
-      @mock_school ||= mock(stubs)
-    end
-
-    def mock_professor(stubs={})
-      @mock_professor ||= mock(stubs)
-    end
-end
-
 class BelongsToErrorsTest < ActiveSupport::TestCase
   def test_belongs_to_raise_errors_with_invalid_arguments
     assert_raise ArgumentError do
-      ProfessorsController.send(:belongs_to)
+      DeansController.send(:belongs_to)
     end
 
     assert_raise ArgumentError do
-      ProfessorsController.send(:belongs_to, :nice, :invalid_key => '')
+      DeansController.send(:belongs_to, :nice, :invalid_key => '')
     end
   end
 
   def test_belongs_to_raises_an_error_when_multiple_associations_are_given_with_options
     assert_raise ArgumentError do
-      ProfessorsController.send(:belongs_to, :arguments, :with_options, :parent_class => Professor)
+      DeansController.send(:belongs_to, :arguments, :with_options, :parent_class => Professor)
     end
   end
 
   def test_url_helpers_are_recreated_just_once_when_belongs_to_is_called_with_block
     InheritedResources::UrlHelpers.expects(:create_resources_url_helpers!).returns(true).once
-    ProfessorsController.send(:belongs_to, :school, BELONGS_TO_OPTIONS) do
+    DeansController.send(:belongs_to, :school) do
       belongs_to :association
     end
   ensure
-    ProfessorsController.send(:parents_symbols=, [:school])
+    DeansController.send(:parents_symbols=, [:school])
   end
 
   def test_url_helpers_are_recreated_just_once_when_belongs_to_is_called_with_multiple_blocks
     InheritedResources::UrlHelpers.expects(:create_resources_url_helpers!).returns(true).once
-    ProfessorsController.send(:belongs_to, :school, BELONGS_TO_OPTIONS) do
+    DeansController.send(:belongs_to, :school) do
       belongs_to :association do
         belongs_to :nested
       end
     end
   ensure
-    ProfessorsController.send(:parents_symbols=, [:school])
+    DeansController.send(:parents_symbols=, [:school])
   end
 
   def test_belongs_to_raises_an_error_when_multiple_associations_are_given_with_block
     assert_raise ArgumentError, "You cannot define multiple associations and give a block to belongs_to." do
-      ProfessorsController.send(:belongs_to, :school, :another, BELONGS_TO_OPTIONS) do
+      DeansController.send(:belongs_to, :school, :another) do
         belongs_to :association
       end
     end
   ensure
-    ProfessorsController.send(:parents_symbols=, [:school])
+    DeansController.send(:parents_symbols=, [:school])
   end
 end
+
 class HasScopeClassMethods < ActiveSupport::TestCase
 
   def test_scope_configuration_is_stored_as_hashes
@@ -227,23 +152,23 @@ class HasScopeClassMethods < ActiveSupport::TestCase
   end
 
   def test_scope_on_value_is_guessed_inside_belongs_to_blocks
-    ProfessorsController.send(:has_scope, :limit)
-    ProfessorsController.send(:belongs_to, :school, BELONGS_TO_OPTIONS) do
+    DeansController.send(:has_scope, :limit)
+    DeansController.send(:belongs_to, :school) do
       has_scope :featured
-      has_scope :another, :on => :professor
+      has_scope :another, :on => :dean
     end
 
-    config = ProfessorsController.send(:scopes_configuration)
+    config = DeansController.send(:scopes_configuration)
     assert config[:school].key?(:featured)
-    assert config[:professor].key?(:limit)
-    assert config[:professor].key?(:another)
+    assert config[:dean].key?(:limit)
+    assert config[:dean].key?(:another)
   ensure
-    ProfessorsController.send(:scopes_configuration=, {})
+    DeansController.send(:scopes_configuration=, {})
   end
 
   def test_scope_is_loaded_from_another_controller
-    ProfessorsController.send(:load_scopes_from, SchoolsController)
-    config = ProfessorsController.send(:scopes_configuration)
+    DeansController.send(:load_scopes_from, SchoolsController)
+    config = DeansController.send(:scopes_configuration)
 
     assert config.key?(:school)
     assert config.key?(:anything)
@@ -252,16 +177,16 @@ class HasScopeClassMethods < ActiveSupport::TestCase
     assert config[:school].key?(:featured)
     assert config[:anything].key?(:limit)
   ensure
-    ProfessorsController.send(:scopes_configuration=, {})
+    DeansController.send(:scopes_configuration=, {})
   end
 
   def test_scope_is_deep_merged_from_another_controller
-    config = ProfessorsController.send(:scopes_configuration)
+    config = DeansController.send(:scopes_configuration)
 
-    ProfessorsController.send(:has_scope, :featured, :on => :school)
+    DeansController.send(:has_scope, :featured, :on => :school)
     assert_equal config[:school][:featured], { :key => :featured, :only => [ ], :except => [] }
 
-    ProfessorsController.send(:load_scopes_from, SchoolsController)
+    DeansController.send(:load_scopes_from, SchoolsController)
     assert config.key?(:school)
     assert config[:school].key?(:by_city)
     assert config[:school].key?(:featured)
@@ -269,8 +194,8 @@ class HasScopeClassMethods < ActiveSupport::TestCase
   end
 
   def test_scope_is_loaded_from_another_controller_with_on_specified
-    ProfessorsController.send(:load_scopes_from, SchoolsController, :on => :school)
-    config = ProfessorsController.send(:scopes_configuration)
+    DeansController.send(:load_scopes_from, SchoolsController, :on => :school)
+    config = DeansController.send(:scopes_configuration)
 
     assert config.key?(:school)
     assert config[:school].key?(:by_city)
@@ -278,14 +203,14 @@ class HasScopeClassMethods < ActiveSupport::TestCase
 
     assert !config.key?(:anything)
   ensure
-    ProfessorsController.send(:scopes_configuration=, {})
+    DeansController.send(:scopes_configuration=, {})
   end
 
   def test_scope_is_loaded_from_another_controller_with_on_guessed
-    ProfessorsController.send(:belongs_to, :school, BELONGS_TO_OPTIONS) do
+    DeansController.send(:belongs_to, :school) do
       load_scopes_from SchoolsController
     end
-    config = ProfessorsController.send(:scopes_configuration)
+    config = DeansController.send(:scopes_configuration)
 
     assert config.key?(:school)
     assert config[:school].key?(:by_city)
@@ -293,6 +218,6 @@ class HasScopeClassMethods < ActiveSupport::TestCase
 
     assert !config.key?(:anything)
   ensure
-    ProfessorsController.send(:scopes_configuration=, {})
+    DeansController.send(:scopes_configuration=, {})
   end
 end
