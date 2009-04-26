@@ -1,5 +1,6 @@
 module InheritedResources
-  RESOURCES_CLASS_ACCESSORS = [ :resource_class, :resources_configuration, :parents_symbols, :singleton ] unless self.const_defined?(:RESOURCES_CLASS_ACCESSORS)
+  RESOURCES_CLASS_ACCESSORS = [ :resource_class, :resources_configuration,
+                                :parents_symbols, :singleton, :scopes_configuration ] unless self.const_defined?(:RESOURCES_CLASS_ACCESSORS)
 
   module ClassMethods
 
@@ -17,8 +18,8 @@ module InheritedResources
       #              :collection_name => 'users', :singleton => true
       #   end
       #
-      # If you want to change your urls, you can use :route_instance_name and
-      # :route_collection_name helpers.
+      # If you want to change your urls, you can use :route_prefix,
+      # :route_instance_name and :route_collection_name helpers.
       #
       # You can also provide :class_name, which is the same as :resource_class
       # but accepts string (this is given for ActiveRecord compatibility).
@@ -73,6 +74,62 @@ module InheritedResources
       # Defines that this controller belongs to another resource.
       #
       #   belongs_to :projects
+      #
+      # == Options
+      #
+      # * :parent_class => Allows you to specify what is the parent class.
+      #
+      #     belongs_to :project, :parent_class => AdminProject
+      #
+      # * :class_name => Also allows you to specify the parent class, but you should
+      #   give a string. Added for ActiveRecord belongs to compatibility.
+      #
+      # * :instance_name => How this object will appear in your views. In this case
+      #   the default is @project. Overwrite it with a symbol.
+      #
+      #     belongs_to :project, :instance_name => :my_project
+      #
+      # * :finder => Specifies which method should be called to instantiate the
+      #   parent. Let's suppose you are using slugs ("this-is-project-title") in URLs
+      #   so your tasks url would be: "projects/this-is-project-title/tasks". Then you
+      #   should do this in your TasksController:
+      #
+      #     belongs_to :project, :finder => :find_by_title!
+      #
+      #   This will make your projects be instantiated as:
+      #
+      #     Project.find_by_title!(params[:project_id])
+      #
+      #   Instead of:
+      #
+      #     Project.find(params[:project_id])
+      #
+      # * :param => Allows you to specify params key used to instantiate the parent.
+      #   Default is :parent_id, which in this case is :project_id.
+      #
+      # * :route_name => Allows you to specify what is the route name in your url
+      #   helper. By default is 'project'. But if your url helper should be
+      #   "myproject_task_url" instead of "project_task_url", just do:
+      #
+      #     belongs_to :project, :route_name => "myproject"
+      #
+      #   But if you want to use namespaced routes, you can do:
+      #
+      #     defaults :route_prefix => :admin
+      #
+      #   That would generate "admin_project_task_url".
+      #
+      # * :collection_name => Tell how to retrieve the next collection. Let's
+      #   suppose you have Tasks which belongs to Projects. This will do somewhere
+      #   down the road:
+      #
+      #      @project.tasks
+      #
+      #   But if you want to retrieve instead:
+      #
+      #      @project.admin_tasks
+      #
+      #   You supply the collection name.
       #
       def belongs_to(*symbols, &block)
         options = symbols.extract_options!
@@ -135,7 +192,7 @@ module InheritedResources
       end
 
       def acts_as_polymorphic! #:nodoc:
-        unless self.parents_symbols.include? :polymorphic
+        unless self.parents_symbols.include?(:polymorphic)
           include PolymorphicHelpers
           helper_method :parent, :parent_type, :parent_class
         end
@@ -179,9 +236,10 @@ module InheritedResources
         namespaces = base.controller_path.split('/')[0..-2]
         config[:route_prefix] = namespaces.join('_') unless namespaces.empty?
 
-        # Initialize polymorphic, singleton and belongs_to parameters
-        base.singleton           = false
-        base.parents_symbols     = []
+        # Initialize polymorphic, singleton, scopes and belongs_to parameters
+        base.singleton            = false
+        base.parents_symbols      = []
+        base.scopes_configuration = {}
         base.resources_configuration[:polymorphic] = { :symbols => [], :optional => false }
 
         # Create helpers

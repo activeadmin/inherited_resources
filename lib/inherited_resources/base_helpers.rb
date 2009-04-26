@@ -1,4 +1,7 @@
-module InheritedResources #:nodoc:
+module InheritedResources
+  # Base helpers for InheritedResource work. Some methods here can be overwriten
+  # and you will need to do that to customize your controllers from time to time.
+  #
   module BaseHelpers
 
     protected
@@ -70,7 +73,7 @@ module InheritedResources #:nodoc:
       end
 
       # Returns if the object has a parent. When only base helpers are loaded,
-      # it's always false.
+      # it's always false and should not be overwriten.
       #
       def parent?
         false

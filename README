@@ -37,7 +37,7 @@ rspec-rails <= 1.1.12 known bug
 -------------------------------
 
 InheritedResources has a known bug with rspec-rails when using blocks inside
-actions. This is fixed in Rspec >= 1.2.0. But if you have to use 1.1.12, you
+actions. This is fixed in Rspec >= 1.2.0. But if you have to use 1.1.12,
 InheritedResources ships with a patch. To apply it, just put the line below on
 your spec_helper.rb after loading rspec and rspec-rails:
 
@@ -100,11 +100,9 @@ on index actions.
 Overwriting defaults
 --------------------
 
-Now that you learned the default behavior and basic configuration, let's see
-how to extend it.
-
-Some people usually have an AccountsController to deal with all account
-management while the resource is an User. So you can overwrite the resource class,
+Whenever you inherit from InheritedResources, several defaults are assumed.
+For example some people usually have an AccountsController to account management
+while the resource is an User. So you can overwrite the resource class,
 collection name and instance name just doing:
 
    class AccountsController < InheritedResources::Base
@@ -122,10 +120,13 @@ different route prefix, you can do the following:
      defaults :route_prefix => 'admin'
    end
 
-Then your named routes will be: 'admin_people_url', 'admin_person_url' and so on.
+Then your named routes will be: 'admin_people_url', 'admin_person_url' instead
+of 'administrators_people_url' and 'administrators_person_url'.
 
-Further extensions is done by overwriting two methods. Let's suppose you want
-to add pagination to your projects collection:
+If you want to customize how resources are retrieved you can overwrite
+collection and resource methods. The first is called on index action and the
+second on all other actions. Let's suppose you want to add pagination to your
+projects collection:
 
    class ProjectsController < InheritedResources::Base
      protected
@@ -134,38 +135,14 @@ to add pagination to your projects collection:
        end
    end
 
-In this case you could just have done:
+The end_of_association_chain returns your resource after nesting all associations
+and scopes.
 
-   class ProjectsController < InheritedResources::Base
-     protected
-       def collection
-         @projects ||= Project.paginate(params[:page]).all
-       end
-   end
-
-But you should get used if end_of_association_chain. When you have nested
-resources it's very handy and it will deal with all nesting stuff. It was first
-introduced in resource_controller by Jamis Golick and we will talk more about it
-soon.
-
-On the other hand, if you just added pretty urls for in your ProjectsController
-(/projects/my-project-name), you can overwrite how projects are being found by:
-
-   class ProjectsController < InheritedResources::Base
-     protected
-       def resource
-         @project ||= end_of_association_chain.find_by_title!(params[:title])
-       end
-   end
-
-And now since you is acquainted to end_of_association_chain let's meet its
-twin brother: begin_of_association_chain.
-
-It's mostly used when you want to create resources based on the @current_user.
-In such cases, you don't have your @current_user in the url, but in the session.
-
-This is usually when you have urls like "account/projects" and you have to do
+InheritedResources also introduces another method called begin_of_association_chain.
+It's mostly used when you want to create resources based on the @current_user and
+you have urls like "account/projects". In such cases, so you have to do
 @current_user.projects.find or @current_user.projects.build in your actions.
+
 You can deal with it just doing:
 
    class ProjectsController < InheritedResources::Base
@@ -192,9 +169,8 @@ root url instead of redirecting to projects url. You just have to do:
 You are opening your action and giving the parent action a new behavior. No
 tricks, no DSL, just Ruby.
 
-On the other hand, I have to agree that calling super is the right thing but
-is not very readable. That's why all methods have aliases. So this is
-equivalent:
+On the other hand, I have to agree that calling super is not very readable.
+That's why all methods have aliases. So this is equivalent:
 
    class ProjectsController < InheritedResources::Base
      def destroy
@@ -226,8 +202,7 @@ but you don't want to create a before filter for it:
    end
 
 Yeap, that simple! The nice part is since you already set the instance variable
-@project, it will not do it again and overwrite your @project with something
-special. :)
+@project, it will not build a project again. :)
 
 Before we finish this topic, we should talk about one more thing: "success/failure
 blocks". Let's suppose that when we update our project, in case of failure, we
@@ -245,8 +220,7 @@ Our first attempt to do this would be:
      end
    end
 
-Looks to verbose, right? (Maybe it reminds you of something! :P)
-But this is Ruby and we can actually do:
+Looks to verbose, right? We can actually do:
 
    class ProjectsController < InheritedResources::Base
      def update
@@ -340,8 +314,7 @@ Remember that our projects have pretty urls? So if you thought that url like
    end
 
 It also accepts :route_name, :parent_class and :instance_name as options.
-For more information, check the lib/inherited_resources/class_method.rb file
-for more customization. :)
+For more custmoization options, check the lib/inherited_resources/class_methods.rb.
 
 Nested belongs to
 -----------------
@@ -354,14 +327,22 @@ you have to for security reasons. So this is an example of how you can do it:
      nested_belongs_to :project, :task
    end
 
-nested_belongs_to is actually just an alias to belongs_to created to make clear
-what is happening. You can also declare nested_belongs_to like this:
+If you need to configure any of these belongs to, you can nested them using blocks:
 
    class CommentsController < InheritedResources::Base
-     belongs_to :project do
+     belongs_to :project, :finder => :find_by_title!, :param => :project_title do
        belongs_to :task
      end
    end
+
+Warning: calling several belongs_to is the same as nesting them:
+
+   class CommentsConroller < InheritedResources::Base
+     belongs_to :project
+     belongs_to :task
+   end
+
+In other words, the code above is the same as calling nested_belongs_to.
 
 Polymorphic belongs to
 ----------------------
@@ -402,7 +383,7 @@ categories, brands, users, etc. In this case case, the association is optional,
 and we deal with it in the following way:
 
   class ProductsController < InheritedResources::Base
-    belongs_to :category, :brand, :user, :polymorphic => true, :optional => true
+    belongs_to :category, :brand, :user, :optional => true
   end
 
 This will handle all those urls properly:
@@ -474,12 +455,6 @@ Those urls helpers also accepts a hash as options, just as in named routes.
 Another nice thing is that those urls are not guessed during runtime. They are
 all created when your application is loaded (except for polymorphic
 associations, that relies on Rails polymorphic_url).
-
-What's next
------------
-
-I'm working on generators and some nice things to speed up and make easier
-your controllers tests with mocking and stubs. :)
 
 Bugs and Feedback
 -----------------

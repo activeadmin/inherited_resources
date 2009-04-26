@@ -1,110 +1,51 @@
 module InheritedResources
 
-  # = belongs to
+  # = belongs_to
   #
-  # This allows you to specify to belongs_to in your controller. You might use
-  # this when you are having nested resources in your routes:
+  # Finally, our Projects are going to get some Tasks. Then you create a
+  # TasksController and do:
   #
-  #   class TasksController < InheritedResources::Base
-  #     belongs_to :project
-  #   end
+  #    class TasksController < InheritedResources::Base
+  #      belongs_to :project
+  #    end
   #
-  # This will do all magic assuming some defaults. It assumes that your URL to
-  # access those tasks are:
+  # belongs_to accepts several options to be able to configure the association.
+  # Remember that our projects have pretty urls? So if you thought that url like
+  # /projects/:project_title/tasks would be a problem, I can assure you it won't:
   #
-  #   /projects/:project_id/tasks
+  #    class TasksController < InheritedResources::Base
+  #      belongs_to :project, :finder => :find_by_title!, :param => :project_title
+  #    end
   #
-  # But all defaults are configurable. The options are:
+  # It also accepts :route_name, :parent_class and :instance_name as options.
+  # For more custmoization options, check the lib/inherited_resources/class_methods.rb.
   #
-  # * :parent_class => Allows you to specify what is the parent class.
+  # = nesteed_belongs_to
   #
-  #     belongs_to :project, :parent_class => AdminProject
+  # Now, our Tasks get some Comments and you need to nest even deeper. Good
+  # practices says that you should never nest more than two resources, but sometimes
+  # you have to for security reasons. So this is an example of how you can do it:
   #
-  # * :class_name => Also allows you to specify the parent class, but you should
-  #   give a string. Added for ActiveRecord belongs to compatibility.
+  #    class CommentsController < InheritedResources::Base
+  #      nested_belongs_to :project, :task
+  #    end
   #
-  # * :instance_name => How this object will appear in your views. In this case
-  #   the default is @project. Overwrite it with a symbol.
+  # If you need to configure any of these belongs to, you can nested them using blocks:
   #
-  #     belongs_to :project, :instance_name => :my_project
+  #    class CommentsController < InheritedResources::Base
+  #      belongs_to :project, :finder => :find_by_title!, :param => :project_title do
+  #        belongs_to :task
+  #      end
+  #    end
   #
-  # * :finder => Specifies which method should be called to instantiate the
-  #   parent. Let's suppose you are using slugs ("this-is-project-title") in URLs
-  #   so your tasks url would be: "projects/this-is-project-title/tasks". Then you
-  #   should do this in your TasksController:
+  # Warning: calling several belongs_to is the same as nesting them:
   #
-  #     belongs_to :project, :finder => :find_by_title!
+  #    class CommentsController < InheritedResources::Base
+  #      belongs_to :project
+  #      belongs_to :task
+  #    end
   #
-  #   This will make your projects be instantiated as:
-  #
-  #     Project.find_by_title!(params[:project_id])
-  #
-  #   Instead of:
-  #
-  #     Project.find(params[:project_id])
-  #
-  # * param => Allows you to specify params key used to instantiate the parent.
-  #   Default is :parent_id, which in this case is :project_id.
-  #
-  # * route_name => Allows you to specify what is the route name in your url
-  #   helper. By default is 'project'. But if your url helper should be
-  #   "myproject_task_url" instead of "project_task_url", just do:
-  #
-  #     belongs_to :project, :route_name => "myproject"
-  #
-  #   But if you want to use namespaced routes, you can do:
-  #
-  #     defaults :route_prefix => :admin
-  #
-  #   That would generate "admin_project_task_url".
-  #
-  # = nested_belongs_to
-  #
-  # If for some reason you need to nested more than two resources, you can do:
-  #
-  #   class TasksController
-  #     belongs_to :company, :project
-  #   end
-  #
-  # ATTENTION! This DOES NOT mean polymorphic associations as in resource_controller.
-  #
-  # It means that companies have many projects which have many tasks. You URL
-  # should be:
-  #
-  #   /companies/:company_id/projects/:project_id/tasks/:id
-  #
-  # Everything will be handled for you again. And all defaults will describe above
-  # will be assumed. But if you have to change the defaults. You will have to
-  # specify one association by one:
-  #
-  #   class TasksController
-  #     belongs_to :company, :finder => :find_by_name!, :param => :company_name
-  #     belongs_to :project
-  #   end
-  #
-  # belongs_to is aliased as nested_belongs_to, so this provides a nicer syntax:
-  #
-  #   class TasksController
-  #     nested_belongs_to :company, :finder => :find_by_name!, :param => :company_name
-  #     nested_belongs_to :project
-  #   end
-  #
-  # In this case the association chain would be:
-  #
-  #   Company.find_by_name!(params[:company_name]).projects.find(params[:project_id]).tasks.find(:all)
-  #
-  # When you are using nested resources, you have one more option to config.
-  # Let's suppose that to get all projects from a company, you have to do:
-  #
-  #   Company.admin_projects
-  #
-  # Instead of:
-  #
-  #   Company.projects
-  #
-  # In this case, you can set the collection_name in belongs_to:
-  #
-  #   nested_belongs_to :project, :collection_name => 'admin_projects'
+  # In other words, the code above is the same as calling nested_belongs_to.
   #
   module BelongsToHelpers
 
