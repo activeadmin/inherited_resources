@@ -157,7 +157,7 @@ module InheritedResources
         options = scopes.extract_options!
 
         options.symbolize_keys!
-        options.assert_valid_keys(:on, :boolean, :key, :only, :except)
+        options.assert_valid_keys(:on, :boolean, :key, :only, :except, :default)
 
         if self.scopes_configuration.empty?
           include HasScopeHelpers
@@ -168,11 +168,12 @@ module InheritedResources
         target_config = self.scopes_configuration[scope_target.to_sym] ||= {}
 
         scopes.each do |scope|
+          target_config[scope]         ||= {}
           target_config[scope][:key]     = options[:key] || scope
           target_config[scope][:only]    = Array(options[:only])
           target_config[scope][:except]  = Array(options[:except])
-          target_config[scope][:boolean] = options[:boolean]
-          target_config[scope][:default] = options[:default]
+          target_config[scope][:boolean] = options[:boolean] if options.key?(:boolean)
+          target_config[scope][:default] = options[:default] if options.key?(:default)
         end
       end
 

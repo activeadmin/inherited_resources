@@ -32,8 +32,8 @@ BELONGS_TO_OPTIONS = {
 
 class SchoolsController < InheritedResources::Base
   has_scope :by_city
-  has_scope :featured, :boolean => true, :only => :index
-  has_scope :limit, :default => 10, :except => :index
+  has_scope :featured, :boolean => true, :only => :index, :key => :by_featured
+  has_scope :limit, :default => 10, :except => :index, :on => :anything
 end
 
 class ProfessorsController < InheritedResources::Base
@@ -208,5 +208,91 @@ class BelongsToErrorsTest < ActiveSupport::TestCase
     end
   ensure
     ProfessorsController.send(:parents_symbols=, [:school])
+  end
+end
+class HasScopeClassMethods < ActiveSupport::TestCase
+
+  def test_scope_configuration_is_stored_as_hashes
+    config = SchoolsController.send(:scopes_configuration)
+    assert config.key?(:school)
+    assert config.key?(:anything)
+
+    assert config[:school].key?(:by_city)
+    assert config[:school].key?(:featured)
+    assert config[:anything].key?(:limit)
+
+    assert_equal config[:school][:by_city], { :key => :by_city, :only => [], :except => [] }
+    assert_equal config[:school][:featured], { :key => :by_featured, :only => [ :index ], :except => [], :boolean => true }
+    assert_equal config[:anything][:limit], { :key => :limit, :except => [ :index ], :only => [], :default => 10 }
+  end
+
+  def test_scope_on_value_is_guessed_inside_belongs_to_blocks
+    ProfessorsController.send(:has_scope, :limit)
+    ProfessorsController.send(:belongs_to, :school, BELONGS_TO_OPTIONS) do
+      has_scope :featured
+      has_scope :another, :on => :professor
+    end
+
+    config = ProfessorsController.send(:scopes_configuration)
+    assert config[:school].key?(:featured)
+    assert config[:professor].key?(:limit)
+    assert config[:professor].key?(:another)
+  ensure
+    ProfessorsController.send(:scopes_configuration=, {})
+  end
+
+  def test_scope_is_loaded_from_another_controller
+    ProfessorsController.send(:load_scopes_from, SchoolsController)
+    config = ProfessorsController.send(:scopes_configuration)
+
+    assert config.key?(:school)
+    assert config.key?(:anything)
+
+    assert config[:school].key?(:by_city)
+    assert config[:school].key?(:featured)
+    assert config[:anything].key?(:limit)
+  ensure
+    ProfessorsController.send(:scopes_configuration=, {})
+  end
+
+  def test_scope_is_deep_merged_from_another_controller
+    config = ProfessorsController.send(:scopes_configuration)
+
+    ProfessorsController.send(:has_scope, :featured, :on => :school)
+    assert_equal config[:school][:featured], { :key => :featured, :only => [ ], :except => [] }
+
+    ProfessorsController.send(:load_scopes_from, SchoolsController)
+    assert config.key?(:school)
+    assert config[:school].key?(:by_city)
+    assert config[:school].key?(:featured)
+    assert_equal config[:school][:featured], { :key => :by_featured, :only => [ :index ], :except => [], :boolean => true }
+  end
+
+  def test_scope_is_loaded_from_another_controller_with_on_specified
+    ProfessorsController.send(:load_scopes_from, SchoolsController, :on => :school)
+    config = ProfessorsController.send(:scopes_configuration)
+
+    assert config.key?(:school)
+    assert config[:school].key?(:by_city)
+    assert config[:school].key?(:featured)
+
+    assert !config.key?(:anything)
+  ensure
+    ProfessorsController.send(:scopes_configuration=, {})
+  end
+
+  def test_scope_is_loaded_from_another_controller_with_on_guessed
+    ProfessorsController.send(:belongs_to, :school, BELONGS_TO_OPTIONS) do
+      load_scopes_from SchoolsController
+    end
+    config = ProfessorsController.send(:scopes_configuration)
+
+    assert config.key?(:school)
+    assert config[:school].key?(:by_city)
+    assert config[:school].key?(:featured)
+
+    assert !config.key?(:anything)
+  ensure
+    ProfessorsController.send(:scopes_configuration=, {})
   end
 end
