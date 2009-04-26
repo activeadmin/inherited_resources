@@ -1,7 +1,7 @@
 Gem::Specification.new do |s|
   s.name     = "inherited_resources"
-  s.version  = "0.6.3"
-  s.date     = "2009-04-24"
+  s.version  = "0.7.0"
+  s.date     = "2009-04-26"
   s.summary  = "Inherited Resources speeds up development by making your controllers inherit all restful actions so you just have to focus on what is important."
   s.email    = "jose.valim@gmail.com"
   s.homepage = "http://github.com/josevalim/inherited_resources"

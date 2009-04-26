@@ -1,10 +1,14 @@
-# Version 0.6
+# Version 0.7
 
+* Added has_scope to controller (an interface for named_scopes).
 * Added polymorphic_belongs_to, optional_belongs_to and singleton_belongs_to
   as quick methods.
 * Only load belongs_to, singleton and polymorphic helpers if they are actually
   required. base_helpers, class_methods, dumb_responder and url_helpers are loaded
   when you inherited from base for the first time.
+
+# Version 0.6
+
 * Ensure that the default template is not rendered if the default_template_format
   is not accepted. This is somehow related with the security breach report:
 

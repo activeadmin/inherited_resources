@@ -1,6 +1,6 @@
 Inherited Resources
 License: MIT
-Version: 0.6.3
+Version: 0.7.0
 
 You can also read this README in pretty html at the GitHub project Wiki page:
 
@@ -36,10 +36,8 @@ If you want it as plugin, just do:
 rspec-rails <= 1.1.12 known bug
 -------------------------------
 
-InheritedResources has a known bug with rspec-rails when using blocks inside
-actions. This is fixed in Rspec >= 1.2.0. But if you have to use 1.1.12,
-InheritedResources ships with a patch. To apply it, just put the line below on
-your spec_helper.rb after loading rspec and rspec-rails:
+InheritedResources has a known bug with rspec-rails. Please upgrade your rspec
+version or use the fix which ships with InheritedResources:
 
   require 'inherited_resources/spec'
 
@@ -69,11 +67,9 @@ You can also specify them based per action:
      respond_to :iphone, :except => [ :edit, :update ]
    end
 
-Let's take a request on create with :rjs as example of how it works. After the
-action is processed, it will check if the view "projects/create.js.rjs" exist.
-If it does exist, it will render it, otherwise it will check if the resource
-@project respond to :to_js. If it is true, it will render the result of :to_js,
-otherwise it will render a 404.
+For each request, it first checkes if the "controller/action.format" file is
+available (for example "projects/create.xml") and if it's not, it checks if
+the resource respond to :to_format (in this case, :to_xml). Otherwise returns 404.
 
 Another option is to specify which actions the controller will inherit from
 the InheritedResources::Base:
@@ -101,9 +97,8 @@ Overwriting defaults
 --------------------
 
 Whenever you inherit from InheritedResources, several defaults are assumed.
-For example some people usually have an AccountsController to account management
-while the resource is an User. So you can overwrite the resource class,
-collection name and instance name just doing:
+For example you can have an AccountsController to account management while the
+resource is an User:
 
    class AccountsController < InheritedResources::Base
      defaults :resource_class => User, :collection_name, 'users', :instance_name => 'user'
@@ -136,7 +131,7 @@ projects collection:
    end
 
 The end_of_association_chain returns your resource after nesting all associations
-and scopes.
+and scopes (more about this below).
 
 InheritedResources also introduces another method called begin_of_association_chain.
 It's mostly used when you want to create resources based on the @current_user and
@@ -180,7 +175,7 @@ That's why all methods have aliases. So this is equivalent:
      end
    end
 
-Even more, since most of the times that you change a :create, :update or :destroy
+Even more, since most of the times when you change a :create, :update or :destroy
 action is because you want to to change to where it redirects, a shortcut is
 provided. So you can do:
 
@@ -201,8 +196,8 @@ but you don't want to create a before filter for it:
      end
    end
 
-Yeap, that simple! The nice part is since you already set the instance variable
-@project, it will not build a project again. :)
+Yes, that simple! The nice part is since you already set the instance variable
+@project, it will not build a project again.
 
 Before we finish this topic, we should talk about one more thing: "success/failure
 blocks". Let's suppose that when we update our project, in case of failure, we
@@ -245,11 +240,10 @@ order:
    flash.controller_name.action_name.status
    flash.actions.action_name.status
 
-If none is available, a default message in english set. Let's have a break from
-projects and talk about CarsController. So in a create action, it will check for
-flash messages in the following order:
+If none is available, a default message in english set. In a create action
+on projects controller, it will search for:
 
-   flash.cars.create.status
+   flash.projects.create.status
    flash.actions.create.status
 
 The status can be :notice (when the object can be created, updated
@@ -265,34 +259,33 @@ is also localized and it means you can set:
          notice: "Hooray! {{resource_name}} was successfully created!"
 
 It will replace {{resource_name}} by the human name of the resource class,
-which is "Car" in this case.
+which is "Project" in this case.
 
-But sometimes, flash messages are not that simple. Going back
-to cars example, you might want to say the brand of the car when it's
-updated. Well, that's easy also:
+But sometimes, flash messages are not that simple. Sometimes you want to say
+the title of the project while updating a project. Well, that's easy also:
 
    flash:
-     cars:
+     projects:
        update:
-         notice: "Hooray! You just tuned your {{car_brand}}!"
+         notice: "Hooray! The project "{{project_title}}" was updated!"
 
-Since :car_name is not available for interpolation by default, you have
+Since :project_title is not available for interpolation by default, you have
 to overwrite interpolation_options.
 
    def interpolation_options
-     { :car_brand => @car.brand }
+     { :project_title => @project.title }
    end
 
 Then you will finally have:
 
-   'Hooray! You just tuned your Aston Martin!'
+   "Hooray! The project "Plataforma" was updated!"
 
-If your controller is namespaced, for example Rars::CarsController, the
+If your controller is namespaced, for example Admin::ProjectsController, the
 messages will be checked in the following order:
 
-   flash.rare.cars.create.notice
-   flash.rare.actions.create.notice
-   flash.cars.create.notice
+   flash.admin.projects.create.notice
+   flash.admin.actions.create.notice
+   flash.projects.create.notice
    flash.actions.create.notice
 
 Belongs to
@@ -344,15 +337,78 @@ Warning: calling several belongs_to is the same as nesting them:
 
 In other words, the code above is the same as calling nested_belongs_to.
 
+Has Scope
+---------
+
+InheritedResources besides belongs_to also speaks named_scope. Let's have a
+break from projects and talk about graduations. Your model:
+
+  class Graduation < ActiveRecord::Base
+    named_scope :featured, :conditions => { :featured => true }
+    named_scope :by_degree, proc {|degree| { :conditions => { :degree => degree } } }
+    named_scope :limit, proc{|limit| :limit => limit.to_i }
+  end
+
+Your controller:
+
+  class GraduationsController < InheritedResources::Base
+    has_scope :featured, :boolean => true, :only => :index
+    has_scope :by_degree
+    has_scope :limit, :default => 10
+  end
+
+Then for each request:
+
+  /graduations
+  #=> acts like a normal request, but returning 10 resources
+
+  /graduations?featured=true
+  #=> calls the featured named scope and bring 10 featured graduations
+
+  /graduations?featured=true&by_degree=phd&limit=20
+  #=> brings 20 featured graduations with phd degree
+
+You can also specify the target of the scope. Let's suppose that a Graduation
+has many Students:
+
+  class StudentsController < InheritedResources::Base
+    belongs_to :graduation
+
+    has_scope :featured, :on => :graduation, :boolean => true, :only => :index
+    has_scope :by_degree, :on => :graduation, :only => :index
+    has_scope :limit, :on => :graduation, :default => 10
+  end
+
+You can also do this inside the belongs to block:
+
+  class StudentsController < InheritedResources::Base
+    belongs_to :graduation do
+      has_scope :featured,  :boolean => true, :only => :index
+      has_scope :by_degree, :only => :index
+      has_scope :limit, :default => 10
+    end
+  end
+
+Or even better, you can load the scopes from another controller:
+
+  class StudentsController < InheritedResources::Base
+    belongs_to :graduation do
+      load_scopes_from GraduationsController
+    end
+  end
+
+Another feature is that you can retrive the current scopes in use with
+the method <tt>current_scopes</tt>, that returns a hash.
+
 Polymorphic belongs to
 ----------------------
 
-Now let's go even further. Our Projects is getting some Files and Messages
-besides Tasks, and they are all commentable:
+Now let's go back to Projects which can now have Files, Messages and Tasks, and
+they are all commentable:
 
    class CommentsController < InheritedResources::Base
      belongs_to :task, :file, :message, :polymorphic => true
-     # Or: polymorphic_belongs_to :task, :file, :message
+     # polymorphic_belongs_to :task, :file, :message
    end
 
 You can even use it with nested resources:
@@ -370,30 +426,23 @@ When using polymorphic associations, you get some free helpers:
    parent_class    #=> Task
    parent          #=> @task
 
-Polymorphic controller is another great idea by James Golick and he also uses
-that on resource_controller.
-
 Optional belongs to
 -------------------
 
-Let's take another break from Projects. Let's suppose that we are now building
-a store, which sell products.
+Later you decide to create a view to show all comments, independing they belong
+to a task, file or message. You canm reuse your previous controller just doing:
 
-On the website, we can show all products, but also products scoped to
-categories, brands, users, etc. In this case case, the association is optional,
-and we deal with it in the following way:
-
-  class ProductsController < InheritedResources::Base
-    belongs_to :category, :brand, :user, :optional => true
-    # Or: optional_belongs_to :category, :brand, :user
+  class ProjectsController < InheritedResources::Base
+    belongs_to :task, :file, :message, :optional => true
+    # optional_belongs_to :task, :file, :message
   end
 
 This will handle all those urls properly:
 
-  /products/1
-  /categories/2/products/5
-  /brands/10/products/3
-  /user/13/products/11
+  /comment/1
+  /tasks/2/comment/5
+  /files/10/comment/3
+  /messages/13/comment/11
 
 This is treated as a special type of polymorphic associations, thus all helpers
 are available. As you expect, when no parent is found, the helpers return:
@@ -415,7 +464,7 @@ option.
 
    class ManagersController < InheritedResources::Base
      belongs_to :project, :singleton => true
-     # Or: singleton_belongs_to :project
+     # singleton_belongs_to :project
    end
 
 It will deal with everything again and hide the action :index from you.

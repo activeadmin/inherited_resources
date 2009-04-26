@@ -208,11 +208,11 @@ module InheritedResources
       #
       #   'Hooray! You just tuned your Aston Martin!'
       #
-      # If your controller is namespaced, for example Rare::CarsController,
+      # If your controller is namespaced, for example Admin::CarsController,
       # the messages will be checked in the following order:
       #
-      #   flash.rare.cars.create.status
-      #   flash.rare.actions.create.status
+      #   flash.admin.cars.create.status
+      #   flash.admin.actions.create.status
       #   flash.cars.create.status
       #   flash.actions.create.status
       #
