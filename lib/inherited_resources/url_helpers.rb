@@ -1,34 +1,34 @@
-# = URLHelpers
-#
-# When you use InheritedResources it creates some UrlHelpers for you.
-# And they handle everything for you.
-#
-#  # /posts/1/comments
-#  resource_url          # => /posts/1/comments/#{@comment.to_param}
-#  resource_url(comment) # => /posts/1/comments/#{comment.to_param}
-#  new_resource_url      # => /posts/1/comments/new
-#  edit_resource_url     # => /posts/1/comments/#{@comment.to_param}/edit
-#  collection_url        # => /posts/1/comments
-#
-#  # /projects/1/tasks
-#  resource_url          # => /products/1/tasks/#{@task.to_param}
-#  resource_url(task)    # => /products/1/tasks/#{task.to_param}
-#  new_resource_url      # => /products/1/tasks/new
-#  edit_resource_url     # => /products/1/tasks/#{@task.to_param}/edit
-#  collection_url        # => /products/1/tasks
-#
-#  # /users
-#  resource_url          # => /users/#{@user.to_param}
-#  resource_url(user)    # => /users/#{user.to_param}
-#  new_resource_url      # => /users/new
-#  edit_resource_url     # => /users/#{@user.to_param}/edit
-#  collection_url        # => /users
-#
-# The nice thing is that those urls are not guessed during runtime. They are
-# all created when you inherit.
-#
-module InheritedResources #:nodoc:
-  module UrlHelpers #:nodoc:
+module InheritedResources
+  # = URLHelpers
+  #
+  # When you use InheritedResources it creates some UrlHelpers for you.
+  # And they handle everything for you.
+  #
+  #  # /posts/1/comments
+  #  resource_url          # => /posts/1/comments/#{@comment.to_param}
+  #  resource_url(comment) # => /posts/1/comments/#{comment.to_param}
+  #  new_resource_url      # => /posts/1/comments/new
+  #  edit_resource_url     # => /posts/1/comments/#{@comment.to_param}/edit
+  #  collection_url        # => /posts/1/comments
+  #
+  #  # /projects/1/tasks
+  #  resource_url          # => /products/1/tasks/#{@task.to_param}
+  #  resource_url(task)    # => /products/1/tasks/#{task.to_param}
+  #  new_resource_url      # => /products/1/tasks/new
+  #  edit_resource_url     # => /products/1/tasks/#{@task.to_param}/edit
+  #  collection_url        # => /products/1/tasks
+  #
+  #  # /users
+  #  resource_url          # => /users/#{@user.to_param}
+  #  resource_url(user)    # => /users/#{user.to_param}
+  #  new_resource_url      # => /users/new
+  #  edit_resource_url     # => /users/#{@user.to_param}/edit
+  #  collection_url        # => /users
+  #
+  # The nice thing is that those urls are not guessed during runtime. They are
+  # all created when you inherit.
+  #
+  module UrlHelpers
 
     # This method hard code url helpers in the class.
     #
@@ -104,7 +104,7 @@ module InheritedResources #:nodoc:
       generate_url_and_path_helpers(base, :edit, :resource, resource_segments, resource_ivars, polymorphic)
     end
 
-    def self.generate_url_and_path_helpers(base, prefix, name, resource_segments, resource_ivars, polymorphic=false)
+    def self.generate_url_and_path_helpers(base, prefix, name, resource_segments, resource_ivars, polymorphic=false) #:nodoc:
         ivars = resource_ivars.map{|i| i == :parent ? :parent : "@#{i}" }
 
         # If it's not a singleton, ivars are not empty, not a collection or
