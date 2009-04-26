@@ -6,23 +6,30 @@ module InheritedResources
 
     protected
 
-      # When you inherit from InheritedResources::Base, we make some assumptions on
-      # what is your resource_class, instance_name and collection_name.
+      # Used to overwrite the default assumptions InheritedResources do:
       #
-      # You can change those values by calling the class method <tt>defaults</tt>.
-      # This is useful, for example, in an accounts controller, where the object
-      # is an User but controller and routes are accounts.
+      # == Options
       #
-      #   class AccountController < InheritedResources::Base
-      #     defaults :resource_class => User, :instance_name => 'user',
-      #              :collection_name => 'users', :singleton => true
-      #   end
+      # * <tt>:resource_class</tt> - The resource class which by default is guessed
+      #                              by the controller name. Defaults to Project in
+      #                              ProjectsController.
       #
-      # If you want to change your urls, you can use :route_prefix,
-      # :route_instance_name and :route_collection_name helpers.
+      # * <tt>:collection_name</tt> - The name of the collection instance variable which
+      #                               is set on the index action. Defaults to :projects in
+      #                               ProjectsController.
       #
-      # You can also provide :class_name, which is the same as :resource_class
-      # but accepts string (this is given for ActiveRecord compatibility).
+      # * <tt>:instance_name</tt> - The name of the singular instance variable which
+      #                             is set on all actions besides index action. Defaults to
+      #                             :project in ProjectsController.
+      #
+      # * <tt>:route_collection_name</tt> - The name of the collection route. Defaults to :collection_name.
+      #
+      # * <tt>:route_instance_name</tt> - The name of the singular route. Defaults to :instance_name.
+      #
+      # * <tt>:route_prefix</tt> - The route prefix which is automically set in namespaced
+      #                            controllers. Default to :admin on Admin::ProjectsController.
+      #
+      # * <tt>:singleton</tt> - Tells if this controller is singleton or not.
       #
       def defaults(options)
         raise ArgumentError, 'Class method :defaults expects a hash of options.' unless options.is_a? Hash
@@ -71,28 +78,67 @@ module InheritedResources
         end
       end
 
+
+      # Detects params from url and apply as scopes to your classes.
+      #
+      # Your model:
+      #
+      #   class Graduation < ActiveRecord::Base
+      #     named_scope :featured, :conditions => { :featured => true }
+      #     named_scope :by_degree, proc {|degree| { :conditions => { :degree => degree } } }
+      #   end
+      #
+      # Your controller:
+      #
+      #   class GraduationsController < InheritedResources::Base
+      #     has_scope :featured, :boolean => true, :only => :index
+      #     has_scope :by_degree, :only => :index
+      #   end
+      #
+      # Then for each request:
+      #
+      #   /graduations
+      #   #=> acts like a normal request
+      #
+      #   /graduations?featured=true
+      #   #=> calls the named scope and bring featured graduations
+      #
+      #   /graduations?featured=true&by_degree=phd
+      #   #=> brings featured graduations with phd degree
+      #
+      # == Options
+      #
+      # * <tt>:on</tt> - In each resource the scope is applied to. Defaults to the resource class.
+      #
+      # * <tt>:boolean</tt> - When set to true, call the scope only when the params is true or 1,
+      #                       and does not send the value as argument.
+      #
+      # * <tt>:only</tt> - In each actions the scope is applied. By default is :all.
+      #
+      # * <tt>:except</tt> - In each actions the scope is not applied. By default is :none.
+      #
+      def has_scope(*scopes)
+
+      end
+
       # Defines that this controller belongs to another resource.
       #
       #   belongs_to :projects
       #
       # == Options
       #
-      # * :parent_class => Allows you to specify what is the parent class.
+      # * <tt>:parent_class</tt> - Allows you to specify what is the parent class.
       #
       #     belongs_to :project, :parent_class => AdminProject
       #
-      # * :class_name => Also allows you to specify the parent class, but you should
-      #   give a string. Added for ActiveRecord belongs to compatibility.
+      # * <tt>:class_name</tt> - Also allows you to specify the parent class, but you should
+      #                          give a string. Added for ActiveRecord belongs to compatibility.
       #
-      # * :instance_name => How this object will appear in your views. In this case
-      #   the default is @project. Overwrite it with a symbol.
+      # * <tt>:instance_name</tt> - The instance variable name. By default is the name of the association.
       #
       #     belongs_to :project, :instance_name => :my_project
       #
-      # * :finder => Specifies which method should be called to instantiate the
-      #   parent. Let's suppose you are using slugs ("this-is-project-title") in URLs
-      #   so your tasks url would be: "projects/this-is-project-title/tasks". Then you
-      #   should do this in your TasksController:
+      # * <tt>:finder</tt> - Specifies which method should be called to instantiate the parent.
       #
       #     belongs_to :project, :finder => :find_by_title!
       #
@@ -104,30 +150,22 @@ module InheritedResources
       #
       #     Project.find(params[:project_id])
       #
-      # * :param => Allows you to specify params key used to instantiate the parent.
-      #   Default is :parent_id, which in this case is :project_id.
+      # * <tt>:param</tt> - Allows you to specify params key to retrieve the id.
+      #                     Default is :association_id, which in this case is :project_id.
       #
-      # * :route_name => Allows you to specify what is the route name in your url
-      #   helper. By default is 'project'. But if your url helper should be
-      #   "myproject_task_url" instead of "project_task_url", just do:
+      # * <tt>:route_name</tt> - Allows you to specify what is the route name in your url
+      #                          helper. By default is association name.
       #
-      #     belongs_to :project, :route_name => "myproject"
+      # * <tt>:collection_name</tt> - Tell how to retrieve the next collection. Let's
+      #                               suppose you have Tasks which belongs to Projects
+      #                               which belongs to companies. This will do somewhere
+      #                               down the road:
       #
-      #   But if you want to use namespaced routes, you can do:
-      #
-      #     defaults :route_prefix => :admin
-      #
-      #   That would generate "admin_project_task_url".
-      #
-      # * :collection_name => Tell how to retrieve the next collection. Let's
-      #   suppose you have Tasks which belongs to Projects. This will do somewhere
-      #   down the road:
-      #
-      #      @project.tasks
+      #      @company.projects
       #
       #   But if you want to retrieve instead:
       #
-      #      @project.admin_tasks
+      #      @company.admin_projects
       #
       #   You supply the collection name.
       #
