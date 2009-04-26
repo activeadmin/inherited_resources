@@ -44,14 +44,14 @@ module InheritedResources
       # can be performed in the current action.
       #
       def apply_scope_to_action?(options) #:nodoc:
-        if formats[:only].empty?
-          if formats[:except].empty?
+        if options[:only].empty?
+          if options[:except].empty?
             true
           else
-            !formats[:except].include?(action_name.to_sym)
+            !options[:except].include?(action_name.to_sym)
           end
         else
-          formats[:only].include?(action_name.to_sym)
+          options[:only].include?(action_name.to_sym)
         end
       end
 

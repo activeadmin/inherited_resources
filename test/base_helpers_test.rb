@@ -5,7 +5,6 @@ class Pet
 end
 
 class PetsController < InheritedResources::Base
-  respond_to :xml
   attr_accessor :current_user
   
   def edit
@@ -28,38 +27,33 @@ class AssociationChainBaseHelpersTest < ActionController::TestCase
 
   def setup
     @controller.current_user = mock()
-    @request.accept          = 'application/xml'
   end
 
   def test_begin_of_association_chain_is_called_on_index
     @controller.current_user.expects(:pets).returns(Pet)
     Pet.expects(:all).returns(mock_pet)
-    mock_pet.expects(:to_xml).returns('Generated XML')
     get :index
     assert_response :success
-    assert 'Generated XML', @response.body.strip
+    assert 'Index HTML', @response.body.strip
   end
 
   def test_begin_of_association_chain_is_called_on_new
     @controller.current_user.expects(:pets).returns(Pet)
     Pet.expects(:build).returns(mock_pet)
-    mock_pet.expects(:to_xml).returns('Generated XML')
     get :new
     assert_response :success
-    assert 'Generated XML', @response.body.strip
+    assert 'New HTML', @response.body.strip
   end
 
   def test_begin_of_association_chain_is_called_on_show
     @controller.current_user.expects(:pets).returns(Pet)
     Pet.expects(:find).with('47').returns(mock_pet)
-    mock_pet.expects(:to_xml).returns('Generated XML')
     get :show, :id => '47'
     assert_response :success
-    assert 'Generated XML', @response.body.strip
+    assert 'Show HTML', @response.body.strip
   end
 
   def test_instance_variable_should_not_be_set_if_already_defined
-    @request.accept = 'text/html'
     @controller.current_user.expects(:pets).never
     Pet.expects(:find).never
     get :edit
