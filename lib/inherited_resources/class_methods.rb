@@ -125,6 +125,14 @@ module InheritedResources
       #     end
       #   end
       #
+      # Or even better:
+      #
+      #   class StudentsController < InheritedResources::Base
+      #     belongs_to :graduation do
+      #       load_scopes_from GraduationsController
+      #     end
+      #   end
+      #
       # Another feature is that you can retrive the current scopes in use with
       # the method <tt>current_scopes</tt> that returns a hash.
       #
@@ -141,6 +149,9 @@ module InheritedResources
       #
       # * <tt>:key</tt> - The key in the params hash expected to find the scope.
       #                   Defaults to the scope name.
+      #
+      # * <tt>:default</tt> - Default value for the scope. Whenever supplied the scope
+      #                       is always called. This is useful to add easy pagination!
       #
       def has_scope(*scopes)
         options = scopes.extract_options!
@@ -161,7 +172,39 @@ module InheritedResources
           target_config[scope][:only]    = Array(options[:only])
           target_config[scope][:except]  = Array(options[:except])
           target_config[scope][:boolean] = options[:boolean]
+          target_config[scope][:default] = options[:default]
         end
+      end
+
+      # Load scopes from another controller into the current controller.
+      #
+      # You can give :on as option if you want to load just a set of the another
+      # controller scope.
+      #
+      #   class TasksController < InheritedResources::Base
+      #     belongs_to :project
+      #     load_scopes_from CompaniesController                 # load all scopes
+      #     load_scopes_from ProjectsController, :on => :project # load scopes that apply on :project
+      #   end
+      #
+      # Whenever called inside a belongs to block, the :on value is guessed:
+      #
+      #   class TasksController < InheritedResources::Base
+      #     belongs_to :project do
+      #       load_scopes_from ProjectsController # load scopes that apply on :project
+      #     end
+      #
+      #     load_scopes_from CompaniesController  # load all companies controller scopes
+      #   end
+      #
+      def load_scopes_from(scopes_controller, options={})
+        to_merge = if on = options.delete(:on) || @@_parent_block_name
+          scopes_controller.send(:scopes_configuration).slice(on)
+        else
+          scopes_controller.send(:scopes_configuration)
+        end
+
+        self.scopes_configuration.deep_merge!(to_merge)
       end
 
       # Defines that this controller belongs to another resource.

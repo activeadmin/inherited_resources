@@ -21,12 +21,18 @@ module InheritedResources
           key = options[:key]
 
           if params.key?(key)
-            value = @current_scopes[key] = params[key]
+            value, call_scope = params[key], true
+          elsif options.key?(:default)
+            value, call_scope = options[:default], true
+          end
+
+          if call_scope
+            @current_scopes[key] = value
 
             if options[:boolean]
               target_object = target_object.send(scope) if TRUE_VALUES.include?(value)
             else
-              target_object = target_object.send(scope, *value)
+              target_object = target_object.send(scope, value)
             end
           end
         end

@@ -30,6 +30,12 @@ BELONGS_TO_OPTIONS = {
   :param => :school_title
 }
 
+class SchoolsController < InheritedResources::Base
+  has_scope :by_city
+  has_scope :featured, :boolean => true, :only => :index
+  has_scope :limit, :default => 10, :except => :index
+end
+
 class ProfessorsController < InheritedResources::Base
   belongs_to :school, BELONGS_TO_OPTIONS
 end
