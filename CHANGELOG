@@ -1,5 +1,8 @@
 # Version 0.6
 
+* Only load belongs_to, singleton and polymorphic helpers if they are actually
+  required. base_helpers, class_methods, dumb_responder and url_helpers are loaded
+  when you inherited from base for the first time.
 * Ensure that the default template is not rendered if the default_template_format
   is not accepted. This is somehow related with the security breach report:
 

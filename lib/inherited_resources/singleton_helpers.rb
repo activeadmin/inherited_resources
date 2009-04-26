@@ -1,8 +1,43 @@
-module InheritedResources #:nodoc:
-  module SingletonHelpers #:nodoc:
+module InheritedResources
 
-    # Protected helpers. You might want to overwrite some of them.
+  # = singleton
+  #
+  # Singletons are usually used in associations which are related through has_one
+  # and belongs_to. You declare those associations like this:
+  #
+  #   class ManagersController < InheritedResources::Base
+  #     belongs_to :project, :singleton => true
+  #   end
+  #
+  # But in some cases, like an AccountsController, you have a singleton object
+  # that is not necessarily associated with another:
+  #
+  #   class AccountsController < InheritedResources::Base
+  #     defaults :singleton => true
+  #   end
+  #
+  # Besides that, you should overwrite the methods :resource and :build_resource
+  # to make it work properly:
+  #
+  #   class AccountsController < InheritedResources::Base
+  #     defaults :singleton => true
+  #
+  #     protected
+  #       def resource
+  #         @current_user.account
+  #       end
+  #
+  #       def build_resource(attributes = {})
+  #         Account.new(attributes)
+  #       end
+  #   end
+  #
+  # When you have a singleton controller, the action index is removed.
+  #
+  module SingletonHelpers
+
     protected
+
       # Singleton methods does not deal with collections.
       #
       def collection
@@ -40,12 +75,11 @@ module InheritedResources #:nodoc:
         get_resource_ivar || set_resource_ivar(end_of_association_chain.send(resource_instance_name))
       end
 
-    # Private helpers, you probably don't have to worry with them.
     private
 
       # Returns the appropriated method to build the resource.
       #
-      def method_for_build
+      def method_for_build #:nodoc:
         "build_#{resource_instance_name}"
       end
 

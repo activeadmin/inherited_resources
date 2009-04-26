@@ -1,8 +1,8 @@
-# Provides an extension for Rails respond_to by expading MimeResponds::Responder
-# and adding respond_to class method and respond_with instance method.
-#
-module ActionController #:nodoc:
-  class Base #:nodoc:
+module ActionController
+  # Provides an extension for Rails respond_to by expading MimeResponds::Responder
+  # and adding respond_to class method and respond_with instance method.
+  #
+  class Base
 
     protected
       # Defines respond_to method to store formats that are rendered by default.
@@ -240,10 +240,10 @@ module ActionController #:nodoc:
 
     private
 
-      # Define template_exists? for Rails 2.3
       unless ActionController::Base.private_instance_methods.include?('template_exists?') ||
              ActionController::Base.private_instance_methods.include?(:template_exists?)
 
+        # Define template_exists? for Rails 2.3
         def template_exists?
           default_template ? true : false
         rescue ActionView::MissingTemplate
@@ -254,7 +254,7 @@ module ActionController #:nodoc:
       # We respond to the default template if it's a valid format AND the template
       # exists.
       #
-      def respond_to_default_template?(responder)
+      def respond_to_default_template?(responder) #:nodoc:
         responder.action_respond_to_format?(default_template_format) && template_exists?
       end
 

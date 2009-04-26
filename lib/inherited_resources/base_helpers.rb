@@ -1,8 +1,8 @@
 module InheritedResources #:nodoc:
-  module BaseHelpers #:nodoc:
+  module BaseHelpers
 
-    # Protected helpers. You might want to overwrite some of them.
     protected
+
       # This is how the collection is loaded.
       #
       # You might want to overwrite this method if you want to add pagination
@@ -69,32 +69,41 @@ module InheritedResources #:nodoc:
         nil
       end
 
-    # Private helpers, you probably don't have to worry with them.
-    private
-
-      # Fast accessor to resource_collection_name
-      #
-      def resource_collection_name
-        resources_configuration[:self][:collection_name]
-      end
-
-      # Fast accessor to resource_instance_name
-      #
-      def resource_instance_name
-        resources_configuration[:self][:instance_name]
-      end
-
-      # Returns if the object has a parent. This means, if it has an object
-      # set at begin_of_association_chain is not nil.
+      # Returns if the object has a parent. When only base helpers are loaded,
+      # it's always false.
       #
       def parent?
         false
       end
 
+      # Overwrite this method to provide other interpolation options when
+      # the flash message is going to be set.
+      #
+      # You cannot overwrite :resource_name and :default options using this
+      # method. Check <tt>set_flash_message!</tt> for more information.
+      #
+      def interpolation_options
+        { }
+      end
+
+    private
+
+      # Fast accessor to resource_collection_name
+      #
+      def resource_collection_name #:nodoc:
+        resources_configuration[:self][:collection_name]
+      end
+
+      # Fast accessor to resource_instance_name
+      #
+      def resource_instance_name #:nodoc:
+        resources_configuration[:self][:instance_name]
+      end
+
       # This methods gets your begin_of_association_chain and returns the
       # scoped association.
       #
-      def end_of_association_chain
+      def end_of_association_chain #:nodoc:
         if begin_of_association_chain || parent?
           begin_of_association_chain.send(resource_collection_name)
         else
@@ -104,31 +113,31 @@ module InheritedResources #:nodoc:
 
       # Returns the appropriated method to build the resource.
       #
-      def method_for_build
+      def method_for_build #:nodoc:
         (begin_of_association_chain || parent?) ? :build : :new
       end
 
       # Get resource ivar based on the current resource controller.
       #
-      def get_resource_ivar
+      def get_resource_ivar #:nodoc:
         instance_variable_get("@#{resource_instance_name}")
       end
 
       # Set resource ivar based on the current resource controller.
       #
-      def set_resource_ivar(resource)
+      def set_resource_ivar(resource) #:nodoc:
         instance_variable_set("@#{resource_instance_name}", resource)
       end
 
       # Get collection ivar based on the current resource controller.
       #
-      def get_collection_ivar
+      def get_collection_ivar #:nodoc:
         instance_variable_get("@#{resource_collection_name}")
       end
 
       # Set collection ivar based on the current resource controller.
       #
-      def set_collection_ivar(collection)
+      def set_collection_ivar(collection) #:nodoc:
         instance_variable_set("@#{resource_collection_name}", collection)
       end
 
@@ -208,16 +217,6 @@ module InheritedResources #:nodoc:
         flash[status] = message unless message.blank?
       end
 
-      # Overwrite this method to provide other interpolation options when
-      # the flash message is going to be set.
-      #
-      # You cannot overwrite :resource_name and :default options using this
-      # method. Check <tt>set_flash_message!</tt> for more information.
-      #
-      def interpolation_options
-        { }
-      end
-
       # Used to allow to specify success and failure within just one block:
       #
       #   def create
@@ -226,7 +225,7 @@ module InheritedResources #:nodoc:
       #     end
       #   end
       #
-      def respond_to_with_dual_blocks(success, dual_block, options={}, &block)
+      def respond_to_with_dual_blocks(success, dual_block, options={}, &block) #:nodoc:
         responder = ActionController::MimeResponds::Responder.new(self)
 
         if dual_block
