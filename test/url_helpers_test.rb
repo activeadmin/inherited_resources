@@ -31,18 +31,18 @@ class ChairsController < InheritedResources::Base
 end
 
 class OwnersController < InheritedResources::Base
-  belongs_to :house, :singleton => true
+  singleton_belongs_to :house
 end
 
 class Bed; end
 class BedsController < InheritedResources::Base
-  belongs_to :house, :building, :polymorphic => true, :optional => true
+  optional_belongs_to :house, :building
 end
 
 class Dish; end
 class DishesController < InheritedResources::Base
   belongs_to :house do
-    belongs_to :table, :kitchen, :polymorphic => true
+    polymorphic_belongs_to :table, :kitchen
   end
 end
 

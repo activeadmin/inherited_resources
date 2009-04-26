@@ -169,6 +169,13 @@ module InheritedResources
       #
       #   You supply the collection name.
       #
+      # * <tt>:polymorphic</tt> - Tell the association is polymorphic.
+      #
+      # * <tt>:singleton</tt> - Tell it's a singleton association.
+      #
+      # * <tt>:optional</tt> - Tell the association is optional (it's a special
+      #                        type of polymorphic association)
+      #
       def belongs_to(*symbols, &block)
         options = symbols.extract_options!
 
@@ -218,6 +225,30 @@ module InheritedResources
         end
       end
       alias :nested_belongs_to :belongs_to
+
+      # A quick method to declare polymorphic belongs to.
+      #
+      def polymorphic_belongs_to(*symbols, &block)
+        options = symbols.extract_options!
+        options.merge!(:polymorphic => true)
+        belongs_to(*symbols << options, &block)
+      end
+
+      # A quick method to declare singleton belongs to.
+      #
+      def singleton_belongs_to(*symbols, &block)
+        options = symbols.extract_options!
+        options.merge!(:singleton => true)
+        belongs_to(*symbols << options, &block)
+      end
+
+      # A quick method to declare optional belongs to.
+      #
+      def optional_belongs_to(*symbols, &block)
+        options = symbols.extract_options!
+        options.merge!(:optional => true)
+        belongs_to(*symbols << options, &block)
+      end
 
     private
 
