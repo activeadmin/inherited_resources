@@ -6,7 +6,7 @@ module InheritedResources
 
     protected
 
-      # Used to overwrite the default assumptions InheritedResources do:
+      # Used to overwrite the default assumptions InheritedResources do.
       #
       # == Options
       #
@@ -78,7 +78,6 @@ module InheritedResources
         end
       end
 
-
       # Detects params from url and apply as scopes to your classes.
       #
       # Your model:
@@ -106,6 +105,28 @@ module InheritedResources
       #   /graduations?featured=true&by_degree=phd
       #   #=> brings featured graduations with phd degree
       #
+      # You can also specify the target of the scope. Let's suppose that a
+      # Graduation has many students:
+      #
+      #   class StudentsController < InheritedResources::Base
+      #     belongs_to :graduation
+      #
+      #     has_scope :featured, :on => :graduation, :boolean => true, :only => :index
+      #     has_scope :by_degree, :on => :graduation, :only => :index
+      #   end
+      #
+      # You can also do this in a block:
+      #
+      #   class StudentsController < InheritedResources::Base
+      #     belongs_to :graduation do
+      #       has_scope :featured,  :boolean => true, :only => :index
+      #       has_scope :by_degree, :only => :index
+      #     end
+      #   end
+      #
+      # Another feature is that you can retrive the current scopes in use with
+      # the method <tt>current_scopes</tt> that returns a hash.
+      #
       # == Options
       #
       # * <tt>:on</tt> - In each resource the scope is applied to. Defaults to the resource class.
@@ -118,7 +139,22 @@ module InheritedResources
       # * <tt>:except</tt> - In each actions the scope is not applied. By default is :none.
       #
       def has_scope(*scopes)
+        options = scopes.extract_options!
 
+        options.symbolize_keys!
+        options.assert_valid_keys(:on, :boolean, :key, :only, :except)
+
+        include HasScopeHelpers if self.scopes_configuration.empty?
+
+        scope_target  = options.delete(:on) || :self
+        target_config = self.scopes_configuration[scope_target] ||= {}
+
+        scopes.each do |scope|
+          target_config[scope][:on]      = options[:on]
+          target_config[scope][:boolean] = options[:boolean]
+          target_config[scope][:only]    = Array(options[:only])
+          target_config[scope][:except]  = Array(options[:except])
+        end
       end
 
       # Defines that this controller belongs to another resource.

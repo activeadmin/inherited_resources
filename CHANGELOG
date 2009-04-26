@@ -1,5 +1,7 @@
 # Version 0.6
 
+* Added polymorphic_belongs_to, optional_belongs_to and singleton_belongs_to
+  as quick methods.
 * Only load belongs_to, singleton and polymorphic helpers if they are actually
   required. base_helpers, class_methods, dumb_responder and url_helpers are loaded
   when you inherited from base for the first time.

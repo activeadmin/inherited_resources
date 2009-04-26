@@ -2,25 +2,25 @@ module InheritedResources
 
   # = belongs_to
   #
-  # Finally, our Projects are going to get some Tasks. Then you create a
-  # TasksController and do:
+  # Let's suppose that we have some tasks that belongs to projects. To specify
+  # this assoication in your controllers, just do:
   #
   #    class TasksController < InheritedResources::Base
   #      belongs_to :project
   #    end
   #
   # belongs_to accepts several options to be able to configure the association.
-  # Remember that our projects have pretty urls? So if you thought that url like
-  # /projects/:project_title/tasks would be a problem, I can assure you it won't:
+  # For example, if you want urls like /projects/:project_title/tasks, you
+  # can customize how InheritedResources find your projects:
   #
   #    class TasksController < InheritedResources::Base
   #      belongs_to :project, :finder => :find_by_title!, :param => :project_title
   #    end
   #
   # It also accepts :route_name, :parent_class and :instance_name as options.
-  # For more custmoization options, check the lib/inherited_resources/class_methods.rb.
+  # Check the lib/inherited_resources/class_methods.rb for more.
   #
-  # = nesteed_belongs_to
+  # = nested_belongs_to
   #
   # Now, our Tasks get some Comments and you need to nest even deeper. Good
   # practices says that you should never nest more than two resources, but sometimes

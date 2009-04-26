@@ -20,6 +20,7 @@ Gem::Specification.new do |s|
     "lib/inherited_resources/belongs_to_helpers.rb",
     "lib/inherited_resources/class_methods.rb",
     "lib/inherited_resources/dumb_responder.rb",
+    "lib/inherited_resources/has_scope_helpers.rb",
     "lib/inherited_resources/polymorphic_helpers.rb",
     "lib/inherited_resources/respond_to.rb",
     "lib/inherited_resources/singleton_helpers.rb",

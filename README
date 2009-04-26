@@ -306,15 +306,15 @@ TasksController and do:
    end
 
 belongs_to accepts several options to be able to configure the association.
-Remember that our projects have pretty urls? So if you thought that url like
-/projects/:project_title/tasks would be a problem, I can assure you it won't:
+For example, if you want urls like /projects/:project_title/tasks, you can
+customize how InheritedResources find your projects:
 
    class TasksController < InheritedResources::Base
      belongs_to :project, :finder => :find_by_title!, :param => :project_title
    end
 
 It also accepts :route_name, :parent_class and :instance_name as options.
-For more custmoization options, check the lib/inherited_resources/class_methods.rb.
+Check the lib/inherited_resources/class_methods.rb for more.
 
 Nested belongs to
 -----------------
@@ -352,6 +352,7 @@ besides Tasks, and they are all commentable:
 
    class CommentsController < InheritedResources::Base
      belongs_to :task, :file, :message, :polymorphic => true
+     # Or: polymorphic_belongs_to :task, :file, :message
    end
 
 You can even use it with nested resources:
@@ -384,6 +385,7 @@ and we deal with it in the following way:
 
   class ProductsController < InheritedResources::Base
     belongs_to :category, :brand, :user, :optional => true
+    # Or: optional_belongs_to :category, :brand, :user
   end
 
 This will handle all those urls properly:
@@ -413,6 +415,7 @@ option.
 
    class ManagersController < InheritedResources::Base
      belongs_to :project, :singleton => true
+     # Or: singleton_belongs_to :project
    end
 
 It will deal with everything again and hide the action :index from you.
