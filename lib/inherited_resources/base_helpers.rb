@@ -297,5 +297,36 @@ module InheritedResources
         []
       end
 
+      # If block is not nil, call it and uses the result as redirect to url.
+      # Otherwise, send the default url as message.
+      #
+      def parse_redirect_url(redirect_url, default_url, block) #:nodoc:
+        if redirect_url
+          ActiveSupport::Deprecation.warn "#{action_name}!(redirect_url) is deprecated. " << 
+                                          "Use #{action_name}!{ redirect_url } instead."
+          return redirect_url
+        end
+
+        block ? block.call : send(default_url)
+      end
+
+      # Holds InheritedResources block structure. It returns two blocks: the first
+      # is used in respond_to blocks and the second is the redirect_to url.
+      #
+      def select_block_by_arity(block) #:nodoc
+        if block
+          case block.arity
+            when 2, 1
+              [block, nil]
+            when 0, -1
+              [nil, block]
+            else
+              raise ScriptError, "InheritedResources does not know how to handle blocks with arity #{block.arity}"
+          end
+        else
+          [nil, nil]
+        end
+      end
+
   end
 end

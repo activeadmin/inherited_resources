@@ -67,23 +67,23 @@ module InheritedResources
       alias :edit! :edit
 
       # POST /resources
-      def create(redirect_to=nil, &block)
+      def create(redirect_url=nil, &block)
         object = build_resource(params[resource_instance_name])
+        respond_block, redirect_block = select_block_by_arity(block)
 
         if object.save
           set_flash_message!(:notice, '{{resource_name}} was successfully created.')
-
           options = { :with => object, :status => :created, :location => (resource_url rescue nil) }
 
-          respond_to_with_dual_blocks(true, block, options) do |format|
-            format.html { redirect_to(redirect_to || resource_url) }
+          respond_to_with_dual_blocks(true, respond_block, options) do |format|
+            format.html { redirect_to parse_redirect_url(redirect_url, :resource_url, redirect_block) }
           end
         else
           set_flash_message!(:error)
 
           options = { :with => object.errors, :status => :unprocessable_entity }
 
-          respond_to_with_dual_blocks(false, block, options) do |format|
+          respond_to_with_dual_blocks(false, respond_block, options) do |format|
             format.html { render :action => 'new' }
           end
         end
@@ -91,14 +91,15 @@ module InheritedResources
       alias :create! :create
 
       # PUT /resources/1
-      def update(redirect_to=nil, &block)
+      def update(redirect_url=nil, &block)
         object = resource
+        respond_block, redirect_block = select_block_by_arity(block)
 
         if object.update_attributes(params[resource_instance_name])
           set_flash_message!(:notice, '{{resource_name}} was successfully updated.')
 
           respond_to_with_dual_blocks(true, block) do |format|
-            format.html { redirect_to(redirect_to || resource_url) }
+            format.html { redirect_to parse_redirect_url(redirect_url, :resource_url, redirect_block) }
             format.all  { head :ok }
           end
         else
@@ -114,13 +115,14 @@ module InheritedResources
       alias :update! :update
 
       # DELETE /resources/1
-      def destroy(redirect_to=nil, &block)
+      def destroy(redirect_url=nil, &block)
         resource.destroy
+        respond_block, redirect_block = select_block_by_arity(block)
 
         set_flash_message!(:notice, '{{resource_name}} was successfully destroyed.')
 
-        respond_to_with_dual_blocks(nil, block) do |format|
-          format.html { redirect_to(redirect_to || collection_url) }
+        respond_to_with_dual_blocks(nil, respond_block) do |format|
+          format.html { redirect_to parse_redirect_url(redirect_url, :collection_url, redirect_block) }
           format.all  { head :ok }
         end
       end

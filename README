@@ -175,13 +175,13 @@ That's why all methods have aliases. So this is equivalent:
      end
    end
 
-Even more, since most of the times when you change a :create, :update or :destroy
+Even more, since most of the times when you change a create, update or destroy
 action is because you want to to change to where it redirects, a shortcut is
 provided. So you can do:
 
    class ProjectsController < InheritedResources::Base
      def destroy
-       destroy!(root_url)
+       destroy!{ root_url }
      end
    end
 
