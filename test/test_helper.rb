@@ -4,6 +4,7 @@ require 'ruby-debug'
 require 'mocha'
 
 ENV["RAILS_ENV"] = "test"
+RAILS_ROOT = "anywhere"
 
 require 'active_support'
 require 'action_controller'

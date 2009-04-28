@@ -23,7 +23,7 @@ class RedirectToWithArgumentTest < ActionController::TestCase
   tests SuperMachinesController
 
   def test_redirect_to_the_given_url_on_create
-    ActiveSupport::Deprecation.expects(:warn).with('create!(redirect_url) is deprecated. Use create!{ redirect_url } instead.')
+    ActiveSupport::Deprecation.expects(:warn).with('create!(redirect_url) is deprecated. Use create!{ redirect_url } instead.', [nil])
     SuperMachine.stubs(:new).returns(mock_machine(:save => true))
     @controller.expects(:resource_url).times(0)
     post :create
@@ -31,7 +31,7 @@ class RedirectToWithArgumentTest < ActionController::TestCase
   end
 
   def test_redirect_to_the_given_url_on_update
-    ActiveSupport::Deprecation.expects(:warn).with('update!(redirect_url) is deprecated. Use update!{ redirect_url } instead.')
+    ActiveSupport::Deprecation.expects(:warn).with('update!(redirect_url) is deprecated. Use update!{ redirect_url } instead.', [nil])
     SuperMachine.stubs(:find).returns(mock_machine(:update_attributes => true))
     @controller.expects(:resource_url).times(0)
     put :update
@@ -39,7 +39,7 @@ class RedirectToWithArgumentTest < ActionController::TestCase
   end
 
   def test_redirect_to_the_given_url_on_destroy
-    ActiveSupport::Deprecation.expects(:warn).with('destroy!(redirect_url) is deprecated. Use destroy!{ redirect_url } instead.')
+    ActiveSupport::Deprecation.expects(:warn).with('destroy!(redirect_url) is deprecated. Use destroy!{ redirect_url } instead.', [nil])
     SuperMachine.stubs(:find).returns(mock_machine(:destroy => true))
     @controller.expects(:collection_url).times(0)
     delete :destroy

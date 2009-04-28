@@ -302,8 +302,9 @@ module InheritedResources
       #
       def parse_redirect_url(redirect_url, default_url, block) #:nodoc:
         if redirect_url
-          ActiveSupport::Deprecation.warn "#{action_name}!(redirect_url) is deprecated. " << 
-                                          "Use #{action_name}!{ redirect_url } instead."
+          line = caller.detect{|l| l =~ Regexp.new(Regexp.escape(RAILS_ROOT)) }
+          ActiveSupport::Deprecation.warn("#{action_name}!(redirect_url) is deprecated. " << 
+                                          "Use #{action_name}!{ redirect_url } instead.", [line])
           return redirect_url
         end
 
