@@ -82,12 +82,9 @@ module InheritedResources
       # Overwrite this method to provide other interpolation options when
       # the flash message is going to be set.
       #
-      # You cannot overwrite :resource_name and :default options using this
-      # method. Check <tt>set_flash_message!</tt> for more information.
-      #
-      def interpolation_options
-        { }
-      end
+      # def interpolation_options
+      #    { }
+      # end
 
     private
 
@@ -216,13 +213,29 @@ module InheritedResources
       #   flash.cars.create.status
       #   flash.actions.create.status
       #
-      def set_flash_message!(status, default_message = '')
+      def set_flash_message!(status, default_message=nil)
         return flash[status] = default_message unless defined?(::I18n)
+
+        resource_name = if resource_class
+          if resource_class.respond_to?(:human_name)
+            resource_class.human_name
+          else
+            resource_class.name.humanize
+          end
+        else
+          "Resource"
+        end
+
+        given_options = if self.respond_to?(:interpolation_options)
+          interpolation_options
+        else
+          {}
+        end
 
         options = {
           :default  => default_message || '',
-          :resource_name => resource_class ? resource_class.human_name : 'Resource',
-        }.merge(interpolation_options)
+          :resource_name => resource_name
+        }.merge(given_options)
 
         defaults = []
         slices   = controller_path.split('/')

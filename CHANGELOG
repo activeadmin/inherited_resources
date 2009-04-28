@@ -1,5 +1,6 @@
 # Version 0.7
 
+* Allow interpolation_options to be set in the application controller.
 * Added has_scope to controller (an interface for named_scopes).
 * Added polymorphic_belongs_to, optional_belongs_to and singleton_belongs_to
   as quick methods.

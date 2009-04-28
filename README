@@ -135,7 +135,7 @@ and scopes (more about this below).
 
 InheritedResources also introduces another method called begin_of_association_chain.
 It's mostly used when you want to create resources based on the @current_user and
-you have urls like "account/projects". In such cases, so you have to do
+you have urls like "account/projects". In such cases, you have to do
 @current_user.projects.find or @current_user.projects.build in your actions.
 
 You can deal with it just doing:
@@ -280,8 +280,15 @@ Then you will finally have:
 
    "Hooray! The project "Plataforma" was updated!"
 
-If your controller is namespaced, for example Admin::ProjectsController, the
-messages will be checked in the following order:
+By default, resource name is capitalized. If you want to make it lower case, you
+can add to your application controller:
+
+   def interpolation_options
+     { :resource_name => resource_class.human_name.downcase }
+  end
+
+Finally, if your controller is namespaced, for example Admin::ProjectsController,
+the messages will be checked in the following order:
 
    flash.admin.projects.create.notice
    flash.admin.actions.create.notice
