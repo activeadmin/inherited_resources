@@ -309,7 +309,7 @@ it also is named_scope fluent. Let's suppose our Project model with the scopes:
 
 Your controller:
 
-  class GraduationsController < InheritedResources::Base
+  class ProjectsController < InheritedResources::Base
     has_scope :featured, :boolean => true, :only => :index
     has_scope :by_methodology
     has_scope :limit, :default => 10
@@ -330,6 +330,11 @@ You can retrieve the current scopes in use with :current_scopes method.
 In the last case, it would return:
 
   { :featured => "true", :by_methodology => "agile", :limit => "20" }
+
+Finally, let's suppose you store on the session how many projects the user sees
+per page. In such cases, you can give a proc as default value:
+
+   has_scope :limit, :default => proc{|c| c.session[:limit] || 10 }
 
 Belongs to
 ----------

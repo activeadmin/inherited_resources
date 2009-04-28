@@ -7,8 +7,9 @@ end
 class TreesController < InheritedResources::Base
   has_scope :color
   has_scope :only_tall, :boolean => true, :only => :index
-  has_scope :shadown_range, :default => 10, :except => [ :index, :show, :destroy ]
+  has_scope :shadown_range, :default => 10, :except => [ :index, :show, :destroy, :new ]
   has_scope :root_type, :key => :root
+  has_scope :calculate_height, :default => proc {|c| c.session[:height] || 20 }, :only => :new
 end
 
 class HasScopeTest < ActionController::TestCase
@@ -91,6 +92,15 @@ class HasScopeTest < ActionController::TestCase
     assert_equal(mock_tree, assigns(:tree))
     assert_equal({ :root => 'outside' }, assigns(:current_scopes))
   end
+
+  def test_scope_with_default_value_as_proc
+    session[:height] = 100
+    Tree.expects(:calculate_height).with(100).returns(Tree).in_sequence
+    Tree.expects(:new).returns(mock_tree).in_sequence
+    get :new
+    assert_equal(mock_tree, assigns(:tree))
+    assert_equal({ :calculate_height => 100 }, assigns(:current_scopes))
+   end
 
   protected
 

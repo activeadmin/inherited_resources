@@ -23,6 +23,7 @@ module InheritedResources
             value, call_scope = params[key], true
           elsif options.key?(:default)
             value, call_scope = options[:default], true
+            value = value.call(self) if value.is_a?(Proc)
           end
 
           if call_scope

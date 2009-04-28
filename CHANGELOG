@@ -1,5 +1,6 @@
 # Version 0.7
 
+* Allow procs as default value in has scope to be able to use values from session, for example.
 * Allow blocks with arity 0 or -1 to be given as the redirect url:
 
     def destroy
