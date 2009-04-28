@@ -297,20 +297,6 @@ module InheritedResources
         []
       end
 
-      # If block is not nil, call it and uses the result as redirect to url.
-      # Otherwise, send the default url as message.
-      #
-      def parse_redirect_url(redirect_url, default_url, block) #:nodoc:
-        if redirect_url
-          line = caller.detect{|l| l =~ Regexp.new(Regexp.escape(RAILS_ROOT)) }
-          ActiveSupport::Deprecation.warn("#{action_name}!(redirect_url) is deprecated. " << 
-                                          "Use #{action_name}!{ redirect_url } instead.", [line])
-          return redirect_url
-        end
-
-        block ? block.call : send(default_url)
-      end
-
       # Holds InheritedResources block structure. It returns two blocks: the first
       # is used in respond_to blocks and the second is the redirect_to url.
       #
