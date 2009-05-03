@@ -28,104 +28,98 @@ module InheritedResources
                   :resource, :collection, :resource_class
 
     def self.inherited(base) #:nodoc:
-      base.class_eval do
-        # Make all resources actions public
-        public *RESOURCES_ACTIONS
-      end
-
-      # Call super to register class in ApplicationController
       super
-
-      # Creates and sets class accessors default values
       initialize_resources_class_accessors!(base)
+      InheritedResources::UrlHelpers.create_resources_url_helpers!(base)
     end
 
-    protected
+    # GET /resources
+    def index(&block)
+      respond_to(:with => collection, &block)
+    end
+    alias :index! :index
 
-      # GET /resources
-      def index(&block)
-        respond_to(:with => collection, &block)
-      end
-      alias :index! :index
+    # GET /resources/1
+    def show(&block)
+      respond_to(:with => resource, &block)
+    end
+    alias :show! :show
 
-      # GET /resources/1
-      def show(&block)
-        respond_to(:with => resource, &block)
-      end
-      alias :show! :show
+    # GET /resources/new
+    def new(&block)
+      respond_to(:with => build_resource, &block)
+    end
+    alias :new! :new
 
-      # GET /resources/new
-      def new(&block)
-        respond_to(:with => build_resource, &block)
-      end
-      alias :new! :new
+    # GET /resources/1/edit
+    def edit(&block)
+      respond_to(:with => resource, &block)
+    end
+    alias :edit! :edit
 
-      # GET /resources/1/edit
-      def edit(&block)
-        respond_to(:with => resource, &block)
-      end
-      alias :edit! :edit
+    # POST /resources
+    def create(redirect_url=nil, &block)
+      object = build_resource(params[resource_instance_name])
+      respond_block, redirect_block = select_block_by_arity(block)
 
-      # POST /resources
-      def create(redirect_url=nil, &block)
-        object = build_resource(params[resource_instance_name])
-        respond_block, redirect_block = select_block_by_arity(block)
+      if object.save
+        set_flash_message!(:notice, '{{resource_name}} was successfully created.')
+        options = { :with => object, :status => :created, :location => (resource_url rescue nil) }
 
-        if object.save
-          set_flash_message!(:notice, '{{resource_name}} was successfully created.')
-          options = { :with => object, :status => :created, :location => (resource_url rescue nil) }
+        respond_to_with_dual_blocks(true, respond_block, options) do |format|
+          format.html { redirect_to (redirect_block ? redirect_block.call : resource_url) }
+        end
+      else
+        set_flash_message!(:error)
+        options = { :with => object.errors, :status => :unprocessable_entity }
 
-          respond_to_with_dual_blocks(true, respond_block, options) do |format|
-            format.html { redirect_to (redirect_block ? redirect_block.call : resource_url) }
-          end
-        else
-          set_flash_message!(:error)
-          options = { :with => object.errors, :status => :unprocessable_entity }
-
-          respond_to_with_dual_blocks(false, respond_block, options) do |format|
-            format.html { render :action => 'new' }
-          end
+        respond_to_with_dual_blocks(false, respond_block, options) do |format|
+          format.html { render :action => 'new' }
         end
       end
-      alias :create! :create
+    end
+    alias :create! :create
 
-      # PUT /resources/1
-      def update(redirect_url=nil, &block)
-        object = resource
-        respond_block, redirect_block = select_block_by_arity(block)
+    # PUT /resources/1
+    def update(redirect_url=nil, &block)
+      object = resource
+      respond_block, redirect_block = select_block_by_arity(block)
 
-        if object.update_attributes(params[resource_instance_name])
-          set_flash_message!(:notice, '{{resource_name}} was successfully updated.')
+      if object.update_attributes(params[resource_instance_name])
+        set_flash_message!(:notice, '{{resource_name}} was successfully updated.')
 
-          respond_to_with_dual_blocks(true, block) do |format|
-            format.html { redirect_to (redirect_block ? redirect_block.call : resource_url) }
-            format.all  { head :ok }
-          end
-        else
-          set_flash_message!(:error)
-
-          options = { :with => object.errors, :status => :unprocessable_entity }
-
-          respond_to_with_dual_blocks(false, block, options) do |format|
-            format.html { render :action => 'edit' }
-          end
-        end
-      end
-      alias :update! :update
-
-      # DELETE /resources/1
-      def destroy(redirect_url=nil, &block)
-        resource.destroy
-        respond_block, redirect_block = select_block_by_arity(block)
-
-        set_flash_message!(:notice, '{{resource_name}} was successfully destroyed.')
-
-        respond_to_with_dual_blocks(nil, respond_block) do |format|
-          format.html { redirect_to (redirect_block ? redirect_block.call : collection_url) }
+        respond_to_with_dual_blocks(true, block) do |format|
+          format.html { redirect_to (redirect_block ? redirect_block.call : resource_url) }
           format.all  { head :ok }
         end
+      else
+        set_flash_message!(:error)
+
+        options = { :with => object.errors, :status => :unprocessable_entity }
+
+        respond_to_with_dual_blocks(false, block, options) do |format|
+          format.html { render :action => 'edit' }
+        end
       end
-      alias :destroy! :destroy
+    end
+    alias :update! :update
+
+    # DELETE /resources/1
+    def destroy(redirect_url=nil, &block)
+      resource.destroy
+      respond_block, redirect_block = select_block_by_arity(block)
+
+      set_flash_message!(:notice, '{{resource_name}} was successfully destroyed.')
+
+      respond_to_with_dual_blocks(nil, respond_block) do |format|
+        format.html { redirect_to (redirect_block ? redirect_block.call : collection_url) }
+        format.all  { head :ok }
+      end
+    end
+    alias :destroy! :destroy
+
+    # Make aliases protected
+    protected :index!, :show!, :new!, :create!, :edit!, :update!, :destroy!
 
   end
 end

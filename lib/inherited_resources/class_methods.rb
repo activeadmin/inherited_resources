@@ -332,9 +332,6 @@ module InheritedResources
         base.parents_symbols      = []
         base.scopes_configuration = {}
         base.resources_configuration[:polymorphic] = { :symbols => [], :optional => false }
-
-        # Create helpers
-        InheritedResources::UrlHelpers.create_resources_url_helpers!(base)
       end
 
   end
