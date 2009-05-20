@@ -38,7 +38,7 @@ module InheritedResources
         options = { :with => object, :status => :created, :location => (resource_url rescue nil) }
 
         respond_to_with_dual_blocks(true, respond_block, options) do |format|
-          format.html { redirect_to (redirect_block ? redirect_block.call : resource_url) }
+          format.html { redirect_to(redirect_block ? redirect_block.call : resource_url) }
         end
       else
         set_flash_message!(:error)
@@ -60,7 +60,7 @@ module InheritedResources
         set_flash_message!(:notice, '{{resource_name}} was successfully updated.')
 
         respond_to_with_dual_blocks(true, block) do |format|
-          format.html { redirect_to (redirect_block ? redirect_block.call : resource_url) }
+          format.html { redirect_to(redirect_block ? redirect_block.call : resource_url) }
           format.all  { head :ok }
         end
       else
@@ -83,7 +83,7 @@ module InheritedResources
       set_flash_message!(:notice, '{{resource_name}} was successfully destroyed.')
 
       respond_to_with_dual_blocks(nil, respond_block) do |format|
-        format.html { redirect_to (redirect_block ? redirect_block.call : collection_url) }
+        format.html { redirect_to(redirect_block ? redirect_block.call : collection_url) }
         format.all  { head :ok }
       end
     end
