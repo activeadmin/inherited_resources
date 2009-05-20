@@ -15,6 +15,7 @@ Gem::Specification.new do |s|
     "Rakefile",
     "init.rb",
     "lib/inherited_resources.rb",
+    "lib/inherited_resources/actions.rb",
     "lib/inherited_resources/base.rb",
     "lib/inherited_resources/base_helpers.rb",
     "lib/inherited_resources/belongs_to_helpers.rb",

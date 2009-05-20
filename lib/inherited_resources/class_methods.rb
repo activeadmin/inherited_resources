@@ -292,46 +292,44 @@ module InheritedResources
 
       # Initialize resources class accessors and set their default values.
       #
-      def initialize_resources_class_accessors!(base) #:nodoc:
+      def initialize_resources_class_accessors! #:nodoc:
         # Add and protect class accessors
-        base.class_eval do
-          metaklass = (class << self; self; end)
+        metaklass = (class << self; self; end)
 
-          RESOURCES_CLASS_ACCESSORS.each do |cattr|
-            cattr_accessor "#{cattr}", :instance_writer => false
+        RESOURCES_CLASS_ACCESSORS.each do |cattr|
+          cattr_accessor "#{cattr}", :instance_writer => false
 
-            # Protect instance methods
-            self.send :protected, cattr
+          # Protect instance methods
+          self.send :protected, cattr
 
-            # Protect class writer
-            metaklass.send :protected, "#{cattr}="
-          end
+          # Protect class writer
+          metaklass.send :protected, "#{cattr}="
         end
 
         # Initialize resource class
-        base.resource_class = begin
-          base.controller_name.classify.constantize
+        self.resource_class = begin
+          self.controller_name.classify.constantize
         rescue NameError
           nil
         end
 
         # Initialize resources configuration hash
-        base.resources_configuration = {}
-        config = base.resources_configuration[:self] = {}
-        config[:collection_name] = base.controller_name.to_sym
-        config[:instance_name]   = base.controller_name.singularize.to_sym
+        self.resources_configuration = {}
+        config = self.resources_configuration[:self] = {}
+        config[:collection_name] = self.controller_name.to_sym
+        config[:instance_name]   = self.controller_name.singularize.to_sym
 
         config[:route_collection_name] = config[:collection_name]
         config[:route_instance_name]   = config[:instance_name]
 
         # Deal with namespaced controllers
-        namespaces = base.controller_path.split('/')[0..-2]
+        namespaces = self.controller_path.split('/')[0..-2]
         config[:route_prefix] = namespaces.join('_') unless namespaces.empty?
 
         # Initialize polymorphic, singleton, scopes and belongs_to parameters
-        base.parents_symbols      = []
-        base.scopes_configuration = {}
-        base.resources_configuration[:polymorphic] = { :symbols => [], :optional => false }
+        self.parents_symbols      = []
+        self.scopes_configuration = {}
+        self.resources_configuration[:polymorphic] = { :symbols => [], :optional => false }
       end
 
   end

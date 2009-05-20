@@ -1,3 +1,7 @@
+* Allow InheritedResources to work with modules.
+* Ensure that controllers that inherit from a controller with InheritedResources
+  works properly.
+
 # Version 0.7
 
 * Allow procs as default value in has scope to be able to use values from session, for example.
