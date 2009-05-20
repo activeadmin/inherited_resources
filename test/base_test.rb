@@ -4,7 +4,10 @@ class User
   def self.human_name; 'User'; end
 end
 
-class UsersController < InheritedResources::Base
+class AccountsController < InheritedResources::Base
+end
+
+class UsersController < AccountsController
   respond_to :html, :xml
 end
 
