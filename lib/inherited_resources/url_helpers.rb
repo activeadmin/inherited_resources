@@ -39,9 +39,9 @@ module InheritedResources
     # When we are using polymorphic associations, those helpers rely on 
     # polymorphic_url Rails helper.
     #
-    def self.create_resources_url_helpers!(base)
+    def create_resources_url_helpers!
       resource_segments, resource_ivars = [], []
-      resource_config = base.resources_configuration[:self]
+      resource_config = self.resources_configuration[:self]
 
       # Add route_prefix if any.
       resource_segments << resource_config[:route_prefix] unless resource_config[:route_prefix].blank?
@@ -50,18 +50,18 @@ module InheritedResources
       # Remember that we don't have to build the segments in polymorphic cases,
       # because the url will be polymorphic_url.
       #
-      base.parents_symbols.map do |symbol|
+      self.parents_symbols.each do |symbol|
         if symbol == :polymorphic
           resource_ivars << :parent
         else
-          config = base.resources_configuration[symbol]
+          config = self.resources_configuration[symbol]
           resource_segments << config[:route_name]
           resource_ivars    << :"@#{config[:instance_name]}"
         end
       end
 
-      singleton   = base.resources_configuration[:self][:singleton]
-      polymorphic = base.parents_symbols.include?(:polymorphic)
+      singleton   = self.resources_configuration[:self][:singleton]
+      polymorphic = self.parents_symbols.include?(:polymorphic)
 
       collection_ivars    = resource_ivars.dup
       collection_segments = resource_segments.dup
@@ -105,17 +105,17 @@ module InheritedResources
         collection_ivars << 'resource_class.new'
       end
 
-      generate_url_and_path_helpers base, nil,   :collection, collection_segments, collection_ivars
-      generate_url_and_path_helpers base, :new,  :resource,   resource_segments,   new_ivars || collection_ivars
-      generate_url_and_path_helpers base, nil,   :resource,   resource_segments,   resource_ivars
-      generate_url_and_path_helpers base, :edit, :resource,   resource_segments,   resource_ivars
+      generate_url_and_path_helpers nil,   :collection, collection_segments, collection_ivars
+      generate_url_and_path_helpers :new,  :resource,   resource_segments,   new_ivars || collection_ivars
+      generate_url_and_path_helpers nil,   :resource,   resource_segments,   resource_ivars
+      generate_url_and_path_helpers :edit, :resource,   resource_segments,   resource_ivars
     end
 
-    def self.generate_url_and_path_helpers(base, prefix, name, resource_segments, resource_ivars) #:nodoc:
+    def generate_url_and_path_helpers(prefix, name, resource_segments, resource_ivars) #:nodoc:
       ivars = resource_ivars.dup
 
-      singleton   = base.resources_configuration[:self][:singleton]
-      polymorphic = base.parents_symbols.include?(:polymorphic)
+      singleton   = self.resources_configuration[:self][:singleton]
+      polymorphic = self.parents_symbols.include?(:polymorphic)
 
       # If it's not a singleton, ivars are not empty, not a collection or
       # not a "new" named route, we can pass a resource as argument.
@@ -131,7 +131,7 @@ module InheritedResources
       if polymorphic
         segments = :polymorphic
         ivars    = "[#{ivars.join(', ')}]"
-        ivars   << '.compact' if base.resources_configuration[:polymorphic][:optional]
+        ivars   << '.compact' if self.resources_configuration[:polymorphic][:optional]
       else
         segments = resource_segments.empty? ? 'root' : resource_segments.join('_')
         ivars    = ivars.join(', ')
@@ -140,7 +140,7 @@ module InheritedResources
       prefix = prefix ? "#{prefix}_" : ''
       ivars << (ivars.empty? ? 'given_options' : ', given_options')
 
-      base.class_eval <<-URL_HELPERS, __FILE__, __LINE__
+      class_eval <<-URL_HELPERS, __FILE__, __LINE__
         protected
           def #{prefix}#{name}_path(*given_args)
             given_options = given_args.extract_options!

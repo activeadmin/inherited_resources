@@ -1,4 +1,6 @@
-* Allow InheritedResources to work with modules.
+# Version 0.8
+
+* Allow InheritedResources to be called without inheritance.
 * Ensure that controllers that inherit from a controller with InheritedResources
   works properly.
 

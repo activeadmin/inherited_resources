@@ -1,3 +1,6 @@
+# Whenever base is required load the dumb responder since it's used inside actions.
+require File.dirname(__FILE__) + '/dumb_responder.rb'
+
 module InheritedResources
   # Base helpers for InheritedResource work. Some methods here can be overwriten
   # and you will need to do that to customize your controllers from time to time.

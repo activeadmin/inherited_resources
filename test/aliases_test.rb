@@ -4,7 +4,8 @@ class Student;
   def self.human_name; 'Student'; end
 end
 
-class StudentsController < InheritedResources::Base
+class StudentsController < ApplicationController
+  inherit_resources
 
   def edit
     edit! do |format|

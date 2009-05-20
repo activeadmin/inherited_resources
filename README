@@ -1,6 +1,6 @@
 Inherited Resources
 License: MIT
-Version: 0.7.3
+Version: 0.8.0
 
 You can also read this README in pretty html at the GitHub project Wiki page:
 
@@ -92,6 +92,13 @@ In your views, you will get the following helpers:
 
 As you might expect, collection (@projects instance variable) is only available
 on index actions.
+
+If for some reason you cannot inherit from InheritedResources::Base, you can
+call inherit_resources or resource_controller in your controller class scope:
+
+  class AccountsController < ApplicationController
+    inherit_resources # or resource_controller
+  end
 
 Overwriting defaults
 --------------------

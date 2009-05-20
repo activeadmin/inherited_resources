@@ -53,7 +53,7 @@ module InheritedResources
           config[key] = value.to_sym
         end
 
-        InheritedResources::UrlHelpers.create_resources_url_helpers!(self)
+        create_resources_url_helpers!
       end
 
       # Defines wich actions to keep from the inherited controller.
@@ -244,7 +244,7 @@ module InheritedResources
         if block_given?
           class_eval(&block)
         else
-          InheritedResources::UrlHelpers.create_resources_url_helpers!(self)
+          create_resources_url_helpers!
         end
       end
       alias :nested_belongs_to :belongs_to

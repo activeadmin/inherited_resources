@@ -1,11 +1,3 @@
-# Whenever Base is required, we eager load the base files. belongs_to, polymorphic
-# and singleton helpers are loaded on demand.
-require File.dirname(__FILE__) + '/actions.rb'
-require File.dirname(__FILE__) + '/base_helpers.rb'
-require File.dirname(__FILE__) + '/class_methods.rb'
-require File.dirname(__FILE__) + '/dumb_responder.rb'
-require File.dirname(__FILE__) + '/url_helpers.rb'
-
 module InheritedResources
   # = Base
   #
@@ -21,17 +13,17 @@ module InheritedResources
 
     include InheritedResources::Actions
     include InheritedResources::BaseHelpers
-    extend InheritedResources::ClassMethods
+    extend  InheritedResources::ClassMethods
+    extend  InheritedResources::UrlHelpers
 
     helper_method :collection_url, :collection_path, :resource_url, :resource_path,
                   :new_resource_url, :new_resource_path, :edit_resource_url, :edit_resource_path,
                   :resource, :collection, :resource_class
 
     def self.inherited(base) #:nodoc:
-      super
+      super(base)
       base.send :initialize_resources_class_accessors!
-      InheritedResources::UrlHelpers.create_resources_url_helpers!(base)
+      base.send :create_resources_url_helpers!
     end
   end
 end
-

@@ -81,7 +81,7 @@ class DefaultsClassMethodTest < ActiveSupport::TestCase
   end
 
   def test_url_helpers_are_recreated_when_defaults_change
-    InheritedResources::UrlHelpers.expects(:create_resources_url_helpers!).returns(true).once
+    BooksController.expects(:create_resources_url_helpers!).returns(true).once
     BooksController.send(:defaults, :instance_name => 'string', :collection_name => 'strings')
   end
 end
@@ -104,7 +104,7 @@ class BelongsToErrorsTest < ActiveSupport::TestCase
   end
 
   def test_url_helpers_are_recreated_just_once_when_belongs_to_is_called_with_block
-    InheritedResources::UrlHelpers.expects(:create_resources_url_helpers!).returns(true).once
+    DeansController.expects(:create_resources_url_helpers!).returns(true).once
     DeansController.send(:belongs_to, :school) do
       belongs_to :association
     end
@@ -113,7 +113,7 @@ class BelongsToErrorsTest < ActiveSupport::TestCase
   end
 
   def test_url_helpers_are_recreated_just_once_when_belongs_to_is_called_with_multiple_blocks
-    InheritedResources::UrlHelpers.expects(:create_resources_url_helpers!).returns(true).once
+    DeansController.expects(:create_resources_url_helpers!).returns(true).once
     DeansController.send(:belongs_to, :school) do
       belongs_to :association do
         belongs_to :nested
