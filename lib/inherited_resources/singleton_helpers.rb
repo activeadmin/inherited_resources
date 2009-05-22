@@ -80,8 +80,8 @@ module InheritedResources
 
       # Returns the appropriated method to build the resource.
       #
-      def method_for_build #:nodoc:
-        "build_#{resource_instance_name}"
+      def method_for_association_build #:nodoc:
+        :"build_#{resource_instance_name}"
       end
 
       # Sets the method_for_association_chain to nil. See <tt>resource</tt>
