@@ -30,7 +30,7 @@ module InheritedResources
 
     # POST /resources
     def create(redirect_url=nil, &block)
-      object = build_resource(params[resource_instance_name])
+      object = build_resource
       respond_block, redirect_block = select_block_by_arity(block)
 
       if object.save
