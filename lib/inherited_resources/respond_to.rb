@@ -59,9 +59,6 @@ module ActionController
       end
       class_inheritable_reader :formats_for_respond_to
 
-      # By default, responds only to :html
-      respond_to :html
-
       # Method to clear all respond_to declared until the current controller.
       # This is like freeing the controller from the inheritance chain. :)
       #
@@ -69,6 +66,20 @@ module ActionController
         formats = formats_for_respond_to
         formats.each { |k,v| formats[k] = { :only => [] } }
         write_inheritable_hash(:formats_for_respond_to, formats)
+      end
+
+      # By default, responds only to :html
+      respond_to :html
+
+      # If ApplicationController is already defined around here, we recriate
+      # the formats_for_respond_to hash. Since we respond only to :html by
+      # default, this is as easy as settings the :formats_for_respond_to key
+      # to {:html=>{}}.
+      #
+      if defined?(ApplicationController)
+        if inheritable = ApplicationController.instance_variable_get("@inheritable_attributes")
+          inheritable.merge!(:formats_for_respond_to => {:html => {}}) if inheritable
+        end
       end
 
       # respond_with accepts an object and tries to render a view based in the
@@ -256,14 +267,6 @@ module ActionController
       #
       def respond_to_default_template?(responder) #:nodoc:
         responder.action_respond_to_format?(default_template_format) && template_exists?
-      end
-
-      # If ApplicationController is already defined around here, we should call
-      # inherited_with_inheritable_attributes to insert formats_for_respond_to.
-      # This usually happens only on Rails 2.3.
-      #
-      if defined?(ApplicationController)
-        self.send(:inherited_with_inheritable_attributes, ApplicationController)
       end
 
   end

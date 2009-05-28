@@ -14,11 +14,11 @@ require 'action_controller/test_process'
 I18n.load_path << File.join(File.dirname(__FILE__), 'locales', 'en.yml')
 I18n.reload!
 
+class ApplicationController < ActionController::Base; end
+
 # Add IR to load path and load the main file
 ActiveSupport::Dependencies.load_paths << File.expand_path(File.dirname(__FILE__) + '/../lib')
 require_dependency 'inherited_resources'
-
-class ApplicationController < ActionController::Base; end
 
 ActionController::Base.view_paths = File.join(File.dirname(__FILE__), 'views')
 
