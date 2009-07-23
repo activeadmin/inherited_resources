@@ -1,7 +1,4 @@
 module InheritedResources
-  RESOURCES_CLASS_ACCESSORS = [ :resource_class, :resources_configuration,
-                                :parents_symbols, :scopes_configuration ] unless self.const_defined?(:RESOURCES_CLASS_ACCESSORS)
-
   module ClassMethods
 
     protected
@@ -293,19 +290,6 @@ module InheritedResources
       # Initialize resources class accessors and set their default values.
       #
       def initialize_resources_class_accessors! #:nodoc:
-        # Add and protect class accessors
-        metaklass = (class << self; self; end)
-
-        RESOURCES_CLASS_ACCESSORS.each do |cattr|
-          cattr_accessor "#{cattr}", :instance_writer => false
-
-          # Protect instance methods
-          self.send :protected, cattr
-
-          # Protect class writer
-          metaklass.send :protected, "#{cattr}="
-        end
-
         # Initialize resource class
         self.resource_class = begin
           self.controller_name.classify.constantize
@@ -314,7 +298,7 @@ module InheritedResources
         end
 
         # Initialize resources configuration hash
-        self.resources_configuration = {}
+        self.resources_configuration ||= {}
         config = self.resources_configuration[:self] = {}
         config[:collection_name] = self.controller_name.to_sym
         config[:instance_name]   = self.controller_name.singularize.to_sym
@@ -327,9 +311,17 @@ module InheritedResources
         config[:route_prefix] = namespaces.join('_') unless namespaces.empty?
 
         # Initialize polymorphic, singleton, scopes and belongs_to parameters
-        self.parents_symbols      = []
-        self.scopes_configuration = {}
-        self.resources_configuration[:polymorphic] = { :symbols => [], :optional => false }
+        self.parents_symbols      ||= []
+        self.scopes_configuration ||= {}
+        self.resources_configuration[:polymorphic] ||= { :symbols => [], :optional => false }
+      end
+
+      # Hook called on inheritance.
+      #
+      def inherited(base) #:nodoc:
+        super(base)
+        base.send :initialize_resources_class_accessors!
+        base.send :create_resources_url_helpers!
       end
 
   end

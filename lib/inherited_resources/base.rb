@@ -11,19 +11,29 @@ module InheritedResources
   class Base < ::ApplicationController
     unloadable
 
-    include InheritedResources::Actions
-    include InheritedResources::BaseHelpers
-    extend  InheritedResources::ClassMethods
-    extend  InheritedResources::UrlHelpers
+    # Overwrite inherit_resources to add specific InheritedResources behavior.
+    #
+    def self.inherit_resources(base)
+      base.class_eval do
+        include InheritedResources::Actions
+        include InheritedResources::BaseHelpers
+        extend  InheritedResources::ClassMethods
+        extend  InheritedResources::UrlHelpers
 
-    helper_method :collection_url, :collection_path, :resource_url, :resource_path,
-                  :new_resource_url, :new_resource_path, :edit_resource_url, :edit_resource_path,
-                  :resource, :collection, :resource_class
+        helper_method :collection_url, :collection_path, :resource_url, :resource_path,
+                      :new_resource_url, :new_resource_path, :edit_resource_url, :edit_resource_path,
+                      :resource, :collection, :resource_class
 
-    def self.inherited(base) #:nodoc:
-      super(base)
-      base.send :initialize_resources_class_accessors!
-      base.send :create_resources_url_helpers!
+        base.with_options :instance_writer => false do |c|
+          c.class_inheritable_accessor :resource_class
+          c.class_inheritable_array :parents_symbols
+          c.class_inheritable_hash :resources_configuration, :scopes_configuration
+        end
+
+        protected :resource_class, :parents_symbols, :resources_configuration, :scopes_configuration
+      end
     end
+
+    inherit_resources(self)
   end
 end

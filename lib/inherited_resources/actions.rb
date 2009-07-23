@@ -29,7 +29,7 @@ module InheritedResources
     alias :edit! :edit
 
     # POST /resources
-    def create(redirect_url=nil, &block)
+    def create(&block)
       object = build_resource
       respond_block, redirect_block = select_block_by_arity(block)
 
@@ -52,7 +52,7 @@ module InheritedResources
     alias :create! :create
 
     # PUT /resources/1
-    def update(redirect_url=nil, &block)
+    def update(&block)
       object = resource
       respond_block, redirect_block = select_block_by_arity(block)
 
@@ -76,7 +76,7 @@ module InheritedResources
     alias :update! :update
 
     # DELETE /resources/1
-    def destroy(redirect_url=nil, &block)
+    def destroy(&block)
       resource.destroy
       respond_block, redirect_block = select_block_by_arity(block)
 
