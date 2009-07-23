@@ -2,6 +2,22 @@ require 'rake'
 require 'rake/testtask'
 require 'rake/rdoctask'
 
+begin
+  require 'jeweler'
+  Jeweler::Tasks.new do |s|
+    s.name = "inherited_resources"
+    s.rubyforge_project = "inherited_resources"
+    s.summary = "Inherited Resources speeds up development by making your controllers inherit all restful actions so you just have to focus on what is important."
+    s.email = "jose.valim@gmail.com"
+    s.homepage = "http://github.com/josevalim/inherited_resources"
+    s.description = "Inherited Resources speeds up development by making your controllers inherit all restful actions so you just have to focus on what is important."
+    s.authors = ['José Valim']
+    s.files =  FileList["[A-Z]*", "{lib}/**/*"]
+  end
+rescue LoadError
+  puts "Jeweler, or one of its dependencies, is not available. Install it with: sudo gem install technicalpickles-jeweler -s http://gems.github.com"
+end
+
 desc 'Run tests for InheritedResources.'
 Rake::TestTask.new(:test) do |t|
   t.pattern = 'test/**/*_test.rb'
