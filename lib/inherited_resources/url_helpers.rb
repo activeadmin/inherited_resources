@@ -108,7 +108,7 @@ module InheritedResources
           new_ivars       = resource_ivars
         end
       elsif polymorphic
-        collection_ivars << 'resource_class.new'
+        collection_ivars << '(@_resource_class_new ||= resource_class.new)'
       end
 
       generate_url_and_path_helpers nil,   :collection, collection_segments, collection_ivars
