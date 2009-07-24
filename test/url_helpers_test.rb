@@ -302,6 +302,9 @@ class UrlHelpersTest < ActiveSupport::TestCase
     controller.send("resource_url", :page => 1)
 
     # With args
+    controller.expects("polymorphic_url").with([:arg, new_bed], {}).once
+    controller.send("collection_url", :arg)
+
     controller.expects("polymorphic_url").with([house, :arg], {}).once
     controller.send("resource_url", :arg)
 
@@ -341,6 +344,9 @@ class UrlHelpersTest < ActiveSupport::TestCase
     controller.send("resource_url", :page => 1)
 
     # With args
+    controller.expects("polymorphic_url").with(['admin', :arg, new_desk], {}).once
+    controller.send("collection_url", :arg)
+
     controller.expects("polymorphic_url").with(['admin', house, :arg], {}).once
     controller.send("resource_url", :arg)
 

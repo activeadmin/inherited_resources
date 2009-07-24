@@ -1,5 +1,8 @@
 # Version 0.8
 
+* Fixed a small bug on optional belongs to with namespaced controllers.
+* Allow a parameter to be given to collection_url in polymorphic cases to replace
+  the parent.
 * Allow InheritedResources to be called without inheritance.
 * Ensure that controllers that inherit from a controller with InheritedResources
   works properly.

@@ -43,9 +43,12 @@ module InheritedResources
       resource_segments, resource_ivars = [], []
       resource_config = self.resources_configuration[:self]
 
+      singleton   = self.resources_configuration[:self][:singleton]
+      polymorphic = self.parents_symbols.include?(:polymorphic)
+
       # Add route_prefix if any.
       unless resource_config[:route_prefix].blank?
-        if self.parents_symbols.include?(:polymorphic)
+        if polymorphic
           resource_ivars << resource_config[:route_prefix].to_s.inspect
         else
           resource_segments << resource_config[:route_prefix]
@@ -65,9 +68,6 @@ module InheritedResources
           resource_ivars    << :"@#{config[:instance_name]}"
         end
       end
-
-      singleton   = self.resources_configuration[:self][:singleton]
-      polymorphic = self.parents_symbols.include?(:polymorphic)
 
       collection_ivars    = resource_ivars.dup
       collection_segments = resource_segments.dup
@@ -128,6 +128,15 @@ module InheritedResources
       #
       unless singleton || ivars.empty? || name == :collection || prefix == :new
         ivars.push "(given_args.first || #{ivars.pop})"
+      end
+
+      # In collection in polymorphic cases, allow an argument to be given as a
+      # replacemente for the parent.
+      #
+      if name == :collection && polymorphic
+        index = ivars.index(:parent)
+        ivars.insert index, "(given_args.first || parent)"
+        ivars.delete(:parent)
       end
 
       # When polymorphic is true, the segments must be replace by :polymorphic
