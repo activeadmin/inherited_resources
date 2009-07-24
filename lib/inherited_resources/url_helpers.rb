@@ -44,7 +44,13 @@ module InheritedResources
       resource_config = self.resources_configuration[:self]
 
       # Add route_prefix if any.
-      resource_segments << resource_config[:route_prefix] unless resource_config[:route_prefix].blank?
+      unless resource_config[:route_prefix].blank?
+        if self.parents_symbols.include?(:polymorphic)
+          resource_ivars << resource_config[:route_prefix].to_s.inspect
+        else
+          resource_segments << resource_config[:route_prefix]
+        end
+      end
 
       # Deal with belongs_to associations and polymorphic associations.
       # Remember that we don't have to build the segments in polymorphic cases,

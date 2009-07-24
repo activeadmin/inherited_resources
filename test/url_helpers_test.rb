@@ -39,6 +39,13 @@ class BedsController < InheritedResources::Base
   optional_belongs_to :house, :building
 end
 
+class Desk; end
+module Admin
+  class DesksController < InheritedResources::Base
+    optional_belongs_to :house
+  end
+end
+
 class Dish; end
 class DishesController < InheritedResources::Base
   belongs_to :house do
@@ -299,6 +306,45 @@ class UrlHelpersTest < ActiveSupport::TestCase
     controller.send("resource_url", :arg)
 
     controller.expects("edit_polymorphic_url").with([house, :arg], {}).once
+    controller.send("edit_resource_url", :arg)
+  end
+
+  def test_url_helpers_on_namespaced_polymorphic_belongs_to
+    house = House.new
+    desk  = Desk.new
+
+    new_desk = Desk.new
+    Desk.stubs(:new).returns(new_desk)
+    new_desk.stubs(:new_record?).returns(true)
+
+    controller = Admin::DesksController.new
+    controller.instance_variable_set('@parent_type', :house)
+    controller.instance_variable_set('@house', house)
+    controller.instance_variable_set('@desk', desk)
+
+    [:url, :path].each do |path_or_url|
+      controller.expects("admin_house_desks_#{path_or_url}").with(house).once
+      controller.send("collection_#{path_or_url}")
+
+      controller.expects("admin_house_desk_#{path_or_url}").with(house, desk).once
+      controller.send("resource_#{path_or_url}")
+
+      controller.expects("new_admin_house_desk_#{path_or_url}").with(house).once
+      controller.send("new_resource_#{path_or_url}")
+
+      controller.expects("edit_admin_house_desk_#{path_or_url}").with(house, desk).once
+      controller.send("edit_resource_#{path_or_url}")
+    end
+
+    # With options
+    controller.expects("admin_house_desk_url").with(house, desk, :page => 1).once
+    controller.send("resource_url", :page => 1)
+
+    # With args
+    controller.expects("polymorphic_url").with(['admin', house, :arg], {}).once
+    controller.send("resource_url", :arg)
+
+    controller.expects("edit_polymorphic_url").with(['admin', house, :arg], {}).once
     controller.send("edit_resource_url", :arg)
   end
 
