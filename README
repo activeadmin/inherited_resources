@@ -308,7 +308,7 @@ Has Scope
 InheritedResources tries to integrate nicely with your model. In order to do so,
 it also is named_scope fluent. Let's suppose our Project model with the scopes:
 
-  class ProjectsController < ActiveRecord::Base
+  class Project < ActiveRecord::Base
     named_scope :featured, :conditions => { :featured => true }
     named_scope :by_methodology, proc {|methodology| { :conditions => { :methodology => methodology } } }
     named_scope :limit, proc{|limit| :limit => limit.to_i }
@@ -375,7 +375,7 @@ you have to for security reasons. So this is an example of how you can do it:
      nested_belongs_to :project, :task
    end
 
-If you need to configure any of these belongs to, you can nested them using blocks:
+If you need to configure any of these belongs to, you can nest them using blocks:
 
    class CommentsController < InheritedResources::Base
      belongs_to :project, :finder => :find_by_title!, :param => :project_title do
