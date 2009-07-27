@@ -108,7 +108,7 @@ For example you can have an AccountsController to account management while the
 resource is an User:
 
    class AccountsController < InheritedResources::Base
-     defaults :resource_class => User, :collection_name, 'users', :instance_name => 'user'
+     defaults :resource_class => User, :collection_name => 'users', :instance_name => 'user'
    end
 
 In the case above, in your views you will have @users and @user variables, but
