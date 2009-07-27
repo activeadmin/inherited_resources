@@ -33,14 +33,6 @@ If you want it as plugin, just do:
 
    script/plugin install git://github.com/josevalim/inherited_resources.git
 
-rspec-rails <= 1.1.12 known bug
--------------------------------
-
-InheritedResources has a known bug with rspec-rails. Please upgrade your rspec
-version or use the fix which ships with InheritedResources:
-
-  require 'inherited_resources/spec'
-
 Basic Usage
 -----------
 
