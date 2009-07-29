@@ -39,22 +39,16 @@ module ActionController #:nodoc:
     # Clear all mimes in respond_to.
     #
     def self.clear_respond_to
-      mimes_for_respond_to.each { |k,v| mimes[k] = { :only => [] } }
+      write_inheritable_attribute(:mimes_for_respond_to, ActiveSupport::OrderedHash.new)
     end
 
-    class_inheritable_reader    :mimes_for_respond_to
-    write_inheritable_attribute :mimes_for_respond_to, ActiveSupport::OrderedHash.new
+    class_inheritable_reader :mimes_for_respond_to
+    clear_respond_to
 
-    # If ApplicationController is already defined around here, we recriate
-    # the formats_for_respond_to hash. Since we respond only to :html by
-    # default, this is as easy as settings the :formats_for_respond_to key
-    # to {:html=>{}}.
+    # If ApplicationController is already defined around here, we have to set
+    # mimes_for_respond_to hash as well.
     #
-    if defined?(ApplicationController)
-      if inheritable = ApplicationController.instance_variable_get("@inheritable_attributes")
-        inheritable.merge!(:mimes_for_respond_to => ActiveSupport::OrderedHash.new) if inheritable
-      end
-    end
+    ApplicationController.clear_respond_to if defined?(ApplicationController)
 
     def respond_to(*mimes, &block)
       options = mimes.extract_options!
