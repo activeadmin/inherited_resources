@@ -272,25 +272,26 @@ module InheritedResources
       #   end
       #
       def respond_to_with_dual_blocks(success, dual_block, options={}, &block) #:nodoc:
-        responder = ActionController::MimeResponds::Responder.new(self)
-
-        if dual_block
-          if dual_block.arity == 2
-            dumb_responder = InheritedResources::DumbResponder.new
-            if success
-              dual_block.call(responder, dumb_responder)
+        new_block = if dual_block
+          proc { |responder|
+            if dual_block.arity == 2
+              dumb_responder = InheritedResources::DumbResponder.new
+              if success
+                dual_block.call(responder, dumb_responder)
+              else
+                dual_block.call(dumb_responder, responder)
+              end
             else
-              dual_block.call(dumb_responder, responder)
+              dual_block.call(responder)
             end
-          else
-            dual_block.call(responder)
-          end
 
-          # Try to respond with the block given
-          responder.respond_except_any
+            block.call(responder)
+          }
+        else
+          block
         end
 
-        respond_to(options.merge!(:responder => responder, :prioritize => :html), &block) unless performed?
+        respond_to(options, &new_block)
       end
 
       # Hook to apply scopes. By default returns only the target_object given.

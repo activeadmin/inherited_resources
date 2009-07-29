@@ -20,6 +20,9 @@ module InheritedResources
         extend  InheritedResources::ClassMethods
         extend  InheritedResources::UrlHelpers
 
+        # Add at least :html mime type
+        respond_to :html
+
         helper_method :collection_url, :collection_path, :resource_url, :resource_path,
                       :new_resource_url, :new_resource_path, :edit_resource_url, :edit_resource_path,
                       :resource, :collection, :resource_class
