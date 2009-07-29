@@ -69,7 +69,7 @@ class RedirectToArityTest < ActionController::TestCase
   tests SuperMachinesController
 
   def test_redirect_to_the_given_url_on_create
-    Machine.stubs(:new).returns(:anything)
+    Machine.stubs(:new).returns(mock(:save => true))
     assert_raise ScriptError, /arity/ do
       post :create
     end

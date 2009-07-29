@@ -271,27 +271,30 @@ module InheritedResources
       #     end
       #   end
       #
-      def respond_to_with_dual_blocks(success, dual_block, options={}, &block) #:nodoc:
-        new_block = if dual_block
-          proc { |responder|
-            if dual_block.arity == 2
-              dumb_responder = InheritedResources::DumbResponder.new
-              if success
-                dual_block.call(responder, dumb_responder)
-              else
-                dual_block.call(dumb_responder, responder)
-              end
-            else
-              dual_block.call(responder)
-            end
+      # It also calculates the response url in case a block without arity is
+      # given and returns it. Otherwise returns nil.
+      #
+      def apply_block_by_arity(success, given_block, responder) #:nodoc:
+        return nil unless given_block
 
-            block.call(responder)
-          }
-        else
-          block
+        case given_block.arity
+          when 2
+            dumb_responder = InheritedResources::DumbResponder.new
+            if success
+              given_block.call(responder, dumb_responder)
+            else
+              given_block.call(dumb_responder, responder)
+            end
+          when 1
+            given_block.call(responder)
+          when 0, -1 # URL
+            return given_block.call
+          else
+            raise ScriptError, "InheritedResources does not know how to " <<
+                               "handle blocks with arity #{given_block.arity}"
         end
 
-        respond_to(options, &new_block)
+        nil
       end
 
       # Hook to apply scopes. By default returns only the target_object given.
@@ -306,24 +309,6 @@ module InheritedResources
       #
       def symbols_for_association_chain #:nodoc:
         []
-      end
-
-      # Holds InheritedResources block structure. It returns two blocks: the first
-      # is used in respond_to blocks and the second is the redirect_to url.
-      #
-      def select_block_by_arity(block) #:nodoc
-        if block
-          case block.arity
-            when 2, 1
-              [block, nil]
-            when 0, -1
-              [nil, block]
-            else
-              raise ScriptError, "InheritedResources does not know how to handle blocks with arity #{block.arity}"
-          end
-        else
-          [nil, nil]
-        end
       end
 
   end

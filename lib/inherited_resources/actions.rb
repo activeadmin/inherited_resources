@@ -31,20 +31,21 @@ module InheritedResources
     # POST /resources
     def create(&block)
       object = build_resource
-      respond_block, redirect_block = select_block_by_arity(block)
 
       if object.save
         set_flash_message!(:notice, '{{resource_name}} was successfully created.')
         options = { :with => object, :status => :created, :location => (resource_url rescue nil) }
 
-        respond_to_with_dual_blocks(true, respond_block, options) do |format|
-          format.html { redirect_to(redirect_block ? redirect_block.call : resource_url) }
+        respond_to(options) do |format|
+          redirect_url = apply_block_by_arity(true, block, format)
+          format.html { redirect_to(redirect_url || resource_url) }
         end
       else
         set_flash_message!(:error)
         options = { :with => object.errors, :status => :unprocessable_entity }
 
-        respond_to_with_dual_blocks(false, respond_block, options) do |format|
+        respond_to(options) do |format|
+          apply_block_by_arity(false, block, format)
           format.html { render :action => 'new' }
         end
       end
@@ -54,13 +55,13 @@ module InheritedResources
     # PUT /resources/1
     def update(&block)
       object = resource
-      respond_block, redirect_block = select_block_by_arity(block)
 
       if object.update_attributes(params[resource_instance_name])
         set_flash_message!(:notice, '{{resource_name}} was successfully updated.')
 
-        respond_to_with_dual_blocks(true, block) do |format|
-          format.html { redirect_to(redirect_block ? redirect_block.call : resource_url) }
+        respond_to do |format|
+          redirect_url = apply_block_by_arity(true, block, format)
+          format.html { redirect_to(redirect_url || resource_url) }
           format.all  { head :ok }
         end
       else
@@ -68,7 +69,8 @@ module InheritedResources
 
         options = { :with => object.errors, :status => :unprocessable_entity }
 
-        respond_to_with_dual_blocks(false, block, options) do |format|
+        respond_to(options) do |format|
+          apply_block_by_arity(false, block, format)
           format.html { render :action => 'edit' }
         end
       end
@@ -78,12 +80,11 @@ module InheritedResources
     # DELETE /resources/1
     def destroy(&block)
       resource.destroy
-      respond_block, redirect_block = select_block_by_arity(block)
-
       set_flash_message!(:notice, '{{resource_name}} was successfully destroyed.')
 
-      respond_to_with_dual_blocks(nil, respond_block) do |format|
-        format.html { redirect_to(redirect_block ? redirect_block.call : collection_url) }
+      respond_to do |format|
+        redirect_url = apply_block_by_arity(true, block, format)
+        format.html { redirect_to(redirect_url || collection_url) }
         format.all  { head :ok }
       end
     end
