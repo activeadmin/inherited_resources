@@ -61,6 +61,13 @@ class AssociationChainBaseHelpersTest < ActionController::TestCase
     assert_equal 'new pet', assigns(:pet)
   end
 
+  def test_model_is_not_initialized_with_nil
+    @controller.current_user.expects(:pets).returns(Pet)
+    Pet.expects(:build).with({}).returns(mock_pet)
+    get :new
+    assert mock_pet, assigns(:pet)
+  end
+
   protected
     def mock_pet(stubs={})
       @mock_pet ||= mock(stubs)
