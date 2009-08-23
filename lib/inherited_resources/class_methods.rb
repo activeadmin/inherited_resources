@@ -208,6 +208,7 @@ module InheritedResources
         optional    = options.delete(:optional)
         singleton   = options.delete(:singleton)
         polymorphic = options.delete(:polymorphic)
+        finder      = options.delete(:finder)
 
         include BelongsToHelpers if self.parents_symbols.empty?
 
@@ -234,7 +235,7 @@ module InheritedResources
           config[:collection_name] = options.delete(:collection_name) || symbol.to_s.pluralize.to_sym
           config[:instance_name]   = options.delete(:instance_name) || symbol
           config[:param]           = options.delete(:param) || :"#{symbol}_id"
-          config[:finder]          = options.delete(:finder) || :find
+          config[:finder]          = finder || :find
           config[:route_name]      = options.delete(:route_name) || symbol
         end
 
