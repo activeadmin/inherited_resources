@@ -274,22 +274,30 @@ module InheritedResources
       # It also calculates the response url in case a block without arity is
       # given and returns it. Otherwise returns nil.
       #
-      def respond_with_dual_blocks(object, options, success, block) #:nodoc:
-        case block.try(:arity)
+      def respond_with_dual_blocks(object, options, success, given_block, &block) #:nodoc:
+        case given_block.try(:arity)
           when 2
             respond_with(object, options) do |responder|
               dumb_responder = InheritedResources::DumbResponder.new
               if success
-                block.call(responder, dumb_responder)
+                given_block.call(responder, dumb_responder)
               else
-                block.call(dumb_responder, responder)
+                given_block.call(dumb_responder, responder)
               end
+              block.try(:call, responder)
             end
           when 1
-            respond_with(object, options, &block)
+            if block
+              respond_with(object, options) do |responder|
+                given_block.call(responder)
+                block.call(responder)
+              end
+            else
+              respond_with(object, options, &given_block)
+            end
           else
-            options[:location] = block.call if block
-            respond_with(object, options)
+            options[:location] = given_block.call if given_block
+            respond_with(object, options, &block)
         end
       end
 

@@ -2,11 +2,11 @@
 
 Gem::Specification.new do |s|
   s.name = %q{inherited_resources}
-  s.version = "0.8.5"
+  s.version = "0.9.0"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Jos\303\251 Valim"]
-  s.date = %q{2009-07-24}
+  s.date = %q{2009-08-25}
   s.description = %q{Inherited Resources speeds up development by making your controllers inherit all restful actions so you just have to focus on what is important.}
   s.email = %q{jose.valim@gmail.com}
   s.extra_rdoc_files = [
@@ -26,8 +26,9 @@ Gem::Specification.new do |s|
      "lib/inherited_resources/class_methods.rb",
      "lib/inherited_resources/dumb_responder.rb",
      "lib/inherited_resources/has_scope_helpers.rb",
+     "lib/inherited_resources/legacy/respond_to.rb",
+     "lib/inherited_resources/legacy/responder.rb",
      "lib/inherited_resources/polymorphic_helpers.rb",
-     "lib/inherited_resources/respond_to.rb",
      "lib/inherited_resources/singleton_helpers.rb",
      "lib/inherited_resources/url_helpers.rb"
   ]
