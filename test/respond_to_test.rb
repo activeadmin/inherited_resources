@@ -26,16 +26,16 @@ class ProjectsController < ActionController::Base
     respond_with(Project.new)
   end
 
-  def respond_to_with_resource
-    respond_to(:with => Project.new)
+  def respond_with_resource
+    respond_with(Project.new)
   end
 
-  def respond_to_with_resource_and_options
-    respond_to(:xml, :json, :with => Project.new, :location => 'http://test.host/')
+  def respond_with_resource_and_options
+    respond_with(Project.new, :location => 'http://test.host/')
   end
 
-  def respond_to_with_resource_and_blocks
-    respond_to(:with => Project.new) do |format|
+  def respond_with_resource_and_blocks
+    respond_with(Project.new) do |format|
       format.json { render :text => 'Render JSON' }
       format.rss  { render :text => 'Render RSS' }
     end
@@ -46,7 +46,7 @@ class ProjectsController < ActionController::Base
   # block. This tests exactly this case.
   #
   def respond_to_skip_default_template
-    respond_to(:with => Project.new) do |format|
+    respond_with(Project.new) do |format|
       format.html { render :text => 'Render HTML' }
     end
   end
@@ -107,52 +107,42 @@ class RespondToFunctionalTest < ActionController::TestCase
     assert_equal :xml, @response.template.template_format
   end
 
-  def test_respond_with_when_to_is_given_as_option
-    @request.accept = 'text/html'
-    get :respond_to_with_resource_and_options
-    assert_equal '406 Not Acceptable', @response.status
-
-    @request.accept = 'application/xml'
-    get :respond_to_with_resource_and_options
-    assert_equal 'Generated XML', @response.body.strip
-  end
-
   def test_respond_with_forwads_extra_options_to_render
     @request.accept = 'application/xml'
-    get :respond_to_with_resource_and_options
+    get :respond_with_resource_and_options
     assert_equal 'Generated XML', @response.body.strip
     assert_equal 'http://test.host/', @response.headers['Location']
   end
 
   def test_respond_to_when_a_resource_is_given_as_option
     @request.accept = 'text/html'
-    get :respond_to_with_resource
+    get :respond_with_resource
     assert_equal 'RespondTo HTML', @response.body.strip
 
     @request.accept = 'application/xml'
-    get :respond_to_with_resource
+    get :respond_with_resource
     assert_equal 'Generated XML', @response.body.strip
 
     @request.accept = 'application/rss+xml'
-    get :respond_to_with_resource
+    get :respond_with_resource
     assert_equal '406 Not Acceptable', @response.status
 
     @request.accept = 'application/json'
     assert_raise ActionView::MissingTemplate do
-      get :respond_to_with_resource
+      get :respond_with_resource
     end
   end
 
   def test_respond_to_overwrite_class_method_definition
     @request.accept = 'application/rss+xml'
-    get :respond_to_with_resource_and_blocks
+    get :respond_with_resource_and_blocks
     assert_equal 'Render RSS', @response.body.strip
   end
 
   def test_respond_to_first_configured_mime_in_respond_to_when_mime_type_is_all
     @request.accept = '*/*'
     assert_raise ActionView::MissingTemplate do
-      get :respond_to_with_resource_and_blocks
+      get :respond_with_resource_and_blocks
     end
     assert_equal 'text/html', @response.content_type
   end

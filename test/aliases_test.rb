@@ -89,7 +89,7 @@ class AliasesTest < ActionController::TestCase
 
   def test_dumb_responder_quietly_receives_everything_on_failure
     @request.accept = 'text/html'
-    Student.stubs(:new).returns(mock_student(:save => false, :errors => []))
+    Student.stubs(:new).returns(mock_student(:save => false, :errors => {:some => :error}))
     @controller.stubs(:resource_url).returns('http://test.host/')
     post :create
     assert_response :success
@@ -98,7 +98,7 @@ class AliasesTest < ActionController::TestCase
 
   def test_html_is_the_default_when_only_xml_is_overwriten
     @request.accept = '*/*'
-    Student.stubs(:new).returns(mock_student(:save => false, :errors => []))
+    Student.stubs(:new).returns(mock_student(:save => false, :errors => {:some => :error}))
     @controller.stubs(:resource_url).returns('http://test.host/')
     post :create
     assert_response :success
@@ -106,7 +106,7 @@ class AliasesTest < ActionController::TestCase
   end
 
   def test_wont_render_edit_template_on_update_with_failure_if_failure_block_is_given
-    Student.stubs(:find).returns(mock_student(:update_attributes => false, :errors => []))
+    Student.stubs(:find).returns(mock_student(:update_attributes => false))
     put :update
     assert_response :success
     assert_equal "I won't render!", @response.body

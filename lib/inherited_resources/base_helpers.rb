@@ -274,27 +274,23 @@ module InheritedResources
       # It also calculates the response url in case a block without arity is
       # given and returns it. Otherwise returns nil.
       #
-      def apply_block_by_arity(success, given_block, responder) #:nodoc:
-        return nil unless given_block
-
-        case given_block.arity
+      def respond_with_dual_blocks(object, options, success, block) #:nodoc:
+        case block.try(:arity)
           when 2
-            dumb_responder = InheritedResources::DumbResponder.new
-            if success
-              given_block.call(responder, dumb_responder)
-            else
-              given_block.call(dumb_responder, responder)
+            respond_with(object, options) do |responder|
+              dumb_responder = InheritedResources::DumbResponder.new
+              if success
+                block.call(responder, dumb_responder)
+              else
+                block.call(dumb_responder, responder)
+              end
             end
           when 1
-            given_block.call(responder)
-          when 0, -1 # URL
-            return given_block.call
+            respond_with(object, options, &block)
           else
-            raise ScriptError, "InheritedResources does not know how to " <<
-                               "handle blocks with arity #{given_block.arity}"
+            options[:location] = block.call if block
+            respond_with(object, options)
         end
-
-        nil
       end
 
       # Hook to apply scopes. By default returns only the target_object given.

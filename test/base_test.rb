@@ -131,7 +131,7 @@ class CreateActionBaseTest < ActionController::TestCase
 
   def test_redirect_to_the_created_user
     User.stubs(:new).returns(mock_user(:save => true))
-    @controller.expects(:resource_url).returns('http://test.host/').times(2)
+    @controller.expects(:resource_url).returns('http://test.host/')
     post :create
     assert_redirected_to 'http://test.host/'
   end
@@ -143,14 +143,14 @@ class CreateActionBaseTest < ActionController::TestCase
   end
 
   def test_render_new_template_when_user_cannot_be_saved
-    User.stubs(:new).returns(mock_user(:save => false, :errors => []))
+    User.stubs(:new).returns(mock_user(:save => false, :errors => {:some => :error}))
     post :create
     assert_response :success
     assert_template :new
   end
 
   def test_dont_show_flash_message_when_user_cannot_be_saved
-    User.stubs(:new).returns(mock_user(:save => false, :errors => []))
+    User.stubs(:new).returns(mock_user(:save => false, :errors => {:some => :error}))
     post :create
     assert flash.empty?
   end
@@ -180,14 +180,14 @@ class UpdateActionBaseTest < ActionController::TestCase
   end
 
   def test_render_edit_template_when_user_cannot_be_saved
-    User.stubs(:find).returns(mock_user(:update_attributes => false, :errors => []))
+    User.stubs(:find).returns(mock_user(:update_attributes => false, :errors => {:some => :error}))
     put :update
     assert_response :success
     assert_template :edit
   end
 
   def test_dont_show_flash_message_when_user_cannot_be_saved
-    User.stubs(:find).returns(mock_user(:update_attributes => false, :errors => []))
+    User.stubs(:find).returns(mock_user(:update_attributes => false, :errors => {:some => :error}))
     put :update
     assert flash.empty?
   end

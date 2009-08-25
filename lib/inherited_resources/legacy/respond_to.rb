@@ -1,5 +1,6 @@
 module ActionController #:nodoc:
   class Base #:nodoc:
+    attr_accessor :formats
 
     # Defines mimes that are rendered by default when invoking respond_with.
     #
@@ -61,6 +62,7 @@ module ActionController #:nodoc:
       if format = responder.negotiate_mime
         self.response.template.template_format = format.to_sym
         self.response.content_type = format.to_s
+        self.formats = [ format.to_sym ]
 
         if response = responder.response_for(format)
           response.call
