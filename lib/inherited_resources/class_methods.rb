@@ -108,18 +108,18 @@ module InheritedResources
       #
       # == Options
       #
-      # * <tt>:boolean</tt> - When set to true, call the scope only when the params is true or 1,
+      # * <tt>:boolean</tt> - When set to true, call the scope only when the param is true or 1,
       #                       and does not send the value as argument.
       #
-      # * <tt>:only</tt> - In each actions the scope is applied. By default is :all.
+      # * <tt>:only</tt> - In which actions the scope is applied. By default is :all.
       #
-      # * <tt>:except</tt> - In each actions the scope is not applied. By default is :none.
+      # * <tt>:except</tt> - In which actions the scope is not applied. By default is :none.
       #
       # * <tt>:key</tt> - The key in the params hash expected to find the scope.
       #                   Defaults to the scope name.
       #
       # * <tt>:default</tt> - Default value for the scope. Whenever supplied the scope
-      #                       is always called. This is useful to add easy pagination!
+      #                       is always called. This is useful to add easy pagination.
       #
       def has_scope(*scopes)
         options = scopes.extract_options!
