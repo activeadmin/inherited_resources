@@ -51,46 +51,39 @@ module ActionController #:nodoc:
     ApplicationController.clear_respond_to if defined?(ApplicationController)
 
     def respond_to(*mimes, &block)
-      options = mimes.extract_options!
       raise ArgumentError, "respond_to takes either types or a block, never both" if mimes.any? && block_given?
 
-      resource  = options.delete(:with)
-      responder = Responder.new(self)
-
+      responder = ActionController::MimeResponds::Responder.new(self)
       mimes = collect_mimes_from_class_level if mimes.empty?
       mimes.each { |mime| responder.send(mime) }
       block.call(responder) if block_given?
 
       if format = responder.negotiate_mime
-        respond_to_block_or_template_or_resource(format, resource,
-          options, &responder.response_for(format))
+        self.response.template.template_format = format.to_sym
+        self.response.content_type = format.to_s
+
+        if response = responder.response_for(format)
+          response.call
+        else
+          default_render
+        end
       else
         head :not_acceptable
       end
     end
 
-    def respond_with(resource, options={}, &block)
-      respond_to(options.merge!(:with => resource), &block)
+    def respond_with(*resources, &block)
+      respond_to(&block)
+    rescue ActionView::MissingTemplate
+      options = resources.extract_options!
+      (options.delete(:responder) || responder).call(self, resources, options)
+    end
+
+    def responder
+      ActionController::Responder
     end
 
   protected
-
-    def respond_to_block_or_template_or_resource(format, resource, options)
-      response.template.template_format = format.to_sym
-      response.content_type = format.to_s
-
-      return yield if block_given?
-
-      begin
-        default_render
-      rescue ActionView::MissingTemplate => e
-        if resource && resource.respond_to?(:"to_#{format.to_sym}")
-          render options.merge(format.to_sym => resource)
-        else
-          raise e
-        end
-      end
-    end
 
     # Collect mimes declared in the class method respond_to valid for the
     # current action.
