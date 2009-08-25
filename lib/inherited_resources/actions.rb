@@ -1,6 +1,4 @@
 module InheritedResources
-  RESOURCES_ACTIONS = [ :index, :show, :new, :edit, :create, :update, :destroy ] unless self.const_defined?(:RESOURCES_ACTIONS)
-
   # Holds all default actions for InheritedResouces.
   module Actions
 

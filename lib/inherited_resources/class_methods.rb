@@ -68,7 +68,7 @@ module InheritedResources
         actions_to_remove = Array(options[:except])
         actions_to_remove.map!{ |a| a.to_s }
 
-        actions_to_remove += RESOURCES_ACTIONS.map{|a| a.to_s } - actions_to_keep unless actions_to_keep.first == 'all'
+        actions_to_remove += ACTIONS.map{ |a| a.to_s } - actions_to_keep unless actions_to_keep.first == 'all'
         actions_to_remove.uniq!
 
         (instance_methods & actions_to_remove).each do |action|
@@ -235,8 +235,8 @@ module InheritedResources
           config[:collection_name] = options.delete(:collection_name) || symbol.to_s.pluralize.to_sym
           config[:instance_name]   = options.delete(:instance_name) || symbol
           config[:param]           = options.delete(:param) || :"#{symbol}_id"
-          config[:finder]          = finder || :find
           config[:route_name]      = options.delete(:route_name) || symbol
+          config[:finder]          = finder || :find
         end
 
         if block_given?

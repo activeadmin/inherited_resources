@@ -1,6 +1,6 @@
 Inherited Resources
 License: MIT
-Version: 0.8.5
+Version: 0.9.0
 
 You can also read this README in pretty html at the GitHub project Wiki page:
 
@@ -26,20 +26,20 @@ Installation
 Install Inherited Resources is very easy. It is stored in GitHub, so just run
 the following:
 
-   gem sources -a http://gems.github.com
-   sudo gem install josevalim-inherited_resources
+    gem sources -a http://gems.github.com
+    sudo gem install josevalim-inherited_resources
 
 If you want it as plugin, just do:
 
-   script/plugin install git://github.com/josevalim/inherited_resources.git
+    script/plugin install git://github.com/josevalim/inherited_resources.git
 
 Basic Usage
 -----------
 
 To use Inherited Resources you just have to inherit (duh) it:
 
-   class ProjectsController < InheritedResources::Base
-   end
+    class ProjectsController < InheritedResources::Base
+    end
 
 And all actions are defined and working, check it! Your projects collection
 (in the index action) is still available in the instance variable @projects
@@ -47,17 +47,17 @@ and your project resource (all other actions) is available as @ project.
 
 The next step is to define which mime types this controller provides:
 
-   class ProjectsController < InheritedResources::Base
-     respond_to :html, :xml, :json
-   end
+    class ProjectsController < InheritedResources::Base
+      respond_to :html, :xml, :json
+    end
 
 You can also specify them based per action:
 
-   class ProjectsController < InheritedResources::Base
-     respond_to :html, :xml, :json
-     respond_to :js, :only => :create
-     respond_to :iphone, :except => [ :edit, :update ]
-   end
+    class ProjectsController < InheritedResources::Base
+      respond_to :html, :xml, :json
+      respond_to :js, :only => :create
+      respond_to :iphone, :except => [ :edit, :update ]
+    end
 
 For each request, it first checkes if the "controller/action.format" file is
 available (for example "projects/create.xml") and if it's not, it checks if
@@ -66,21 +66,21 @@ the resource respond to :to_format (in this case, :to_xml). Otherwise returns 40
 Another option is to specify which actions the controller will inherit from
 the InheritedResources::Base:
 
-   class ProjectsController < InheritedResources::Base
-     actions :index, :show, :new, :create
-   end
+    class ProjectsController < InheritedResources::Base
+      actions :index, :show, :new, :create
+    end
 
 Or:
 
-   class ProjectsController < InheritedResources::Base
-     actions :all, :except => [ :edit, :update, :destroy ]
-   end
+    class ProjectsController < InheritedResources::Base
+      actions :all, :except => [ :edit, :update, :destroy ]
+    end
 
 In your views, you will get the following helpers:
 
-   resource        #=> @project
-   collection      #=> @projects
-   resource_class  #=> Project
+    resource        #=> @project
+    collection      #=> @projects
+    resource_class  #=> Project
 
 As you might expect, collection (@projects instance variable) is only available
 on index actions.
@@ -88,9 +88,9 @@ on index actions.
 If for some reason you cannot inherit from InheritedResources::Base, you can
 call inherit_resources in your controller class scope:
 
-  class AccountsController < ApplicationController
-    inherit_resources
-  end
+    class AccountsController < ApplicationController
+      inherit_resources
+    end
 
 Overwriting defaults
 --------------------
@@ -99,9 +99,9 @@ Whenever you inherit from InheritedResources, several defaults are assumed.
 For example you can have an AccountsController to account management while the
 resource is an User:
 
-   class AccountsController < InheritedResources::Base
-     defaults :resource_class => User, :collection_name => 'users', :instance_name => 'user'
-   end
+    class AccountsController < InheritedResources::Base
+      defaults :resource_class => User, :collection_name => 'users', :instance_name => 'user'
+    end
 
 In the case above, in your views you will have @users and @user variables, but
 the routes used will still be accounts_url and account_url. If you plan also to
@@ -110,9 +110,9 @@ change the routes, you can use :route_collection_name and :route_instance_name.
 Namespaced controllers work out of the box, but if you need to specify a
 different route prefix, you can do the following:
 
-   class Administrators::PeopleController < InheritedResources::Base
-     defaults :route_prefix => 'admin'
-   end
+    class Administrators::PeopleController < InheritedResources::Base
+      defaults :route_prefix => 'admin'
+    end
 
 Then your named routes will be: 'admin_people_url', 'admin_person_url' instead
 of 'administrators_people_url' and 'administrators_person_url'.
@@ -122,12 +122,12 @@ collection and resource methods. The first is called on index action and the
 second on all other actions. Let's suppose you want to add pagination to your
 projects collection:
 
-   class ProjectsController < InheritedResources::Base
-     protected
-       def collection
-         @projects ||= end_of_association_chain.paginate(params[:page]).all
-       end
-   end
+    class ProjectsController < InheritedResources::Base
+      protected
+        def collection
+          @projects ||= end_of_association_chain.paginate(params[:page]).all
+        end
+    end
 
 The end_of_association_chain returns your resource after nesting all associations
 and scopes (more about this below).
@@ -139,12 +139,12 @@ you have urls like "account/projects". In such cases, you have to do
 
 You can deal with it just doing:
 
-   class ProjectsController < InheritedResources::Base
-     protected
-       def begin_of_association_chain
-         @current_user
-       end
-   end
+    class ProjectsController < InheritedResources::Base
+      protected
+        def begin_of_association_chain
+          @current_user
+        end
+    end
 
 Overwriting actions
 -------------------
@@ -152,48 +152,46 @@ Overwriting actions
 Let's suppose that after destroying a project you want to redirect to your
 root url instead of redirecting to projects url. You just have to do:
 
-   class ProjectsController < InheritedResources::Base
-     def destroy
-       super do |format|
-         format.html { redirect_to root_url }
-       end
-     end
-   end
+    class ProjectsController < InheritedResources::Base
+      def destroy
+        super do |format|
+          format.html { redirect_to root_url }
+        end
+      end
+    end
 
-You are opening your action and giving the parent action a new behavior. No
-tricks, no DSL, just Ruby.
+You are opening your action and giving the parent action a new behavior. On
+the other hand, I have to agree that calling super is not very readable. That's
+why all methods have aliases. So this is equivalent:
 
-On the other hand, I have to agree that calling super is not very readable.
-That's why all methods have aliases. So this is equivalent:
-
-   class ProjectsController < InheritedResources::Base
-     def destroy
-       destroy! do |format|
-         format.html { redirect_to root_url }
-       end
-     end
-   end
+    class ProjectsController < InheritedResources::Base
+      def destroy
+        destroy! do |format|
+          format.html { redirect_to root_url }
+        end
+      end
+    end
 
 Even more, since most of the times when you change a create, update or destroy
 action is because you want to to change to where it redirects, a shortcut is
 provided. So you can do:
 
-   class ProjectsController < InheritedResources::Base
-     def destroy
-       destroy!{ root_url }
-     end
-   end
+    class ProjectsController < InheritedResources::Base
+      def destroy
+        destroy!{ root_url }
+      end
+    end
 
 Now let's suppose that before create a project you have to do something special
 but you don't want to create a before filter for it:
 
-   class ProjectsController < InheritedResources::Base
-     def create
-       @project = Project.new(params[:project])
-       @project.something_special!
-       create!
-     end
-   end
+    class ProjectsController < InheritedResources::Base
+      def create
+        @project = Project.new(params[:project])
+        @project.something_special!
+        create!
+      end
+    end
 
 Yes, that simple! The nice part is since you already set the instance variable
 @project, it will not build a project again.
@@ -204,25 +202,25 @@ want to redirect to the project url instead of re-rendering the edit template.
 
 Our first attempt to do this would be:
 
-   class ProjectsController < InheritedResources::Base
-     def update
-       update! do |format|
-         unless @project.errors.empty? # failure
-           format.html { redirect_to project_url(@project) }
-         end
-       end
+    class ProjectsController < InheritedResources::Base
+      def update
+        update! do |format|
+          unless @project.errors.empty? # failure
+            format.html { redirect_to project_url(@project) }
+          end
+        end
      end
-   end
+    end
 
 Looks to verbose, right? We can actually do:
 
-   class ProjectsController < InheritedResources::Base
-     def update
-       update! do |success, failure|
-         failure.html { redirect_to project_url(@project) }
-       end
-     end
-   end
+    class ProjectsController < InheritedResources::Base
+      def update
+        update! do |success, failure|
+          failure.html { redirect_to project_url(@project) }
+        end
+      end
+    end
 
 Much better! So explaining everything: when you give a block which expects one
 argument it will be executed in both scenarios: success and failure. But If you
@@ -230,20 +228,39 @@ give a block that expects two arguments, the first will be executed only in
 success scenarios and the second in failure scenarios. You keep everything
 clean and organized inside the same action.
 
+Some DSL
+--------
+
+For those DSL lovers, InheritedResources won't leave you alone. You can overwrite
+your success/failure blocks straight from your class binding. For it, you just
+need to add a DSL block to your application controller:
+
+    class ApplicationController < ActionController::Base
+      include InheritedResources::DSL
+    end
+
+And then you can rewrite the last example as:
+
+    class ProjectsController < InheritedResources::Base
+      update! do |success, failure|
+        failure.html { redirect_to project_url(@project) }
+      end
+    end
+
 Flash messages and I18n
 -----------------------
 
 Flash messages are powered by I18n api. It checks for messages in the following
 order:
 
-   flash.controller_name.action_name.status
-   flash.actions.action_name.status
+    flash.controller_name.action_name.status
+    flash.actions.action_name.status
 
 If none is available, a default message in english set. In a create action
 on projects controller, it will search for:
 
-   flash.projects.create.status
-   flash.actions.create.status
+    flash.projects.create.status
+    flash.actions.create.status
 
 The status can be :notice (when the object can be created, updated
 or destroyed with success) or :error (when the objecy cannot be created
@@ -252,10 +269,10 @@ or updated).
 Those messages are interpolated by using the resource class human name, which 
 is also localized and it means you can set:
 
-   flash:
-     actions:
-       create:
-         notice: "Hooray! {{resource_name}} was successfully created!"
+    flash:
+      actions:
+        create:
+          notice: "Hooray! {{resource_name}} was successfully created!"
 
 It will replace {{resource_name}} by the human name of the resource class,
 which is "Project" in this case.
@@ -263,36 +280,36 @@ which is "Project" in this case.
 But sometimes, flash messages are not that simple. Sometimes you want to say
 the title of the project while updating a project. Well, that's easy also:
 
-   flash:
-     projects:
-       update:
-         notice: "Hooray! The project "{{project_title}}" was updated!"
+    flash:
+      projects:
+        update:
+          notice: "Hooray! The project "{{project_title}}" was updated!"
 
 Since :project_title is not available for interpolation by default, you have
 to overwrite interpolation_options.
 
-   def interpolation_options
-     { :project_title => @project.title }
-   end
+    def interpolation_options
+      { :project_title => @project.title }
+    end
 
 Then you will finally have:
 
-   "Hooray! The project "Plataforma" was updated!"
+    "Hooray! The project "Plataforma" was updated!"
 
 By default, resource name is capitalized. If you want to make it lower case, you
 can add to your application controller:
 
-   def interpolation_options
-     { :resource_name => resource_class.human_name.downcase }
-  end
+    def interpolation_options
+      { :resource_name => resource_class.human_name.downcase }
+   end
 
 Finally, if your controller is namespaced, for example Admin::ProjectsController,
 the messages will be checked in the following order:
 
-   flash.admin.projects.create.notice
-   flash.admin.actions.create.notice
-   flash.projects.create.notice
-   flash.actions.create.notice
+    flash.admin.projects.create.notice
+    flash.admin.actions.create.notice
+    flash.projects.create.notice
+    flash.actions.create.notice
 
 Has Scope
 ---------
@@ -300,40 +317,40 @@ Has Scope
 InheritedResources tries to integrate nicely with your model. In order to do so,
 it also is named_scope fluent. Let's suppose our Project model with the scopes:
 
-  class Project < ActiveRecord::Base
-    named_scope :featured, :conditions => { :featured => true }
-    named_scope :by_methodology, proc {|methodology| { :conditions => { :methodology => methodology } } }
-    named_scope :limit, proc{|limit| :limit => limit.to_i }
-  end
+    class Project < ActiveRecord::Base
+      named_scope :featured, :conditions => { :featured => true }
+      named_scope :by_methodology, proc {|methodology| { :conditions => { :methodology => methodology } } }
+      named_scope :limit, proc{|limit| :limit => limit.to_i }
+    end
 
 Your controller:
 
-  class ProjectsController < InheritedResources::Base
-    has_scope :featured, :boolean => true, :only => :index
-    has_scope :by_methodology
-    has_scope :limit, :default => 10
-  end
+    class ProjectsController < InheritedResources::Base
+      has_scope :featured, :boolean => true, :only => :index
+      has_scope :by_methodology
+      has_scope :limit, :default => 10
+    end
 
 Then for each request:
 
-  /projects
-  #=> acts like a normal request, but returning 10 projects
+    /projects
+    #=> acts like a normal request, but returning 10 projects
 
-  /projects?featured=true
-  #=> calls the featured named scope and bring 10 featured projects
+    /projects?featured=true
+    #=> calls the featured named scope and bring 10 featured projects
 
-  /projects?featured=true&by_methodology=agile&limit=20
-  #=> brings 20 featured projects with methodology agile
+    /projects?featured=true&by_methodology=agile&limit=20
+    #=> brings 20 featured projects with methodology agile
 
 You can retrieve the current scopes in use with :current_scopes method.
 In the last case, it would return:
 
-  { :featured => "true", :by_methodology => "agile", :limit => "20" }
+    { :featured => "true", :by_methodology => "agile", :limit => "20" }
 
 Finally, let's suppose you store on the session how many projects the user sees
 per page. In such cases, you can give a proc as default value:
 
-   has_scope :limit, :default => proc{|c| c.session[:limit] || 10 }
+    has_scope :limit, :default => proc{|c| c.session[:limit] || 10 }
 
 Belongs to
 ----------
@@ -341,17 +358,17 @@ Belongs to
 Finally, our Projects are going to get some Tasks. Then you create a
 TasksController and do:
 
-   class TasksController < InheritedResources::Base
-     belongs_to :project
-   end
+    class TasksController < InheritedResources::Base
+      belongs_to :project
+    end
 
 belongs_to accepts several options to be able to configure the association.
 For example, if you want urls like /projects/:project_title/tasks, you can
 customize how InheritedResources find your projects:
 
-   class TasksController < InheritedResources::Base
-     belongs_to :project, :finder => :find_by_title!, :param => :project_title
-   end
+    class TasksController < InheritedResources::Base
+      belongs_to :project, :finder => :find_by_title!, :param => :project_title
+    end
 
 It also accepts :route_name, :parent_class and :instance_name as options.
 Check the lib/inherited_resources/class_methods.rb for more.
@@ -363,24 +380,24 @@ Now, our Tasks get some Comments and you need to nest even deeper. Good
 practices says that you should never nest more than two resources, but sometimes
 you have to for security reasons. So this is an example of how you can do it:
 
-   class CommentsController < InheritedResources::Base
-     nested_belongs_to :project, :task
-   end
+    class CommentsController < InheritedResources::Base
+      nested_belongs_to :project, :task
+    end
 
 If you need to configure any of these belongs to, you can nest them using blocks:
 
-   class CommentsController < InheritedResources::Base
-     belongs_to :project, :finder => :find_by_title!, :param => :project_title do
-       belongs_to :task
-     end
-   end
+    class CommentsController < InheritedResources::Base
+      belongs_to :project, :finder => :find_by_title!, :param => :project_title do
+        belongs_to :task
+      end
+    end
 
 Warning: calling several belongs_to is the same as nesting them:
 
-   class CommentsConroller < InheritedResources::Base
-     belongs_to :project
-     belongs_to :task
-   end
+    class CommentsConroller < InheritedResources::Base
+      belongs_to :project
+      belongs_to :task
+    end
 
 In other words, the code above is the same as calling nested_belongs_to.
 
@@ -391,31 +408,31 @@ We can go even further. Let's suppose our Projects can now have Files, Messages
 and Tasks, and they are all commentable. In this case, the best solution is to
 use polymorphism:
 
-   class CommentsController < InheritedResources::Base
-     belongs_to :task, :file, :message, :polymorphic => true
-     # polymorphic_belongs_to :task, :file, :message
-   end
+    class CommentsController < InheritedResources::Base
+      belongs_to :task, :file, :message, :polymorphic => true
+      # polymorphic_belongs_to :task, :file, :message
+    end
 
 You can even use it with nested resources:
 
-   class CommentsController < InheritedResources::Base
-     belongs_to :project do
-       belongs_to :task, :file, :message, :polymorphic => true
-     end
-   end
+    class CommentsController < InheritedResources::Base
+      belongs_to :project do
+        belongs_to :task, :file, :message, :polymorphic => true
+      end
+    end
 
 The url in such cases can be:
 
-   /project/1/task/13/comments
-   /project/1/file/11/comments
-   /project/1/message/9/comments
+    /project/1/task/13/comments
+    /project/1/file/11/comments
+    /project/1/message/9/comments
 
 When using polymorphic associations, you get some free helpers:
 
-   parent?         #=> true
-   parent_type     #=> :task
-   parent_class    #=> Task
-   parent          #=> @task
+    parent?         #=> true
+    parent_type     #=> :task
+    parent_class    #=> Task
+    parent          #=> @task
 
 Optional belongs to
 -------------------
@@ -423,25 +440,25 @@ Optional belongs to
 Later you decide to create a view to show all comments, independent if they belong
 to a task, file or message. You can reuse your polymorphic controller just doing:
 
-  class ProjectsController < InheritedResources::Base
-    belongs_to :task, :file, :message, :optional => true
-    # optional_belongs_to :task, :file, :message
-  end
+    class ProjectsController < InheritedResources::Base
+      belongs_to :task, :file, :message, :optional => true
+      # optional_belongs_to :task, :file, :message
+    end
 
 This will handle all those urls properly:
 
-  /comment/1
-  /tasks/2/comment/5
-  /files/10/comment/3
-  /messages/13/comment/11
+    /comment/1
+    /tasks/2/comment/5
+    /files/10/comment/3
+    /messages/13/comment/11
 
 This is treated as a special type of polymorphic associations, thus all helpers
 are available. As you expect, when no parent is found, the helpers return:
 
-   parent?         #=> false
-   parent_type     #=> nil
-   parent_class    #=> nil
-   parent          #=> nil
+    parent?         #=> false
+    parent_type     #=> nil
+    parent_class    #=> nil
+    parent          #=> nil
 
 Singletons
 ----------
@@ -453,10 +470,10 @@ has_one (or resource) in your routes.
 To declare an association as singleton, you just have to give the :singleton
 option.
 
-   class ManagersController < InheritedResources::Base
-     belongs_to :project, :singleton => true
-     # singleton_belongs_to :project
-   end
+    class ManagersController < InheritedResources::Base
+      belongs_to :project, :singleton => true
+      # singleton_belongs_to :project
+    end
 
 It will deal with everything again and hide the action :index from you.
 
@@ -466,34 +483,34 @@ URL Helpers
 When you use InheritedResources it creates some URL helpers.
 And they handle everything for you. :)
 
-   # /posts/1/comments
-   resource_url               # => /posts/1/comments/#{@comment.to_param}
-   resource_url(comment)      # => /posts/1/comments/#{comment.to_param}
-   new_resource_url           # => /posts/1/comments/new
-   edit_resource_url          # => /posts/1/comments/#{@comment.to_param}/edit
-   edit_resource_url(comment) #=>  /posts/1/comments/#{comment.to_param}/edit
-   collection_url             # => /posts/1/comments
+    # /posts/1/comments
+    resource_url               # => /posts/1/comments/#{@comment.to_param}
+    resource_url(comment)      # => /posts/1/comments/#{comment.to_param}
+    new_resource_url           # => /posts/1/comments/new
+    edit_resource_url          # => /posts/1/comments/#{@comment.to_param}/edit
+    edit_resource_url(comment) #=>  /posts/1/comments/#{comment.to_param}/edit
+    collection_url             # => /posts/1/comments
 
-   # /projects/1/tasks
-   resource_url               # => /projects/1/tasks/#{@task.to_param}
-   resource_url(task)         # => /projects/1/tasks/#{task.to_param}
-   new_resource_url           # => /projects/1/tasks/new
-   edit_resource_url          # => /projects/1/tasks/#{@task.to_param}/edit
-   edit_resource_url(task)    # => /projects/1/tasks/#{task.to_param}/edit
-   collection_url             # => /projects/1/tasks
+    # /projects/1/tasks
+    resource_url               # => /projects/1/tasks/#{@task.to_param}
+    resource_url(task)         # => /projects/1/tasks/#{task.to_param}
+    new_resource_url           # => /projects/1/tasks/new
+    edit_resource_url          # => /projects/1/tasks/#{@task.to_param}/edit
+    edit_resource_url(task)    # => /projects/1/tasks/#{task.to_param}/edit
+    collection_url             # => /projects/1/tasks
 
-   # /users
-   resource_url               # => /users/#{@user.to_param}
-   resource_url(user)         # => /users/#{user.to_param}
-   new_resource_url           # => /users/new
-   edit_resource_url          # => /users/#{@user.to_param}/edit
-   edit_resource_url(user)    # => /users/#{user.to_param}/edit
-   collection_url             # => /users
+    # /users
+    resource_url               # => /users/#{@user.to_param}
+    resource_url(user)         # => /users/#{user.to_param}
+    new_resource_url           # => /users/new
+    edit_resource_url          # => /users/#{@user.to_param}/edit
+    edit_resource_url(user)    # => /users/#{user.to_param}/edit
+    collection_url             # => /users
 
 Those urls helpers also accepts a hash as options, just as in named routes.
 
-   # /projects/1/tasks
-   collection_url(:page => 1, :limit => 10) #=> /projects/1/tasks?page=1&limit=10
+    # /projects/1/tasks
+    collection_url(:page => 1, :limit => 10) #=> /projects/1/tasks?page=1&limit=10
 
 In polymorphic cases, you can also give the parent as parameter to collection_url.
 
@@ -504,8 +521,8 @@ associations, that relies on Rails polymorphic_url).
 Bugs and Feedback
 -----------------
 
-If you discover any bugs, please send an e-mail to jose.valim@gmail.com
+If you discover any bugs, please send an e-mail to jose.valim@plataformatec.com.br
 If you just want to give some positive feedback or drop a line, that's fine too!
 
 Copyright (c) 2009 José Valim
-http://josevalim.blogspot.com/
+http://blog.plataformatec.com.br/

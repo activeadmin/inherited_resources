@@ -6,7 +6,9 @@ unless defined?(ActionController::Responder)
   require File.join(File.dirname(__FILE__), 'inherited_resources', 'legacy', 'respond_to')
 end
 
-module InheritedResources; end
+module InheritedResources
+  ACTIONS = [ :index, :show, :new, :edit, :create, :update, :destroy ] unless self.const_defined?(:ACTIONS)
+end
 
 class ActionController::Base
   # If you cannot inherit from InheritedResources::Base you can call

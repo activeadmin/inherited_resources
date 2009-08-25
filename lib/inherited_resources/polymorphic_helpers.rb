@@ -136,10 +136,9 @@ module InheritedResources
             end
 
             if key.nil?
-              raise ScriptError, "Could not find param for polymorphic association.
-                                  The request params keys are #{params.keys.inspect}
-                                  and the polymorphic associations are
-                                  #{polymorphic_symbols.inspect}." unless polymorphic_config[:optional]
+              raise ScriptError, "Could not find param for polymorphic association. The request" <<
+                                 "parameters are #{params.keys.inspect} and the polymorphic " <<
+                                 "associations are #{polymorphic_config[:symbols].inspect}." unless polymorphic_config[:optional]
 
               nil
             else
