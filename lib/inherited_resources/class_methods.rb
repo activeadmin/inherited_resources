@@ -115,8 +115,8 @@ module InheritedResources
       #
       # * <tt>:except</tt> - In which actions the scope is not applied. By default is :none.
       #
-      # * <tt>:key</tt> - The key in the params hash expected to find the scope.
-      #                   Defaults to the scope name.
+      # * <tt>:as</tt> - The key in the params hash expected to find the scope.
+      #                  Defaults to the scope name.
       #
       # * <tt>:default</tt> - Default value for the scope. Whenever supplied the scope
       #                       is always called. This is useful to add easy pagination.
@@ -125,7 +125,12 @@ module InheritedResources
         options = scopes.extract_options!
 
         options.symbolize_keys!
-        options.assert_valid_keys(:boolean, :key, :only, :except, :default)
+        options.assert_valid_keys(:boolean, :key, :only, :except, :default, :as)
+
+        if options[:key]
+          ActiveSupport::Deprecation.warn "has_scope :key is deprecated, use :as instead"
+          options[:as] ||= options[:key]
+        end
 
         if self.scopes_configuration.empty?
           include HasScopeHelpers
@@ -134,7 +139,7 @@ module InheritedResources
 
         scopes.each do |scope|
           self.scopes_configuration[scope]         ||= {}
-          self.scopes_configuration[scope][:key]     = options[:key] || scope
+          self.scopes_configuration[scope][:as]      = options[:as] || scope
           self.scopes_configuration[scope][:only]    = Array(options[:only])
           self.scopes_configuration[scope][:except]  = Array(options[:except])
           self.scopes_configuration[scope][:boolean] = options[:boolean] if options.key?(:boolean)

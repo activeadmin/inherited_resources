@@ -17,7 +17,7 @@ module InheritedResources
 
         self.scopes_configuration.each do |scope, options|
           next unless apply_scope_to_action?(options)
-          key = options[:key]
+          key = options[:as]
 
           if params.key?(key)
             value, call_scope = params[key], true

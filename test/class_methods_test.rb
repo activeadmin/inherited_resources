@@ -131,7 +131,7 @@ class HasScopeClassMethods < ActiveSupport::TestCase
     assert config.key?(:by_city)
     assert config.key?(:featured)
 
-    assert_equal config[:by_city], { :key => :by_city, :only => [], :except => [] }
-    assert_equal config[:featured], { :key => :by_featured, :only => [ :index ], :except => [], :boolean => true }
+    assert_equal config[:by_city], { :as => :by_city, :only => [], :except => [] }
+    assert_equal config[:featured], { :as => :by_featured, :only => [ :index ], :except => [], :boolean => true }
   end
 end
