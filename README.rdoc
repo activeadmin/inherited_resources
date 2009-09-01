@@ -508,5 +508,4 @@ associations, that relies on Rails polymorphic_url).
 If you discover any bugs, please send an e-mail to jose.valim@plataformatec.com.br
 If you just want to give some positive feedback or drop a line, that's fine too!
 
-Copyright (c) 2009 José Valim<br />
-http://blog.plataformatec.com.br/
+Copyright (c) 2009 José Valim http://blog.plataformatec.com.br
