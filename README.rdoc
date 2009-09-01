@@ -1,6 +1,6 @@
 Inherited Resources
 License: MIT
-Version: 0.9.0
+Version: 0.9.1
 
 == Description
 
@@ -503,11 +503,10 @@ Another nice thing is that those urls are not guessed during runtime. They are
 all created when your application is loaded (except for polymorphic
 associations, that relies on Rails polymorphic_url).
 
-Bugs and Feedback
------------------
+== Bugs and Feedback
 
 If you discover any bugs, please send an e-mail to jose.valim@plataformatec.com.br
 If you just want to give some positive feedback or drop a line, that's fine too!
 
-Copyright (c) 2009 José Valim
+Copyright (c) 2009 José Valim<br />
 http://blog.plataformatec.com.br/
