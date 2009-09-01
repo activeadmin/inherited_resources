@@ -2,12 +2,7 @@ Inherited Resources
 License: MIT
 Version: 0.9.0
 
-You can also read this README in pretty html at the GitHub project Wiki page:
-
-  http://wiki.github.com/josevalim/inherited_resources
-
-Description
------------
+== Description
 
 Inherited Resources speeds up development by making your controllers inherit
 all restful actions so you just have to focus on what is important. It makes
@@ -20,8 +15,7 @@ Inherited Resources is tested and compatible with Rails 2.2.x and Rails 2.3.x.
 
 keywords: resources, controller, singleton, belongs_to, polymorphic, named_scope and I18n
 
-Installation
-------------
+== Installation
 
 Install Inherited Resources is very easy. It is stored in GitHub, so just run
 the following:
@@ -33,8 +27,7 @@ If you want it as plugin, just do:
 
     script/plugin install git://github.com/josevalim/inherited_resources.git
 
-Basic Usage
------------
+== Basic Usage
 
 To use Inherited Resources you just have to inherit (duh) it:
 
@@ -92,8 +85,7 @@ call inherit_resources in your controller class scope:
       inherit_resources
     end
 
-Overwriting defaults
---------------------
+== Overwriting defaults
 
 Whenever you inherit from InheritedResources, several defaults are assumed.
 For example you can have an AccountsController to account management while the
@@ -146,8 +138,7 @@ You can deal with it just doing:
         end
     end
 
-Overwriting actions
--------------------
+== Overwriting actions
 
 Let's suppose that after destroying a project you want to redirect to your
 root url instead of redirecting to projects url. You just have to do:
@@ -228,8 +219,7 @@ give a block that expects two arguments, the first will be executed only in
 success scenarios and the second in failure scenarios. You keep everything
 clean and organized inside the same action.
 
-Some DSL
---------
+== Some DSL
 
 For those DSL lovers, InheritedResources won't leave you alone. You can overwrite
 your success/failure blocks straight from your class binding. For it, you just
@@ -247,8 +237,7 @@ And then you can rewrite the last example as:
       end
     end
 
-Flash messages and I18n
------------------------
+== Flash messages and I18n
 
 Flash messages are powered by I18n api. It checks for messages in the following
 order:
@@ -311,8 +300,7 @@ the messages will be checked in the following order:
     flash.projects.create.notice
     flash.actions.create.notice
 
-Has Scope
----------
+== Has Scope
 
 InheritedResources tries to integrate nicely with your model. In order to do so,
 it also is named_scope fluent. Let's suppose our Project model with the scopes:
@@ -352,8 +340,7 @@ per page. In such cases, you can give a proc as default value:
 
     has_scope :limit, :default => proc{|c| c.session[:limit] || 10 }
 
-Belongs to
-----------
+== Belongs to
 
 Finally, our Projects are going to get some Tasks. Then you create a
 TasksController and do:
@@ -373,8 +360,7 @@ customize how InheritedResources find your projects:
 It also accepts :route_name, :parent_class and :instance_name as options.
 Check the lib/inherited_resources/class_methods.rb for more.
 
-Nested belongs to
------------------
+== Nested belongs to
 
 Now, our Tasks get some Comments and you need to nest even deeper. Good
 practices says that you should never nest more than two resources, but sometimes
@@ -401,8 +387,7 @@ Warning: calling several belongs_to is the same as nesting them:
 
 In other words, the code above is the same as calling nested_belongs_to.
 
-Polymorphic belongs to
-----------------------
+== Polymorphic belongs to
 
 We can go even further. Let's suppose our Projects can now have Files, Messages
 and Tasks, and they are all commentable. In this case, the best solution is to
@@ -434,8 +419,7 @@ When using polymorphic associations, you get some free helpers:
     parent_class    #=> Task
     parent          #=> @task
 
-Optional belongs to
--------------------
+== Optional belongs to
 
 Later you decide to create a view to show all comments, independent if they belong
 to a task, file or message. You can reuse your polymorphic controller just doing:
@@ -460,8 +444,7 @@ are available. As you expect, when no parent is found, the helpers return:
     parent_class    #=> nil
     parent          #=> nil
 
-Singletons
-----------
+== Singletons
 
 Now we are going to add manager to projects. We say that Manager is a singleton
 resource because a Project has just one manager. You should declare it as
@@ -477,8 +460,7 @@ option.
 
 It will deal with everything again and hide the action :index from you.
 
-URL Helpers
------------
+== URL Helpers
 
 When you use InheritedResources it creates some URL helpers.
 And they handle everything for you. :)
@@ -490,6 +472,7 @@ And they handle everything for you. :)
     edit_resource_url          # => /posts/1/comments/#{@comment.to_param}/edit
     edit_resource_url(comment) #=>  /posts/1/comments/#{comment.to_param}/edit
     collection_url             # => /posts/1/comments
+    parent_url                 # => /posts/1
 
     # /projects/1/tasks
     resource_url               # => /projects/1/tasks/#{@task.to_param}
@@ -498,6 +481,7 @@ And they handle everything for you. :)
     edit_resource_url          # => /projects/1/tasks/#{@task.to_param}/edit
     edit_resource_url(task)    # => /projects/1/tasks/#{task.to_param}/edit
     collection_url             # => /projects/1/tasks
+    parent_url                 # => /projects/1
 
     # /users
     resource_url               # => /users/#{@user.to_param}
@@ -506,6 +490,7 @@ And they handle everything for you. :)
     edit_resource_url          # => /users/#{@user.to_param}/edit
     edit_resource_url(user)    # => /users/#{user.to_param}/edit
     collection_url             # => /users
+    parent_url                 # => /
 
 Those urls helpers also accepts a hash as options, just as in named routes.
 

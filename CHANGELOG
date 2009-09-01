@@ -1,3 +1,9 @@
+# Version 0.9
+
+* Backported ActionController::Responder from Rails 3;
+* Added parent_url helper;
+* Added association_chain helper (as suggested by http://github.com/emmanuel);
+
 # Version 0.8
 
 * Fixed a small bug on optional belongs to with namespaced controllers.

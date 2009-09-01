@@ -14,7 +14,7 @@ begin
     s.homepage = "http://github.com/josevalim/inherited_resources"
     s.description = "Inherited Resources speeds up development by making your controllers inherit all restful actions so you just have to focus on what is important."
     s.authors = ['José Valim']
-    s.files =  FileList["[A-Z]*", "{lib}/**/*"]
+    s.files =  FileList["README.rdoc", "[A-Z]*", "{lib}/**/*"]
   end
 rescue LoadError
   puts "Jeweler, or one of its dependencies, is not available. Install it with: sudo gem install technicalpickles-jeweler -s http://gems.github.com"
@@ -31,7 +31,7 @@ Rake::RDocTask.new(:rdoc) do |rdoc|
   rdoc.rdoc_dir = 'rdoc'
   rdoc.title    = 'InheritedResources'
   rdoc.options << '--line-numbers' << '--inline-source'
-  rdoc.rdoc_files.include('README')
+  rdoc.rdoc_files.include('README.rdoc')
   rdoc.rdoc_files.include('MIT-LICENSE')
   rdoc.rdoc_files.include('lib/**/*.rb')
 end

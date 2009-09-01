@@ -82,6 +82,16 @@ module InheritedResources
         false
       end
 
+      # Returns the association chain, with all parents (does not include the
+      # current resource).
+      #
+      def association_chain
+        @association_chain ||=
+          symbols_for_association_chain.inject([begin_of_association_chain]) do |chain, symbol|
+            chain << evaluate_parent(symbol, resources_configuration[symbol], chain.last)
+          end.compact.freeze
+      end
+
       # Overwrite this method to provide other interpolation options when
       # the flash message is going to be set.
       #
@@ -101,16 +111,6 @@ module InheritedResources
       #
       def resource_instance_name #:nodoc:
         self.resources_configuration[:self][:instance_name]
-      end
-
-      # Returns the association chain, with all parents (does not include the
-      # current resource).
-      #
-      def association_chain
-        @association_chain ||=
-          symbols_for_association_chain.inject([begin_of_association_chain]) do |chain, symbol|
-            chain << evaluate_parent(symbol, resources_configuration[symbol], chain.last)
-          end.compact.freeze
       end
 
       # This methods gets your begin_of_association_chain, join it with your
