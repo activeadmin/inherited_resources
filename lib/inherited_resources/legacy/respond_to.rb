@@ -53,32 +53,17 @@ module ActionController #:nodoc:
 
     def respond_to(*mimes, &block)
       raise ArgumentError, "respond_to takes either types or a block, never both" if mimes.any? && block_given?
-
-      responder = ActionController::MimeResponds::Responder.new(self)
-      mimes = collect_mimes_from_class_level if mimes.empty?
-      mimes.each { |mime| responder.send(mime) }
-      block.call(responder) if block_given?
-
-      if format = responder.negotiate_mime
-        self.response.template.template_format = format.to_sym
-        self.response.content_type = format.to_s
-        self.formats = [ format.to_sym ]
-
-        if response = responder.response_for(format)
-          response.call
-        else
-          default_render
-        end
-      else
-        head :not_acceptable
+      if response = retrieve_response_from_mimes(mimes, &block)
+        response.call
       end
     end
 
     def respond_with(*resources, &block)
-      respond_to(&block)
-    rescue ActionView::MissingTemplate
-      options = resources.extract_options!
-      (options.delete(:responder) || responder).call(self, resources, options)
+      if response = retrieve_response_from_mimes([], &block)
+        options = resources.extract_options!
+        options.merge!(:default_response => response)
+        (options.delete(:responder) || responder).call(self, resources, options)
+      end
     end
 
     def responder
@@ -103,6 +88,26 @@ module ActionController #:nodoc:
         else
           true
         end
+      end
+    end
+
+    # Collects mimes and return the response for the negotiated format. Returns
+    # nil if :not_acceptable was sent to the client.
+    #
+    def retrieve_response_from_mimes(mimes, &block)
+      responder = ActionController::MimeResponds::Responder.new(self)
+      mimes = collect_mimes_from_class_level if mimes.empty?
+      mimes.each { |mime| responder.send(mime) }
+      block.call(responder) if block_given?
+
+      if format = responder.negotiate_mime
+        self.response.template.template_format = format.to_sym
+        self.response.content_type = format.to_s
+        self.formats = [ format.to_sym ]
+        responder.response_for(format) || proc { default_render }
+      else
+        head :not_acceptable
+        nil
       end
     end
   end
