@@ -103,15 +103,21 @@ module InheritedResources
         self.resources_configuration[:self][:instance_name]
       end
 
+      # Returns the association chain, with all parents (does not include the
+      # current resource).
+      #
+      def association_chain
+        @association_chain ||=
+          symbols_for_association_chain.inject([begin_of_association_chain]) do |chain, symbol|
+            chain << evaluate_parent(symbol, resources_configuration[symbol], chain.last)
+          end.compact.freeze
+      end
+
       # This methods gets your begin_of_association_chain, join it with your
       # parents chain and returns the scoped association.
       #
       def end_of_association_chain #:nodoc:
-        chain = symbols_for_association_chain.inject(begin_of_association_chain) do |chain, symbol|
-          evaluate_parent(symbol, resources_configuration[symbol], chain)
-        end
-
-        if chain
+        if chain = association_chain.last
           if method_for_association_chain
             apply_scope_to(chain.send(method_for_association_chain))
           else
