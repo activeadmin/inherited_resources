@@ -25,7 +25,7 @@ module InheritedResources
 
         helper_method :collection_url, :collection_path, :resource_url, :resource_path,
                       :new_resource_url, :new_resource_path, :edit_resource_url, :edit_resource_path,
-                      :resource, :collection, :resource_class
+                      :parent_url, :parent_path, :resource, :collection, :resource_class
 
         base.with_options :instance_writer => false do |c|
           c.class_inheritable_accessor :resource_class

@@ -72,6 +72,9 @@ module InheritedResources
       collection_ivars    = resource_ivars.dup
       collection_segments = resource_segments.dup
 
+      # Generate parent url before we add resource instances.
+      generate_url_and_path_helpers nil, :parent, resource_segments, resource_ivars
+
       # This is the default route configuration, later we have to deal with
       # exception from polymorphic and singleton cases.
       #
@@ -126,7 +129,7 @@ module InheritedResources
       # If it's not a singleton, ivars are not empty, not a collection or
       # not a "new" named route, we can pass a resource as argument.
       #
-      unless singleton || ivars.empty? || name == :collection || prefix == :new
+      unless (singleton && name != :parent) || ivars.empty? || name == :collection || prefix == :new
         ivars.push "(given_args.first || #{ivars.pop})"
       end
 
