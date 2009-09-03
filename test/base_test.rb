@@ -196,17 +196,23 @@ end
 class DestroyActionBaseTest < ActionController::TestCase
   include UserTestHelper
   
-  def test_the_resquested_user_is_destroyed
+  def test_the_requested_user_is_destroyed
     User.expects(:find).with('42').returns(mock_user)
     mock_user.expects(:destroy)
     delete :destroy, :id => '42'
     assert_equal mock_user, assigns(:user)
   end
 
-  def test_show_flash_message
+  def test_show_flash_message_when_user_can_be_deleted
     User.stubs(:find).returns(mock_user(:destroy => true))
     delete :destroy
     assert_equal flash[:notice], 'User was successfully destroyed.'
+  end
+
+  def test_show_flash_message_when_cannot_be_deleted
+    User.stubs(:find).returns(mock_user(:destroy => false))
+    delete :destroy
+    assert_equal flash[:error], 'User could not be destroyed.'
   end
 
   def test_redirects_to_users_list
