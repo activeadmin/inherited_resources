@@ -146,7 +146,7 @@ class CreateActionBaseTest < ActionController::TestCase
     User.stubs(:new).returns(mock_user(:save => false, :errors => {:some => :error}))
     post :create
     assert_response :success
-    assert_template :new
+    assert_equal "New HTML", @response.body.strip
   end
 
   def test_dont_show_flash_message_when_user_cannot_be_saved
@@ -183,7 +183,7 @@ class UpdateActionBaseTest < ActionController::TestCase
     User.stubs(:find).returns(mock_user(:update_attributes => false, :errors => {:some => :error}))
     put :update
     assert_response :success
-    assert_template :edit
+    assert_equal "Edit HTML", @response.body.strip
   end
 
   def test_dont_show_flash_message_when_user_cannot_be_saved
