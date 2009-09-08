@@ -6,7 +6,7 @@ module InheritedResources
   class DumbResponder
 
     instance_methods.each do |m|
-      undef_method m unless m =~ /^__/
+      undef_method m unless m =~ /^(__|object_id)/
     end
 
     # This is like a good husband, he will just listen everything that his wife
