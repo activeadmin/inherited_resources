@@ -30,6 +30,12 @@ If you want it as plugin, just do:
 
     script/plugin install git://github.com/josevalim/inherited_resources.git
 
+== Rspec known bug
+
+When used with integrate_views equals to false, rspec overwrites default_render,
+render and some other controller methods which makes Inherited Resources not work
+properly. In such cases, you have to set integrate_views to true.
+
 == Basic Usage
 
 To use Inherited Resources you just have to inherit (duh) it:
@@ -421,6 +427,9 @@ When using polymorphic associations, you get some free helpers:
     parent_type     #=> :task
     parent_class    #=> Task
     parent          #=> @task
+
+Right now, Inherited Resources is limited and does not allow you
+to have two polymorphic associations nested.
 
 == Optional belongs to
 
