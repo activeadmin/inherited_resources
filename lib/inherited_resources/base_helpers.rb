@@ -49,6 +49,43 @@ module InheritedResources
         get_resource_ivar || set_resource_ivar(end_of_association_chain.send(method_for_build, params[resource_instance_name] || {}))
       end
 
+      # Responsible for saving the resource on :create method. Overwriting this
+      # allow you to control the way resource is saved. Let's say you have a
+      # PassworsController who is responsible for finding an user by email and
+      # sent password instructions for him. Instead of overwriting the entire
+      # :create method, you could do something:
+      #
+      #   def create_resource(object)
+      #     object.send_instructions_by_email
+      #   end
+      #
+      def create_resource(object)
+        object.save
+      end
+
+      # Responsible for updating the resource in :update method. This allow you
+      # to handle how the resource is gona be updated, let's say in a different
+      # way then the usual :update_attributes:
+      #
+      #   def update_resource(object, attributes)
+      #     object.reset_password!(attributes)
+      #   end
+      #
+      def update_resource(object, attributes)
+        object.update_attributes(attributes)
+      end
+
+      # Handle the :destroy method for the resource. Overwrite it to call your
+      # own method for destroing the resource, as:
+      #
+      #   def destroy_resource(object)
+      #     object.cancel
+      #   end
+      #
+      def destroy_resource(object)
+        object.destroy
+      end
+
       # This class allows you to set a instance variable to begin your
       # association chain. For example, usually your projects belongs to users
       # and that means that they belong to the current logged in user. So you
@@ -323,3 +360,4 @@ module InheritedResources
 
   end
 end
+

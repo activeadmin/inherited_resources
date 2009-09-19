@@ -30,7 +30,7 @@ module InheritedResources
     def create(options={}, &block)
       object = build_resource
 
-      if object.save
+      if create_resource(object)
         set_flash_message!(:notice, '{{resource_name}} was successfully created.')
         options[:location] ||= resource_url rescue nil
         respond_with_dual_blocks(object, options, true, block)
@@ -45,7 +45,7 @@ module InheritedResources
     def update(options={}, &block)
       object = resource
 
-      if object.update_attributes(params[resource_instance_name])
+      if update_resource(object, params[resource_instance_name])
         set_flash_message!(:notice, '{{resource_name}} was successfully updated.')
         options[:location] ||= resource_url rescue nil
         respond_with_dual_blocks(object, options, true, block)
@@ -59,8 +59,8 @@ module InheritedResources
     # DELETE /resources/1
     def destroy(options={}, &block)
       object = resource
-      
-      if object.destroy
+
+      if destroy_resource(object)
         set_flash_message!(:notice, '{{resource_name}} was successfully destroyed.')
       else
         set_flash_message!(:error, '{{resource_name}} could not be destroyed.')
@@ -76,3 +76,4 @@ module InheritedResources
 
   end
 end
+
