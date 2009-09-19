@@ -20,7 +20,7 @@ end
 
 class SchoolsController < InheritedResources::Base
   has_scope :by_city
-  has_scope :featured, :boolean => true, :only => :index, :key => :by_featured
+  has_scope :featured, :boolean => true, :only => :index, :as => :by_featured
 end
 
 class DeansController < InheritedResources::Base
@@ -135,3 +135,4 @@ class HasScopeClassMethods < ActiveSupport::TestCase
     assert_equal config[:featured], { :as => :by_featured, :only => [ :index ], :except => [], :boolean => true }
   end
 end
+
