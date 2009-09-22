@@ -273,7 +273,7 @@ module InheritedResources
           if resource_class.respond_to?(:human_name)
             resource_class.human_name
           else
-            resource_class.name.humanize
+            resource_class.name.underscore.humanize
           end
         else
           "Resource"
