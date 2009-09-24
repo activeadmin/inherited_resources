@@ -5,11 +5,20 @@ class Tree
 end
 
 class TreesController < InheritedResources::Base
-  has_scope :color
-  has_scope :only_tall, :boolean => true, :only => :index
+  has_scope :color, :unless => :show_all_colors?
+  has_scope :only_tall, :boolean => true, :only => :index, :if => :restrict_to_only_tall_trees?
   has_scope :shadown_range, :default => 10, :except => [ :index, :show, :destroy, :new ]
   has_scope :root_type, :as => :root
   has_scope :calculate_height, :default => proc {|c| c.session[:height] || 20 }, :only => :new
+
+  protected
+    def restrict_to_only_tall_trees?
+      true
+    end
+
+    def show_all_colors?
+      false
+    end
 end
 
 class HasScopeTest < ActionController::TestCase
@@ -41,6 +50,24 @@ class HasScopeTest < ActionController::TestCase
     Tree.expects(:find).with('42').returns(mock_tree)
     get :show, :only_tall => 'true', :id => '42'
     assert_equal(mock_tree, assigns(:tree))
+    assert_equal({ }, assigns(:current_scopes))
+  end
+
+  def test_scope_is_skipped_when_if_option_is_false
+    @controller.stubs(:restrict_to_only_tall_trees?).returns(false)
+    Tree.expects(:only_tall).never
+    Tree.expects(:find).with(:all).returns([mock_tree])
+    get :index, :only_tall => 'true'
+    assert_equal([mock_tree], assigns(:trees))
+    assert_equal({ }, assigns(:current_scopes))
+  end
+
+  def test_scope_is_skipped_when_unless_option_is_true
+    @controller.stubs(:show_all_colors?).returns(true)
+    Tree.expects(:color).never
+    Tree.expects(:find).with(:all).returns([mock_tree])
+    get :index, :color => 'blue'
+    assert_equal([mock_tree], assigns(:trees))
     assert_equal({ }, assigns(:current_scopes))
   end
 
