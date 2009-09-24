@@ -1,5 +1,6 @@
-require 'test/unit'
 require 'rubygems'
+gem "test-unit"
+require 'test/unit'
 begin
   require 'ruby-debug'
 rescue LoadError
