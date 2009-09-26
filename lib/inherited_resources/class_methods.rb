@@ -239,7 +239,7 @@ module InheritedResources
 
           config = self.resources_configuration[symbol] = {}
           config[:parent_class]    = options.delete(:parent_class)
-          config[:parent_class]  ||= (options.delete(:class_name) || symbol).to_s.classify.constantize rescue nil
+          config[:parent_class]  ||= (options.delete(:class_name) || symbol).to_s.pluralize.classify.constantize rescue nil
           config[:collection_name] = options.delete(:collection_name) || symbol.to_s.pluralize.to_sym
           config[:instance_name]   = options.delete(:instance_name) || symbol
           config[:param]           = options.delete(:param) || :"#{symbol}_id"
