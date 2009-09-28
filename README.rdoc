@@ -517,7 +517,8 @@ associations, that relies on Rails polymorphic_url).
 
 == Bugs and Feedback
 
-If you discover any bugs, please send an e-mail to jose.valim@plataformatec.com.br
-If you just want to give some positive feedback or drop a line, that's fine too!
+If you discover any bugs or want to drop a line, join us in the mailing list:
+
+http://groups.google.com/group/inherited_resources
 
 Copyright (c) 2009 José Valim http://blog.plataformatec.com.br
