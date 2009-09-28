@@ -126,7 +126,7 @@ projects collection:
     class ProjectsController < InheritedResources::Base
       protected
         def collection
-          @projects ||= end_of_association_chain.paginate(params[:page]).all
+          @projects ||= end_of_association_chain.paginate(:page => params[:page])
         end
     end
 
