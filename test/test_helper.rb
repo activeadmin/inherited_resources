@@ -1,10 +1,17 @@
 require 'rubygems'
-gem "test-unit"
-require 'test/unit'
+
 begin
+  gem "test-unit"
+rescue LoadError
+end
+
+begin
+  gem "ruby-debug"
   require 'ruby-debug'
 rescue LoadError
 end
+
+require 'test/unit'
 require 'mocha'
 
 ENV["RAILS_ENV"] = "test"

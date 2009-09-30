@@ -144,8 +144,9 @@ module InheritedResources
           self.scopes_configuration[scope][:as]      = options[:as] || scope
           self.scopes_configuration[scope][:only]    = Array(options[:only])
           self.scopes_configuration[scope][:except]  = Array(options[:except])
+
           [:if, :unless, :boolean, :default].each do |opt|
-            self.scopes_configuration[scope][opt]    = options[opt] if options.key?(opt)
+            self.scopes_configuration[scope][opt] = options[opt] if options.key?(opt)
           end
         end
       end

@@ -57,20 +57,20 @@ module InheritedResources
         end
       end
 
-      # Evaluates the scope options :if or :unless
-      # Returns true if the proc, method, or string evals
-      # to the expected value
+      # Evaluates the scope options :if or :unless. Returns true if the proc
+      # method, or string evals to the expected value.
       #
       def applicable?(string_proc_or_symbol, expected)
-        return true unless string_proc_or_symbol
-        !!case string_proc_or_symbol
-        when String
-          eval string_proc_or_symbol
-        when Proc
-          string_proc_or_symbol.call
-        when Symbol
-          send string_proc_or_symbol
-        end == expected
+        case string_proc_or_symbol
+          when String
+            eval(string_proc_or_symbol) == expected
+          when Proc
+            string_proc_or_symbol.call(self) == expected
+          when Symbol
+            send(string_proc_or_symbol) == expected
+          else
+            true
+        end
       end
 
       # Returns the scopes used in this action.
