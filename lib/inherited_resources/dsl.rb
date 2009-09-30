@@ -12,10 +12,10 @@ module InheritedResources
       ACTIONS.each do |action|
         base.class_eval <<-WRITTER
           def self.#{action}!(options={}, &block)
-            define_method #{action.inspect}!, &block
+            define_method :__#{action}, &block
             class_eval <<-ACTION
               def #{action}
-                super(\#{options.inspect}, &method(#{action.inspect}!))
+                super(\#{options.inspect}, &method(:__#{action}))
               end
             ACTION
           end
