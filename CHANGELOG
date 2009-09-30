@@ -1,5 +1,7 @@
 # Version 0.9
 
+* Added :if and :unless to has_scope (thanks to Jack Danger);
+* Added create_resource, update_resource and delete_resource hooks (thanks to Carlos Antonio da Silva);
 * Backported ActionController::Responder from Rails 3;
 * Added parent_url helper;
 * Added association_chain helper (as suggested by http://github.com/emmanuel);
