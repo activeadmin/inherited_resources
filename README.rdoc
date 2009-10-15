@@ -1,6 +1,6 @@
 Inherited Resources
 License: MIT
-Version: 0.9.1
+Version: 0.9.2
 
 == Description
 
@@ -23,8 +23,8 @@ keywords: resources, controller, singleton, belongs_to, polymorphic, named_scope
 Install Inherited Resources is very easy. It is stored in GitHub, so just run
 the following:
 
-    gem sources -a http://gems.github.com
-    sudo gem install josevalim-inherited_resources
+    gem sources -a http://gemcutter.org
+    sudo gem install inherited_resources
 
 If you want it as plugin, just do:
 
