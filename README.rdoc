@@ -232,7 +232,7 @@ clean and organized inside the same action.
 
 For those DSL lovers, InheritedResources won't leave you alone. You can overwrite
 your success/failure blocks straight from your class binding. For it, you just
-need to add a DSL block to your application controller:
+need to add a DSL module to your application controller:
 
     class ApplicationController < ActionController::Base
       include InheritedResources::DSL

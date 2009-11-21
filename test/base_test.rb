@@ -198,7 +198,7 @@ class DestroyActionBaseTest < ActionController::TestCase
   
   def test_the_requested_user_is_destroyed
     User.expects(:find).with('42').returns(mock_user)
-    mock_user.expects(:destroy)
+    mock_user.expects(:destroy).returns(true)
     delete :destroy, :id => '42'
     assert_equal mock_user, assigns(:user)
   end
@@ -217,6 +217,13 @@ class DestroyActionBaseTest < ActionController::TestCase
 
   def test_redirects_to_users_list
     User.stubs(:find).returns(mock_user(:destroy => true))
+    @controller.expects(:collection_url).returns('http://test.host/')
+    delete :destroy
+    assert_redirected_to 'http://test.host/'
+  end
+
+  def test_redirects_to_the_resource_if_cannot_be_destroyed
+    User.stubs(:find).returns(mock_user(:destroy => false))
     @controller.expects(:collection_url).returns('http://test.host/')
     delete :destroy
     assert_redirected_to 'http://test.host/'

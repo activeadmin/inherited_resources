@@ -123,7 +123,7 @@ class OptionalTest < ActionController::TestCase
     Category.expects(:find).with('37').returns(mock_category)
     mock_category.expects(:products).returns(Product)
     Product.expects(:find).with('42').returns(mock_product)
-    mock_product.expects(:destroy)
+    mock_product.expects(:destroy).returns(true)
     @controller.expects(:collection_url).returns('/')
 
     delete :destroy, :id => '42', :category_id => '37'
@@ -133,7 +133,7 @@ class OptionalTest < ActionController::TestCase
 
   def test_the_resquested_product_is_destroyed_without_category
     Product.expects(:find).with('42').returns(mock_product)
-    mock_product.expects(:destroy)
+    mock_product.expects(:destroy).returns(true)
     @controller.expects(:collection_url).returns('/')
 
     delete :destroy, :id => '42'

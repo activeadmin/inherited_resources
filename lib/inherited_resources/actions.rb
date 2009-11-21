@@ -59,15 +59,15 @@ module InheritedResources
     # DELETE /resources/1
     def destroy(options={}, &block)
       object = resource
+      options[:location] ||= collection_url rescue nil
 
       if destroy_resource(object)
         set_flash_message!(:notice, '{{resource_name}} was successfully destroyed.')
+        respond_with_dual_blocks(object, options, true, block)
       else
         set_flash_message!(:error, '{{resource_name}} could not be destroyed.')
+        respond_with_dual_blocks(object, options, false, block)
       end
-
-      options[:location] ||= collection_url rescue nil
-      respond_with_dual_blocks(object, options, nil, block)
     end
     alias :destroy! :destroy
 
