@@ -82,9 +82,6 @@ class UrlHelpersTest < ActiveSupport::TestCase
       controller.expects("edit_house_#{path_or_url}").with(:house, {}).once
       controller.send("edit_resource_#{path_or_url}")
 
-      controller.expects("root_#{path_or_url}").with({}).once
-      controller.send("parent_#{path_or_url}")
-
       # With arg
       controller.expects("house_#{path_or_url}").with(:arg, {}).once
       controller.send("resource_#{path_or_url}", :arg)
@@ -117,9 +114,6 @@ class UrlHelpersTest < ActiveSupport::TestCase
       controller.expects("edit_admin_backpack_#{path_or_url}").with(:backpack, {}).once
       controller.send("edit_resource_#{path_or_url}")
 
-      controller.expects("admin_#{path_or_url}").with({}).once
-      controller.send("parent_#{path_or_url}")
-
       # With arg
       controller.expects("admin_backpack_#{path_or_url}").with(:arg, {}).once
       controller.send("resource_#{path_or_url}", :arg)
@@ -150,9 +144,6 @@ class UrlHelpersTest < ActiveSupport::TestCase
       controller.expects("edit_universum_#{path_or_url}").with({}).once
       controller.send("edit_resource_#{path_or_url}")
 
-      controller.expects("root_#{path_or_url}").with({}).once
-      controller.send("parent_#{path_or_url}")
-
       # With options
       # Also tests that argument sent are not used
       controller.expects("universum_#{path_or_url}").with(:page => 1).once
@@ -180,6 +171,9 @@ class UrlHelpersTest < ActiveSupport::TestCase
 
       controller.expects("house_#{path_or_url}").with(:house, {}).once
       controller.send("parent_#{path_or_url}")
+
+      controller.expects("edit_house_#{path_or_url}").with(:house, {}).once
+      controller.send("edit_parent_#{path_or_url}")
 
       # With arg
       controller.expects("house_table_#{path_or_url}").with(:house, :arg, {}).once
@@ -217,6 +211,9 @@ class UrlHelpersTest < ActiveSupport::TestCase
 
       controller.expects("big_house_#{path_or_url}").with(:house, {}).once
       controller.send("parent_#{path_or_url}")
+
+      controller.expects("edit_big_house_#{path_or_url}").with(:house, {}).once
+      controller.send("edit_parent_#{path_or_url}")
 
       # With args
       controller.expects("big_house_room_#{path_or_url}").with(:house, :arg, {}).once
@@ -256,6 +253,9 @@ class UrlHelpersTest < ActiveSupport::TestCase
       controller.expects("house_table_#{path_or_url}").with(:house, :table, {}).once
       controller.send("parent_#{path_or_url}")
 
+      controller.expects("edit_house_table_#{path_or_url}").with(:house, :table, {}).once
+      controller.send("edit_parent_#{path_or_url}")
+
       # With args
       controller.expects("edit_house_table_chair_#{path_or_url}").with(:house, :table, :arg, {}).once
       controller.send("edit_resource_#{path_or_url}", :arg)
@@ -293,6 +293,9 @@ class UrlHelpersTest < ActiveSupport::TestCase
       controller.expects("house_#{path_or_url}").with(:house, {}).once
       controller.send("parent_#{path_or_url}")
 
+      controller.expects("edit_house_#{path_or_url}").with(:house, {}).once
+      controller.send("edit_parent_#{path_or_url}")
+
       # With options
       # Also tests that argument sent are not used
       controller.expects("house_owner_#{path_or_url}").with(:house, :page => 1).once
@@ -328,6 +331,9 @@ class UrlHelpersTest < ActiveSupport::TestCase
 
       controller.expects("house_#{path_or_url}").with(house).once
       controller.send("parent_#{path_or_url}")
+
+      controller.expects("edit_house_#{path_or_url}").with(house).once
+      controller.send("edit_parent_#{path_or_url}")
     end
 
     # With options
@@ -379,6 +385,9 @@ class UrlHelpersTest < ActiveSupport::TestCase
 
       controller.expects("admin_house_#{path_or_url}").with(house).once
       controller.send("parent_#{path_or_url}")
+
+      controller.expects("edit_admin_house_#{path_or_url}").with(house).once
+      controller.send("edit_parent_#{path_or_url}")
     end
 
     # With options
@@ -432,6 +441,9 @@ class UrlHelpersTest < ActiveSupport::TestCase
 
       controller.expects("house_table_#{path_or_url}").with(house, table).once
       controller.send("parent_#{path_or_url}")
+
+      controller.expects("edit_house_table_#{path_or_url}").with(house, table).once
+      controller.send("edit_parent_#{path_or_url}")
     end
 
     # With options
@@ -481,6 +493,9 @@ class UrlHelpersTest < ActiveSupport::TestCase
 
       controller.expects("house_table_#{path_or_url}").with(house, table).once
       controller.send("parent_#{path_or_url}")
+
+      controller.expects("edit_house_table_#{path_or_url}").with(house, table).once
+      controller.send("edit_parent_#{path_or_url}")
     end
 
     # With options

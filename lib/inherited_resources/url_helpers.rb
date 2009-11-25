@@ -76,7 +76,10 @@ module InheritedResources
       collection_segments = resource_segments.dup
 
       # Generate parent url before we add resource instances.
-      generate_url_and_path_helpers nil, :parent, resource_segments, resource_ivars
+      unless parents_symbols.empty?
+        generate_url_and_path_helpers nil,   :parent, resource_segments, resource_ivars
+        generate_url_and_path_helpers :edit, :parent, resource_segments, resource_ivars
+      end
 
       # This is the default route configuration, later we have to deal with
       # exception from polymorphic and singleton cases.
