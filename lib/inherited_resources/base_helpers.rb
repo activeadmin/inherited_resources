@@ -226,8 +226,8 @@ module InheritedResources
       #   flash.cars.create.status
       #   flash.actions.create.status
       #
-      # The statuses can be :notice (when the object can be created, updated
-      # or destroyed with success) or :error (when the objecy cannot be created
+      # The statuses can be :success (when the object can be created, updated
+      # or destroyed with success) or :failure (when the objecy cannot be created
       # or updated).
       #
       # Those messages are interpolated by using the resource class human name.
@@ -236,7 +236,7 @@ module InheritedResources
       #   flash:
       #     actions:
       #       create:
-      #         notice: "Hooray! {{resource_name}} was successfully created!"
+      #         success: "Hooray! {{resource_name}} was successfully created!"
       #
       # But sometimes, flash messages are not that simple. Going back
       # to cars example, you might want to say the brand of the car when it's
@@ -245,7 +245,7 @@ module InheritedResources
       #   flash:
       #     cars:
       #       update:
-      #         notice: "Hooray! You just tuned your {{car_brand}}!"
+      #         success: "Hooray! You just tuned your {{car_brand}}!"
       #
       # Since :car_name is not available for interpolation by default, you have
       # to overwrite interpolation_options.
@@ -266,7 +266,7 @@ module InheritedResources
       #   flash.cars.create.status
       #   flash.actions.create.status
       #
-      def set_flash_message!(status, default_message=nil)
+      def orig_set_flash_message!(status, default_message=nil)
         return flash[status] = default_message unless defined?(::I18n)
 
         resource_name = if resource_class
@@ -304,6 +304,27 @@ module InheritedResources
 
         message = ::I18n.t options[:default].shift, options
         flash[status] = message unless message.blank?
+      end
+
+      def set_flash_message!(status, default_message=nil)
+        fallback = status == :success ? :notice : :error
+        result   = orig_set_flash_message!(status)
+
+        if result.blank?
+          result = orig_set_flash_message!(fallback)
+
+          if result.blank?
+            result = orig_set_flash_message!(status, default_message) if default_message
+          else
+            ActiveSupport::Deprecation.warn "Using :#{fallback} in I18n with InheritedResources is deprecated, please use :#{status} instead"
+          end
+        end
+
+        unless result.blank?
+          flash[status]   = result
+          flash[fallback] = ActiveSupport::Deprecation::DeprecatedObjectProxy.new result, "Accessing :#{fallback} in flash with InheritedResources is deprecated, please use :#{status} instead"
+          result
+        end
       end
 
       # Used to allow to specify success and failure within just one block:

@@ -31,10 +31,18 @@ end
 class ActionsClassMethodTest < ActiveSupport::TestCase
   def test_actions_are_undefined
     action_methods = BooksController.send(:action_methods)
+    action_methods.map!(&:to_sym)
     assert_equal 2, action_methods.size
 
-    ['index', 'show'].each do |action|
-      assert action_methods.include? action
+    [:index, :show].each do |action|
+      assert action_methods.include?(action)
+    end
+
+    instance_methods = BooksController.send(:instance_methods)
+    instance_methods.map!(&:to_sym)
+
+    [:new, :edit, :create, :update, :destroy].each do |action|
+      assert !instance_methods.include?(action)
     end
   end
 

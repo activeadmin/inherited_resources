@@ -63,9 +63,11 @@ module InheritedResources
         raise ArgumentError, 'Wrong number of arguments. You have to provide which actions you want to keep.' if actions_to_keep.empty?
 
         options = actions_to_keep.extract_options!
-        actions_to_remove = Array(options[:except])
-        actions_to_remove += ACTIONS - actions_to_keep.map { |a| a.to_sym } unless actions_to_keep.first == :all
-        actions_to_remove.map! { |a| a.to_sym }.uniq!
+        actions_to_remove  = Array(options[:except])
+        actions_to_remove += ACTIONS - actions_to_keep.map { |a| a.to_sym } unless actions_to_keep.include?(:all)
+        actions_to_remove.map! { |a| a.to_sym }
+        actions_to_remove.uniq!
+
         (instance_methods.map { |m| m.to_sym } & actions_to_remove).each do |action|
           undef_method action, "#{action}!"
         end

@@ -4,14 +4,14 @@ en:
       create:
         notice: "You created a new address close to <b>{{reference}}</b>."
       update:
-        notice: "Nice! {{resource_name}} was updated with success!"
-        error: "Oh no! We could not update your address!"
+        success: "Nice! {{resource_name}} was updated with success!"
+        failure: "Oh no! We could not update your address!"
     admin:
       actions:
         create:
-          notice: "Admin notice message."
-          error: "Admin error message."
+          success: "Admin notice message."
+          failure: "Admin error message."
       addresses:
         create:
-          notice: "Admin, you created a new address close to <b>{{reference}}</b>."
+          success: "Admin, you created a new address close to <b>{{reference}}</b>."
 
