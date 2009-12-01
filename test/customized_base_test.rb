@@ -60,7 +60,7 @@ end
 class ShowActionCustomizedBaseTest < ActionController::TestCase
   include CarTestHelper
 
-  def test_expose_the_resquested_user
+  def test_expose_the_requested_user
     Car.expects(:get).with('42').returns(mock_car)
     get :show, :id => '42'
     assert_equal mock_car, assigns(:car)
@@ -80,7 +80,7 @@ end
 class EditActionCustomizedBaseTest < ActionController::TestCase
   include CarTestHelper
 
-  def test_expose_the_resquested_user
+  def test_expose_the_requested_user
     Car.expects(:get).with('42').returns(mock_car)
     get :edit, :id => '42'
     assert_response :success

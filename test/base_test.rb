@@ -53,7 +53,7 @@ end
 class ShowActionBaseTest < ActionController::TestCase
   include UserTestHelper
 
-  def test_expose_the_resquested_user
+  def test_expose_the_requested_user
     User.expects(:find).with('42').returns(mock_user)
     get :show, :id => '42'
     assert_equal mock_user, assigns(:user)
@@ -105,7 +105,7 @@ end
 class EditActionBaseTest < ActionController::TestCase
   include UserTestHelper
 
-  def test_expose_the_resquested_user
+  def test_expose_the_requested_user
     User.expects(:find).with('42').returns(mock_user)
     get :edit, :id => '42'
     assert_response :success

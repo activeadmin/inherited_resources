@@ -35,7 +35,7 @@ class OptionalTest < ActionController::TestCase
     assert_equal [mock_product], assigns(:products)
   end
 
-  def test_expose_the_resquested_product_with_category
+  def test_expose_the_requested_product_with_category
     Category.expects(:find).with('37').returns(mock_category)
     mock_category.expects(:products).returns(Product)
     Product.expects(:find).with('42').returns(mock_product)
@@ -44,7 +44,7 @@ class OptionalTest < ActionController::TestCase
     assert_equal mock_product, assigns(:product)
   end
 
-  def test_expose_the_resquested_product_without_category
+  def test_expose_the_requested_product_without_category
     Product.expects(:find).with('42').returns(mock_product)
     get :show, :id => '42'
     assert_equal nil, assigns(:category)
@@ -67,7 +67,7 @@ class OptionalTest < ActionController::TestCase
     assert_equal mock_product, assigns(:product)
   end
 
-  def test_expose_the_resquested_product_for_edition_with_category
+  def test_expose_the_requested_product_for_edition_with_category
     Category.expects(:find).with('37').returns(mock_category)
     mock_category.expects(:products).returns(Product)
     Product.expects(:find).with('42').returns(mock_product)
@@ -76,7 +76,7 @@ class OptionalTest < ActionController::TestCase
     assert_equal mock_product, assigns(:product)
   end
 
-  def test_expose_the_resquested_product_for_edition_without_category
+  def test_expose_the_requested_product_for_edition_without_category
     Product.expects(:find).with('42').returns(mock_product)
     get :edit, :id => '42'
     assert_equal nil, assigns(:category)
@@ -119,7 +119,7 @@ class OptionalTest < ActionController::TestCase
     assert_equal mock_product, assigns(:product)
   end
 
-  def test_the_resquested_product_is_destroyed_with_category
+  def test_the_requested_product_is_destroyed_with_category
     Category.expects(:find).with('37').returns(mock_category)
     mock_category.expects(:products).returns(Product)
     Product.expects(:find).with('42').returns(mock_product)
@@ -131,7 +131,7 @@ class OptionalTest < ActionController::TestCase
     assert_equal mock_product, assigns(:product)
   end
 
-  def test_the_resquested_product_is_destroyed_without_category
+  def test_the_requested_product_is_destroyed_without_category
     Product.expects(:find).with('42').returns(mock_product)
     mock_product.expects(:destroy).returns(true)
     @controller.expects(:collection_url).returns('/')

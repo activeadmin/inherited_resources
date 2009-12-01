@@ -21,43 +21,43 @@ class CustomizedBelongsToTest < ActionController::TestCase
     @controller.stubs(:collection_url).returns('/')
   end
 
-  def test_expose_the_resquested_school_with_chosen_instance_variable_on_index
+  def test_expose_the_requested_school_with_chosen_instance_variable_on_index
     Professor.stubs(:find).returns([mock_professor])
     get :index, :school_title => 'nice'
     assert_equal mock_school, assigns(:great_school)
   end
 
-  def test_expose_the_resquested_school_with_chosen_instance_variable_on_show
+  def test_expose_the_requested_school_with_chosen_instance_variable_on_show
     Professor.stubs(:find).returns(mock_professor)
     get :show, :school_title => 'nice'
     assert_equal mock_school, assigns(:great_school)
   end
 
-  def test_expose_the_resquested_school_with_chosen_instance_variable_on_new
+  def test_expose_the_requested_school_with_chosen_instance_variable_on_new
     Professor.stubs(:build).returns(mock_professor)
     get :new, :school_title => 'nice'
     assert_equal mock_school, assigns(:great_school)
   end
 
-  def test_expose_the_resquested_school_with_chosen_instance_variable_on_edit
+  def test_expose_the_requested_school_with_chosen_instance_variable_on_edit
     Professor.stubs(:find).returns(mock_professor)
     get :edit, :school_title => 'nice'
     assert_equal mock_school, assigns(:great_school)
   end
 
-  def test_expose_the_resquested_school_with_chosen_instance_variable_on_create
+  def test_expose_the_requested_school_with_chosen_instance_variable_on_create
     Professor.stubs(:build).returns(mock_professor(:save => true))
     post :create, :school_title => 'nice'
     assert_equal mock_school, assigns(:great_school)
   end
 
-  def test_expose_the_resquested_school_with_chosen_instance_variable_on_update
+  def test_expose_the_requested_school_with_chosen_instance_variable_on_update
     Professor.stubs(:find).returns(mock_professor(:update_attributes => true))
     put :update, :school_title => 'nice'
     assert_equal mock_school, assigns(:great_school)
   end
 
-  def test_expose_the_resquested_school_with_chosen_instance_variable_on_destroy
+  def test_expose_the_requested_school_with_chosen_instance_variable_on_destroy
     Professor.stubs(:find).returns(mock_professor(:destroy => true))
     delete :destroy, :school_title => 'nice'
     assert_equal mock_school, assigns(:great_school)

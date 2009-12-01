@@ -29,7 +29,7 @@ class BelongsToTest < ActionController::TestCase
     assert_equal [mock_comment], assigns(:comments)
   end
 
-  def test_expose_the_resquested_comment_on_show
+  def test_expose_the_requested_comment_on_show
     Comment.expects(:find).with('42').returns(mock_comment)
     get :show, :id => '42', :post_id => '37'
     assert_equal mock_post, assigns(:post)
@@ -43,7 +43,7 @@ class BelongsToTest < ActionController::TestCase
     assert_equal mock_comment, assigns(:comment)
   end
 
-  def test_expose_the_resquested_comment_on_edit
+  def test_expose_the_requested_comment_on_edit
     Comment.expects(:find).with('42').returns(mock_comment)
     get :edit, :id => '42', :post_id => '37'
     assert_equal mock_post, assigns(:post)
@@ -65,7 +65,7 @@ class BelongsToTest < ActionController::TestCase
     assert_equal mock_comment, assigns(:comment)
   end
 
-  def test_the_resquested_comment_is_destroyed_on_destroy
+  def test_the_requested_comment_is_destroyed_on_destroy
     Comment.expects(:find).with('42').returns(mock_comment)
     mock_comment.expects(:destroy)
     delete :destroy, :id => '42', :post_id => '37'

@@ -29,7 +29,7 @@ class PolymorphicFactoriesTest < ActionController::TestCase
     assert_equal [mock_employee], assigns(:employees)
   end
 
-  def test_expose_the_resquested_employee_on_show
+  def test_expose_the_requested_employee_on_show
     Employee.expects(:find).with('42').returns(mock_employee)
     get :show, :id => '42', :factory_id => '37'
     assert_equal mock_factory, assigns(:factory)
@@ -43,7 +43,7 @@ class PolymorphicFactoriesTest < ActionController::TestCase
     assert_equal mock_employee, assigns(:employee)
   end
 
-  def test_expose_the_resquested_employee_on_edit
+  def test_expose_the_requested_employee_on_edit
     Employee.expects(:find).with('42').returns(mock_employee)
     get :edit, :id => '42', :factory_id => '37'
     assert_equal mock_factory, assigns(:factory)
@@ -66,7 +66,7 @@ class PolymorphicFactoriesTest < ActionController::TestCase
     assert_equal mock_employee, assigns(:employee)
   end
 
-  def test_the_resquested_employee_is_destroyed_on_destroy
+  def test_the_requested_employee_is_destroyed_on_destroy
     Employee.expects(:find).with('42').returns(mock_employee)
     mock_employee.expects(:destroy)
     delete :destroy, :id => '42', :factory_id => '37'
@@ -116,7 +116,7 @@ class PolymorphicCompanyTest < ActionController::TestCase
     assert_equal [mock_employee], assigns(:employees)
   end
 
-  def test_expose_the_resquested_employee_on_show
+  def test_expose_the_requested_employee_on_show
     Employee.expects(:find).with('42').returns(mock_employee)
     get :show, :id => '42', :company_id => '37'
     assert_equal mock_company, assigns(:company)
@@ -130,7 +130,7 @@ class PolymorphicCompanyTest < ActionController::TestCase
     assert_equal mock_employee, assigns(:employee)
   end
 
-  def test_expose_the_resquested_employee_on_edit
+  def test_expose_the_requested_employee_on_edit
     Employee.expects(:find).with('42').returns(mock_employee)
     get :edit, :id => '42', :company_id => '37'
     assert_equal mock_company, assigns(:company)
@@ -153,7 +153,7 @@ class PolymorphicCompanyTest < ActionController::TestCase
     assert_equal mock_employee, assigns(:employee)
   end
 
-  def test_the_resquested_employee_is_destroyed_on_destroy
+  def test_the_requested_employee_is_destroyed_on_destroy
     Employee.expects(:find).with('42').returns(mock_employee)
     mock_employee.expects(:destroy)
     delete :destroy, :id => '42', :company_id => '37'

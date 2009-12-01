@@ -22,7 +22,7 @@ class SingletonTest < ActionController::TestCase
     @controller.stubs(:collection_url).returns('/')
   end
 
-  def test_expose_the_resquested_manager_on_show
+  def test_expose_the_requested_manager_on_show
     Store.expects(:find).with('37').returns(mock_store)
     mock_store.expects(:manager).returns(mock_manager)
     get :show, :store_id => '37'
@@ -38,7 +38,7 @@ class SingletonTest < ActionController::TestCase
     assert_equal mock_manager, assigns(:manager)
   end
 
-  def test_expose_the_resquested_manager_on_edit
+  def test_expose_the_requested_manager_on_edit
     Store.expects(:find).with('37').returns(mock_store)
     mock_store.expects(:manager).returns(mock_manager)
     get :edit, :store_id => '37'
@@ -63,7 +63,7 @@ class SingletonTest < ActionController::TestCase
     assert_equal mock_manager, assigns(:manager)
   end
 
-  def test_the_resquested_manager_is_destroyed_on_destroy
+  def test_the_requested_manager_is_destroyed_on_destroy
     Store.expects(:find).with('37').returns(mock_store)
     mock_store.expects(:manager).returns(mock_manager)
     mock_manager.expects(:destroy)

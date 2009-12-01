@@ -23,7 +23,7 @@ class DefaultsTest < ActionController::TestCase
     assert_equal [mock_painter], assigns(:malarze)
   end
 
-  def test_expose_the_resquested_painter_on_show
+  def test_expose_the_requested_painter_on_show
     Malarz.expects(:find).with('42').returns(mock_painter)
     get :show, :id => '42'
     assert_equal mock_painter, assigns(:malarz)
@@ -35,7 +35,7 @@ class DefaultsTest < ActionController::TestCase
     assert_equal mock_painter, assigns(:malarz)
   end
 
-  def test_expose_the_resquested_painter_on_edit
+  def test_expose_the_requested_painter_on_edit
     Malarz.expects(:find).with('42').returns(mock_painter)
     get :edit, :id => '42'
     assert_response :success
@@ -55,7 +55,7 @@ class DefaultsTest < ActionController::TestCase
     assert_equal mock_painter, assigns(:malarz)
   end
 
-  def test_the_resquested_painter_is_destroyed
+  def test_the_requested_painter_is_destroyed
     Malarz.expects(:find).with('42').returns(mock_painter)
     mock_painter.expects(:destroy)
     delete :destroy, :id => '42'

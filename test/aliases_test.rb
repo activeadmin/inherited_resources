@@ -55,7 +55,7 @@ class AliasesTest < ActionController::TestCase
     assert_equal 'New HTML', @response.body.strip
   end
 
-  def test_expose_the_resquested_user_on_edit
+  def test_expose_the_requested_user_on_edit
     Student.expects(:find).with('42').returns(mock_student)
     get :edit, :id => '42'
     assert_equal mock_student, assigns(:student)
