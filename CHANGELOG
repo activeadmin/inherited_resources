@@ -1,3 +1,7 @@
+# Version 0.9.4
+
+* DEPRECATION: Use :success and :failure as flash messages instead :notice and :error
+
 # Version 0.9
 
 * Allow dual blocks in destroy;

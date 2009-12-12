@@ -3,12 +3,13 @@
 require 'rake'
 require 'rake/testtask'
 require 'rake/rdoctask'
+require File.join(File.dirname(__FILE__), 'lib', 'inherited_resources', 'version')
 
 begin
   require 'jeweler'
   Jeweler::Tasks.new do |s|
     s.name = "inherited_resources"
-    s.version = "0.9.3"
+    s.version = InheritedResources::VERSION
     s.rubyforge_project = "inherited_resources"
     s.summary = "Inherited Resources speeds up development by making your controllers inherit all restful actions so you just have to focus on what is important."
     s.email = "jose.valim@gmail.com"
