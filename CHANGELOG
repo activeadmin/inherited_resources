@@ -1,6 +1,9 @@
 # Version 0.9.4
 
-* DEPRECATION: Use :success and :failure as flash messages instead :notice and :error
+* Since InheritedResouces 0.9.4, :notice and :error in I18n messages are deprecated in
+favor of :success and :failure. If you try to access them, a deprecation message is shown.
+If you want to skip the message, because you are sure you *won't* access such keys,
+just set DO_NOT_SET_NOTICE_MESSAGE to true somewhere in your app.
 
 # Version 0.9
 
