@@ -1,5 +1,5 @@
 # Whenever base is required load the dumb responder since it's used inside actions.
-require File.dirname(__FILE__) + '/dumb_responder.rb'
+require 'inherited_resources/blank_slate'
 
 module InheritedResources
   # Base helpers for InheritedResource work. Some methods here can be overwriten
@@ -214,98 +214,6 @@ module InheritedResources
         instance_variable_set("@#{resource_collection_name}", collection)
       end
 
-      # Helper to set flash messages. It's powered by I18n API.
-      # It checks for messages in the following order:
-      #
-      #   flash.controller_name.action_name.status
-      #   flash.actions.action_name.status
-      #
-      # If none is available, a default message is set. So, if you have
-      # a CarsController, create action, it will check for:
-      #
-      #   flash.cars.create.status
-      #   flash.actions.create.status
-      #
-      # The statuses can be :notice (when the object can be created, updated
-      # or destroyed with success) or :error (when the objecy cannot be created
-      # or updated).
-      #
-      # Those messages are interpolated by using the resource class human name.
-      # This means you can set:
-      #
-      #   flash:
-      #     actions:
-      #       create:
-      #         notice: "Hooray! {{resource_name}} was successfully created!"
-      #
-      # But sometimes, flash messages are not that simple. Going back
-      # to cars example, you might want to say the brand of the car when it's
-      # updated. Well, that's easy also:
-      #
-      #   flash:
-      #     cars:
-      #       update:
-      #         notice: "Hooray! You just tuned your {{car_brand}}!"
-      #
-      # Since :car_name is not available for interpolation by default, you have
-      # to overwrite interpolation_options.
-      #
-      #   def interpolation_options
-      #     { :car_brand => @car.brand }
-      #   end
-      #
-      # Then you will finally have:
-      #
-      #   'Hooray! You just tuned your Aston Martin!'
-      #
-      # If your controller is namespaced, for example Admin::CarsController,
-      # the messages will be checked in the following order:
-      #
-      #   flash.admin.cars.create.status
-      #   flash.admin.actions.create.status
-      #   flash.cars.create.status
-      #   flash.actions.create.status
-      #
-      def set_flash_message!(status, default_message=nil)
-        return flash[status] = default_message unless defined?(::I18n)
-
-        resource_name = if resource_class
-          if resource_class.respond_to?(:human_name)
-            resource_class.human_name
-          else
-            resource_class.name.underscore.humanize
-          end
-        else
-          "Resource"
-        end
-
-        given_options = if self.respond_to?(:interpolation_options)
-          interpolation_options
-        else
-          {}
-        end
-
-        options = {
-          :default  => default_message || '',
-          :resource_name => resource_name
-        }.merge(given_options)
-
-        defaults = []
-        slices   = controller_path.split('/')
-
-        while slices.size > 0
-          defaults << :"flash.#{slices.fill(controller_name, -1).join('.')}.#{action_name}.#{status}"
-          defaults << :"flash.#{slices.fill(:actions, -1).join('.')}.#{action_name}.#{status}"
-          slices.shift
-        end
-
-        options[:default] = defaults.push(options[:default])
-        options[:default].flatten!
-
-        message = ::I18n.t options[:default].shift, options
-        flash[status] = message unless message.blank?
-      end
-
       # Used to allow to specify success and failure within just one block:
       #
       #   def create
@@ -321,7 +229,7 @@ module InheritedResources
         case given_block.try(:arity)
           when 2
             respond_with(object, options) do |responder|
-              dumb_responder = InheritedResources::DumbResponder.new
+              dumb_responder = InheritedResources::BlankSlate.new
               if success
                 given_block.call(responder, dumb_responder)
               else

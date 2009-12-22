@@ -24,12 +24,18 @@ module UserTestHelper
     @controller          = UsersController.new
     @controller.request  = @request  = ActionController::TestRequest.new
     @controller.response = @response = ActionController::TestResponse.new
+    @controller.stubs(:user_url).returns("/")
   end
 
   protected
   
-    def mock_user(stubs={})
-      @mock_user ||= mock(stubs)
+    def mock_user(expectations={})
+      @mock_user ||= begin
+        user = mock(expectations.except(:errors))
+        user.stubs(:class).returns(User)
+        user.stubs(:errors).returns(expectations.fetch(:errors, {})) 
+        user
+      end
     end
 end
 
@@ -225,9 +231,9 @@ class DestroyActionBaseTest < ActionController::TestCase
   end
 
   def test_show_flash_message_when_cannot_be_deleted
-    User.stubs(:find).returns(mock_user(:destroy => false))
+    User.stubs(:find).returns(mock_user(:destroy => false, :errors => { :fail => true }))
     delete :destroy
-    assert_equal flash[:error], 'User could not be destroyed.'
+    assert_equal flash[:alert], 'User could not be destroyed.'
   end
 
   def test_redirects_to_users_list

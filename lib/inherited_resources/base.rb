@@ -39,5 +39,6 @@ module InheritedResources
     end
 
     inherit_resources(self)
+    self.responder = InheritedResources::Responder
   end
 end

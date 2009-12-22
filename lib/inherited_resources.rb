@@ -11,13 +11,17 @@ module InheritedResources
 end
 
 class ActionController::Base
+  public :flash, :render
+
   # If you cannot inherit from InheritedResources::Base you can call
   # inherit_resource in your controller to have all the required modules and
   # funcionality included.
-  #
   def self.inherit_resources
     InheritedResources::Base.inherit_resources(self)
     initialize_resources_class_accessors!
     create_resources_url_helpers!
   end
 end
+
+require 'responders'
+I18n.load_path.unshift File.expand_path(File.join(File.dirname(__FILE__), 'inherited_resources', 'locales', 'en.yml'))

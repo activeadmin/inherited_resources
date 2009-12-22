@@ -39,11 +39,17 @@ module CarTestHelper
     @controller          = CarsController.new
     @controller.request  = @request  = ActionController::TestRequest.new
     @controller.response = @response = ActionController::TestResponse.new
+    @controller.stubs(:car_url).returns("/")
   end
 
   protected
-    def mock_car(stubs={})
-      @mock_car ||= mock(stubs)
+    def mock_car(expectations={})
+      @mock_car ||= begin
+        car = mock(expectations.except(:errors))
+        car.stubs(:class).returns(Car)
+        car.stubs(:errors).returns(expectations.fetch(:errors, {}))
+        car
+      end
     end
 end
 
@@ -154,9 +160,9 @@ class DestroyActionCustomizedBaseTest < ActionController::TestCase
   end
 
   def test_show_flash_message_when_cannot_be_deleted
-    Car.stubs(:get).returns(mock_car(:destroy_successfully => false))
+    Car.stubs(:get).returns(mock_car(:destroy_successfully => false, :errors => { :fail => true }))
     delete :destroy
-    assert_equal flash[:error], 'Car could not be destroyed.'
+    assert_equal flash[:alert], 'Car could not be destroyed.'
   end
 end
 
