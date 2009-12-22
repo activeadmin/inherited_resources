@@ -6,8 +6,16 @@ unless defined?(ActionController::Responder)
   require File.join(File.dirname(__FILE__), 'inherited_resources', 'legacy', 'respond_to')
 end
 
+require 'responders'
+I18n.load_path.unshift File.expand_path(File.join(File.dirname(__FILE__), 'inherited_resources', 'locales', 'en.yml'))
+
 module InheritedResources
   ACTIONS = [ :index, :show, :new, :edit, :create, :update, :destroy ] unless self.const_defined?(:ACTIONS)
+
+  # Change the flash keys used by FlashResponder.
+  def self.flash_keys=(array)
+    Responders::FlashResponder.flash_keys = array
+  end
 end
 
 class ActionController::Base
@@ -22,6 +30,3 @@ class ActionController::Base
     create_resources_url_helpers!
   end
 end
-
-require 'responders'
-I18n.load_path.unshift File.expand_path(File.join(File.dirname(__FILE__), 'inherited_resources', 'locales', 'en.yml'))
