@@ -2,6 +2,16 @@ module ActionController #:nodoc:
   class Base #:nodoc:
     attr_accessor :formats
 
+    class_inheritable_accessor :responder, :mimes_for_respond_to, :instance_writer => false
+
+    self.responder = ActionController::Responder
+    self.mimes_for_respond_to = ActiveSupport::OrderedHash.new
+
+    if defined?(ApplicationController)
+      ApplicationController.responder ||= ActionController::Responder
+      ApplicationController.mimes_for_respond_to ||= ActiveSupport::OrderedHash.new
+    end
+
     # Defines mimes that are rendered by default when invoking respond_with.
     #
     # Examples:
@@ -43,14 +53,6 @@ module ActionController #:nodoc:
       write_inheritable_attribute(:mimes_for_respond_to, ActiveSupport::OrderedHash.new)
     end
 
-    class_inheritable_reader :mimes_for_respond_to
-    clear_respond_to
-
-    # If ApplicationController is already defined around here, we have to set
-    # mimes_for_respond_to hash as well.
-    #
-    ApplicationController.clear_respond_to if defined?(ApplicationController)
-
     def respond_to(*mimes, &block)
       raise ArgumentError, "respond_to takes either types or a block, never both" if mimes.any? && block_given?
       if response = retrieve_response_from_mimes(mimes, &block)
@@ -64,10 +66,6 @@ module ActionController #:nodoc:
         options.merge!(:default_response => response)
         (options.delete(:responder) || responder).call(self, resources, options)
       end
-    end
-
-    def responder
-      ActionController::Responder
     end
 
   protected
