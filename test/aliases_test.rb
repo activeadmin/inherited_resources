@@ -104,7 +104,7 @@ class AliasesTest < ActionController::TestCase
   end
 
   def test_wont_render_edit_template_on_update_with_failure_if_failure_block_is_given
-    Student.stubs(:find).returns(mock_student(:update_attributes => false))
+    Student.stubs(:find).returns(mock_student(:update_attributes => false, :errors => { :fail => true }))
     put :update
     assert_response :success
     assert_equal "I won't render!", @response.body
@@ -132,8 +132,13 @@ class AliasesTest < ActionController::TestCase
   end
 
   protected
-    def mock_student(stubs={})
-      @mock_student ||= mock(stubs)
+    def mock_student(expectations={})
+      @mock_student ||= begin
+        student = mock(expectations.except(:errors))
+        student.stubs(:class).returns(Student)
+        student.stubs(:errors).returns(expectations.fetch(:errors, {})) 
+        student
+      end
     end
 end
 

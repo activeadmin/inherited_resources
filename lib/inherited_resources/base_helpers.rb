@@ -138,6 +138,11 @@ module InheritedResources
 
     private
 
+      # Adds the given object to association chain.
+      def with_chain(object)
+        association_chain + [ object ]
+      end
+
       # Fast accessor to resource_collection_name
       #
       def resource_collection_name #:nodoc:
@@ -225,30 +230,24 @@ module InheritedResources
       # It also calculates the response url in case a block without arity is
       # given and returns it. Otherwise returns nil.
       #
-      def respond_with_dual_blocks(object, options, success, given_block, &block) #:nodoc:
-        case given_block.try(:arity)
+      def respond_with_dual_blocks(object, options, &block) #:nodoc:
+        args = (with_chain(object) << options)
+
+        case block.try(:arity)
           when 2
-            respond_with(object, options) do |responder|
-              dumb_responder = InheritedResources::BlankSlate.new
-              if success
-                given_block.call(responder, dumb_responder)
+            respond_with(*args) do |responder|
+              blank_slate = InheritedResources::BlankSlate.new
+              if object.errors.empty?
+                block.call(responder, blank_slate)
               else
-                given_block.call(dumb_responder, responder)
+                block.call(blank_slate, responder)
               end
-              block.try(:call, responder)
             end
           when 1
-            if block
-              respond_with(object, options) do |responder|
-                given_block.call(responder)
-                block.call(responder)
-              end
-            else
-              respond_with(object, options, &given_block)
-            end
+            respond_with(*args, &block)
           else
-            options[:location] = given_block.call if given_block
-            respond_with(object, options, &block)
+            options[:location] = block.call if block
+            respond_with(*args)
         end
       end
 
