@@ -10,7 +10,7 @@ a screencast made by Fabio Akita about its features:
 
 http://akitaonrails.com/2009/09/01/screencast-real-thin-restful-controllers-with-inherited-resources
 
-Inherited Resources is tested and compatible with Rails 2.2.x and Rails 2.3.x.
+Inherited Resources is tested and compatible with Rails 2.3.x.
 
 == Installation
 
@@ -22,14 +22,14 @@ If you want it as plugin, just do:
 
     script/plugin install git://github.com/josevalim/inherited_resources.git
 
-== Inherited Resources 1.0.pre
+== Upgrading to Inherited Resources 1.0
 
-Inherited Resources is close to 1.0 version. A couple things changed,
-so be sure to read the following sections if you want to try it out:
+Inherited Resources finally reached 1.0 version. A couple things changed,
+so be sure to read the following sections:
 
 === HasScope
 
-In Inherited Resources 1.0, has_scope is not part of its core anymore.
+Since Inherited Resources 1.0, has_scope is not part of its core anymore.
 However, if you are using has_scope in your application, Inherited Resources
 will handle all the required hooks automatically.
 
@@ -43,7 +43,7 @@ And can be installed as:
 
 === Responders
 
-In Inherited Resources 1.0, responders are not part of its core anymore,
+Since Inherited Resources 1.0, responders are not part of its core anymore,
 but is set as Inherited Resources dependency and it's used by default by
 InheritedResources controllers. Be sure to check the documentation to see
 how it will change your application:
@@ -74,7 +74,7 @@ To use Inherited Resources you just have to inherit (duh) it:
 
 And all actions are defined and working, check it! Your projects collection
 (in the index action) is still available in the instance variable @projects
-and your project resource (all other actions) is available as @ project.
+and your project resource (all other actions) is available as @project.
 
 The next step is to define which mime types this controller provides:
 
