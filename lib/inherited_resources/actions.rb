@@ -31,11 +31,11 @@ module InheritedResources
       object = build_resource
 
       if create_resource(object)
-        set_flash_message!(:success, '{{resource_name}} was successfully created.')
+        set_flash_message!(:notice, '{{resource_name}} was successfully created.')
         options[:location] ||= resource_url rescue nil
         respond_with_dual_blocks(object, options, true, block)
       else
-        set_flash_message!(:failure)
+        set_flash_message!(:error)
         respond_with_dual_blocks(object, options, false, block)
       end
     end
@@ -46,11 +46,11 @@ module InheritedResources
       object = resource
 
       if update_resource(object, params[resource_instance_name])
-        set_flash_message!(:success, '{{resource_name}} was successfully updated.')
+        set_flash_message!(:notice, '{{resource_name}} was successfully updated.')
         options[:location] ||= resource_url rescue nil
         respond_with_dual_blocks(object, options, true, block)
       else
-        set_flash_message!(:failure)
+        set_flash_message!(:error)
         respond_with_dual_blocks(object, options, false, block)
       end
     end
@@ -62,10 +62,10 @@ module InheritedResources
       options[:location] ||= collection_url rescue nil
 
       if destroy_resource(object)
-        set_flash_message!(:success, '{{resource_name}} was successfully destroyed.')
+        set_flash_message!(:notice, '{{resource_name}} was successfully destroyed.')
         respond_with_dual_blocks(object, options, true, block)
       else
-        set_flash_message!(:failure, '{{resource_name}} could not be destroyed.')
+        set_flash_message!(:error, '{{resource_name}} could not be destroyed.')
         respond_with_dual_blocks(object, options, false, block)
       end
     end

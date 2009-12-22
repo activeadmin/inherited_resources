@@ -34,7 +34,7 @@ class FlashBaseHelpersTest < ActionController::TestCase
   def test_success_flash_message_on_create_with_yml
     Address.stubs(:new).returns(mock_address(:save => true))
     post :create
-    assert_equal 'You created a new address close to <b>Ocean Avenue</b>.', flash[:success]
+    assert_equal 'You created a new address close to <b>Ocean Avenue</b>.', flash[:notice]
   end
 
   def test_success_flash_message_on_create_with_namespaced_controller
@@ -42,7 +42,7 @@ class FlashBaseHelpersTest < ActionController::TestCase
     @controller.stubs(:resource_url).returns("http://test.host/")
     Address.stubs(:new).returns(mock_address(:save => true))
     post :create
-    assert_equal 'Admin, you created a new address close to <b>Ocean Avenue</b>.', flash[:success]
+    assert_equal 'Admin, you created a new address close to <b>Ocean Avenue</b>.', flash[:notice]
   end
 
   def test_failure_flash_message_on_create_with_namespaced_controller_actions
@@ -50,7 +50,7 @@ class FlashBaseHelpersTest < ActionController::TestCase
     @controller.stubs(:resource_url).returns("http://test.host/")
     Address.stubs(:new).returns(mock_address(:save => false))
     post :create
-    assert_equal 'Admin error message.', flash[:failure]
+    assert_equal 'Admin error message.', flash[:error]
   end
 
   def test_inherited_success_flash_message_on_update_on_namespaced_controllers
@@ -59,26 +59,26 @@ class FlashBaseHelpersTest < ActionController::TestCase
     Address.stubs(:find).returns(mock_address(:update_attributes => true))
     put :update
     assert_response :success
-    assert_equal 'Nice! Address was updated with success!', flash[:success]
+    assert_equal 'Nice! Address was updated with success!', flash[:notice]
   end
 
   def test_success_flash_message_on_update
     Address.stubs(:find).returns(mock_address(:update_attributes => true))
     put :update
     assert_response :success
-    assert_equal 'Nice! Address was updated with success!', flash[:success]
+    assert_equal 'Nice! Address was updated with success!', flash[:notice]
   end
 
   def test_failure_flash_message_on_update
     Address.stubs(:find).returns(mock_address(:update_attributes => false, :errors => {:some => :error}))
     put :update
-    assert_equal 'Oh no! We could not update your address!', flash[:failure]
+    assert_equal 'Oh no! We could not update your address!', flash[:error]
   end
 
   def test_success_flash_message_on_destroy
     Address.stubs(:find).returns(mock_address(:destroy => true))
     delete :destroy
-    assert_equal 'Address was successfully destroyed.', flash[:success]
+    assert_equal 'Address was successfully destroyed.', flash[:notice]
   end
 
   protected
