@@ -2,8 +2,8 @@
 # are loaded on demand.
 #
 unless defined?(ActionController::Responder)
-  require File.join(File.dirname(__FILE__), 'inherited_resources', 'legacy', 'responder')
-  require File.join(File.dirname(__FILE__), 'inherited_resources', 'legacy', 'respond_to')
+  require 'inherited_resources/legacy/responder'
+  require 'inherited_resources/legacy/respond_to'
 end
 
 require 'responders'
