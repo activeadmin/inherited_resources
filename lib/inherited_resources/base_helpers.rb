@@ -307,8 +307,6 @@ module InheritedResources
       end
 
       def set_flash_message!(status, default_message=nil)
-        return orig_set_flash_message!(status, default_message) if defined?(DO_NOT_SET_DEPRECATED_FLASH)
-
         fallback = status == :success ? :notice : :error
         result   = orig_set_flash_message!(status)
 

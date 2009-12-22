@@ -1,6 +1,6 @@
 Inherited Resources
 License: MIT
-Version: 0.9.4
+Version: 0.9.2
 
 == Description
 
@@ -35,13 +35,6 @@ If you want it as plugin, just do:
 When used with integrate_views equals to false, rspec overwrites default_render,
 render and some other controller methods which makes Inherited Resources not work
 properly. In such cases, you have to set integrate_views to true.
-
-== Deprecation
-
-Since InheritedResouces 0.9.4, :notice and :error in I18n messages are deprecated in
-favor of :success and :failure. If you try to access them, a deprecation message is shown.
-If you want to skip the message, because you are sure you *won't* access such keys,
-just set DO_NOT_SET_NOTICE_MESSAGE to true somewhere in your app.
 
 == Basic Usage
 
@@ -267,8 +260,8 @@ on projects controller, it will search for:
     flash.projects.create.status
     flash.actions.create.status
 
-The status can be :success (when the object can be created, updated
-or destroyed with success) or :failure (when the objecy cannot be created
+The status can be :notice (when the object can be created, updated
+or destroyed with success) or :error (when the objecy cannot be created
 or updated).
 
 Those messages are interpolated by using the resource class human name, which 
@@ -277,7 +270,7 @@ is also localized and it means you can set:
     flash:
       actions:
         create:
-          success: "Hooray! {{resource_name}} was successfully created!"
+          notice: "Hooray! {{resource_name}} was successfully created!"
 
 It will replace {{resource_name}} by the human name of the resource class,
 which is "Project" in this case.
@@ -288,7 +281,7 @@ the title of the project while updating a project. Well, that's easy also:
     flash:
       projects:
         update:
-          success: "Hooray! The project "{{project_title}}" was updated!"
+          notice: "Hooray! The project "{{project_title}}" was updated!"
 
 Since :project_title is not available for interpolation by default, you have
 to overwrite interpolation_options.
