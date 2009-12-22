@@ -2,15 +2,17 @@ module ActionController #:nodoc:
   class Base #:nodoc:
     attr_accessor :formats
 
-    class_inheritable_accessor :responder, :mimes_for_respond_to, :instance_writer => false
-
-    self.responder = ActionController::Responder
-    self.mimes_for_respond_to = ActiveSupport::OrderedHash.new
-
-    if defined?(ApplicationController)
-      ApplicationController.responder ||= ActionController::Responder
-      ApplicationController.mimes_for_respond_to ||= ActiveSupport::OrderedHash.new
+    # Clear all mimes in respond_to.
+    def self.clear_respond_to
+      write_inheritable_attribute(:mimes_for_respond_to, ActiveSupport::OrderedHash.new)
     end
+
+    class_inheritable_reader :mimes_for_respond_to
+    class_inheritable_accessor :responder, :instance_writer => false
+
+    clear_respond_to
+    self.responder = ActionController::Responder
+    ApplicationController.responder ||= ActionController::Responder if defined?(ApplicationController)
 
     # Defines mimes that are rendered by default when invoking respond_with.
     #
@@ -35,6 +37,7 @@ module ActionController #:nodoc:
     #
     def self.respond_to(*mimes)
       options = mimes.extract_options!
+      clear_respond_to unless mimes_for_respond_to
 
       only_actions   = Array(options.delete(:only))
       except_actions = Array(options.delete(:except))
@@ -45,12 +48,6 @@ module ActionController #:nodoc:
         mimes_for_respond_to[mime][:only]   = only_actions   unless only_actions.empty?
         mimes_for_respond_to[mime][:except] = except_actions unless except_actions.empty?
       end
-    end
-
-    # Clear all mimes in respond_to.
-    #
-    def self.clear_respond_to
-      write_inheritable_attribute(:mimes_for_respond_to, ActiveSupport::OrderedHash.new)
     end
 
     def respond_to(*mimes, &block)

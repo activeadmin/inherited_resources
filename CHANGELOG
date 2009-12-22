@@ -1,7 +1,12 @@
-# Version 0.9.4
+* responders was removed from InheritedResources core and is a dependency. To install it, please do:
 
-* DEPRECATION: Use :success and :failure as flash messages instead :notice and :error
+    sudo gem install responders
 
+* has_scope was removed from InheritedResources core and is now available as a standalone gem.
+  To install it, please do:
+
+    sudo gem install has_scope
+  
 # Version 0.9
 
 * Allow dual blocks in destroy;

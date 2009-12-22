@@ -9,6 +9,14 @@ end
 
 class UsersController < AccountsController
   respond_to :html, :xml
+  attr_reader :scopes_applied
+
+protected
+
+  def apply_scopes(object)
+    @scopes_applied = true
+    object
+  end
 end
 
 module UserTestHelper
@@ -19,6 +27,7 @@ module UserTestHelper
   end
 
   protected
+  
     def mock_user(stubs={})
       @mock_user ||= mock(stubs)
     end
@@ -31,6 +40,12 @@ class IndexActionBaseTest < ActionController::TestCase
     User.expects(:find).with(:all).returns([mock_user])
     get :index
     assert_equal [mock_user], assigns(:users)
+  end
+
+  def test_apply_scopes_if_method_is_available
+    User.expects(:find).with(:all).returns([mock_user])
+    get :index
+    assert @controller.scopes_applied
   end
 
   def test_controller_should_render_index

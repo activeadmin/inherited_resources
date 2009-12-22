@@ -71,86 +71,6 @@ module InheritedResources
         end
       end
 
-      # Detects params from url and apply as scopes to your classes.
-      #
-      # Your model:
-      #
-      #   class Graduation < ActiveRecord::Base
-      #     named_scope :featured, :conditions => { :featured => true }
-      #     named_scope :by_degree, proc {|degree| { :conditions => { :degree => degree } } }
-      #   end
-      #
-      # Your controller:
-      #
-      #   class GraduationsController < InheritedResources::Base
-      #     has_scope :featured, :boolean => true, :only => :index
-      #     has_scope :by_degree, :only => :index
-      #   end
-      #
-      # Then for each request:
-      #
-      #   /graduations
-      #   #=> acts like a normal request
-      #
-      #   /graduations?featured=true
-      #   #=> calls the named scope and bring featured graduations
-      #
-      #   /graduations?featured=true&by_degree=phd
-      #   #=> brings featured graduations with phd degree
-      #
-      # You can retrieve the current scopes in use with <tt>current_scopes</tt>
-      # method. In the last case, it would return: { :featured => "true", :by_degree => "phd" }
-      #
-      # == Options
-      #
-      # * <tt>:boolean</tt> - When set to true, call the scope only when the param is true or 1,
-      #                       and does not send the value as argument.
-      #
-      # * <tt>:only</tt> - In which actions the scope is applied. By default is :all.
-      #
-      # * <tt>:except</tt> - In which actions the scope is not applied. By default is :none.
-      #
-      # * <tt>:as</tt> - The key in the params hash expected to find the scope.
-      #                  Defaults to the scope name.
-      #
-      # * <tt>:if</tt> - Specifies a method, proc or string to call to determine
-      #                  if the scope should apply
-      #
-      # * <tt>:unless</tt> - Specifies a method, proc or string to call to determine
-      #                      if the scope should NOT apply.
-      #
-      # * <tt>:default</tt> - Default value for the scope. Whenever supplied the scope
-      #                       is always called. This is useful to add easy pagination.
-      #
-      def has_scope(*scopes)
-        options = scopes.extract_options!
-
-        options.symbolize_keys!
-        options.assert_valid_keys(:boolean, :key, :only, :except,
-                                  :if, :unless, :default, :as)
-
-        if options[:key]
-          ActiveSupport::Deprecation.warn "has_scope :key is deprecated, use :as instead"
-          options[:as] ||= options[:key]
-        end
-
-        if self.scopes_configuration.empty?
-          include HasScopeHelpers
-          helper_method :current_scopes
-        end
-
-        scopes.each do |scope|
-          self.scopes_configuration[scope]         ||= {}
-          self.scopes_configuration[scope][:as]      = options[:as] || scope
-          self.scopes_configuration[scope][:only]    = Array(options[:only])
-          self.scopes_configuration[scope][:except]  = Array(options[:except])
-
-          [:if, :unless, :boolean, :default].each do |opt|
-            self.scopes_configuration[scope][opt] = options[opt] if options.key?(opt)
-          end
-        end
-      end
-
       # Defines that this controller belongs to another resource.
       #
       #   belongs_to :projects
@@ -321,8 +241,7 @@ module InheritedResources
         config[:route_prefix] = namespaces.join('_') unless namespaces.empty?
 
         # Initialize polymorphic, singleton, scopes and belongs_to parameters
-        self.parents_symbols      ||= []
-        self.scopes_configuration ||= {}
+        self.parents_symbols ||= []
         self.resources_configuration[:polymorphic] ||= { :symbols => [], :optional => false }
       end
 

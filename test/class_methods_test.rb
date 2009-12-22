@@ -18,11 +18,6 @@ class Dean
   def self.human_name; 'Dean'; end
 end
 
-class SchoolsController < InheritedResources::Base
-  has_scope :by_city
-  has_scope :featured, :boolean => true, :only => :index, :as => :by_featured
-end
-
 class DeansController < InheritedResources::Base
   belongs_to :school
 end
@@ -135,16 +130,3 @@ class BelongsToErrorsTest < ActiveSupport::TestCase
     DeansController.send(:parents_symbols=, [:school])
   end
 end
-
-class HasScopeClassMethods < ActiveSupport::TestCase
-  def test_scope_configuration_is_stored_as_hashes
-    config = SchoolsController.send(:scopes_configuration)
-
-    assert config.key?(:by_city)
-    assert config.key?(:featured)
-
-    assert_equal config[:by_city], { :as => :by_city, :only => [], :except => [] }
-    assert_equal config[:featured], { :as => :by_featured, :only => [ :index ], :except => [], :boolean => true }
-  end
-end
-

@@ -1,6 +1,4 @@
 Inherited Resources
-License: MIT
-Version: 0.9.2
 
 == Description
 
@@ -16,19 +14,52 @@ http://akitaonrails.com/2009/09/01/screencast-real-thin-restful-controllers-with
 
 Inherited Resources is tested and compatible with Rails 2.2.x and Rails 2.3.x.
 
-keywords: resources, controller, singleton, belongs_to, polymorphic, named_scope and I18n
-
 == Installation
 
-Install Inherited Resources is very easy. It is stored in GitHub, so just run
-the following:
+Inherited Resources is available as gem on Gemcutter, so just run the following:
 
-    gem sources -a http://gemcutter.org
     sudo gem install inherited_resources
 
 If you want it as plugin, just do:
 
     script/plugin install git://github.com/josevalim/inherited_resources.git
+
+== Inherited Resources 1.0
+
+Inherited Resources finally reached 1.0 version. A couple things changed,
+so be sure to read the following sections:
+
+=== HasScope
+
+Since Inherited Resources 1.0, has_scope is not part of its core anymore.
+However, if you are using has_scope in your application, Inherited Resources
+will all the required hooks automatically.
+
+has_scope gem is available at:
+
+  http://github.com/plataformatec/has_scope
+
+And can be installed as:
+
+  sudo gem install has_scope
+
+=== Responders
+
+Since Inherited Resources 1.0, responders are not part of its core anymore,
+but is set as an Inherited Resources dependency and it's used by default by
+InheritedResources controller. Be sure to check the documentation to see
+how it will change your application:
+
+  http://github.com/plataformatec/responders
+
+And it can be installed as:
+
+  sudo gem install responders
+
+Using responders set the flash message to :notice and :alert. You can change
+that through the following configuration value:
+
+  InheritedResources.flash_keys = [ :success, :failure ]
 
 == Rspec known bug
 
@@ -246,109 +277,6 @@ And then you can rewrite the last example as:
       end
     end
 
-== Flash messages and I18n
-
-Flash messages are powered by I18n api. It checks for messages in the following
-order:
-
-    flash.controller_name.action_name.status
-    flash.actions.action_name.status
-
-If none is available, a default message in english set. In a create action
-on projects controller, it will search for:
-
-    flash.projects.create.status
-    flash.actions.create.status
-
-The status can be :notice (when the object can be created, updated
-or destroyed with success) or :error (when the objecy cannot be created
-or updated).
-
-Those messages are interpolated by using the resource class human name, which 
-is also localized and it means you can set:
-
-    flash:
-      actions:
-        create:
-          notice: "Hooray! {{resource_name}} was successfully created!"
-
-It will replace {{resource_name}} by the human name of the resource class,
-which is "Project" in this case.
-
-But sometimes, flash messages are not that simple. Sometimes you want to say
-the title of the project while updating a project. Well, that's easy also:
-
-    flash:
-      projects:
-        update:
-          notice: "Hooray! The project "{{project_title}}" was updated!"
-
-Since :project_title is not available for interpolation by default, you have
-to overwrite interpolation_options.
-
-    def interpolation_options
-      { :project_title => @project.title }
-    end
-
-Then you will finally have:
-
-    "Hooray! The project "Plataforma" was updated!"
-
-By default, resource name is capitalized. If you want to make it lower case, you
-can add to your application controller:
-
-    def interpolation_options
-      { :resource_name => resource_class.human_name.downcase }
-   end
-
-Finally, if your controller is namespaced, for example Admin::ProjectsController,
-the messages will be checked in the following order:
-
-    flash.admin.projects.create.notice
-    flash.admin.actions.create.notice
-    flash.projects.create.notice
-    flash.actions.create.notice
-
-== Has Scope
-
-InheritedResources tries to integrate nicely with your model. In order to do so,
-it also is named_scope fluent. Let's suppose our Project model with the scopes:
-
-    class Project < ActiveRecord::Base
-      named_scope :featured, :conditions => { :featured => true }
-      named_scope :by_methodology, proc {|methodology| { :conditions => { :methodology => methodology } } }
-      named_scope :limit, proc{|limit| :limit => limit.to_i }
-    end
-
-Your controller:
-
-    class ProjectsController < InheritedResources::Base
-      has_scope :featured, :boolean => true, :only => :index
-      has_scope :by_methodology
-      has_scope :limit, :default => 10
-    end
-
-Then for each request:
-
-    /projects
-    #=> acts like a normal request, but returning 10 projects
-
-    /projects?featured=true
-    #=> calls the featured named scope and bring 10 featured projects
-
-    /projects?featured=true&by_methodology=agile&limit=20
-    #=> brings 20 featured projects with methodology agile
-
-You can retrieve the current scopes in use with :current_scopes method.
-In the last case, it would return:
-
-    { :featured => "true", :by_methodology => "agile", :limit => "20" }
-
-Finally, let's suppose you store on the session how many projects the user sees
-per page. In such cases, you can give a proc as default value:
-
-    has_scope :limit, :default => proc{|c| c.session[:limit] || 10 }
-
 == Belongs to
 
 Finally, our Projects are going to get some Tasks. Then you create a
@@ -522,3 +450,4 @@ If you discover any bugs or want to drop a line, join us in the mailing list:
 http://groups.google.com/group/inherited_resources
 
 Copyright (c) 2009 José Valim http://blog.plataformatec.com.br
+See the attached MIT License.

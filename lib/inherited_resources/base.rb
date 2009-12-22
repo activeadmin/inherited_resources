@@ -31,10 +31,10 @@ module InheritedResources
         base.with_options :instance_writer => false do |c|
           c.class_inheritable_accessor :resource_class
           c.class_inheritable_array :parents_symbols
-          c.class_inheritable_hash :resources_configuration, :scopes_configuration
+          c.class_inheritable_hash :resources_configuration
         end
 
-        protected :resource_class, :parents_symbols, :resources_configuration, :scopes_configuration
+        protected :resource_class, :parents_symbols, :resources_configuration
       end
     end
 
