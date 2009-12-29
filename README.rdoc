@@ -257,6 +257,21 @@ give a block that expects two arguments, the first will be executed only in
 success scenarios and the second in failure scenarios. You keep everything
 clean and organized inside the same action.
 
+== Success and failure scenarios on destroy
+
+The destroy action can also fail, this usually happens when you have a
+before_destroy callback in your model which returns false. However, in
+order to tell InheritedResources that it really failed, you need to add
+errors to your model. So your before_destroy callback on the model should
+be something like this:
+
+    def before_destroy
+      if cant_be_destroyed?
+        errors.add(:base, "not allowed")
+        false
+      end
+    end
+
 == Some DSL
 
 For those DSL lovers, InheritedResources won't leave you alone. You can overwrite
