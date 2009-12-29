@@ -22,6 +22,7 @@ module InheritedResources
 
         # Add at least :html mime type
         respond_to :html
+        self.responder = InheritedResources::Responder
 
         helper_method :collection_url, :collection_path, :resource_url, :resource_path,
                       :new_resource_url, :new_resource_path, :edit_resource_url, :edit_resource_path,
@@ -39,6 +40,5 @@ module InheritedResources
     end
 
     inherit_resources(self)
-    self.responder = InheritedResources::Responder
   end
 end
