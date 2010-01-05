@@ -1,3 +1,6 @@
+require 'inherited_resources/blank_slate'
+require 'inherited_resources/responder'
+
 module InheritedResources
   # = Base
   #
