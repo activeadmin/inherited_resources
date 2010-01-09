@@ -61,9 +61,14 @@ that through the following configuration value:
 
 == Rspec known bug
 
-When used with integrate_views equals to false, rspec overwrites default_render,
-render and some other controller methods which makes Inherited Resources not work
-properly. In such cases, you have to set integrate_views to true.
+Rspec monkey patches a couple of controller methods in a way that Controller specs
+(with integrate views true or false) and Inherited Resources are not compatible.
+
+However, since your controllers inherit from InheritedResources::Base, they are
+already unit-tested in the plugin, so there is no need to test them again in Rspec.
+
+You should test things like url redirection and associations in your integration
+specs.
 
 == Basic Usage
 
