@@ -216,6 +216,24 @@ provided. So you can do:
       end
     end
 
+If you simply want to change the flash message for a particular action, you can
+pass the message to the parent action using the keys :notice and :alert (as you
+would with flash):
+
+    class ProjectsController < InheritedResources::Base
+      def create
+        create!(:notice => 'Dude! Nice job creating that project.")
+      end
+    end
+
+You can still pass the block to change the redirect, as mentioned above:
+
+    class ProjectsController < InheritedResources::Base
+      def create
+        create!(:notice => 'Dude! Nice job creating that project.") { root_url }
+      end
+    end
+
 Now let's suppose that before create a project you have to do something special
 but you don't want to create a before filter for it:
 
