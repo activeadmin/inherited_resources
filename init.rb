@@ -1,1 +1,0 @@
-require 'inherited_resources'

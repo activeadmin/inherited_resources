@@ -10,17 +10,20 @@ a screencast made by Fabio Akita about its features:
 
 http://akitaonrails.com/2009/09/01/screencast-real-thin-restful-controllers-with-inherited-resources
 
-Inherited Resources is tested and compatible with Rails 2.3.x.
+== Rails 3
 
-== Installation
+InheritedResources master is Rails 3 compatible and not backwards compatible.
+A gem was not release yet, but you can use in Rails 3 by checking out the git
+repository. Installing it as plugin is not supported.
 
-Inherited Resources is available as gem on Gemcutter, so just run the following:
+If you want to use the Rails 2.3.x version, you can install the gem:
 
-    sudo gem install inherited_resources
+  sudo gem install inherited_resources
 
-If you want it as plugin, just do:
+Or checkout from the v1.0 branch:
 
-    script/plugin install git://github.com/josevalim/inherited_resources.git
+  http://github.com/josevalim/inherited_resources/tree/v1.0
+
 
 == Upgrading to Inherited Resources 1.0
 
