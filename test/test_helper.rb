@@ -28,6 +28,7 @@ require "action_controller"
 require "action_dispatch/middleware/flash"
 
 require "rails/railtie"
+require "rails/backtrace_cleaner"
 
 I18n.load_path << File.join(File.dirname(__FILE__), 'locales', 'en.yml')
 I18n.reload!

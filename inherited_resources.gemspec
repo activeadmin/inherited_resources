@@ -31,12 +31,12 @@ Gem::Specification.new do |s|
      "lib/inherited_resources/blank_slate.rb",
      "lib/inherited_resources/class_methods.rb",
      "lib/inherited_resources/dsl.rb",
-     "lib/inherited_resources/locales/en.yml",
      "lib/inherited_resources/polymorphic_helpers.rb",
      "lib/inherited_resources/responder.rb",
      "lib/inherited_resources/singleton_helpers.rb",
      "lib/inherited_resources/url_helpers.rb",
-     "lib/inherited_resources/version.rb"
+     "lib/inherited_resources/version.rb",
+     "lib/locales/en.yml"
   ]
   s.homepage = %q{http://github.com/josevalim/inherited_resources}
   s.rdoc_options = ["--charset=UTF-8"]

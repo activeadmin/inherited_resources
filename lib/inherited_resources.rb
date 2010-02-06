@@ -1,5 +1,4 @@
 require 'responders'
-I18n.load_path.unshift File.expand_path(File.join(File.dirname(__FILE__), 'inherited_resources', 'locales', 'en.yml'))
 
 module InheritedResources
   ACTIONS = [ :index, :show, :new, :edit, :create, :update, :destroy ] unless self.const_defined?(:ACTIONS)
@@ -22,6 +21,11 @@ module InheritedResources
 
   class Railtie < ::Rails::Railtie
     railtie_name :inherited_resources
+
+    # Add load paths straight to I18n, so engines and application can overwrite it.
+    require 'active_support/i18n'
+    I18n.load_path << File.expand_path('../locales/en.yml', __FILE__)
+
     config.generators.scaffold_controller = :inherited_resources_controller
   end
 end
