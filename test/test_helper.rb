@@ -17,11 +17,15 @@ require 'mocha'
 ENV["RAILS_ENV"] = "test"
 RAILS_ROOT = "anywhere"
 
-gem 'activesupport', '= 2.3.5'
-require 'active_support'
+gem "activesupport", "3.0.0.beta"
+require "active_support"
 
-gem 'actionpack', '= 2.3.5'
-require 'action_controller'
+gem "activemodel", "3.0.0.beta"
+require "active_model"
+
+gem "actionpack", "3.0.0.beta"
+require "action_controller"
+require "action_dispatch/middleware/flash"
 
 I18n.load_path << File.join(File.dirname(__FILE__), 'locales', 'en.yml')
 I18n.reload!

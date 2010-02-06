@@ -1,7 +1,7 @@
 require File.dirname(__FILE__) + '/test_helper'
 
-class Student;
-  def self.human_name; 'Student'; end
+class Student
+  extend ActiveModel::Naming
 end
 
 class ApplicationController < ActionController::Base

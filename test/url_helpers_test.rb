@@ -1,21 +1,29 @@
 require File.dirname(__FILE__) + '/test_helper'
 
-class Universe; end
+class Universe
+  extend ActiveModel::Naming
+end
 class UniversesController < InheritedResources::Base
   defaults :singleton => true, :route_instance_name => 'universum'
 end
 
-class House; end
+class House
+  extend ActiveModel::Naming
+end
 class HousesController < InheritedResources::Base
 end
 
-class Backpack; end
+class Backpack
+  extend ActiveModel::Naming
+end
 module Admin; end
 class Admin::BackpacksController < InheritedResources::Base
   defaults :route_collection_name => 'tour_backpacks'
 end
 
-class Table; end
+class Table
+  extend ActiveModel::Naming
+end
 class TablesController < InheritedResources::Base
   belongs_to :house
 end
@@ -34,26 +42,34 @@ class OwnersController < InheritedResources::Base
   singleton_belongs_to :house
 end
 
-class Bed; end
+class Bed
+  extend ActiveModel::Naming
+end
 class BedsController < InheritedResources::Base
   optional_belongs_to :house, :building
 end
 
-class Desk; end
+class Desk
+  extend ActiveModel::Naming
+end
 module Admin
   class DesksController < InheritedResources::Base
     optional_belongs_to :house
   end
 end
 
-class Dish; end
+class Dish
+  extend ActiveModel::Naming
+end
 class DishesController < InheritedResources::Base
   belongs_to :house do
     polymorphic_belongs_to :table, :kitchen
   end
 end
 
-class Center; end
+class Center
+  extend ActiveModel::Naming
+end
 class CentersController < InheritedResources::Base
   acts_as_singleton!
 

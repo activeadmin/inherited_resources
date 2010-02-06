@@ -1,11 +1,11 @@
 require File.dirname(__FILE__) + '/test_helper'
 
 class Pet
-  def self.human_name; 'Pet'; end
+  extend ActiveModel::Naming
 end
 
 class Puppet
-  def self.human_name; 'Puppet'; end
+  extend ActiveModel::Naming
 end
 
 class PetsController < InheritedResources::Base

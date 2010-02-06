@@ -12,10 +12,7 @@ module InheritedResources
   # or overwrite some helpers in the base_helpers.rb file.
   #
   class Base < ::ApplicationController
-    unloadable
-
     # Overwrite inherit_resources to add specific InheritedResources behavior.
-    #
     def self.inherit_resources(base)
       base.class_eval do
         include InheritedResources::Actions

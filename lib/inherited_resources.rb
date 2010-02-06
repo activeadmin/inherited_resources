@@ -1,11 +1,3 @@
-# respond_to is the only file that should be loaded before hand. All others
-# are loaded on demand.
-#
-unless defined?(ActionController::Responder)
-  require 'inherited_resources/legacy/responder'
-  require 'inherited_resources/legacy/respond_to'
-end
-
 require 'responders'
 I18n.load_path.unshift File.expand_path(File.join(File.dirname(__FILE__), 'inherited_resources', 'locales', 'en.yml'))
 
@@ -30,8 +22,6 @@ module InheritedResources
 end
 
 class ActionController::Base
-  public :flash, :render
-
   # If you cannot inherit from InheritedResources::Base you can call
   # inherit_resource in your controller to have all the required modules and
   # funcionality included.

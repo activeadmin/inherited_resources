@@ -1,7 +1,7 @@
 require File.dirname(__FILE__) + '/test_helper'
 
 class Car
-  def self.human_name; 'Car'; end
+  extend ActiveModel::Naming
 end
 
 class CarsController < InheritedResources::Base
