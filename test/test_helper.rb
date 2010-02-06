@@ -17,10 +17,11 @@ require 'mocha'
 ENV["RAILS_ENV"] = "test"
 RAILS_ROOT = "anywhere"
 
+gem 'activesupport', '= 2.3.5'
 require 'active_support'
+
+gem 'actionpack', '= 2.3.5'
 require 'action_controller'
-require 'action_controller/test_case'
-require 'action_controller/test_process'
 
 I18n.load_path << File.join(File.dirname(__FILE__), 'locales', 'en.yml')
 I18n.reload!
