@@ -161,8 +161,10 @@ module InheritedResources
           config = self.resources_configuration[symbol] = {}
 
           config[:parent_class] = options.delete(:parent_class) || begin
-            (options.delete(:class_name) || symbol).to_s.pluralize.classify.constantize
-          rescue NameError
+            class_name = (options.delete(:class_name) || symbol).to_s.pluralize.classify
+            class_name.constantize
+          rescue NameError => e
+            raise unless e.message.include?(class_name)
             nil
           end
 
@@ -227,8 +229,10 @@ module InheritedResources
       def initialize_resources_class_accessors! #:nodoc:
         # Initialize resource class
         self.resource_class = begin
-          self.controller_name.classify.constantize
-        rescue NameError
+          class_name = self.controller_name.classify
+          class_name.constantize
+        rescue NameError => e
+          raise unless e.message.include?(class_name)
           nil
         end
 
