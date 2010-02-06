@@ -19,6 +19,11 @@ module InheritedResources
   def self.flash_keys=(array)
     Responders::FlashResponder.flash_keys = array
   end
+
+  class Railtie < ::Rails::Railtie
+    railtie_name :inherited_resources
+    config.generators.scaffold_controller = :inherited_resources_controller
+  end
 end
 
 class ActionController::Base

@@ -27,6 +27,8 @@ gem "actionpack", "3.0.0.beta"
 require "action_controller"
 require "action_dispatch/middleware/flash"
 
+require "rails/railtie"
+
 I18n.load_path << File.join(File.dirname(__FILE__), 'locales', 'en.yml')
 I18n.reload!
 
