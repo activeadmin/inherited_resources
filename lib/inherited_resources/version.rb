@@ -1,3 +1,3 @@
 module InheritedResources
-  VERSION = '1.1.pre'.freeze
+  VERSION = '1.1.0'.freeze
 end

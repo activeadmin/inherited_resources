@@ -17,18 +17,13 @@ require 'mocha'
 ENV["RAILS_ENV"] = "test"
 RAILS_ROOT = "anywhere"
 
-gem "activesupport", "3.0.0.beta"
 require "active_support"
-
-gem "activemodel", "3.0.0.beta"
 require "active_model"
 
-gem "actionpack", "3.0.0.beta"
 require "action_controller"
 require "action_dispatch/middleware/flash"
 
 require "rails/railtie"
-require "rails/backtrace_cleaner"
 
 I18n.load_path << File.join(File.dirname(__FILE__), 'locales', 'en.yml')
 I18n.reload!
