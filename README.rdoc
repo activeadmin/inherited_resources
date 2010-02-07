@@ -16,7 +16,7 @@ This Inherited Resources branch is tested and compatible with Rails 2.3.x.
 
 Inherited Resources is available as gem on Gemcutter, so just run the following:
 
-    sudo gem install inherited_resources --version=1.0
+    sudo gem install inherited_resources --version=1.0.3
 
 If you want it as plugin, just do:
 
