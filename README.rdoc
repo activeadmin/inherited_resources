@@ -12,7 +12,7 @@ http://akitaonrails.com/2009/09/01/screencast-real-thin-restful-controllers-with
 
 == Rails 3
 
-Inherited Resources master branch is now supports Rails 3 and is backward incompatible.
+Inherited Resources master branch is now supports Rails 3 and is NOT backward compatible.
 
 You can install it as:
 
