@@ -3,26 +3,26 @@ module InheritedResources
   module Actions
 
     # GET /resources
-    def index(&block)
-      respond_with(*with_chain(collection), &block)
+    def index(options={}, &block)
+      respond_with(*(with_chain(collection) << options), &block)
     end
     alias :index! :index
 
     # GET /resources/1
-    def show(&block)
-      respond_with(*with_chain(resource), &block)
+    def show(options={}, &block)
+      respond_with(*(with_chain(resource) << options), &block)
     end
     alias :show! :show
 
     # GET /resources/new
-    def new(&block)
-      respond_with(*with_chain(build_resource), &block)
+    def new(options={}, &block)
+      respond_with(*(with_chain(build_resource) << options), &block)
     end
     alias :new! :new
 
     # GET /resources/1/edit
-    def edit(&block)
-      respond_with(*with_chain(resource), &block)
+    def edit(options={}, &block)
+      respond_with(*(with_chain(resource) << options), &block)
     end
     alias :edit! :edit
 
