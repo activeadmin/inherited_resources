@@ -137,6 +137,8 @@ module ActionController #:nodoc:
         @mime_type_priority.each do |priority|
           if priority == Mime::ALL
             return @order.first
+          elsif priority == Mime::HTML
+            return priority
           elsif @order.include?(priority)
             return priority
           end
