@@ -36,6 +36,14 @@ require_dependency 'inherited_resources'
 
 ActionController::Base.view_paths = File.join(File.dirname(__FILE__), 'views')
 
-ActionController::Routing::Routes.draw do |map|
+InheritedResources::Router = ActionDispatch::Routing::RouteSet.new
+InheritedResources::Router.draw do |map|
   map.connect ':controller/:action/:id'
+  map.connect ':controller/:action'
+end
+
+class ActiveSupport::TestCase
+  setup do
+    @router = InheritedResources::Router
+  end
 end
