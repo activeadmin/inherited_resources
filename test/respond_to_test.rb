@@ -172,4 +172,3 @@ class RespondToFunctionalStandardControllerTest < ActionController::TestCase
     assert_equal 'Render HTML', @response.body.strip
   end
 end
-

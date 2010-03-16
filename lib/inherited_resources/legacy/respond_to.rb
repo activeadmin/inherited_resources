@@ -136,17 +136,12 @@ module ActionController #:nodoc:
       def negotiate_mime
         @mime_type_priority.each do |priority|
           if priority == Mime::ALL
-            return @order.first
-          elsif priority == Mime::HTML
-            return priority
+            return @order.find { |m| m != Mime::ALL } || Mime::SET.first
+          elsif @order.include?(Mime::ALL)
+            return @mime_type_priority.find { |m| m != Mime::ALL } || Mime::SET.first
           elsif @order.include?(priority)
             return priority
           end
-        end
-
-        if @order.include?(Mime::ALL)
-          return Mime::SET.first if @mime_type_priority.first == Mime::ALL
-          return @mime_type_priority.first
         end
 
         nil
