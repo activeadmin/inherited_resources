@@ -17,7 +17,7 @@ require 'mocha'
 ENV["RAILS_ENV"] = "test"
 RAILS_ROOT = "anywhere"
 
-gem 'responders', '~> 0.4.0'
+gem 'responders', '~> 0.4.6'
 
 gem 'activesupport', '= 2.3.5'
 require 'active_support'
