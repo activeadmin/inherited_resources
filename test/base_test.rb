@@ -9,6 +9,7 @@ end
 
 class UsersController < AccountsController
   respond_to :html, :xml
+  respond_to :js, :only => [:create, :update, :destroy]
   attr_reader :scopes_applied
 
 protected
@@ -163,6 +164,12 @@ class CreateActionBaseTest < ActionController::TestCase
     assert_equal flash[:notice], 'User was successfully created.'
   end
 
+  def test_show_flash_message_with_javascript_request_when_success
+    User.stubs(:new).returns(mock_user(:save => true))
+    post :create, :format => :js
+    assert_equal flash[:notice], 'User was successfully created.'
+  end
+
   def test_render_new_template_when_user_cannot_be_saved
     User.stubs(:new).returns(mock_user(:save => false, :errors => {:some => :error}))
     post :create
@@ -200,6 +207,12 @@ class UpdateActionBaseTest < ActionController::TestCase
     assert_equal flash[:notice], 'User was successfully updated.'
   end
 
+  def test_show_flash_message_with_javascript_request_when_success
+    User.stubs(:find).returns(mock_user(:update_attributes => true))
+    post :update, :format => :js
+    assert_equal flash[:notice], 'User was successfully updated.'
+  end
+
   def test_render_edit_template_when_user_cannot_be_saved
     User.stubs(:find).returns(mock_user(:update_attributes => false, :errors => {:some => :error}))
     put :update
@@ -230,9 +243,21 @@ class DestroyActionBaseTest < ActionController::TestCase
     assert_equal flash[:notice], 'User was successfully destroyed.'
   end
 
-  def test_show_flash_message_when_cannot_be_deleted
+  def test_show_flash_message_with_javascript_request_when_user_can_be_deleted
+    User.stubs(:find).returns(mock_user(:destroy => true))
+    delete :destroy, :format => :js
+    assert_equal flash[:notice], 'User was successfully destroyed.'
+  end
+
+  def test_show_flash_message_when_user_cannot_be_deleted
     User.stubs(:find).returns(mock_user(:destroy => false, :errors => { :fail => true }))
     delete :destroy
+    assert_equal flash[:alert], 'User could not be destroyed.'
+  end
+
+  def test_show_flash_message_with_javascript_request_when_user_cannot_be_deleted
+    User.stubs(:find).returns(mock_user(:destroy => false, :errors => { :fail => true }))
+    delete :destroy, :format => :js
     assert_equal flash[:alert], 'User could not be destroyed.'
   end
 
