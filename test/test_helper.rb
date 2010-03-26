@@ -1,4 +1,5 @@
 require 'rubygems'
+gem 'responders', '0.5.5'
 
 begin
   gem "test-unit"
@@ -41,6 +42,8 @@ InheritedResources::Router.draw do |map|
   map.connect ':controller/:action/:id'
   map.connect ':controller/:action'
 end
+
+ActionController::Base.send :include, InheritedResources::Router.url_helpers
 
 class ActiveSupport::TestCase
   setup do

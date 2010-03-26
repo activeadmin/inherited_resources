@@ -325,7 +325,7 @@ class UrlHelpersTest < ActiveSupport::TestCase
     
     new_bed = Bed.new
     Bed.stubs(:new).returns(new_bed)
-    new_bed.stubs(:new_record?).returns(true)
+    new_bed.stubs(:persisted?).returns(false)
 
     controller = BedsController.new
     controller.instance_variable_set('@parent_type', :house)
@@ -379,7 +379,7 @@ class UrlHelpersTest < ActiveSupport::TestCase
 
     new_desk = Desk.new
     Desk.stubs(:new).returns(new_desk)
-    new_desk.stubs(:new_record?).returns(true)
+    new_desk.stubs(:persisted?).returns(false)
 
     controller = Admin::DesksController.new
     controller.instance_variable_set('@parent_type', :house)
@@ -434,7 +434,7 @@ class UrlHelpersTest < ActiveSupport::TestCase
 
     new_dish = Dish.new
     Dish.stubs(:new).returns(new_dish)
-    new_dish.stubs(:new_record?).returns(true)
+    new_dish.stubs(:persisted?).returns(false)
 
     controller = DishesController.new
     controller.instance_variable_set('@parent_type', :table)
@@ -533,7 +533,7 @@ class UrlHelpersTest < ActiveSupport::TestCase
     bed   = Bed.new
     new_bed = Bed.new
     Bed.stubs(:new).returns(new_bed)
-    new_bed.stubs(:new_record?).returns(true)
+    new_bed.stubs(:persisted?).returns(false)
 
     controller = BedsController.new
     controller.instance_variable_set('@parent_type', nil)
