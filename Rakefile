@@ -17,8 +17,8 @@ begin
     s.description = "Inherited Resources speeds up development by making your controllers inherit all restful actions so you just have to focus on what is important."
     s.authors = ['José Valim']
     s.files =  FileList["[A-Z]*", "init.rb", "{lib}/**/*"]
-    s.add_dependency("responders", "~> 0.5.0")
-    s.add_dependency("has_scope",  "~> 0.4.2")
+    s.add_dependency("responders", "~> 0.5.5")
+    s.add_dependency("has_scope",  "~> 0.5.0")
   end
 
   Jeweler::GemcutterTasks.new
