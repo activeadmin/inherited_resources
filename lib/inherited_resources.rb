@@ -20,7 +20,7 @@ module InheritedResources
   end
 
   class Railtie < ::Rails::Railtie
-    railtie_name :inherited_resources
+    config.inherited_resources = InheritedResources
     config.generators.scaffold_controller = :inherited_resources_controller
   end
 end
