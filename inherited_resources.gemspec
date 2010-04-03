@@ -5,11 +5,11 @@
 
 Gem::Specification.new do |s|
   s.name = %q{inherited_resources}
-  s.version = "1.1.0"
+  s.version = "1.1.1"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Jos\303\251 Valim"]
-  s.date = %q{2010-03-26}
+  s.date = %q{2010-04-03}
   s.description = %q{Inherited Resources speeds up development by making your controllers inherit all restful actions so you just have to focus on what is important.}
   s.email = %q{jose.valim@gmail.com}
   s.extra_rdoc_files = [

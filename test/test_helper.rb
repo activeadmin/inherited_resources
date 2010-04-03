@@ -1,5 +1,10 @@
 require 'rubygems'
-gem 'responders', '0.5.5'
+
+gem 'responders', '0.6.0'
+gem 'activesupport', '3.0.0.beta2'
+gem 'activemodel', '3.0.0.beta2'
+gem 'actionpack', '3.0.0.beta2'
+gem 'railties', '3.0.0.beta2'
 
 begin
   gem "test-unit"
@@ -37,16 +42,16 @@ require_dependency 'inherited_resources'
 
 ActionController::Base.view_paths = File.join(File.dirname(__FILE__), 'views')
 
-InheritedResources::Router = ActionDispatch::Routing::RouteSet.new
-InheritedResources::Router.draw do |map|
+InheritedResources::Routes = ActionDispatch::Routing::RouteSet.new
+InheritedResources::Routes.draw do |map|
   map.connect ':controller/:action/:id'
   map.connect ':controller/:action'
 end
 
-ActionController::Base.send :include, InheritedResources::Router.url_helpers
+ActionController::Base.send :include, InheritedResources::Routes.url_helpers
 
 class ActiveSupport::TestCase
   setup do
-    @router = InheritedResources::Router
+    @routes = InheritedResources::Routes
   end
 end
