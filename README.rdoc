@@ -20,7 +20,7 @@ Inherited Resources is available as gem on Gemcutter, so just run the following:
 
 If you want it as plugin, just do:
 
-    script/plugin install git://github.com/josevalim/inherited_resources.git
+    script/plugin install git://github.com/josevalim/inherited_resources.git -r v1.0
 
 === HasScope
 
