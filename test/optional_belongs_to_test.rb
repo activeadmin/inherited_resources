@@ -22,14 +22,14 @@ class OptionalTest < ActionController::TestCase
   def test_expose_all_products_as_instance_variable_with_category
     Category.expects(:find).with('37').returns(mock_category)
     mock_category.expects(:products).returns(Product)
-    Product.expects(:find).with(:all).returns([mock_product])
+    Product.expects(:all).returns([mock_product])
     get :index, :category_id => '37'
     assert_equal mock_category, assigns(:category)
     assert_equal [mock_product], assigns(:products)
   end
 
   def test_expose_all_products_as_instance_variable_without_category
-    Product.expects(:find).with(:all).returns([mock_product])
+    Product.expects(:all).returns([mock_product])
     get :index
     assert_equal nil, assigns(:category)
     assert_equal [mock_product], assigns(:products)
@@ -142,7 +142,7 @@ class OptionalTest < ActionController::TestCase
   end
 
   def test_polymorphic_helpers
-    Product.expects(:find).with(:all).returns([mock_product])
+    Product.expects(:all).returns([mock_product])
     get :index
 
     assert !@controller.send(:parent?)

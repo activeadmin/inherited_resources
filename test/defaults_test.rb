@@ -18,7 +18,7 @@ class DefaultsTest < ActionController::TestCase
   end
 
   def test_expose_all_painters_as_instance_variable
-    Malarz.expects(:find).with(:all).returns([mock_painter])
+    Malarz.expects(:all).returns([mock_painter])
     get :index
     assert_equal [mock_painter], assigns(:malarze)
   end

@@ -24,7 +24,7 @@ class BelongsToTest < ActionController::TestCase
   end
 
   def test_expose_all_comments_as_instance_variable_on_index
-    Comment.expects(:find).with(:all).returns([mock_comment])
+    Comment.expects(:all).returns([mock_comment])
     get :index, :post_id => '37'
     assert_equal mock_post, assigns(:post)
     assert_equal [mock_comment], assigns(:comments)

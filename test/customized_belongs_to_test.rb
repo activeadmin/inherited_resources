@@ -22,7 +22,7 @@ class CustomizedBelongsToTest < ActionController::TestCase
   end
 
   def test_expose_the_requested_school_with_chosen_instance_variable_on_index
-    Professor.stubs(:find).returns([mock_professor])
+    Professor.stubs(:all).returns([mock_professor])
     get :index, :school_title => 'nice'
     assert_equal mock_school, assigns(:great_school)
   end
