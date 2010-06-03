@@ -399,7 +399,7 @@ to have two polymorphic associations nested.
 Later you decide to create a view to show all comments, independent if they belong
 to a task, file or message. You can reuse your polymorphic controller just doing:
 
-    class ProjectsController < InheritedResources::Base
+    class CommentsController < InheritedResources::Base
       belongs_to :task, :file, :message, :optional => true
       # optional_belongs_to :task, :file, :message
     end
