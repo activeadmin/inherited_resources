@@ -16,7 +16,7 @@ Inherited Resources master branch is now supports Rails 3 and is NOT backward co
 
 You can install it as:
 
-  sudo gem install inherited_resources --version=1.1.1
+  sudo gem install inherited_resources --version=1.1.2
 
 If you want to use the Rails 2.3.x version, you should install:
 
