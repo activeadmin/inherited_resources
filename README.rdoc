@@ -20,13 +20,13 @@ You can let bundler to install Inherited Resources by adding this line to your a
 
   gem 'inherited_resources', '1.1.2'
 
-and then executing:
+And then execute:
 
   bundle install 
 
-or install it yourself as:
+Or install it yourself as:
 
-  sudo gem install inherited_resources --version=1.1.2
+  gem install inherited_resources --version=1.1.2
 
 === Rails 2.3.x
 
