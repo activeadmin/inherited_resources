@@ -119,6 +119,12 @@ module InheritedResources
       elsif polymorphic
         collection_ivars << '(@_resource_class_new ||= resource_class.new)'
       end
+      
+      # If route is uncountable then add "_index" suffix to collection index route name
+      # 
+      if !singleton && resource_config[:route_collection_name] == resource_config[:route_instance_name]
+        collection_segments << :index
+      end
 
       generate_url_and_path_helpers nil,   :collection, collection_segments, collection_ivars
       generate_url_and_path_helpers :new,  :resource,   resource_segments,   new_ivars || collection_ivars

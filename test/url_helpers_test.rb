@@ -13,6 +13,12 @@ end
 class HousesController < InheritedResources::Base
 end
 
+class News
+  extend ActiveModel::Naming
+end
+class NewsController < InheritedResources::Base
+end
+
 class Backpack
   extend ActiveModel::Naming
 end
@@ -47,6 +53,13 @@ class Bed
 end
 class BedsController < InheritedResources::Base
   optional_belongs_to :house, :building
+end
+
+class Sheep
+  extend ActiveModel::Naming
+end
+class SheepController < InheritedResources::Base
+  belongs_to :news, :table, :polymorphic => true
 end
 
 class Desk
@@ -107,6 +120,36 @@ class UrlHelpersTest < ActiveSupport::TestCase
 
       # With options
       controller.expects("house_#{path_or_url}").with(:arg, :page => 1).once
+      controller.send("resource_#{path_or_url}", :arg, :page => 1)
+    end
+  end
+
+  def test_url_helpers_on_simple_inherited_resource_using_uncountable
+    controller = NewsController.new
+    controller.instance_variable_set('@news', :news)
+
+    [:url, :path].each do |path_or_url|
+      controller.expects("news_index_#{path_or_url}").with({}).once
+      controller.send("collection_#{path_or_url}")
+
+      controller.expects("news_#{path_or_url}").with(:news, {}).once
+      controller.send("resource_#{path_or_url}")
+
+      controller.expects("new_news_#{path_or_url}").with({}).once
+      controller.send("new_resource_#{path_or_url}")
+
+      controller.expects("edit_news_#{path_or_url}").with(:news, {}).once
+      controller.send("edit_resource_#{path_or_url}")
+
+      # With arg
+      controller.expects("news_#{path_or_url}").with(:arg, {}).once
+      controller.send("resource_#{path_or_url}", :arg)
+
+      controller.expects("news_#{path_or_url}").with(:arg, {}).once
+      controller.send("resource_#{path_or_url}", :arg)
+
+      # With options
+      controller.expects("news_#{path_or_url}").with(:arg, :page => 1).once
       controller.send("resource_#{path_or_url}", :arg, :page => 1)
     end
   end
@@ -367,6 +410,60 @@ class UrlHelpersTest < ActiveSupport::TestCase
     controller.send("resource_url", :arg)
 
     controller.expects("edit_polymorphic_url").with([house, :arg], {}).once
+    controller.send("edit_resource_url", :arg)
+
+    controller.expects("polymorphic_url").with([:arg], {}).once
+    controller.send("parent_url", :arg)
+  end
+
+  def test_url_helpers_on_polymorphic_belongs_to_using_uncountable
+    sheep  = Sheep.new
+    news = News.new
+    
+    new_sheep = Sheep.new
+    Sheep.stubs(:new).returns(new_sheep)
+    new_sheep.stubs(:persisted?).returns(false)
+
+    controller = SheepController.new
+    controller.instance_variable_set('@parent_type', :news)
+    controller.instance_variable_set('@news', news)
+    controller.instance_variable_set('@sheep', sheep)
+
+    [:url, :path].each do |path_or_url|
+      controller.expects("news_sheep_index_#{path_or_url}").with(news).once
+      controller.send("collection_#{path_or_url}")
+
+      controller.expects("news_sheep_#{path_or_url}").with(news, sheep).once
+      controller.send("resource_#{path_or_url}")
+
+      controller.expects("new_news_sheep_#{path_or_url}").with(news).once
+      controller.send("new_resource_#{path_or_url}")
+
+      controller.expects("edit_news_sheep_#{path_or_url}").with(news, sheep).once
+      controller.send("edit_resource_#{path_or_url}")
+
+      controller.expects("news_#{path_or_url}").with(news).once
+      controller.send("parent_#{path_or_url}")
+
+      controller.expects("edit_news_#{path_or_url}").with(news).once
+      controller.send("edit_parent_#{path_or_url}")
+    end
+
+    # With options
+    controller.expects("news_sheep_url").with(news, sheep, :page => 1).once
+    controller.send("resource_url", :page => 1)
+
+    controller.expects("news_url").with(news, :page => 1).once
+    controller.send("parent_url", :page => 1)
+
+    # With args
+    controller.expects("polymorphic_url").with([:arg, new_sheep], {}).once
+    controller.send("collection_url", :arg)
+
+    controller.expects("polymorphic_url").with([news, :arg], {}).once
+    controller.send("resource_url", :arg)
+
+    controller.expects("edit_polymorphic_url").with([news, :arg], {}).once
     controller.send("edit_resource_url", :arg)
 
     controller.expects("polymorphic_url").with([:arg], {}).once
