@@ -10,6 +10,22 @@ a screencast made by Fabio Akita about its features:
 
 http://akitaonrails.com/2009/09/01/screencast-real-thin-restful-controllers-with-inherited-resources
 
+=== What about views?
+
+Sometimes just DRY the controllers is not enough, a lot of the resources often share the same views, wouldn't it be nice to have view files DRY'ed too? You can! There are currently two projects do just that.
+
+==== Inherited Resources Views
+
+Inherited Resources Views is an extremely easy to use plugin to DRY the views associated with your inherited resources controllers. It is library-agnostic (it only depends on Inherited Resources) and it supports generating both erb and haml templates.
+
+Source: http://github.com/fredwu/inherited_resources_views
+
+==== Inherited Views
+
+Inherited Views is a thin addition to the Inherited Resources project adding default html views which can be later customized on a per controller basis or globally for your rails app. It depends on Inherited Resources, Formtastic and WillPaginate.
+
+Source: http://github.com/gregbell/inherited_views
+
 == Installation
 
 === Rails 3
