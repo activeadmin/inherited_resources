@@ -180,6 +180,7 @@ module InheritedResources
         else
           create_resources_url_helpers!
         end
+        helper_method :parent, :parent?
       end
       alias :nested_belongs_to :belongs_to
 
@@ -220,7 +221,7 @@ module InheritedResources
       def acts_as_polymorphic! #:nodoc:
         unless self.parents_symbols.include?(:polymorphic)
           include PolymorphicHelpers
-          helper_method :parent, :parent_type, :parent_class, :parent?
+          helper_method :parent_type, :parent_class
         end
       end
 

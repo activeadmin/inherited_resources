@@ -73,6 +73,23 @@ class BelongsToTest < ActionController::TestCase
     assert_equal mock_post, assigns(:post)
     assert_equal mock_comment, assigns(:comment)
   end
+  
+  def helper_methods
+    @controller.class._helpers.instance_methods.map {|m| m.to_s }
+  end
+  
+  def test_helpers
+    mock_post.stubs(:class).returns(Post)
+
+    Comment.expects(:all).returns([mock_comment])
+    get :index, :post_id => '37'
+
+    assert helper_methods.include?('parent?')
+    assert @controller.send(:parent?)
+    assert_equal mock_post, assigns(:post)
+    assert helper_methods.include?('parent')
+    assert_equal mock_post, @controller.send(:parent)
+  end
 
   protected
 
