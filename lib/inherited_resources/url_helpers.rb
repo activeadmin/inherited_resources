@@ -39,7 +39,7 @@ module InheritedResources
     # is being processed (and even more cheaper when we are using nested
     # resources).
     #
-    # When we are using polymorphic associations, those helpers rely on 
+    # When we are using polymorphic associations, those helpers rely on
     # polymorphic_url Rails helper.
     #
     def create_resources_url_helpers!
@@ -74,6 +74,7 @@ module InheritedResources
 
       collection_ivars    = resource_ivars.dup
       collection_segments = resource_segments.dup
+
 
       # Generate parent url before we add resource instances.
       unless parents_symbols.empty?
@@ -119,15 +120,23 @@ module InheritedResources
       elsif polymorphic
         collection_ivars << '(@_resource_class_new ||= resource_class.new)'
       end
-      
+
       # If route is uncountable then add "_index" suffix to collection index route name
-      # 
+      #
       if !singleton && resource_config[:route_collection_name] == resource_config[:route_instance_name]
         collection_segments << :index
       end
 
+      if resource_config[:shallow]
+        resource_segments = resource_segments[-2..-1]
+        resource_ivars = resource_ivars[-2..-1]
+      end
       generate_url_and_path_helpers nil,   :collection, collection_segments, collection_ivars
       generate_url_and_path_helpers :new,  :resource,   resource_segments,   new_ivars || collection_ivars
+      if resource_config[:shallow]
+        resource_segments = [resource_segments.last]
+        resource_ivars = [resource_ivars.last]
+      end
       generate_url_and_path_helpers nil,   :resource,   resource_segments,   resource_ivars
       generate_url_and_path_helpers :edit, :resource,   resource_segments,   resource_ivars
     end

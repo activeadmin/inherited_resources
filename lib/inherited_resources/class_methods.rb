@@ -132,9 +132,10 @@ module InheritedResources
         options.symbolize_keys!
         options.assert_valid_keys(:class_name, :parent_class, :instance_name, :param,
                                   :finder, :route_name, :collection_name, :singleton,
-                                  :polymorphic, :optional)
+                                  :polymorphic, :optional, :shallow)
 
         optional    = options.delete(:optional)
+        shallow     = options.delete(:shallow)
         singleton   = options.delete(:singleton)
         polymorphic = options.delete(:polymorphic)
         finder      = options.delete(:finder)
@@ -157,6 +158,8 @@ module InheritedResources
           else
             self.parents_symbols << symbol
           end
+
+          self.resources_configuration[:self][:shallow] = true if shallow
 
           config = self.resources_configuration[symbol] = {}
 
