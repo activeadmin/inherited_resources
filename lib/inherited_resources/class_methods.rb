@@ -144,6 +144,7 @@ module InheritedResources
 
         acts_as_singleton!   if singleton
         acts_as_polymorphic! if polymorphic || optional
+        acts_as_shallow!     if shallow
 
         raise ArgumentError, 'You have to give me at least one association name.' if symbols.empty?
         raise ArgumentError, 'You cannot define multiple associations with options: #{options.keys.inspect} to belongs to.' unless symbols.size == 1 || options.empty?
@@ -226,6 +227,10 @@ module InheritedResources
           include PolymorphicHelpers
           helper_method :parent_type, :parent_class
         end
+      end
+
+      def acts_as_shallow! #:nodoc:
+        include ShallowHelpers
       end
 
       # Initialize resources class accessors and set their default values.

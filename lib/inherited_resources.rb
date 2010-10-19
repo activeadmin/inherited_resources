@@ -6,6 +6,7 @@ module InheritedResources
   autoload :Actions,            'inherited_resources/actions'
   autoload :Base,               'inherited_resources/base'
   autoload :BaseHelpers,        'inherited_resources/base_helpers'
+  autoload :ShallowHelpers,     'inherited_resources/shallow_helpers'
   autoload :BelongsToHelpers,   'inherited_resources/belongs_to_helpers'
   autoload :ClassMethods,       'inherited_resources/class_methods'
   autoload :DSL,                'inherited_resources/dsl'
