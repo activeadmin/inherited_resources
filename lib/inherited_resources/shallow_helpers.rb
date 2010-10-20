@@ -60,16 +60,25 @@ module InheritedResources
       # it has some customization.
       #
       def symbols_for_association_chain #:nodoc:
+        parent_symbols = parents_symbols.dup
+        if parents_symbols.size > 1 && !params[:id]
+          inst_class_name = parent_symbols.pop
+          instance = inst_class_name.to_s.camelize.constantize.find(params[resources_configuration[inst_class_name][:param]])
+          load_parents(instance, parent_symbols)
+        end
         if params[:id]
-          inst = resources_configuration[:self][:instance_name].to_s.camelize.constantize.find(params[:id])
-          parents_symbols.reverse.each do |parent|
-            inst = inst.send(resources_configuration[parent][:instance_name])
-            params[resources_configuration[parent][:param]] = inst.id
-          end
+          instance = resources_configuration[:self][:instance_name].to_s.camelize.constantize.find(params[:id])
+          load_parents(instance, parent_symbols)
         end
         parents_symbols
       end
 
+      def load_parents(instance, parent_symbols)
+        parent_symbols.reverse.each do |parent|
+          instance = instance.send(resources_configuration[parent][:instance_name])
+          params[resources_configuration[parent][:param]] = instance.id
+        end
+      end
   end
 
 end

@@ -12,7 +12,7 @@ class TagsController < InheritedResources::Base
   belongs_to :post, :shallow => true
 end
 
-class ShallowedBelongsToTest < ActionController::TestCase
+class BelongsToWithShallowTest < ActionController::TestCase
   tests TagsController
 
   def setup
