@@ -98,6 +98,23 @@ class MirrorsController < InheritedResources::Base
   belongs_to :house, :shallow => true
 end
 
+class Display
+  extend ActiveModel::Naming
+end
+
+class Window
+  extend ActiveModel::Naming
+end
+
+class Button
+  extend ActiveModel::Naming
+end
+
+class ButtonsController < InheritedResources::Base
+  belongs_to :display, :window, :shallow => true
+end
+
+
 # Create a TestHelper module with some helpers
 class UrlHelpersTest < ActiveSupport::TestCase
 
@@ -693,6 +710,33 @@ class UrlHelpersTest < ActiveSupport::TestCase
       controller.send("parent_#{path_or_url}")
 
       controller.expects("edit_house_#{path_or_url}").with(:house, {}).once
+      controller.send("edit_parent_#{path_or_url}")
+    end
+  end
+
+  def test_url_helpers_on_nested_belongs_to_with_shallowed_route
+    controller = ButtonsController.new
+    controller.instance_variable_set('@display', :display)
+    controller.instance_variable_set('@window', :window)
+    controller.instance_variable_set('@button', :button)
+
+    [:url, :path].each do |path_or_url|
+      controller.expects("window_buttons_#{path_or_url}").with(:window, {}).once
+      controller.send("collection_#{path_or_url}")
+
+      controller.expects("button_#{path_or_url}").with(:button, {}).once
+      controller.send("resource_#{path_or_url}")
+
+      controller.expects("new_window_button_#{path_or_url}").with(:window, {}).once
+      controller.send("new_resource_#{path_or_url}")
+
+      controller.expects("edit_button_#{path_or_url}").with(:button, {}).once
+      controller.send("edit_resource_#{path_or_url}")
+
+      controller.expects("window_#{path_or_url}").with(:window, {}).once
+      controller.send("parent_#{path_or_url}")
+
+      controller.expects("edit_window_#{path_or_url}").with(:window, {}).once
       controller.send("edit_parent_#{path_or_url}")
     end
   end

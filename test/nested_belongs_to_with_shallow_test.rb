@@ -7,7 +7,6 @@ class Shelf
 end
 
 class Plate
-  def self.human_name; 'Plate'; end
 end
 
 class PlatesController < InheritedResources::Base
