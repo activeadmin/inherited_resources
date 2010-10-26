@@ -32,6 +32,7 @@ module InheritedResources
   # all created when you inherit.
   #
   module UrlHelpers
+    protected
 
     # This method hard code url helpers in the class.
     #
@@ -133,27 +134,33 @@ module InheritedResources
       generate_url_and_path_helpers :edit, :resource,   resource_segments,   resource_ivars
     end
 
-    def generate_url_and_path_helpers(prefix, name, resource_segments, resource_ivars) #:nodoc:
-   	  if self.resources_configuration[:self][:shallow]
-        case name
-          when :collection
-            resource_segments = resource_segments[-2..-1]
-            resource_ivars = [resource_ivars.last]
-          when :resource
-            if prefix == :new
-              resource_segments = resource_segments[-2..-1]
-              resource_ivars = [resource_ivars.last]
-            else
-              resource_segments = [resource_segments.last]
-              resource_ivars = [resource_ivars.last]
-            end
-          when :parent
-            resource_segments = [resource_segments.last]
-            resource_ivars = [resource_ivars.last]
-        end
-      end
-      ivars = resource_ivars.dup
+    def handle_shallow_resource(prefix, name, segments, ivars) #:nodoc:
+      return segments, ivars unless self.resources_configuration[:self][:shallow]
 
+      case name
+      when :collection
+        segments = segments[-2..-1]
+        ivars = [ivars.last]
+      when :resource
+        if prefix == :new
+          segments = segments[-2..-1]
+          ivars = [ivars.last]
+        else
+          segments = [segments.last]
+          ivars = [ivars.last]
+        end
+      when :parent
+        segments = [segments.last]
+        ivars = [ivars.last]
+      end
+
+      return segments, ivars
+    end
+
+    def generate_url_and_path_helpers(prefix, name, resource_segments, resource_ivars) #:nodoc:
+      resource_segments, resource_ivars = handle_shallow_resource(prefix, name, resource_segments, resource_ivars)
+
+      ivars       = resource_ivars.dup
       singleton   = self.resources_configuration[:self][:singleton]
       polymorphic = self.parents_symbols.include?(:polymorphic)
 
