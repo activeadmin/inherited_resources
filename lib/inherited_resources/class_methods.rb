@@ -132,9 +132,10 @@ module InheritedResources
         options.symbolize_keys!
         options.assert_valid_keys(:class_name, :parent_class, :instance_name, :param,
                                   :finder, :route_name, :collection_name, :singleton,
-                                  :polymorphic, :optional)
+                                  :polymorphic, :optional, :shallow)
 
         optional    = options.delete(:optional)
+        shallow     = options.delete(:shallow)
         singleton   = options.delete(:singleton)
         polymorphic = options.delete(:polymorphic)
         finder      = options.delete(:finder)
@@ -143,6 +144,7 @@ module InheritedResources
 
         acts_as_singleton!   if singleton
         acts_as_polymorphic! if polymorphic || optional
+        acts_as_shallow!     if shallow
 
         raise ArgumentError, 'You have to give me at least one association name.' if symbols.empty?
         raise ArgumentError, 'You cannot define multiple associations with options: #{options.keys.inspect} to belongs to.' unless symbols.size == 1 || options.empty?
@@ -157,6 +159,8 @@ module InheritedResources
           else
             self.parents_symbols << symbol
           end
+
+          self.resources_configuration[:self][:shallow] = true if shallow
 
           config = self.resources_configuration[symbol] = {}
 
@@ -223,6 +227,10 @@ module InheritedResources
           include PolymorphicHelpers
           helper_method :parent_type, :parent_class
         end
+      end
+
+      def acts_as_shallow! #:nodoc:
+        include ShallowHelpers
       end
 
       # Initialize resources class accessors and set their default values.

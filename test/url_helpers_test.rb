@@ -91,6 +91,30 @@ class CentersController < InheritedResources::Base
   end
 end
 
+class Mirror
+  extend ActiveModel::Naming
+end
+class MirrorsController < InheritedResources::Base
+  belongs_to :house, :shallow => true
+end
+
+class Display
+  extend ActiveModel::Naming
+end
+
+class Window
+  extend ActiveModel::Naming
+end
+
+class Button
+  extend ActiveModel::Naming
+end
+
+class ButtonsController < InheritedResources::Base
+  belongs_to :display, :window, :shallow => true
+end
+
+
 # Create a TestHelper module with some helpers
 class UrlHelpersTest < ActiveSupport::TestCase
 
@@ -365,7 +389,7 @@ class UrlHelpersTest < ActiveSupport::TestCase
   def test_url_helpers_on_polymorphic_belongs_to
     house = House.new
     bed   = Bed.new
-    
+
     new_bed = Bed.new
     Bed.stubs(:new).returns(new_bed)
     new_bed.stubs(:persisted?).returns(false)
@@ -419,7 +443,7 @@ class UrlHelpersTest < ActiveSupport::TestCase
   def test_url_helpers_on_polymorphic_belongs_to_using_uncountable
     sheep  = Sheep.new
     news = News.new
-    
+
     new_sheep = Sheep.new
     Sheep.stubs(:new).returns(new_sheep)
     new_sheep.stubs(:persisted?).returns(false)
@@ -660,6 +684,61 @@ class UrlHelpersTest < ActiveSupport::TestCase
 
     controller.expects("edit_polymorphic_url").with([:arg], {}).once
     controller.send("edit_resource_url", :arg)
+  end
+
+
+  def test_url_helpers_on_belongs_to_with_shallowed_route
+    controller = MirrorsController.new
+    controller.instance_variable_set('@house', :house)
+    controller.instance_variable_set('@mirror', :mirror)
+
+    [:url, :path].each do |path_or_url|
+
+      controller.expects("house_mirrors_#{path_or_url}").with(:house, {}).once
+      controller.send("collection_#{path_or_url}")
+
+      controller.expects("mirror_#{path_or_url}").with(:mirror, {}).once
+      controller.send("resource_#{path_or_url}")
+
+      controller.expects("new_house_mirror_#{path_or_url}").with(:house, {}).once
+      controller.send("new_resource_#{path_or_url}")
+
+      controller.expects("edit_mirror_#{path_or_url}").with(:mirror, {}).once
+      controller.send("edit_resource_#{path_or_url}")
+
+      controller.expects("house_#{path_or_url}").with(:house, {}).once
+      controller.send("parent_#{path_or_url}")
+
+      controller.expects("edit_house_#{path_or_url}").with(:house, {}).once
+      controller.send("edit_parent_#{path_or_url}")
+    end
+  end
+
+  def test_url_helpers_on_nested_belongs_to_with_shallowed_route
+    controller = ButtonsController.new
+    controller.instance_variable_set('@display', :display)
+    controller.instance_variable_set('@window', :window)
+    controller.instance_variable_set('@button', :button)
+
+    [:url, :path].each do |path_or_url|
+      controller.expects("window_buttons_#{path_or_url}").with(:window, {}).once
+      controller.send("collection_#{path_or_url}")
+
+      controller.expects("button_#{path_or_url}").with(:button, {}).once
+      controller.send("resource_#{path_or_url}")
+
+      controller.expects("new_window_button_#{path_or_url}").with(:window, {}).once
+      controller.send("new_resource_#{path_or_url}")
+
+      controller.expects("edit_button_#{path_or_url}").with(:button, {}).once
+      controller.send("edit_resource_#{path_or_url}")
+
+      controller.expects("window_#{path_or_url}").with(:window, {}).once
+      controller.send("parent_#{path_or_url}")
+
+      controller.expects("edit_window_#{path_or_url}").with(:window, {}).once
+      controller.send("edit_parent_#{path_or_url}")
+    end
   end
 
 end
