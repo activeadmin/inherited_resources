@@ -97,6 +97,10 @@ end
 class MirrorsController < InheritedResources::Base
   belongs_to :house, :shallow => true
 end
+class Admin::MirrorsController < InheritedResources::Base
+  belongs_to :house, :shallow => true
+end
+
 
 class Display
   extend ActiveModel::Naming
@@ -741,4 +745,30 @@ class UrlHelpersTest < ActiveSupport::TestCase
     end
   end
 
+  def test_url_helpers_on_namespaced_resource_with_shallowed_route
+    controller = Admin::MirrorsController.new
+    controller.instance_variable_set('@house', :house)
+    controller.instance_variable_set('@mirror', :mirror)
+
+    [:url, :path].each do |path_or_url|
+
+      controller.expects("admin_house_mirrors_#{path_or_url}").with(:house, {}).once
+      controller.send("collection_#{path_or_url}")
+
+      controller.expects("admin_mirror_#{path_or_url}").with(:mirror, {}).once
+      controller.send("resource_#{path_or_url}")
+
+      controller.expects("new_admin_house_mirror_#{path_or_url}").with(:house, {}).once
+      controller.send("new_resource_#{path_or_url}")
+
+      controller.expects("edit_admin_mirror_#{path_or_url}").with(:mirror, {}).once
+      controller.send("edit_resource_#{path_or_url}")
+
+      controller.expects("admin_house_#{path_or_url}").with(:house, {}).once
+      controller.send("parent_#{path_or_url}")
+
+      controller.expects("edit_admin_house_#{path_or_url}").with(:house, {}).once
+      controller.send("edit_parent_#{path_or_url}")
+    end
+  end
 end

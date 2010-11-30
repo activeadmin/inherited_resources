@@ -136,7 +136,6 @@ module InheritedResources
 
     def handle_shallow_resource(prefix, name, segments, ivars) #:nodoc:
       return segments, ivars unless self.resources_configuration[:self][:shallow]
-
       case name
       when :collection
         segments = segments[-2..-1]
@@ -152,6 +151,10 @@ module InheritedResources
       when :parent
         segments = [segments.last]
         ivars = [ivars.last]
+      end
+
+      unless self.resources_configuration[:self][:route_prefix].blank?
+        segments.unshift self.resources_configuration[:self][:route_prefix]
       end
 
       return segments, ivars
