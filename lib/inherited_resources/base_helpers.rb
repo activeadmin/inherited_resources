@@ -231,6 +231,9 @@ module InheritedResources
       # given and returns it. Otherwise returns nil.
       #
       def respond_with_dual_blocks(object, options, &block) #:nodoc:
+
+        options[:location] = collection_url unless self.respond_to?(:show)
+        
         args = (with_chain(object) << options)
 
         case block.try(:arity)

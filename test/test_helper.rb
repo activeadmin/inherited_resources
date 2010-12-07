@@ -29,6 +29,7 @@ InheritedResources::Routes = ActionDispatch::Routing::RouteSet.new
 InheritedResources::Routes.draw do
   match ':controller(/:action(/:id))'
   match ':controller(/:action)'
+  resources 'posts'
 end
 
 ActionController::Base.send :include, InheritedResources::Routes.url_helpers
