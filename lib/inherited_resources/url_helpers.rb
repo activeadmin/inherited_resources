@@ -132,12 +132,21 @@ module InheritedResources
       generate_url_and_path_helpers :new,  :resource,   resource_segments,   new_ivars || collection_ivars
       generate_url_and_path_helpers nil,   :resource,   resource_segments,   resource_ivars
       generate_url_and_path_helpers :edit, :resource,   resource_segments,   resource_ivars
+
+      if resource_config[:custom_actions]
+        [*resource_config[:custom_actions][:resource]].each do | method |
+          generate_url_and_path_helpers method, :resource, resource_segments, resource_ivars
+        end
+        [*resource_config[:custom_actions][:collection]].each do | method |
+          generate_url_and_path_helpers method, :resources, collection_segments, collection_ivars
+        end
+      end
     end
 
     def handle_shallow_resource(prefix, name, segments, ivars) #:nodoc:
       return segments, ivars unless self.resources_configuration[:self][:shallow]
       case name
-      when :collection
+      when :collection, :resources
         segments = segments[-2..-1]
         ivars = [ivars.last]
       when :resource
