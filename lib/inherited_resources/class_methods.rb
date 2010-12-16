@@ -212,6 +212,10 @@ module InheritedResources
         belongs_to(*symbols << options, &block)
       end
 
+      def custom_actions(options)
+        self.resources_configuration[:self][:custom_actions] = options
+      end
+
     private
 
       def acts_as_singleton! #:nodoc:
