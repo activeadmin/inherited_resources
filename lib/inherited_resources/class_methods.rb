@@ -214,6 +214,9 @@ module InheritedResources
 
       def custom_actions(options)
         self.resources_configuration[:self][:custom_actions] = options
+        options.each do | resource_or_collection, action |
+          create_action(resource_or_collection, action)
+        end
       end
 
     private
@@ -265,6 +268,16 @@ module InheritedResources
         # Initialize polymorphic, singleton, scopes and belongs_to parameters
         self.parents_symbols ||= []
         self.resources_configuration[:polymorphic] ||= { :symbols => [], :optional => false }
+      end
+
+      def create_action(resource_or_collection, action)
+        class_eval <<-CUSTOM_ACTION, __FILE__, __LINE__
+          def #{action}(options={}, &block)
+            respond_with(*(with_chain(#{resource_or_collection}) << options), &block)
+          end
+          alias :#{action}! :#{action}
+          protected :#{action}!
+        CUSTOM_ACTION
       end
 
       # Hook called on inheritance.

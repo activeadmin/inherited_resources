@@ -4,6 +4,7 @@ class Book; end
 class Folder; end
 
 class BooksController < InheritedResources::Base
+  custom_actions :collection => :search, :resource => :delete
   actions :index, :show
 end
 
@@ -33,9 +34,9 @@ class ActionsClassMethodTest < ActionController::TestCase
 
   def test_actions_are_undefined
     action_methods = BooksController.send(:action_methods).map(&:to_sym)
-    assert_equal 2, action_methods.size
+    assert_equal 4, action_methods.size
 
-    [:index, :show].each do |action|
+    [:index, :show, :delete, :search].each do |action|
       assert action_methods.include?(action)
     end
 
@@ -54,6 +55,7 @@ class ActionsClassMethodTest < ActionController::TestCase
       assert action_methods.include? action
     end
   end
+
 end
 
 class DefaultsClassMethodTest < ActiveSupport::TestCase
