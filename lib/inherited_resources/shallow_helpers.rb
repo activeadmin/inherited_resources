@@ -67,7 +67,7 @@ module InheritedResources
           load_parents(instance, parent_symbols)
         end
         if params[:id]
-          instance = resources_configuration[:self][:instance_name].to_s.camelize.constantize.find(params[:id])
+          instance = self.resource_class.find(params[:id])
           load_parents(instance, parent_symbols)
         end
         parents_symbols
