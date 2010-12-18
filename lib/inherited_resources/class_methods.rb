@@ -30,13 +30,17 @@ module InheritedResources
       #
       # * <tt>:singleton</tt> - Tells if this controller is singleton or not.
       #
+      # * <tt>:finder</tt> - Specifies which method should be called to instantiate the resource.
+      #
+      #     defaults :project, :finder => :find_by_slug
+      #
       def defaults(options)
         raise ArgumentError, 'Class method :defaults expects a hash of options.' unless options.is_a? Hash
 
         options.symbolize_keys!
         options.assert_valid_keys(:resource_class, :collection_name, :instance_name,
                                   :class_name, :route_prefix, :route_collection_name,
-                                  :route_instance_name, :singleton)
+                                  :route_instance_name, :singleton, :finder)
 
         self.resource_class = options.delete(:resource_class)         if options.key?(:resource_class)
         self.resource_class = options.delete(:class_name).constantize if options.key?(:class_name)

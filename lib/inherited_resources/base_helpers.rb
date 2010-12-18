@@ -38,7 +38,7 @@ module InheritedResources
       # probably render a 500 error message.
       #
       def resource
-        get_resource_ivar || set_resource_ivar(end_of_association_chain.find(params[:id]))
+        get_resource_ivar || set_resource_ivar(end_of_association_chain.send(method_for_find, params[:id]))
       end
 
       # This method is responsable for building the object on :new and :create
@@ -195,6 +195,11 @@ module InheritedResources
         resource_collection_name
       end
 
+      # Returns finder method for instantiate resource by params[:id]
+      def method_for_find
+        resources_configuration[:self][:finder] || :find
+      end
+
       # Get resource ivar based on the current resource controller.
       #
       def get_resource_ivar #:nodoc:
@@ -233,7 +238,7 @@ module InheritedResources
       def respond_with_dual_blocks(object, options, &block) #:nodoc:
 
         options[:location] = collection_url unless self.respond_to?(:show)
-        
+
         args = (with_chain(object) << options)
 
         case block.try(:arity)
