@@ -214,8 +214,10 @@ module InheritedResources
 
       def custom_actions(options)
         self.resources_configuration[:self][:custom_actions] = options
-        options.each do | resource_or_collection, action |
-          create_action(resource_or_collection, action)
+        options.each do | resource_or_collection, actions |
+          [*actions].each do | action |
+            create_custom_action(resource_or_collection, action)
+          end
         end
       end
 
@@ -270,7 +272,7 @@ module InheritedResources
         self.resources_configuration[:polymorphic] ||= { :symbols => [], :optional => false }
       end
 
-      def create_action(resource_or_collection, action)
+      def create_custom_action(resource_or_collection, action)
         class_eval <<-CUSTOM_ACTION, __FILE__, __LINE__
           def #{action}(options={}, &block)
             respond_with(*(with_chain(#{resource_or_collection}) << options), &block)
