@@ -4,7 +4,7 @@ class Book; end
 class Folder; end
 
 class BooksController < InheritedResources::Base
-  custom_actions :collection => :search, :resource => :delete
+  custom_actions :collection => :search, :resource => [:delete]
   actions :index, :show
 end
 
