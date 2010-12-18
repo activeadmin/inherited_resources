@@ -75,7 +75,7 @@ module InheritedResources
 
       def load_parents(instance, parent_symbols)
         parent_symbols.reverse.each do |parent|
-          instance = instance.send(resources_configuration[parent][:instance_name])
+          instance = instance.send(parent)
           params[resources_configuration[parent][:param]] = instance.id
         end
       end
