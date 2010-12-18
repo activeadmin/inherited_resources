@@ -2,11 +2,16 @@ require File.expand_path('test_helper', File.dirname(__FILE__))
 
 class Malarz
   def self.human_name; 'Painter'; end
+
+  def to_param
+    self.slug
+  end
 end
 
 class PaintersController < InheritedResources::Base
   defaults :instance_name => 'malarz', :collection_name => 'malarze',
-           :resource_class => Malarz, :route_prefix => nil
+           :resource_class => Malarz, :route_prefix => nil,
+           :finder => :find_by_slug
 end
 
 class DefaultsTest < ActionController::TestCase
@@ -24,8 +29,8 @@ class DefaultsTest < ActionController::TestCase
   end
 
   def test_expose_the_requested_painter_on_show
-    Malarz.expects(:find).with('42').returns(mock_painter)
-    get :show, :id => '42'
+    Malarz.expects(:find_by_slug).with('forty_two').returns(mock_painter)
+    get :show, :id => 'forty_two'
     assert_equal mock_painter, assigns(:malarz)
   end
 
@@ -36,8 +41,8 @@ class DefaultsTest < ActionController::TestCase
   end
 
   def test_expose_the_requested_painter_on_edit
-    Malarz.expects(:find).with('42').returns(mock_painter)
-    get :edit, :id => '42'
+    Malarz.expects(:find_by_slug).with('forty_two').returns(mock_painter)
+    get :edit, :id => 'forty_two'
     assert_response :success
     assert_equal mock_painter, assigns(:malarz)
   end
@@ -49,16 +54,16 @@ class DefaultsTest < ActionController::TestCase
   end
 
   def test_update_the_requested_object
-    Malarz.expects(:find).with('42').returns(mock_painter)
+    Malarz.expects(:find_by_slug).with('forty_two').returns(mock_painter)
     mock_painter.expects(:update_attributes).with({'these' => 'params'}).returns(true)
-    put :update, :id => '42', :malarz => {:these => 'params'}
+    put :update, :id => 'forty_two', :malarz => {:these => 'params'}
     assert_equal mock_painter, assigns(:malarz)
   end
 
   def test_the_requested_painter_is_destroyed
-    Malarz.expects(:find).with('42').returns(mock_painter)
+    Malarz.expects(:find_by_slug).with('forty_two').returns(mock_painter)
     mock_painter.expects(:destroy)
-    delete :destroy, :id => '42'
+    delete :destroy, :id => 'forty_two'
     assert_equal mock_painter, assigns(:malarz)
   end
 
