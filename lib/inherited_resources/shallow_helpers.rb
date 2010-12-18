@@ -63,7 +63,7 @@ module InheritedResources
         parent_symbols = parents_symbols.dup
         if parents_symbols.size > 1 && !params[:id]
           inst_class_name = parent_symbols.pop
-          instance = inst_class_name.to_s.camelize.constantize.find(params[resources_configuration[inst_class_name][:param]])
+          instance = resources_configuration[inst_class_name][:parent_class].find(params[resources_configuration[inst_class_name][:param]])
           load_parents(instance, parent_symbols)
         end
         if params[:id]
