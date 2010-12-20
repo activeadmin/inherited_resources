@@ -9,14 +9,14 @@ class Tag
 end
 
 class TagsController < InheritedResources::Base
-  belongs_to :post, :shallow => true
+  belongs_to :post, :shallow => true, :finder => :find_by_slug
 end
 
 class BelongsToWithShallowTest < ActionController::TestCase
   tests TagsController
 
   def setup
-    Post.expects(:find).with('37').returns(mock_post)
+    Post.expects(:find_by_slug).with('thirty_seven').returns(mock_post)
     mock_post.expects(:tags).returns(Tag)
 
     @controller.stubs(:resource_url).returns('/')
@@ -25,21 +25,21 @@ class BelongsToWithShallowTest < ActionController::TestCase
 
   def test_expose_all_tags_as_instance_variable_on_index
     Tag.expects(:all).returns([mock_tag])
-    get :index, :post_id => '37'
+    get :index, :post_id => 'thirty_seven'
     assert_equal mock_post, assigns(:post)
     assert_equal [mock_tag], assigns(:tags)
   end
 
   def test_expose_a_new_tag_on_new
     Tag.expects(:build).returns(mock_tag)
-    get :new, :post_id => '37'
+    get :new, :post_id => 'thirty_seven'
     assert_equal mock_post, assigns(:post)
     assert_equal mock_tag, assigns(:tag)
   end
 
   def test_expose_a_newly_create_tag_on_create
     Tag.expects(:build).with({'these' => 'params'}).returns(mock_tag(:save => true))
-    post :create, :post_id => '37', :tag => {:these => 'params'}
+    post :create, :post_id => 'thirty_seven', :tag => {:these => 'params'}
     assert_equal mock_post, assigns(:post)
     assert_equal mock_tag, assigns(:tag)
   end
@@ -77,7 +77,7 @@ class BelongsToWithShallowTest < ActionController::TestCase
   protected
     def should_find_parents
       mock_tag.expects(:post).returns(mock_post)
-      mock_post.expects(:id).returns('37')
+      mock_post.expects(:to_param).returns('thirty_seven')
       Tag.expects(:find).with('42').twice.returns(mock_tag)
     end
 
