@@ -63,20 +63,23 @@ module InheritedResources
         parent_symbols = parents_symbols.dup
         if parents_symbols.size > 1 && !params[:id]
           inst_class_name = parent_symbols.pop
-          instance = resources_configuration[inst_class_name][:parent_class].find(params[resources_configuration[inst_class_name][:param]])
+          finder_method = resources_configuration[inst_class_name][:finder] || :find
+          instance = resources_configuration[inst_class_name][:parent_class].send(finder_method, params[resources_configuration[inst_class_name][:param]])
           load_parents(instance, parent_symbols)
         end
         if params[:id]
-          instance = self.resource_class.find(params[:id])
+          finder_method = resources_configuration[:self][:finder] || :find
+          instance = self.resource_class.send(finder_method, params[:id])
           load_parents(instance, parent_symbols)
         end
         parents_symbols
       end
 
       def load_parents(instance, parent_symbols)
+
         parent_symbols.reverse.each do |parent|
           instance = instance.send(parent)
-          params[resources_configuration[parent][:param]] = instance.id
+          params[resources_configuration[parent][:param]] = instance.to_param
         end
       end
   end

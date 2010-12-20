@@ -18,7 +18,7 @@ class NestedBelongsToWithShallowTest < ActionController::TestCase
 
   def setup
     mock_shelf.expects(:dresser).returns(mock_dresser)
-    mock_dresser.expects(:id).returns('13')
+    mock_dresser.expects(:to_param).returns('13')
 
     Dresser.expects(:find).with('13').returns(mock_dresser)
     mock_dresser.expects(:shelves).returns(Shelf)
@@ -104,7 +104,7 @@ class NestedBelongsToWithShallowTest < ActionController::TestCase
     def should_find_parents
       Plate.expects(:find).with('42').returns(mock_plate)
       mock_plate.expects(:shelf).returns(mock_shelf)
-      mock_shelf.expects(:id).returns('37')
+      mock_shelf.expects(:to_param).returns('37')
       Plate.expects(:find).with('42').returns(mock_plate)
       Shelf.expects(:find).with('37').returns(mock_shelf)
     end

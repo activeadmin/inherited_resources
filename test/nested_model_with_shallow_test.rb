@@ -15,7 +15,7 @@ module Plan
 end
 
 class GroupsController < InheritedResources::Base
-  defaults :resource_class => Plan::Group
+  defaults :resource_class => Plan::Group, :finder => :find_by_slug
   belongs_to :subfaculty, :shallow => true do
     belongs_to :speciality
   end
@@ -25,7 +25,10 @@ class EducationsController < InheritedResources::Base
   defaults :resource_class => Plan::Education
   belongs_to :subfaculty, :shallow => true do
     belongs_to :speciality do
-      belongs_to :group, :parent_class => Plan::Group, :instance_name => :plan_group, :param => :group_id
+      belongs_to :group, :parent_class => Plan::Group,
+                         :instance_name => :plan_group,
+                         :param => :group_id,
+                         :finder => :find_by_slug
     end
   end
 end
@@ -35,7 +38,7 @@ class NestedModelWithShallowTest < ActionController::TestCase
 
   def setup
     mock_speciality.expects(:subfaculty).returns(mock_subfaculty)
-    mock_subfaculty.expects(:id).returns('13')
+    mock_subfaculty.expects(:to_param).returns('13')
 
     Subfaculty.expects(:find).with('13').returns(mock_subfaculty)
     mock_subfaculty.expects(:specialities).returns(Speciality)
@@ -47,7 +50,7 @@ class NestedModelWithShallowTest < ActionController::TestCase
 
   def test_assigns_subfaculty_and_speciality_and_group_on_edit
     should_find_parents
-    get :edit, :id => '42'
+    get :edit, :id => 'forty_two'
 
     assert_equal mock_subfaculty, assigns(:subfaculty)
     assert_equal mock_speciality, assigns(:speciality)
@@ -56,10 +59,10 @@ class NestedModelWithShallowTest < ActionController::TestCase
 
   protected
     def should_find_parents
-      Plan::Group.expects(:find).with('42').returns(mock_group)
+      Plan::Group.expects(:find_by_slug).with('forty_two').returns(mock_group)
       mock_group.expects(:speciality).returns(mock_speciality)
-      mock_speciality.expects(:id).returns('37')
-      Plan::Group.expects(:find).with('42').returns(mock_group)
+      mock_speciality.expects(:to_param).returns('37')
+      Plan::Group.expects(:find_by_slug).with('forty_two').returns(mock_group)
       Speciality.expects(:find).with('37').returns(mock_speciality)
     end
 
@@ -81,7 +84,7 @@ class TwoNestedModelWithShallowTest < ActionController::TestCase
 
   def setup
     mock_speciality.expects(:subfaculty).returns(mock_subfaculty)
-    mock_subfaculty.expects(:id).returns('13')
+    mock_subfaculty.expects(:to_param).returns('13')
     Subfaculty.expects(:find).with('13').returns(mock_subfaculty)
     mock_subfaculty.expects(:specialities).returns(Speciality)
     mock_speciality.expects(:groups).returns(Plan::Group)
@@ -92,7 +95,7 @@ class TwoNestedModelWithShallowTest < ActionController::TestCase
 
   def test_assigns_subfaculty_and_speciality_and_group_on_new
     should_find_parents
-    get :new, :group_id => '42'
+    get :new, :group_id => 'forty_two'
 
     assert_equal mock_subfaculty, assigns(:subfaculty)
     assert_equal mock_speciality, assigns(:speciality)
@@ -103,12 +106,12 @@ class TwoNestedModelWithShallowTest < ActionController::TestCase
 
   protected
     def should_find_parents
-      Plan::Group.expects(:find).with('42').returns(mock_group)
+      Plan::Group.expects(:find_by_slug).with('forty_two').returns(mock_group)
       mock_group.expects(:speciality).returns(mock_speciality)
       mock_group.expects(:educations).returns(mock_education)
       mock_education.expects(:build).returns(mock_education)
-      mock_speciality.expects(:id).returns('37')
-      Plan::Group.expects(:find).with('42').returns(mock_group)
+      mock_speciality.expects(:to_param).returns('37')
+      Plan::Group.expects(:find_by_slug).with('forty_two').returns(mock_group)
       Speciality.expects(:find).with('37').returns(mock_speciality)
     end
 
