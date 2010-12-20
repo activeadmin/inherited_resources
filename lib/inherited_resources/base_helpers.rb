@@ -236,9 +236,6 @@ module InheritedResources
       # given and returns it. Otherwise returns nil.
       #
       def respond_with_dual_blocks(object, options, &block) #:nodoc:
-
-        options[:location] = collection_url unless self.respond_to?(:show)
-
         args = (with_chain(object) << options)
 
         case block.try(:arity)
@@ -273,6 +270,14 @@ module InheritedResources
         []
       end
 
+      # URL to redirect to.
+      def redirect_to_url #:nodoc:
+        if respond_to?(:show)
+          resource_url rescue nil
+        else
+          collection_url rescue nil
+        end
+      end
   end
 end
 

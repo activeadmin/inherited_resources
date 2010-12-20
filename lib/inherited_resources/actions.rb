@@ -31,7 +31,7 @@ module InheritedResources
       object = build_resource
 
       if create_resource(object)
-        options[:location] ||= resource_url rescue nil
+        options[:location] ||= redirect_to_url
       end
 
       respond_with_dual_blocks(object, options, &block)
@@ -43,7 +43,7 @@ module InheritedResources
       object = resource
 
       if update_resource(object, params[resource_instance_name])
-        options[:location] ||= resource_url rescue nil
+        options[:location] ||= redirect_to_url
       end
 
       respond_with_dual_blocks(object, options, &block)
