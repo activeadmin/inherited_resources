@@ -216,12 +216,37 @@ module InheritedResources
         belongs_to(*symbols << options, &block)
       end
 
+      # Defines custom restful actions by resource or collection basis.
+      #
+      #   custom_actions :resource => [:delete, :transit], :collection => :search
+      #
+      # == Options
+      #
+      # * <tt>:resource</tt> -  Allows you to specify resource actions.
+      #     custom_actions :resource => :delete
+      #                         This macro creates 'delete' method in controller and defines
+      #                         delete_reource_{path,url} helpers. The body of generated 'delete'
+      #                         method is same as 'show' method. So you can override it if need
+      #
+      # * <tt>:collection</tt> - Allows you to specify collection actions.
+      #     custom_actions :collection => :search
+      #                         This macro creates 'search' method in controller and defines
+      #                         search_reources_{path,url} helpers. The body of generated 'search'
+      #                         method is same as 'index' method. So you can override it if need
+      #
       def custom_actions(options)
         self.resources_configuration[:self][:custom_actions] = options
         options.each do | resource_or_collection, actions |
           [*actions].each do | action |
             create_custom_action(resource_or_collection, action)
           end
+        end
+        create_resources_url_helpers!
+        [*options[:resource]].each do | action |
+          helper_method "#{action}_resource_path", "#{action}_resource_url"
+        end
+        [*options[:collection]].each do | action |
+          helper_method "#{action}_resources_path", "#{action}_resources_url"
         end
       end
 

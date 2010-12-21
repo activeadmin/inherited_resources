@@ -115,8 +115,8 @@ class Button
 end
 
 class ButtonsController < InheritedResources::Base
-  custom_actions :resource => :delete, :collection => :search
   belongs_to :display, :window, :shallow => true
+  custom_actions :resource => :delete, :collection => :search
 end
 
 
@@ -757,6 +757,15 @@ class UrlHelpersTest < ActiveSupport::TestCase
 
       controller.expects("search_window_buttons_#{path_or_url}").with(:window, {}).once
       controller.send("search_resources_#{path_or_url}")
+    end
+  end
+
+  def test_helper_methods_with_custom_actions
+    controller = ButtonsController.new
+    helper_methods = controller.class._helpers.instance_methods.map {|m| m.to_s }
+    [:url, :path].each do |path_or_url|
+      assert helper_methods.include?("delete_resource_#{path_or_url}")
+      assert helper_methods.include?("search_resources_#{path_or_url}")
     end
   end
 
