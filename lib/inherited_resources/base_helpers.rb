@@ -272,10 +272,14 @@ module InheritedResources
 
       # URL to redirect to.
       def redirect_to_url #:nodoc:
-        if respond_to?(:show)
-          resource_url rescue nil
-        else
-          collection_url rescue nil
+        if respond_to? :show
+          return resource_url rescue nil
+        end
+        if respond_to? :index
+          return collection_url rescue nil
+        end
+        if respond_to? :parent
+          return parent_url rescue nil
         end
       end
   end

@@ -29,12 +29,12 @@ module UserTestHelper
   end
 
   protected
-  
+
     def mock_user(expectations={})
       @mock_user ||= begin
         user = mock(expectations.except(:errors))
         user.stubs(:class).returns(User)
-        user.stubs(:errors).returns(expectations.fetch(:errors, {})) 
+        user.stubs(:errors).returns(expectations.fetch(:errors, {}))
         user
       end
     end
@@ -201,6 +201,14 @@ class UpdateActionBaseTest < ActionController::TestCase
     assert_redirected_to 'http://test.host/'
   end
 
+  def test_redirect_to_the_users_list_if_show_undefined
+    @controller.class.send(:actions, :all, :except => :show)
+    User.stubs(:find).returns(mock_user(:update_attributes => true))
+    @controller.expects(:collection_url).returns('http://test.host/')
+    put :update
+    assert_redirected_to 'http://test.host/'
+  end
+
   def test_show_flash_message_when_success
     User.stubs(:find).returns(mock_user(:update_attributes => true))
     put :update
@@ -229,7 +237,7 @@ end
 
 class DestroyActionBaseTest < ActionController::TestCase
   include UserTestHelper
-  
+
   def test_the_requested_user_is_destroyed
     User.expects(:find).with('42').returns(mock_user)
     mock_user.expects(:destroy).returns(true)
