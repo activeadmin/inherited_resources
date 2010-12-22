@@ -119,6 +119,9 @@ class ButtonsController < InheritedResources::Base
   custom_actions :resource => :delete, :collection => :search
 end
 
+class ImageButtonsController < ButtonsController
+end
+
 
 # Create a TestHelper module with some helpers
 class UrlHelpersTest < ActiveSupport::TestCase
@@ -767,6 +770,14 @@ class UrlHelpersTest < ActiveSupport::TestCase
       assert helper_methods.include?("delete_resource_#{path_or_url}")
       assert helper_methods.include?("search_resources_#{path_or_url}")
     end
+  end
+
+  def test_helpers_on_inherited_controller
+    controller = ImageButtonsController.new
+    controller.expects("edit_image_button_path").once
+    controller.send("edit_resource_path")
+    controller.expects("delete_image_button_path").once
+    controller.send("delete_resource_path")
   end
 
   def test_url_helpers_on_namespaced_resource_with_shallowed_route

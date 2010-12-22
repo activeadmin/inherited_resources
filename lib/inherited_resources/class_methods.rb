@@ -285,7 +285,9 @@ module InheritedResources
 
         # Initialize resources configuration hash
         self.resources_configuration ||= {}
-        config = self.resources_configuration[:self] = {}
+        self.resources_configuration[:self] ||= {}
+        config = self.resources_configuration[:self]
+
         config[:collection_name] = self.controller_name.to_sym
         config[:instance_name]   = self.controller_name.singularize.to_sym
 
