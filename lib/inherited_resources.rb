@@ -22,7 +22,11 @@ module InheritedResources
 
   class Railtie < ::Rails::Railtie
     config.inherited_resources = InheritedResources
-    config.generators.scaffold_controller = :inherited_resources_controller
+    if config.respond_to?(:app_generators)
+      config.app_generators.scaffold_controller = :inherited_resources_controller
+    else
+      config.generators.scaffold_controller = :inherited_resources_controller
+    end
   end
 end
 
