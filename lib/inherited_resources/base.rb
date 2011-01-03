@@ -29,11 +29,9 @@ module InheritedResources
                       :parent_url, :parent_path, :resource, :collection, :resource_class, :association_chain,
                       :resource_instance_name, :resource_collection_name
 
-        base.with_options :instance_writer => false do |c|
-          c.class_inheritable_accessor :resource_class
-          c.class_inheritable_array :parents_symbols
-          c.class_inheritable_hash :resources_configuration
-        end
+        self.class_attribute :resource_class,  :parents_symbols,  :resources_configuration,
+                             :instance_writer => false
+        undef                :resource_class?, :parents_symbols?, :resources_configuration?
 
         protected :resource_class, :parents_symbols, :resources_configuration
       end
