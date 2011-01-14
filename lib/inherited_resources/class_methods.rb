@@ -255,7 +255,21 @@ module InheritedResources
       #
       def initialize_resources_class_accessors! #:nodoc:
         # Initialize resource class
+
+        # First priority is the namespaced modek, e.g. User::Group
         self.resource_class = begin
+          namespaced_class = self.name.sub(/Controller/, '').singularize
+          namespaced_class.constantize
+        rescue NameError; nil end
+
+        # Second priority the camelcased c, i.e. UserGroup
+        self.resource_class ||= begin
+          camelcased_class = self.name.sub(/Controller/, '').gsub('::', '').singularize
+          camelcased_class.constantize
+        rescue NameError; nil end
+
+        # Otherwise use the Group class, or fail
+        self.resource_class ||= begin
           class_name = self.controller_name.classify
           class_name.constantize
         rescue NameError => e

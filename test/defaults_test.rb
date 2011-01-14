@@ -140,3 +140,37 @@ class DefaultsNamespaceTest < ActionController::TestCase
     end
 end
 
+class Group
+end
+class AdminGroup
+end
+module Admin; end
+class Admin::Group
+end
+class Admin::GroupsController < InheritedResources::Base
+end
+class NamespacedModelForNamespacedController < ActionController::TestCase
+  tests Admin::GroupsController
+
+  def test_that_it_picked_the_namespaced_model
+    # make public so we can test it
+    Admin::GroupsController.send(:public, *Admin::GroupsController.protected_instance_methods)
+    assert_equal Admin::Group, @controller.resource_class
+  end
+end
+
+class Role
+end
+class AdminRole
+end
+class Admin::RolesController < InheritedResources::Base
+end
+class TwoPartNameModelForNamespacedController < ActionController::TestCase
+  tests Admin::RolesController
+
+  def test_that_it_picked_the_camelcased_model
+    # make public so we can test it
+    Admin::RolesController.send(:public, *Admin::RolesController.protected_instance_methods)
+    assert_equal AdminRole, @controller.resource_class
+  end
+end
