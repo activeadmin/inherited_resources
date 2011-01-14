@@ -463,6 +463,20 @@ option.
 
 It will deal with everything again and hide the action :index from you.
 
+== Namespaced Controllers
+
+Namespaced controllers works out the box.
+
+    class Forum::PostsController < InheritedResources::Base
+    end
+
+Inherited Resources prioritizes the default resource class for the namespaced controller in
+this order:
+
+    Forum::Post
+    ForumPost
+    Post
+
 == URL Helpers
 
 When you use InheritedResources it creates some URL helpers.
