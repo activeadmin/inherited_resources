@@ -73,3 +73,70 @@ class DefaultsTest < ActionController::TestCase
     end
 end
 
+class Professor
+  def self.human_name; 'Einstein'; end
+end
+module University; end
+class University::ProfessorsController < InheritedResources::Base
+  defaults :finder => :find_by_slug
+end
+
+class DefaultsNamespaceTest < ActionController::TestCase
+  tests University::ProfessorsController
+
+  def setup
+    @controller.stubs(:resource_url).returns('/')
+    @controller.stubs(:collection_url).returns('/')
+  end
+
+  def test_expose_all_professors_as_instance_variable
+    Professor.expects(:all).returns([mock_professor])
+    get :index
+    assert_equal [mock_professor], assigns(:professors)
+  end
+
+  def test_expose_the_requested_painter_on_show
+    Professor.expects(:find_by_slug).with('forty_two').returns(mock_professor)
+    get :show, :id => 'forty_two'
+    assert_equal mock_professor, assigns(:professor)
+  end
+
+  def test_expose_a_new_painter
+    Professor.expects(:new).returns(mock_professor)
+    get :new
+    assert_equal mock_professor, assigns(:professor)
+  end
+
+  def test_expose_the_requested_painter_on_edit
+    Professor.expects(:find_by_slug).with('forty_two').returns(mock_professor)
+    get :edit, :id => 'forty_two'
+    assert_response :success
+    assert_equal mock_professor, assigns(:professor)
+  end
+
+  def test_expose_a_newly_create_professor_when_saved_with_success
+    Professor.expects(:new).with({'these' => 'params'}).returns(mock_professor(:save => true))
+    post :create, :university_professor => {:these => 'params'}
+    assert_equal mock_professor, assigns(:professor)
+  end
+
+  def test_update_the_professor
+    Professor.expects(:find_by_slug).with('forty_two').returns(mock_professor)
+    mock_professor.expects(:update_attributes).with({'these' => 'params'}).returns(true)
+    put :update, :id => 'forty_two', :university_professor => {:these => 'params'}
+    assert_equal mock_professor, assigns(:professor)
+  end
+
+  def test_the_requested_painter_is_destroyed
+    Professor.expects(:find_by_slug).with('forty_two').returns(mock_professor)
+    mock_professor.expects(:destroy)
+    delete :destroy, :id => 'forty_two'
+    assert_equal mock_professor, assigns(:professor)
+  end
+
+  protected
+    def mock_professor(stubs={})
+      @mock_professor ||= mock(stubs)
+    end
+end
+
