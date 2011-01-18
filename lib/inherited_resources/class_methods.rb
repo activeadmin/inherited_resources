@@ -285,7 +285,11 @@ module InheritedResources
 
         # Initialize resources configuration hash
         self.resources_configuration ||= {}
-        self.resources_configuration[:self] ||= {}
+        if self.resources_configuration[:self]
+          self.resources_configuration[:self] = self.resources_configuration[:self].dup
+        else
+          self.resources_configuration[:self] = {}
+        end
         config = self.resources_configuration[:self]
 
         config[:collection_name] = self.controller_name.to_sym
