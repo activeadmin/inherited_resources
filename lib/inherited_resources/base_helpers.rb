@@ -270,17 +270,25 @@ module InheritedResources
         []
       end
 
-      # URL to redirect to.
-      def redirect_to_url #:nodoc:
+      # URL to redirect to when redirect implies resource url.
+      def smart_resource_url
+        url = nil
         if respond_to? :show
-          return resource_url rescue nil
+          url = resource_url rescue nil
         end
+        url ||= smart_collection_url
+      end
+
+      # URL to redirect to when redirect implies collection url.
+      def smart_collection_url
+        url = nil
         if respond_to? :index
-          return collection_url rescue nil
+          url ||= collection_url rescue nil
         end
         if respond_to? :parent
-          return parent_url rescue nil
+          url ||= parent_url rescue nil
         end
+        url ||= root_url rescue nil
       end
   end
 end

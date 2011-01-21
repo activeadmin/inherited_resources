@@ -51,6 +51,14 @@ class BelongsToTest < ActionController::TestCase
     assert_equal mock_comment, assigns(:comment)
   end
 
+  def test_redirect_to_the_post_on_update_if_show_and_index_undefined
+    @controller.class.send(:actions, :all, :except => [:show, :index])
+    @controller.expects(:parent_url).returns('http://test.host/')
+    Comment.expects(:build).with({'these' => 'params'}).returns(mock_comment(:save => true))
+    post :create, :post_id => '37', :comment => {:these => 'params'}
+    assert_redirected_to 'http://test.host/'
+  end
+
   def test_expose_a_newly_create_comment_on_create
     Comment.expects(:build).with({'these' => 'params'}).returns(mock_comment(:save => true))
     post :create, :post_id => '37', :comment => {:these => 'params'}
@@ -58,7 +66,7 @@ class BelongsToTest < ActionController::TestCase
     assert_equal mock_comment, assigns(:comment)
   end
 
-  def test_redirect_to_the_post_if_show_and_index_undefined
+  def test_redirect_to_the_post_on_update_if_show_and_index_undefined
     @controller.class.send(:actions, :all, :except => [:show, :index])
     Comment.stubs(:find).returns(mock_comment(:update_attributes => true))
     @controller.expects(:parent_url).returns('http://test.host/')
@@ -72,6 +80,15 @@ class BelongsToTest < ActionController::TestCase
     put :update, :id => '42', :post_id => '37', :comment => {:these => 'params'}
     assert_equal mock_post, assigns(:post)
     assert_equal mock_comment, assigns(:comment)
+  end
+
+  def test_redirect_to_the_post_on_destroy_if_show_and_index_undefined
+    @controller.class.send(:actions, :all, :except => [:show, :index])
+    Comment.expects(:find).with('42').returns(mock_comment)
+    mock_comment.expects(:destroy)
+    @controller.expects(:parent_url).returns('http://test.host/')
+    delete :destroy, :id => '42', :post_id => '37'
+    assert_redirected_to 'http://test.host/'
   end
 
   def test_the_requested_comment_is_destroyed_on_destroy
