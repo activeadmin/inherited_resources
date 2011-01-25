@@ -29,11 +29,10 @@ module InheritedResources
                       :parent_url, :parent_path, :resource, :collection, :resource_class, :association_chain,
                       :resource_instance_name, :resource_collection_name
 
-        self.class_attribute :resource_class,  :parents_symbols,  :resources_configuration,
-                             :instance_writer => false
-        undef                :resource_class?, :parents_symbols?, :resources_configuration?
+        self.class_attribute :resource_class,  :parents_symbols,  :resources_configuration, :instance_writer => false
 
-        protected :resource_class, :parents_symbols, :resources_configuration
+        protected :resource_class, :parents_symbols, :resources_configuration,
+          :resource_class?, :parents_symbols?, :resources_configuration?
       end
     end
 
