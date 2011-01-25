@@ -10,22 +10,6 @@ a screencast made by Fabio Akita about its features:
 
 http://akitaonrails.com/2009/09/01/screencast-real-thin-restful-controllers-with-inherited-resources
 
-=== What about views?
-
-Sometimes just DRY the controllers is not enough, a lot of the resources often share the same views, wouldn't it be nice to have view files DRY'ed too? You can! There are currently two projects do just that.
-
-==== Inherited Resources Views
-
-Inherited Resources Views is an extremely easy to use plugin to DRY the views associated with your inherited resources controllers. It is library-agnostic (it only depends on Inherited Resources) and it supports generating both erb and haml templates.
-
-Source: http://github.com/fredwu/inherited_resources_views
-
-==== Inherited Views
-
-Inherited Views is a thin addition to the Inherited Resources project adding default html views which can be later customized on a per controller basis or globally for your rails app. It depends on Inherited Resources, Formtastic and WillPaginate.
-
-Source: http://github.com/gregbell/inherited_views
-
 == Installation
 
 === Rails 3
@@ -34,7 +18,7 @@ Inherited Resources master branch is now supports Rails 3 and is NOT backward co
 
 You can let bundler to install Inherited Resources by adding this line to your application's Gemfile:
 
-  gem 'inherited_resources', '1.1.2'
+  gem 'inherited_resources', '~> 1.2'
 
 And then execute:
 
@@ -42,7 +26,7 @@ And then execute:
 
 Or install it yourself as:
 
-  gem install inherited_resources --version=1.1.2
+  gem install inherited_resources --version=1.2
 
 === Rails 2.3.x
 
@@ -66,7 +50,7 @@ has_scope gem is available at:
 
 And can be installed as:
 
-  sudo gem install has_scope
+  gem install has_scope
 
 == Responders
 
@@ -79,23 +63,12 @@ how it will change your application:
 
 And it can be installed as:
 
-  sudo gem install responders
+  gem install responders
 
 Using responders will set the flash message to :notice and :alert. You can change
 that through the following configuration value:
 
   InheritedResources.flash_keys = [ :success, :failure ]
-
-== Rspec known bug
-
-Rspec monkey patches a couple of controller methods in a way that Controller specs
-(with integrate views true or false) and Inherited Resources are not compatible.
-
-However, since your controllers inherit from InheritedResources::Base, they are
-already unit-tested in the plugin, so there is no need to test them again in Rspec.
-
-You should test things like url redirection and associations in your integration
-specs.
 
 == Basic Usage
 
@@ -307,6 +280,25 @@ give a block that expects two arguments, the first will be executed only in
 success scenarios and the second in failure scenarios. You keep everything
 clean and organized inside the same action.
 
+== Smart redirects
+
+Although the syntax above is a nice shortcut, you won't need to do it frequently
+because (since version 1.2) Inherited Resources has smart redirects. Redirects
+in actions calculates depending on the existent controller methods.
+
+Redirects in create and update actions calculates in following order resource_url,
+collection_url, parent_url (which we are going to see later), root_url. Redirect
+in destroy action calculate in following order collection_url, parent_url, root_url.
+
+Example:
+
+    class ButtonsConntroller < InheritedResources::Base
+      belong_to :window
+      actions :all, :except => [:show, :index]
+    end
+
+This controller redirect to parent window after all CUD actions.
+
 == Success and failure scenarios on destroy
 
 The destroy action can also fail, this usually happens when you have a
@@ -319,24 +311,6 @@ be something like this:
       if cant_be_destroyed?
         errors.add(:base, "not allowed")
         false
-      end
-    end
-
-== Some DSL
-
-For those DSL lovers, InheritedResources won't leave you alone. You can overwrite
-your success/failure blocks straight from your class binding. For it, you just
-need to add a DSL module to your application controller:
-
-    class ApplicationController < ActionController::Base
-      include InheritedResources::DSL
-    end
-
-And then you can rewrite the last example as:
-
-    class ProjectsController < InheritedResources::Base
-      update! do |success, failure|
-        failure.html { redirect_to project_url(@project) }
       end
     end
 
@@ -519,6 +493,43 @@ In polymorphic cases, you can also give the parent as parameter to collection_ur
 Another nice thing is that those urls are not guessed during runtime. They are
 all created when your application is loaded (except for polymorphic
 associations, that relies on Rails polymorphic_url).
+
+== Custom actions
+
+Since version 1.2, Inherited Resources allows you to define custom actions in controller:
+
+    class ButtonsController < InheritedResources::Base
+      custom_actions :resource => :delete, :collection => :search
+    end
+
+This code creates delete and search actions in controller (they behaves like show and
+index actions accordingly). Also, it will produce delete_resource_{path,url} and 
+search_resources_{path,url} url helpers.
+
+== What about views?
+
+Sometimes just DRY the controllers is not enough, if you need to DRY up your views,
+check this Wiki page:
+
+https://github.com/josevalim/inherited_resources/wiki/Views-Inheritance
+
+== Some DSL
+
+For those DSL lovers, InheritedResources won't leave you alone. You can overwrite
+your success/failure blocks straight from your class binding. For it, you just
+need to add a DSL module to your application controller:
+
+    class ApplicationController < ActionController::Base
+      include InheritedResources::DSL
+    end
+
+And then you can rewrite the last example as:
+
+    class ProjectsController < InheritedResources::Base
+      update! do |success, failure|
+        failure.html { redirect_to project_url(@project) }
+      end
+    end
 
 == Bugs and Feedback
 

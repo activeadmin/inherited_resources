@@ -1,3 +1,9 @@
+# Version 1.2
+
+* Improved lookup for namespaces (by github.com/Sirupsen)
+* Support to custom actions (by github.com/lda)
+* Rails 3.1 compatibility (by github.com/etehtsea)
+
 # Version 1.1
 
 * Rails 3 compatible
