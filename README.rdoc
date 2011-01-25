@@ -5,9 +5,10 @@ all restful actions so you just have to focus on what is important. It makes
 your controllers more powerful and cleaner at the same time.
 
 Plus, making your controllers follow a pattern, it helps you to write better
-code by following fat models and skinny controllers convention. There is
-a screencast made by Fabio Akita about its features:
+code by following fat models and skinny controllers convention. There are
+two screencasts available besides this README:
 
+http://railscasts.com/episodes/230-inherited-resources
 http://akitaonrails.com/2009/09/01/screencast-real-thin-restful-controllers-with-inherited-resources
 
 == Installation
