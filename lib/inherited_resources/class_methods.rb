@@ -249,7 +249,6 @@ module InheritedResources
       # Initialize resources class accessors and set their default values.
       #
       def initialize_resources_class_accessors! #:nodoc:
-        # Initialize resource class
         self.resource_class = begin
           class_name = self.controller_name.classify
           class_name.constantize
@@ -258,8 +257,15 @@ module InheritedResources
           nil
         end
 
+        self.parents_symbols = self.parents_symbols.try(:dup) || []
+
         # Initialize resources configuration hash
-        self.resources_configuration ||= {}
+        self.resources_configuration = self.resources_configuration.try(:dup) || {}
+        self.resources_configuration.each do |key, value|
+          next unless value.is_a?(Hash) || value.is_a?(Array)
+          self.resources_configuration[key] = value.dup
+        end
+
         config = self.resources_configuration[:self] = {}
         config[:collection_name] = self.controller_name.to_sym
         config[:instance_name]   = self.controller_name.singularize.to_sym
@@ -272,8 +278,9 @@ module InheritedResources
         config[:route_prefix] = namespaces.join('_') unless namespaces.empty?
 
         # Initialize polymorphic, singleton, scopes and belongs_to parameters
-        self.parents_symbols ||= []
-        self.resources_configuration[:polymorphic] ||= { :symbols => [], :optional => false }
+        polymorphic = self.resources_configuration[:polymorphic].try(:dup) || { :symbols => [], :optional => false }
+        polymorphic[:symbols] = polymorphic[:symbols].dup
+        self.resources_configuration[:polymorphic] = polymorphic
       end
 
       def create_custom_action(resource_or_collection, action)
