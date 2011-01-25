@@ -42,7 +42,7 @@ module InheritedResources
     def update(options={}, &block)
       object = resource
 
-      if update_resource(object, params[resource_instance_name])
+      if update_resource(object, params[resource_request_name])
         options[:location] ||= redirect_to_url
       end
 

@@ -46,7 +46,7 @@ module InheritedResources
       # instance variable.
       #
       def build_resource
-        get_resource_ivar || set_resource_ivar(end_of_association_chain.send(method_for_build, params[resource_instance_name] || {}))
+        get_resource_ivar || set_resource_ivar(end_of_association_chain.send(method_for_build, params[resource_request_name] || {}))
       end
 
       # Responsible for saving the resource on :create method. Overwriting this
@@ -153,6 +153,10 @@ module InheritedResources
       #
       def resource_instance_name #:nodoc:
         self.resources_configuration[:self][:instance_name]
+      end
+
+      def resource_request_name
+        self.resources_configuration[:self][:request_name]
       end
 
       # This methods gets your begin_of_association_chain, join it with your
