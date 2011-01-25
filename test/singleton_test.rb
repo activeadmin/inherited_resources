@@ -4,10 +4,12 @@ require File.expand_path('test_helper', File.dirname(__FILE__))
 # using a belongs_to association. This is done using mocks a la rspec.
 #
 class Store
+  extend ActiveModel::Naming
 end
 
 class Manager
-  def self.human_name; 'Manager'; end
+  extend ActiveModel::Naming
+#  def self.human_name; 'Manager'; end
 end
 
 class ManagersController < InheritedResources::Base
@@ -66,6 +68,7 @@ class SingletonTest < ActionController::TestCase
   def test_the_requested_manager_is_destroyed_on_destroy
     Store.expects(:find).with('37').returns(mock_store)
     mock_store.expects(:manager).returns(mock_manager)
+    @controller.expects(:parent_url).returns('http://test.host/')
     mock_manager.expects(:destroy)
     delete :destroy, :store_id => '37'
     assert_equal mock_store, assigns(:store)

@@ -162,6 +162,8 @@ module InheritedResources
         ivars = [ivars.last]
       end
 
+      segments ||= []
+
       unless self.resources_configuration[:self][:route_prefix].blank?
         segments.unshift self.resources_configuration[:self][:route_prefix]
       end

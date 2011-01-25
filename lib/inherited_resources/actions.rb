@@ -31,7 +31,7 @@ module InheritedResources
       object = build_resource
 
       if create_resource(object)
-        options[:location] ||= redirect_to_url
+        options[:location] ||= smart_resource_url
       end
 
       respond_with_dual_blocks(object, options, &block)
@@ -43,7 +43,7 @@ module InheritedResources
       object = resource
 
       if update_resource(object, params[resource_request_name])
-        options[:location] ||= redirect_to_url
+        options[:location] ||= smart_resource_url
       end
 
       respond_with_dual_blocks(object, options, &block)
@@ -53,7 +53,7 @@ module InheritedResources
     # DELETE /resources/1
     def destroy(options={}, &block)
       object = resource
-      options[:location] ||= collection_url rescue nil
+      options[:location] ||= smart_collection_url
 
       destroy_resource(object)
       respond_with_dual_blocks(object, options, &block)
