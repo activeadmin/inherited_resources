@@ -49,7 +49,7 @@ module InheritedResources
       # instance variable.
       #
       def build_resource
-        get_resource_ivar || set_resource_ivar(end_of_association_chain.send(method_for_build, params[resource_request_name] || {}))
+        get_resource_ivar || set_resource_ivar(end_of_association_chain.send(method_for_build, params[resource_request_name] || params[resource_instance_name] || {}))
       end
 
       # Responsible for saving the resource on :create method. Overwriting this
