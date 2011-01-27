@@ -174,3 +174,17 @@ class TwoPartNameModelForNamespacedController < ActionController::TestCase
     assert_equal AdminRole, @controller.resource_class
   end
 end
+
+class User
+end
+class Admin::UsersController < InheritedResources::Base
+end
+class TwoPartNameModelForNamespacedController < ActionController::TestCase
+  tests Admin::UsersController
+
+  def test_that_it_picked_the_camelcased_model
+    # make public so we can test it
+    Admin::UsersController.send(:public, *Admin::UsersController.protected_instance_methods)
+    assert_equal User, @controller.resource_class
+  end
+end
