@@ -23,7 +23,7 @@ class DefaultsTest < ActionController::TestCase
   end
 
   def test_expose_all_painters_as_instance_variable
-    Malarz.expects(:all).returns([mock_painter])
+    Malarz.expects(:scoped).returns([mock_painter])
     get :index
     assert_equal [mock_painter], assigns(:malarze)
   end
@@ -90,7 +90,7 @@ class DefaultsNamespaceTest < ActionController::TestCase
   end
 
   def test_expose_all_professors_as_instance_variable
-    Professor.expects(:all).returns([mock_professor])
+    Professor.expects(:scoped).returns([mock_professor])
     get :index
     assert_equal [mock_professor], assigns(:professors)
   end
