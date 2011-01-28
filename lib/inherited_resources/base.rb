@@ -39,6 +39,11 @@ module InheritedResources
           :resource_class?, :parents_symbols?, :resources_configuration?
       end
     end
+    
+    def self.inherited(klass)
+      super
+      klass.helper :all if klass.superclass == InheritedResources::Base
+    end
 
     inherit_resources(self)
   end
