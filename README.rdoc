@@ -19,7 +19,7 @@ Inherited Resources master branch is now supports Rails 3 and is NOT backward co
 
 You can let bundler to install Inherited Resources by adding this line to your application's Gemfile:
 
-  gem 'inherited_resources', '~> 1.2'
+  gem 'inherited_resources', '~> 1.2.1'
 
 And then execute:
 
@@ -27,7 +27,7 @@ And then execute:
 
 Or install it yourself as:
 
-  gem install inherited_resources --version=1.2
+  gem install inherited_resources --version=1.2.1
 
 === Rails 2.3.x
 
