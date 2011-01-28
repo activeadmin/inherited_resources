@@ -30,14 +30,14 @@ module UserTestHelper
 
   protected
 
-    def mock_user(expectations={})
-      @mock_user ||= begin
-        user = mock(expectations.except(:errors))
-        user.stubs(:class).returns(User)
-        user.stubs(:errors).returns(expectations.fetch(:errors, {}))
-        user
-      end
+  def mock_user(expectations={})
+    @mock_user ||= begin
+      user = mock(expectations.except(:errors))
+      user.stubs(:class).returns(User)
+      user.stubs(:errors).returns(expectations.fetch(:errors, {}))
+      user
     end
+  end
 end
 
 class IndexActionBaseTest < ActionController::TestCase
@@ -64,8 +64,8 @@ class IndexActionBaseTest < ActionController::TestCase
 
   def test_render_all_users_as_xml_when_mime_type_is_xml
     @request.accept = 'application/xml'
-    User.expects(:scoped).returns([mock_user])
-    mock_user.expects(:to_xml).returns('Generated XML')
+    User.expects(:scoped).returns(collection = [mock_user])
+    collection.expects(:to_xml).returns('Generated XML')
     get :index
     assert_response :success
     assert_equal 'Generated XML', @response.body
