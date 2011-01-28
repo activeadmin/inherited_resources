@@ -116,14 +116,14 @@ class DefaultsNamespaceTest < ActionController::TestCase
 
   def test_expose_a_newly_create_professor_when_saved_with_success
     Professor.expects(:new).with({'these' => 'params'}).returns(mock_professor(:save => true))
-    post :create, :university_professor => {:these => 'params'}
+    post :create, :professor => {:these => 'params'}
     assert_equal mock_professor, assigns(:professor)
   end
 
   def test_update_the_professor
     Professor.expects(:find_by_slug).with('forty_two').returns(mock_professor)
     mock_professor.expects(:update_attributes).with({'these' => 'params'}).returns(true)
-    put :update, :id => 'forty_two', :university_professor => {:these => 'params'}
+    put :update, :id => 'forty_two', :professor => {:these => 'params'}
     assert_equal mock_professor, assigns(:professor)
   end
 
@@ -182,9 +182,16 @@ end
 class TwoPartNameModelForNamespacedController < ActionController::TestCase
   tests Admin::UsersController
 
-  def test_that_it_picked_the_camelcased_model
+  def setup
     # make public so we can test it
     Admin::UsersController.send(:public, *Admin::UsersController.protected_instance_methods)
+  end
+
+  def test_that_it_picked_the_camelcased_model
     assert_equal User, @controller.resource_class
+  end
+
+  def test_that_it_got_the_rquest_params_right
+    assert_equal 'user', @controller.resources_configuration[:self][:request_name]
   end
 end

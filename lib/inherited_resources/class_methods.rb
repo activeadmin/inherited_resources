@@ -328,7 +328,7 @@ module InheritedResources
         # Forum::Thread#create will properly pick up the request parameter
         # which will be forum_thread, and not thread
         # Additionally make this work orthogonally with instance_name
-        config[:request_name] = self.name.sub(/Controller$/, '').underscore.gsub('/', '_').singularize
+        config[:request_name] = self.resource_class.to_s.underscore.gsub('/', '_')
 
         # Initialize polymorphic, singleton, scopes and belongs_to parameters
         polymorphic = self.resources_configuration[:polymorphic] || { :symbols => [], :optional => false }
