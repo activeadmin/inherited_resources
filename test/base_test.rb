@@ -44,19 +44,19 @@ class IndexActionBaseTest < ActionController::TestCase
   include UserTestHelper
 
   def test_expose_all_users_as_instance_variable
-    User.expects(:all).returns([mock_user])
+    User.expects(:scoped).returns([mock_user])
     get :index
     assert_equal [mock_user], assigns(:users)
   end
 
   def test_apply_scopes_if_method_is_available
-    User.expects(:all).returns([mock_user])
+    User.expects(:scoped).returns([mock_user])
     get :index
     assert @controller.scopes_applied
   end
 
   def test_controller_should_render_index
-    User.stubs(:all).returns([mock_user])
+    User.stubs(:scoped).returns([mock_user])
     get :index
     assert_response :success
     assert_equal 'Index HTML', @response.body.strip
@@ -64,7 +64,7 @@ class IndexActionBaseTest < ActionController::TestCase
 
   def test_render_all_users_as_xml_when_mime_type_is_xml
     @request.accept = 'application/xml'
-    User.expects(:all).returns(mock_user)
+    User.expects(:scoped).returns([mock_user])
     mock_user.expects(:to_xml).returns('Generated XML')
     get :index
     assert_response :success

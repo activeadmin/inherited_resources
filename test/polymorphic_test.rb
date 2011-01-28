@@ -23,7 +23,7 @@ class PolymorphicFactoriesTest < ActionController::TestCase
   end
 
   def test_expose_all_employees_as_instance_variable_on_index
-    Employee.expects(:all).returns([mock_employee])
+    Employee.expects(:scoped).returns([mock_employee])
     get :index, :factory_id => '37'
     assert_equal mock_factory, assigns(:factory)
     assert_equal [mock_employee], assigns(:employees)
@@ -77,7 +77,7 @@ class PolymorphicFactoriesTest < ActionController::TestCase
   def test_polymorphic_helpers
     mock_factory.stubs(:class).returns(Factory)
 
-    Employee.expects(:all).returns([mock_employee])
+    Employee.expects(:scoped).returns([mock_employee])
     get :index, :factory_id => '37'
 
     assert @controller.send(:parent?)
@@ -110,7 +110,7 @@ class PolymorphicCompanyTest < ActionController::TestCase
   end
 
   def test_expose_all_employees_as_instance_variable_on_index
-    Employee.expects(:all).returns([mock_employee])
+    Employee.expects(:scoped).returns([mock_employee])
     get :index, :company_id => '37'
     assert_equal mock_company, assigns(:company)
     assert_equal [mock_employee], assigns(:employees)
@@ -164,7 +164,7 @@ class PolymorphicCompanyTest < ActionController::TestCase
   def test_polymorphic_helpers
     mock_company.stubs(:class).returns(Company)
 
-    Employee.expects(:all).returns([mock_employee])
+    Employee.expects(:scoped).returns([mock_employee])
     get :index, :company_id => '37'
 
     assert @controller.send(:parent?)

@@ -24,7 +24,7 @@ class BelongsToTest < ActionController::TestCase
   end
 
   def test_expose_all_comments_as_instance_variable_on_index
-    Comment.expects(:all).returns([mock_comment])
+    Comment.expects(:scoped).returns([mock_comment])
     get :index, :post_id => '37'
     assert_equal mock_post, assigns(:post)
     assert_equal [mock_comment], assigns(:comments)
@@ -106,7 +106,7 @@ class BelongsToTest < ActionController::TestCase
   def test_helpers
     mock_post.stubs(:class).returns(Post)
 
-    Comment.expects(:all).returns([mock_comment])
+    Comment.expects(:scoped).returns([mock_comment])
     get :index, :post_id => '37'
 
     assert helper_methods.include?('parent?')

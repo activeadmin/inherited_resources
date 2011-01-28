@@ -24,7 +24,7 @@ class BelongsToWithShallowTest < ActionController::TestCase
   end
 
   def test_expose_all_tags_as_instance_variable_on_index
-    Tag.expects(:all).returns([mock_tag])
+    Tag.expects(:scoped).returns([mock_tag])
     get :index, :post_id => 'thirty_seven'
     assert_equal mock_post, assigns(:post)
     assert_equal [mock_tag], assigns(:tags)
