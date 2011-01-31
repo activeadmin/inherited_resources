@@ -41,13 +41,6 @@ module InheritedResources
         get_resource_ivar || set_resource_ivar(end_of_association_chain.send(method_for_find, params[param_name_for_find]))
       end
       
-      # Supplies finder with param name to search with.
-      # You can easily override your finder with overriding this method
-      # and #method_for_find
-      def param_name_for_find
-        :id
-      end
-      
       # This method is responsable for building the object on :new and :create
       # methods. If you overwrite it, don't forget to cache the result in an
       # instance variable.
@@ -209,6 +202,11 @@ module InheritedResources
       # Returns finder method for instantiate resource by params[:id]
       def method_for_find
         resources_configuration[:self][:finder] || :find
+      end
+      
+      # Supplies finder with param name to search with.
+      def param_name_for_find
+        resources_configuration[:self][:param] || :id
       end
 
       # Get resource ivar based on the current resource controller.
