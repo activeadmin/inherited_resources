@@ -38,7 +38,7 @@ module InheritedResources
       # probably render a 500 error message.
       #
       def resource
-        get_resource_ivar || set_resource_ivar(end_of_association_chain.send(method_for_find, params[param_name_for_find]))
+        get_resource_ivar || set_resource_ivar(end_of_association_chain.send(method_for_find, params[param_name_for_finder]))
       end
       
       # This method is responsable for building the object on :new and :create
@@ -205,7 +205,7 @@ module InheritedResources
       end
       
       # Supplies finder with param name to search with.
-      def param_name_for_find
+      def param_name_for_finder
         resources_configuration[:self][:param] || :id
       end
 
