@@ -38,9 +38,16 @@ module InheritedResources
       # probably render a 500 error message.
       #
       def resource
-        get_resource_ivar || set_resource_ivar(end_of_association_chain.send(method_for_find, params[:id]))
+        get_resource_ivar || set_resource_ivar(end_of_association_chain.send(method_for_find, params[param_name_for_find]))
       end
-
+      
+      # Supplies finder with param name to search with.
+      # You can easily override your finder with overriding this method
+      # and #method_for_find
+      def param_name_for_find
+        :id
+      end
+      
       # This method is responsable for building the object on :new and :create
       # methods. If you overwrite it, don't forget to cache the result in an
       # instance variable.
