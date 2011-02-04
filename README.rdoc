@@ -294,7 +294,7 @@ in destroy action calculate in following order collection_url, parent_url, root_
 Example:
 
     class ButtonsConntroller < InheritedResources::Base
-      belong_to :window
+      belongs_to :window
       actions :all, :except => [:show, :index]
     end
 
