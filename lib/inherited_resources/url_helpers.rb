@@ -216,7 +216,7 @@ module InheritedResources
             given_options = given_args.extract_options!
             if given_options[:action] then
               prefix = "\#{given_options[:action]}_"
-              send prefix + "#{segments}_path", #{ivars}
+              public_send prefix + "#{segments}_path", #{ivars}
             else
               #{prefix}#{segments}_path(#{ivars})
             end
@@ -226,7 +226,7 @@ module InheritedResources
             given_options = given_args.extract_options!
             if given_options[:action] then
               prefix = "\#{given_options[:action]}_"
-              send prefix + "#{segments}_url", #{ivars}
+              public_send prefix + "#{segments}_url", #{ivars}
             else
               #{prefix}#{segments}_url(#{ivars})
             end
