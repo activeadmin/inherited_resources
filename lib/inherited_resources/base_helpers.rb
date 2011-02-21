@@ -20,7 +20,10 @@ module InheritedResources
       #   end
       #
       def collection
-        get_collection_ivar || set_collection_ivar(end_of_association_chain.scoped)
+        get_collection_ivar || begin
+          c = end_of_association_chain
+          set_collection_ivar(c.respond_to?(:scoped) ? c.scoped : c.all)
+        end
       end
 
       # This is how the resource is loaded.
