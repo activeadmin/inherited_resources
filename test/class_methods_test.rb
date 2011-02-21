@@ -64,23 +64,23 @@ class DefaultsClassMethodTest < ActiveSupport::TestCase
   end
 
   def test_defaults_are_set
-    assert Folder, FoldersController.send(:resource_class)
-    assert :folder, FoldersController.send(:resources_configuration)[:self][:instance_name]
-    assert :folders, FoldersController.send(:resources_configuration)[:self][:collection_name]
+    assert_equal Folder, FoldersController.send(:resource_class)
+    assert_equal :folder, FoldersController.send(:resources_configuration)[:self][:instance_name]
+    assert_equal :folders, FoldersController.send(:resources_configuration)[:self][:collection_name]
   end
 
   def test_defaults_can_be_overwriten
     BooksController.send(:defaults, :resource_class => String, :instance_name => 'string', :collection_name => 'strings')
 
-    assert String, BooksController.send(:resource_class)
-    assert :string, BooksController.send(:resources_configuration)[:self][:instance_name]
-    assert :strings, BooksController.send(:resources_configuration)[:self][:collection_name]
+    assert_equal String, BooksController.send(:resource_class)
+    assert_equal :string, BooksController.send(:resources_configuration)[:self][:instance_name]
+    assert_equal :strings, BooksController.send(:resources_configuration)[:self][:collection_name]
 
     BooksController.send(:defaults, :class_name => 'Fixnum', :instance_name => :fixnum, :collection_name => :fixnums)
 
-    assert String, BooksController.send(:resource_class)
-    assert :string, BooksController.send(:resources_configuration)[:self][:instance_name]
-    assert :strings, BooksController.send(:resources_configuration)[:self][:collection_name]
+    assert_equal Fixnum, BooksController.send(:resource_class)
+    assert_equal :fixnum, BooksController.send(:resources_configuration)[:self][:instance_name]
+    assert_equal :fixnums, BooksController.send(:resources_configuration)[:self][:collection_name]
   end
 
   def test_defaults_raises_invalid_key
