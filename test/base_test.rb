@@ -35,6 +35,12 @@ module UserTestHelper
       user = mock(expectations.except(:errors))
       user.stubs(:class).returns(User)
       user.stubs(:errors).returns(expectations.fetch(:errors, {}))
+      user.singleton_class.class_eval do
+        def method_missing(symbol, *arguments, &block)
+          raise NoMethodError.new('this is expected by Array#flatten') if symbol == :to_ary
+          super
+        end
+      end
       user
     end
   end
