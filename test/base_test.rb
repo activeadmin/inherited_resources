@@ -76,6 +76,12 @@ class IndexActionBaseTest < ActionController::TestCase
     assert_response :success
     assert_equal 'Generated XML', @response.body
   end
+
+  def test_scoped_is_called_only_when_available
+    User.stubs(:all).returns([mock_user])
+    get :index
+    assert_equal Array, assigns(:users).class
+  end
 end
 
 class ShowActionBaseTest < ActionController::TestCase
