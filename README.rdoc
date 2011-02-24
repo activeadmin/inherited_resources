@@ -71,6 +71,8 @@ that through the following configuration value:
 
   InheritedResources.flash_keys = [ :success, :failure ]
 
+Notice the CollectionResponder won't work with InheritedResources, as InheritedResources hardcodes the redirect path based on the current scope (like belongs to, polymorphic associations, etc).
+
 == Basic Usage
 
 To use Inherited Resources you just have to inherit (duh) it:
