@@ -30,7 +30,7 @@ class NestedBelongsToWithShallowTest < ActionController::TestCase
 
   def test_assigns_dresser_and_shelf_and_plate_on_index
     Shelf.expects(:find).with('37').twice.returns(mock_shelf)
-    Plate.expects(:all).returns([mock_plate])
+    Plate.expects(:scoped).returns([mock_plate])
     get :index, :shelf_id => '37'
 
     assert_equal mock_dresser, assigns(:dresser)
