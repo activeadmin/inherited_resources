@@ -314,6 +314,17 @@ module InheritedResources
       def as_role
          { :as => self.resources_configuration[:self][:role] }
       end
+
+      # builds nested objects for given resource
+      def build_nested_objects(object)
+        if object.class.respond_to? :nested_attributes_options
+          object.class.nested_attributes_options.keys.each do | association |
+            object.send("build_#{association}") unless object.send(association)
+          end
+        end
+        object
+      end
+
   end
 end
 

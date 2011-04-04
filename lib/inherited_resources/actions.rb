@@ -14,15 +14,16 @@ module InheritedResources
     end
     alias :show! :show
 
-    # GET /resources/new
+
+    # GET /resources/1
     def new(options={}, &block)
-      respond_with(*(with_chain(build_resource) << options), &block)
+      respond_with(*(with_chain(build_nested_objects(build_resource)) << options), &block)
     end
     alias :new! :new
 
     # GET /resources/1/edit
     def edit(options={}, &block)
-      respond_with(*(with_chain(resource) << options), &block)
+      respond_with(*(with_chain(build_nested_objects(resource)) << options), &block)
     end
     alias :edit! :edit
 
@@ -32,6 +33,8 @@ module InheritedResources
 
       if create_resource(object)
         options[:location] ||= smart_resource_url
+      else
+        build_nested_objects(object)
       end
 
       respond_with_dual_blocks(object, options, &block)
@@ -44,6 +47,8 @@ module InheritedResources
 
       if update_resource(object, resource_params)
         options[:location] ||= smart_resource_url
+      else
+        build_nested_objects(object)
       end
 
       respond_with_dual_blocks(object, options, &block)
