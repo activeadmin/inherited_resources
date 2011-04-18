@@ -42,7 +42,8 @@ module InheritedResources
     
     def self.inherited(klass)
       super
-      klass.helper :all if klass.superclass == InheritedResources::Base
+      include_all = !respond_to?(:include_all_helpers) || include_all_helpers
+      klass.helper :all if klass.superclass == InheritedResources::Base && include_all
     end
 
     inherit_resources(self)
