@@ -21,7 +21,7 @@ module InheritedResources
         extend  InheritedResources::UrlHelpers
 
         # Add at least :html mime type
-        respond_to :html
+        respond_to :html if self.mimes_for_respond_to.empty?
         self.responder = InheritedResources::Responder
 
         helper_method :resource, :collection, :resource_class, :association_chain,
