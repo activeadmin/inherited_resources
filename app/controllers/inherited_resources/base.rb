@@ -1,6 +1,3 @@
-require 'inherited_resources/blank_slate'
-require 'inherited_resources/responder'
-
 module InheritedResources
   # = Base
   #
@@ -38,12 +35,6 @@ module InheritedResources
         protected :resource_class, :parents_symbols, :resources_configuration,
           :resource_class?, :parents_symbols?, :resources_configuration?
       end
-    end
-    
-    def self.inherited(klass)
-      super
-      include_all = !respond_to?(:include_all_helpers) || include_all_helpers
-      klass.helper :all if klass.superclass == InheritedResources::Base && include_all
     end
 
     inherit_resources(self)
