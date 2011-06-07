@@ -1,10 +1,11 @@
 require 'responders'
+require 'inherited_resources/blank_slate'
+require 'inherited_resources/responder'
 
 module InheritedResources
   ACTIONS = [ :index, :show, :new, :edit, :create, :update, :destroy ] unless self.const_defined?(:ACTIONS)
 
   autoload :Actions,            'inherited_resources/actions'
-  autoload :Base,               'inherited_resources/base'
   autoload :BaseHelpers,        'inherited_resources/base_helpers'
   autoload :ShallowHelpers,     'inherited_resources/shallow_helpers'
   autoload :BelongsToHelpers,   'inherited_resources/belongs_to_helpers'
@@ -20,7 +21,7 @@ module InheritedResources
     Responders::FlashResponder.flash_keys = array
   end
 
-  class Railtie < ::Rails::Railtie
+  class Railtie < ::Rails::Engine
     config.inherited_resources = InheritedResources
     if config.respond_to?(:app_generators)
       config.app_generators.scaffold_controller = :inherited_resources_controller
