@@ -22,10 +22,6 @@ class ApplicationController < ActionController::Base; end
 $:.unshift File.expand_path(File.dirname(__FILE__) + '/../lib')
 require 'inherited_resources'
 
-# Add app base to load path
-$:.unshift File.expand_path(File.dirname(__FILE__) + '/../app/controllers')
-require 'inherited_resources/base'
-
 ActionController::Base.view_paths = File.join(File.dirname(__FILE__), 'views')
 
 InheritedResources::Routes = ActionDispatch::Routing::RouteSet.new
@@ -36,6 +32,10 @@ InheritedResources::Routes.draw do
 end
 
 ActionController::Base.send :include, InheritedResources::Routes.url_helpers
+
+# Add app base to load path
+$:.unshift File.expand_path(File.dirname(__FILE__) + '/../app/controllers')
+require 'inherited_resources/base'
 
 class ActiveSupport::TestCase
   setup do
