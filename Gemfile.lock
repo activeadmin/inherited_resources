@@ -75,7 +75,7 @@ GEM
       thor (~> 0.14.6)
     rake (0.8.7)
     rdoc (3.6.1)
-    responders (0.6.2)
+    responders (0.6.4)
     ruby-debug (0.10.3)
       columnize (>= 0.1)
       ruby-debug-base (~> 0.10.3.0)

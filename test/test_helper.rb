@@ -29,6 +29,7 @@ InheritedResources::Routes.draw do
   match ':controller(/:action(/:id))'
   match ':controller(/:action)'
   resources 'posts'
+  root :to => 'posts#index'
 end
 
 ActionController::Base.send :include, InheritedResources::Routes.url_helpers
