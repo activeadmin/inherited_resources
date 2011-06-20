@@ -1,3 +1,4 @@
+require 'rails/engine'
 require 'responders'
 require 'inherited_resources/blank_slate'
 require 'inherited_resources/responder'

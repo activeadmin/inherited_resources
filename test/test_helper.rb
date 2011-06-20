@@ -12,7 +12,6 @@ RAILS_ROOT = "anywhere"
 require "active_support"
 require "active_model"
 require "action_controller"
-require "rails/railtie"
 
 I18n.load_path << File.join(File.dirname(__FILE__), 'locales', 'en.yml')
 I18n.reload!
@@ -22,6 +21,10 @@ class ApplicationController < ActionController::Base; end
 # Add IR to load path and load the main file
 $:.unshift File.expand_path(File.dirname(__FILE__) + '/../lib')
 require 'inherited_resources'
+
+# Add app base to load path
+$:.unshift File.expand_path(File.dirname(__FILE__) + '/../app/controllers')
+require 'inherited_resources/base'
 
 ActionController::Base.view_paths = File.join(File.dirname(__FILE__), 'views')
 
