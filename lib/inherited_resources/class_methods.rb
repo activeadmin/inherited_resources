@@ -280,7 +280,7 @@ module InheritedResources
       #
       def initialize_resources_class_accessors! #:nodoc:
         # First priority is the namespaced modek, e.g. User::Group
-        self.resource_class = begin
+        self.resource_class ||= begin
           namespaced_class = self.name.sub(/Controller/, '').singularize
           namespaced_class.constantize
         rescue NameError
