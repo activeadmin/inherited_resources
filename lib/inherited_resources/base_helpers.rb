@@ -49,7 +49,7 @@ module InheritedResources
       # instance variable.
       #
       def build_resource
-        get_resource_ivar || set_resource_ivar(end_of_association_chain.send(method_for_build, resource_params))
+        get_resource_ivar || set_resource_ivar(end_of_association_chain.send(method_for_build, *resource_params))
       end
 
       # Responsible for saving the resource on :create method. Overwriting this
@@ -75,7 +75,7 @@ module InheritedResources
       #   end
       #
       def update_resource(object, attributes)
-        object.update_attributes(attributes)
+        object.update_attributes(*attributes)
       end
 
       # Handle the :destroy method for the resource. Overwrite it to call your
@@ -300,7 +300,19 @@ module InheritedResources
 
       # extract attributes from params
       def resource_params
-        params[resource_request_name] || params[resource_instance_name] || {}
+        rparams = [params[resource_request_name] || params[resource_instance_name] || {}]
+        rparams << as_role if role_given?
+        rparams
+      end
+      
+      # checking if role given
+      def role_given?
+        self.resources_configuration[:self][:role].present?
+      end
+      
+      # getting role for mass-asignment
+      def as_role
+         { :as => self.resources_configuration[:self][:role] }
       end
   end
 end
