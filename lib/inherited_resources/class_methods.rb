@@ -255,6 +255,12 @@ module InheritedResources
         end
       end
 
+      # Defines the role to use when creating or updating resource.
+      # Makes sense when using rails 3.1 mass assignment conventions
+      def with_role(role)
+        self.resources_configuration[:self][:role] = role.try(:to_sym)
+      end 
+
     private
 
       def acts_as_singleton! #:nodoc:

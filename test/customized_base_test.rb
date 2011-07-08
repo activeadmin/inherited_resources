@@ -26,7 +26,7 @@ class CarsController < InheritedResources::Base
     end
 
     def update_resource(resource, attributes)
-      resource.update_successfully(attributes)
+      resource.update_successfully(*attributes)
     end
 
     def destroy_resource(resource)
