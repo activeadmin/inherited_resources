@@ -187,6 +187,14 @@ class CreateActionBaseTest < ActionController::TestCase
     @controller.class.send(:with_role, nil)
   end
 
+  def test_expose_a_newly_create_user_when_saved_with_success_and_dynamic_role_setted
+    @controller.class.send(:with_role, lambda {|c| c.params[:user][:these] == 'params' ? :admin : nil})
+    User.expects(:new).with({'these' => 'params'}, {:as => :admin}).returns(mock_user(:save => true))
+    post :create, :user => {:these => 'params'}
+    assert_equal mock_user, assigns(:user)
+    @controller.class.send(:with_role, nil)
+  end
+
   def test_redirect_to_the_created_user
     User.stubs(:new).returns(mock_user(:save => true))
     @controller.expects(:resource_url).returns('http://test.host/')
@@ -232,6 +240,15 @@ class UpdateActionBaseTest < ActionController::TestCase
   
   def test_update_the_requested_object_when_setted_role
     @controller.class.send(:with_role, :admin)
+    User.expects(:find).with('42').returns(mock_user)
+    mock_user.expects(:update_attributes).with({'these' => 'params'}, {:as => :admin}).returns(true)
+    put :update, :id => '42', :user => {:these => 'params'}
+    assert_equal mock_user, assigns(:user)
+    @controller.class.send(:with_role, nil)
+  end
+
+  def test_update_the_requested_object_when_setted_role_dynamically
+    @controller.class.send(:with_role, lambda {|c| c.params[:user][:these] == 'params' ? :admin : nil})
     User.expects(:find).with('42').returns(mock_user)
     mock_user.expects(:update_attributes).with({'these' => 'params'}, {:as => :admin}).returns(true)
     put :update, :id => '42', :user => {:these => 'params'}

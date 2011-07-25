@@ -312,7 +312,9 @@ module InheritedResources
       
       # getting role for mass-asignment
       def as_role
-         { :as => self.resources_configuration[:self][:role] }
+        role = self.resources_configuration[:self][:role]
+        role = role.call(self) if role.respond_to?(:call)
+        { :as => role.try(:to_sym) }
       end
   end
 end
