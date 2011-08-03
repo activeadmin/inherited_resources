@@ -1,6 +1,3 @@
-require 'inherited_resources/blank_slate'
-require 'inherited_resources/responder'
-
 module InheritedResources
   # = Base
   #
@@ -21,7 +18,7 @@ module InheritedResources
         extend  InheritedResources::UrlHelpers
 
         # Add at least :html mime type
-        respond_to :html
+        respond_to :html if self.mimes_for_respond_to.empty?
         self.responder = InheritedResources::Responder
 
         helper_method :resource, :collection, :resource_class, :association_chain,
@@ -33,7 +30,8 @@ module InheritedResources
                       :parent_url, :parent_path,
                       :smart_resource_url, :smart_collection_url
 
-        self.class_attribute :resource_class,  :parents_symbols,  :resources_configuration, :instance_writer => false
+        self.class_attribute :resource_class unless self.respond_to? :resource_class
+        self.class_attribute :parents_symbols,  :resources_configuration, :instance_writer => false
 
         protected :resource_class, :parents_symbols, :resources_configuration,
           :resource_class?, :parents_symbols?, :resources_configuration?

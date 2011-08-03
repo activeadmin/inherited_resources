@@ -1,3 +1,8 @@
+# Version 1.2.2
+
+* Fix a bug in params parsing
+* Call .scoped only if it is available
+
 # Version 1.2.1
 
 * Fix a bug with namespaces

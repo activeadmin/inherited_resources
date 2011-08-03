@@ -12,7 +12,6 @@ RAILS_ROOT = "anywhere"
 require "active_support"
 require "active_model"
 require "action_controller"
-require "rails/railtie"
 
 I18n.load_path << File.join(File.dirname(__FILE__), 'locales', 'en.yml')
 I18n.reload!
@@ -30,9 +29,14 @@ InheritedResources::Routes.draw do
   match ':controller(/:action(/:id))'
   match ':controller(/:action)'
   resources 'posts'
+  root :to => 'posts#index'
 end
 
 ActionController::Base.send :include, InheritedResources::Routes.url_helpers
+
+# Add app base to load path
+$:.unshift File.expand_path(File.dirname(__FILE__) + '/../app/controllers')
+require 'inherited_resources/base'
 
 class ActiveSupport::TestCase
   setup do

@@ -104,6 +104,14 @@ class ShowActionBaseTest < ActionController::TestCase
     @request.accept = 'application/xml'
     User.expects(:find).with('42').returns(mock_user)
     mock_user.expects(:to_xml).returns("Generated XML")
+
+    # Bug in mocha does not accept strings on respond_to
+    mock_user.singleton_class.class_eval do
+      def respond_to?(method, *)
+        method == "to_xml" || super
+      end
+    end
+
     get :show, :id => '42'
     assert_response :success
     assert_equal 'Generated XML', @response.body
@@ -130,6 +138,14 @@ class NewActionBaseTest < ActionController::TestCase
     @request.accept = 'application/xml'
     User.expects(:new).returns(mock_user)
     mock_user.expects(:to_xml).returns("Generated XML")
+
+    # Bug in mocha does not accept strings on respond_to
+    mock_user.singleton_class.class_eval do
+      def respond_to?(method, *)
+        method == "to_xml" || super
+      end
+    end
+
     get :new
     assert_response :success
     assert_equal 'Generated XML', @response.body
@@ -161,6 +177,14 @@ class CreateActionBaseTest < ActionController::TestCase
     User.expects(:new).with({'these' => 'params'}).returns(mock_user(:save => true))
     post :create, :user => {:these => 'params'}
     assert_equal mock_user, assigns(:user)
+  end
+  
+  def test_expose_a_newly_create_user_when_saved_with_success_and_role_setted
+    @controller.class.send(:with_role, :admin)
+    User.expects(:new).with({'these' => 'params'}, {:as => :admin}).returns(mock_user(:save => true))
+    post :create, :user => {:these => 'params'}
+    assert_equal mock_user, assigns(:user)
+    @controller.class.send(:with_role, nil)
   end
 
   def test_redirect_to_the_created_user
@@ -205,8 +229,17 @@ class UpdateActionBaseTest < ActionController::TestCase
     put :update, :id => '42', :user => {:these => 'params'}
     assert_equal mock_user, assigns(:user)
   end
+  
+  def test_update_the_requested_object_when_setted_role
+    @controller.class.send(:with_role, :admin)
+    User.expects(:find).with('42').returns(mock_user)
+    mock_user.expects(:update_attributes).with({'these' => 'params'}, {:as => :admin}).returns(true)
+    put :update, :id => '42', :user => {:these => 'params'}
+    assert_equal mock_user, assigns(:user)
+    @controller.class.send(:with_role, nil)
+  end
 
-  def test_redirect_to_the_created_user
+  def test_redirect_to_the_updated_user
     User.stubs(:find).returns(mock_user(:update_attributes => true))
     @controller.expects(:resource_url).returns('http://test.host/')
     put :update

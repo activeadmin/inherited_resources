@@ -125,6 +125,10 @@ end
 
 # Create a TestHelper module with some helpers
 class UrlHelpersTest < ActiveSupport::TestCase
+  def mock_polymorphic(controller, route)
+    controller.expects(:url_for).with(:no=>"no")
+    controller._routes.url_helpers.expects("hash_for_#{route}").returns({:no=>"no"})    
+  end
 
   def test_url_helpers_on_simple_inherited_resource
     controller = HousesController.new
@@ -408,30 +412,30 @@ class UrlHelpersTest < ActiveSupport::TestCase
     controller.instance_variable_set('@bed', bed)
 
     [:url, :path].each do |path_or_url|
-      controller.expects("house_beds_#{path_or_url}").with(house).once
+      mock_polymorphic(controller, "house_beds_#{path_or_url}").with(house).once
       controller.send("collection_#{path_or_url}")
 
-      controller.expects("house_bed_#{path_or_url}").with(house, bed).once
+      mock_polymorphic(controller, "house_bed_#{path_or_url}").with(house, bed).once
       controller.send("resource_#{path_or_url}")
 
-      controller.expects("new_house_bed_#{path_or_url}").with(house).once
+      mock_polymorphic(controller, "new_house_bed_#{path_or_url}").with(house).once
       controller.send("new_resource_#{path_or_url}")
 
-      controller.expects("edit_house_bed_#{path_or_url}").with(house, bed).once
+      mock_polymorphic(controller, "edit_house_bed_#{path_or_url}").with(house, bed).once
       controller.send("edit_resource_#{path_or_url}")
 
-      controller.expects("house_#{path_or_url}").with(house).once
+      mock_polymorphic(controller, "house_#{path_or_url}").with(house).once
       controller.send("parent_#{path_or_url}")
 
-      controller.expects("edit_house_#{path_or_url}").with(house).once
+      mock_polymorphic(controller, "edit_house_#{path_or_url}").with(house).once
       controller.send("edit_parent_#{path_or_url}")
     end
 
     # With options
-    controller.expects("house_bed_url").with(house, bed, :page => 1).once
+    mock_polymorphic(controller, "house_bed_url").with(house, bed, :page => 1).once
     controller.send("resource_url", :page => 1)
 
-    controller.expects("house_url").with(house, :page => 1).once
+    mock_polymorphic(controller, "house_url").with(house, :page => 1).once
     controller.send("parent_url", :page => 1)
 
     # With args
@@ -462,30 +466,30 @@ class UrlHelpersTest < ActiveSupport::TestCase
     controller.instance_variable_set('@sheep', sheep)
 
     [:url, :path].each do |path_or_url|
-      controller.expects("news_sheep_index_#{path_or_url}").with(news).once
+      mock_polymorphic(controller, "news_sheep_index_#{path_or_url}").with(news).once
       controller.send("collection_#{path_or_url}")
 
-      controller.expects("news_sheep_#{path_or_url}").with(news, sheep).once
+      mock_polymorphic(controller, "news_sheep_#{path_or_url}").with(news, sheep).once
       controller.send("resource_#{path_or_url}")
 
-      controller.expects("new_news_sheep_#{path_or_url}").with(news).once
+      mock_polymorphic(controller, "new_news_sheep_#{path_or_url}").with(news).once
       controller.send("new_resource_#{path_or_url}")
 
-      controller.expects("edit_news_sheep_#{path_or_url}").with(news, sheep).once
+      mock_polymorphic(controller, "edit_news_sheep_#{path_or_url}").with(news, sheep).once
       controller.send("edit_resource_#{path_or_url}")
 
-      controller.expects("news_#{path_or_url}").with(news).once
+      mock_polymorphic(controller, "news_#{path_or_url}").with(news).once
       controller.send("parent_#{path_or_url}")
 
-      controller.expects("edit_news_#{path_or_url}").with(news).once
+      mock_polymorphic(controller, "edit_news_#{path_or_url}").with(news).once
       controller.send("edit_parent_#{path_or_url}")
     end
 
     # With options
-    controller.expects("news_sheep_url").with(news, sheep, :page => 1).once
+    mock_polymorphic(controller, "news_sheep_url").with(news, sheep, :page => 1).once
     controller.send("resource_url", :page => 1)
 
-    controller.expects("news_url").with(news, :page => 1).once
+    mock_polymorphic(controller, "news_url").with(news, :page => 1).once
     controller.send("parent_url", :page => 1)
 
     # With args
@@ -516,30 +520,30 @@ class UrlHelpersTest < ActiveSupport::TestCase
     controller.instance_variable_set('@desk', desk)
 
     [:url, :path].each do |path_or_url|
-      controller.expects("admin_house_desks_#{path_or_url}").with(house).once
+      mock_polymorphic(controller, "admin_house_desks_#{path_or_url}").with(house).once
       controller.send("collection_#{path_or_url}")
 
-      controller.expects("admin_house_desk_#{path_or_url}").with(house, desk).once
+      mock_polymorphic(controller, "admin_house_desk_#{path_or_url}").with(house, desk).once
       controller.send("resource_#{path_or_url}")
 
-      controller.expects("new_admin_house_desk_#{path_or_url}").with(house).once
+      mock_polymorphic(controller, "new_admin_house_desk_#{path_or_url}").with(house).once
       controller.send("new_resource_#{path_or_url}")
 
-      controller.expects("edit_admin_house_desk_#{path_or_url}").with(house, desk).once
+      mock_polymorphic(controller, "edit_admin_house_desk_#{path_or_url}").with(house, desk).once
       controller.send("edit_resource_#{path_or_url}")
 
-      controller.expects("admin_house_#{path_or_url}").with(house).once
+      mock_polymorphic(controller, "admin_house_#{path_or_url}").with(house).once
       controller.send("parent_#{path_or_url}")
 
-      controller.expects("edit_admin_house_#{path_or_url}").with(house).once
+      mock_polymorphic(controller, "edit_admin_house_#{path_or_url}").with(house).once
       controller.send("edit_parent_#{path_or_url}")
     end
 
     # With options
-    controller.expects("admin_house_desk_url").with(house, desk, :page => 1).once
+    mock_polymorphic(controller, "admin_house_desk_url").with(house, desk, :page => 1).once
     controller.send("resource_url", :page => 1)
 
-    controller.expects("admin_house_url").with(house, :page => 1).once
+    mock_polymorphic(controller, "admin_house_url").with(house, :page => 1).once
     controller.send("parent_url", :page => 1)
 
     # With args
@@ -572,30 +576,30 @@ class UrlHelpersTest < ActiveSupport::TestCase
     controller.instance_variable_set('@dish', dish)
 
     [:url, :path].each do |path_or_url|
-      controller.expects("house_table_dishes_#{path_or_url}").with(house, table).once
+      mock_polymorphic(controller, "house_table_dishes_#{path_or_url}").with(house, table).once
       controller.send("collection_#{path_or_url}")
 
-      controller.expects("house_table_dish_#{path_or_url}").with(house, table, dish).once
+      mock_polymorphic(controller, "house_table_dish_#{path_or_url}").with(house, table, dish).once
       controller.send("resource_#{path_or_url}")
 
-      controller.expects("new_house_table_dish_#{path_or_url}").with(house, table).once
+      mock_polymorphic(controller, "new_house_table_dish_#{path_or_url}").with(house, table).once
       controller.send("new_resource_#{path_or_url}")
 
-      controller.expects("edit_house_table_dish_#{path_or_url}").with(house, table, dish).once
+      mock_polymorphic(controller, "edit_house_table_dish_#{path_or_url}").with(house, table, dish).once
       controller.send("edit_resource_#{path_or_url}")
 
-      controller.expects("house_table_#{path_or_url}").with(house, table).once
+      mock_polymorphic(controller, "house_table_#{path_or_url}").with(house, table).once
       controller.send("parent_#{path_or_url}")
 
-      controller.expects("edit_house_table_#{path_or_url}").with(house, table).once
+      mock_polymorphic(controller, "edit_house_table_#{path_or_url}").with(house, table).once
       controller.send("edit_parent_#{path_or_url}")
     end
 
     # With options
-    controller.expects("house_table_dish_url").with(house, table, dish, :page => 1).once
+    mock_polymorphic(controller, "house_table_dish_url").with(house, table, dish, :page => 1).once
     controller.send("resource_url", :page => 1)
 
-    controller.expects("house_table_url").with(house, table, :page => 1).once
+    mock_polymorphic(controller, "house_table_url").with(house, table, :page => 1).once
     controller.send("parent_url", :page => 1)
 
     # With args
@@ -624,30 +628,30 @@ class UrlHelpersTest < ActiveSupport::TestCase
     # controller.instance_variable_set('@center', :center)
 
     [:url, :path].each do |path_or_url|
-      controller.expects("house_table_#{path_or_url}").with(house, table).once
+      mock_polymorphic(controller, "house_table_#{path_or_url}").with(house, table).once
       controller.send("collection_#{path_or_url}")
 
-      controller.expects("house_table_center_#{path_or_url}").with(house, table).once
+      mock_polymorphic(controller, "house_table_center_#{path_or_url}").with(house, table).once
       controller.send("resource_#{path_or_url}")
 
-      controller.expects("new_house_table_center_#{path_or_url}").with(house, table).once
+      mock_polymorphic(controller, "new_house_table_center_#{path_or_url}").with(house, table).once
       controller.send("new_resource_#{path_or_url}")
 
-      controller.expects("edit_house_table_center_#{path_or_url}").with(house, table).once
+      mock_polymorphic(controller, "edit_house_table_center_#{path_or_url}").with(house, table).once
       controller.send("edit_resource_#{path_or_url}")
 
-      controller.expects("house_table_#{path_or_url}").with(house, table).once
+      mock_polymorphic(controller, "house_table_#{path_or_url}").with(house, table).once
       controller.send("parent_#{path_or_url}")
 
-      controller.expects("edit_house_table_#{path_or_url}").with(house, table).once
+      mock_polymorphic(controller, "edit_house_table_#{path_or_url}").with(house, table).once
       controller.send("edit_parent_#{path_or_url}")
     end
 
     # With options
-    controller.expects("house_table_center_url").with(house, table, :page => 1)
+    mock_polymorphic(controller, "house_table_center_url").with(house, table, :page => 1)
     controller.send("resource_url", :page => 1)
 
-    controller.expects("house_table_url").with(house, table, :page => 1)
+    mock_polymorphic(controller, "house_table_url").with(house, table, :page => 1)
     controller.send("parent_url", :page => 1)
 
     # With args
@@ -669,21 +673,21 @@ class UrlHelpersTest < ActiveSupport::TestCase
     controller.instance_variable_set('@bed', bed)
 
     [:url, :path].each do |path_or_url|
-      controller.expects("beds_#{path_or_url}").with().once
+      mock_polymorphic(controller, "beds_#{path_or_url}").with().once
       controller.send("collection_#{path_or_url}")
 
-      controller.expects("bed_#{path_or_url}").with(bed).once
+      mock_polymorphic(controller, "bed_#{path_or_url}").with(bed).once
       controller.send("resource_#{path_or_url}")
 
-      controller.expects("new_bed_#{path_or_url}").with().once
+      mock_polymorphic(controller, "new_bed_#{path_or_url}").with().once
       controller.send("new_resource_#{path_or_url}")
 
-      controller.expects("edit_bed_#{path_or_url}").with(bed).once
+      mock_polymorphic(controller, "edit_bed_#{path_or_url}").with(bed).once
       controller.send("edit_resource_#{path_or_url}")
     end
 
     # With options
-    controller.expects("bed_url").with(bed, :page => 1).once
+    mock_polymorphic(controller, "bed_url").with(bed, :page => 1).once
     controller.send("resource_url", :page => 1)
 
     # With args
@@ -701,7 +705,6 @@ class UrlHelpersTest < ActiveSupport::TestCase
     controller.instance_variable_set('@mirror', :mirror)
 
     [:url, :path].each do |path_or_url|
-
       controller.expects("house_mirrors_#{path_or_url}").with(:house, {}).once
       controller.send("collection_#{path_or_url}")
 

@@ -255,6 +255,12 @@ module InheritedResources
         end
       end
 
+      # Defines the role to use when creating or updating resource.
+      # Makes sense when using rails 3.1 mass assignment conventions
+      def with_role(role)
+        self.resources_configuration[:self][:role] = role.try(:to_sym)
+      end 
+
     private
 
       def acts_as_singleton! #:nodoc:
@@ -279,15 +285,24 @@ module InheritedResources
       # Initialize resources class accessors and set their default values.
       #
       def initialize_resources_class_accessors! #:nodoc:
-        # First priority is the namespaced modek, e.g. User::Group
-        self.resource_class = begin
+        # First priority is the namespaced model, e.g. User::Group
+        self.resource_class ||= begin
           namespaced_class = self.name.sub(/Controller/, '').singularize
           namespaced_class.constantize
         rescue NameError
           nil
         end
 
-        # Second priority the camelcased c, i.e. UserGroup
+        # Second priority is the top namespace model, e.g. EngineName::Article for EngineName::Admin::ArticlesController
+        self.resource_class ||= begin
+          namespaced_classes = self.name.sub(/Controller/, '').split('::')
+          namespaced_class = [namespaced_classes.first, namespaced_classes.last].join('::').singularize
+          namespaced_class.constantize
+        rescue NameError
+          nil
+        end
+
+        # Third priority the camelcased c, i.e. UserGroup
         self.resource_class ||= begin
           camelcased_class = self.name.sub(/Controller/, '').gsub('::', '').singularize
           camelcased_class.constantize

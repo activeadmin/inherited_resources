@@ -8,18 +8,16 @@ Plus, making your controllers follow a pattern, it helps you to write better
 code by following fat models and skinny controllers convention. There are
 two screencasts available besides this README:
 
-http://railscasts.com/episodes/230-inherited-resources
-http://akitaonrails.com/2009/09/01/screencast-real-thin-restful-controllers-with-inherited-resources
+* http://railscasts.com/episodes/230-inherited-resources
+* http://akitaonrails.com/2009/09/01/screencast-real-thin-restful-controllers-with-inherited-resources
 
 == Installation
 
 === Rails 3
 
-Inherited Resources master branch is now supports Rails 3 and is NOT backward compatible.
+You can let bundler install Inherited Resources by adding this line to your application's Gemfile:
 
-You can let bundler to install Inherited Resources by adding this line to your application's Gemfile:
-
-  gem 'inherited_resources', '~> 1.2.1'
+  gem 'inherited_resources'
 
 And then execute:
 
@@ -27,13 +25,13 @@ And then execute:
 
 Or install it yourself as:
 
-  gem install inherited_resources --version=1.2.1
+  gem install inherited_resources
 
 === Rails 2.3.x
 
 If you want to use the Rails 2.3.x version, you should install:
 
-  sudo gem install inherited_resources --version=1.0.6
+  gem install inherited_resources --version=1.0.6
 
 Or checkout from the v1.0 branch:
 
@@ -516,6 +514,8 @@ check this Wiki page:
 
 https://github.com/josevalim/inherited_resources/wiki/Views-Inheritance
 
+Notice that Rails 3.1 ships with view inheritance built-in.
+
 == Some DSL
 
 For those DSL lovers, InheritedResources won't leave you alone. You can overwrite
@@ -536,9 +536,9 @@ And then you can rewrite the last example as:
 
 == Bugs and Feedback
 
-If you discover any bugs or want to drop a line, join us in the mailing list:
+If you discover any bugs, please describe it in the issues tracker, including Rails and Inherited Resources versions.
 
-http://groups.google.com/group/inherited_resources
+Questions are better handled on StackOverflow.
 
-Copyright (c) 2009 José Valim http://blog.plataformatec.com.br
+Copyright (c) 2011 José Valim http://blog.plataformatec.com.br
 See the attached MIT License.
