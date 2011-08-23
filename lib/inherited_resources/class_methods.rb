@@ -181,6 +181,7 @@ module InheritedResources
             nil
           end
 
+
           config[:collection_name] = options.delete(:collection_name) || symbol.to_s.pluralize.to_sym
           config[:instance_name]   = options.delete(:instance_name) || symbol
           config[:param]           = options.delete(:param) || :"#{symbol}_id"

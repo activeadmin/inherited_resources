@@ -90,25 +90,32 @@ module InheritedResources
       # as parent types.
       #
       def parent_type
+        unless @parent_type
+          symbols_for_association_chain
+        end
+
         @parent_type
       end
 
       def parent_class
-        parent.class if @parent_type
+        parent.class if parent_type
       end
 
       # Returns the parent object. They are also available with the instance
       # variable name: @task, @file, @note...
       #
       def parent
-        instance_variable_get("@#{@parent_type}") if @parent_type
+        if parent_type
+          p = instance_variable_get("@#{parent_type}")
+          p || instance_variable_set("@#{parent_type}", association_chain[-1])
+        end
       end
 
       # If the polymorphic association is optional, we might not have a parent.
       #
       def parent?
         if resources_configuration[:polymorphic][:optional]
-          parents_symbols.size > 1 || !@parent_type.nil?
+          parents_symbols.size > 1 || !parent_type.nil?
         else
           true
         end
