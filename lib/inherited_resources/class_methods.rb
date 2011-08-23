@@ -279,6 +279,7 @@ module InheritedResources
       end
 
       def acts_as_shallow! #:nodoc:
+        include BelongsToHelpers
         include ShallowHelpers
       end
 
