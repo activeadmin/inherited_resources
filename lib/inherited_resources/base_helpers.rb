@@ -304,16 +304,27 @@ module InheritedResources
         rparams << as_role if role_given?
         rparams
       end
-      
+
       # checking if role given
       def role_given?
         self.resources_configuration[:self][:role].present?
       end
-      
+
       # getting role for mass-asignment
       def as_role
          { :as => self.resources_configuration[:self][:role] }
       end
+
+      # builds nested objects for given resource
+      def build_nested_objects(object)
+        [*self.resources_configuration[:self][:build_nested_objects_for]].each do | association |
+          proxy_association = object.send(association)
+          proxy_association.build if proxy_association.is_a?(Array)
+          object.send("build_#{association}") if proxy_association.nil?
+        end
+        object
+      end
+
   end
 end
 

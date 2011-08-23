@@ -40,7 +40,7 @@ module InheritedResources
         options.symbolize_keys!
         options.assert_valid_keys(:resource_class, :collection_name, :instance_name,
                                   :class_name, :route_prefix, :route_collection_name,
-                                  :route_instance_name, :singleton, :finder)
+                                  :route_instance_name, :singleton, :finder, :build_nested_objects_for)
 
         self.resource_class = options[:resource_class] if options.key?(:resource_class)
         self.resource_class = options[:class_name].constantize if options.key?(:class_name)
@@ -49,6 +49,7 @@ module InheritedResources
 
         config = self.resources_configuration[:self]
         config[:route_prefix] = options.delete(:route_prefix) if options.key?(:route_prefix)
+
 
         if options.key?(:resource_class) or options.key?(:class_name)
           config[:request_name] = self.resource_class.to_s.underscore.gsub('/', '_')
@@ -259,7 +260,19 @@ module InheritedResources
       # Makes sense when using rails 3.1 mass assignment conventions
       def with_role(role)
         self.resources_configuration[:self][:role] = role.try(:to_sym)
-      end 
+      end
+
+      # Builds nested objects (model associations defined with accepts_nested_attributes_for macro),
+      #
+      #   build_nested_objects_for :producer
+      #   build_nested_objects_for :all
+      #
+      def build_nested_objects_for(*associations)
+        if associations == [:all]
+          associations = self.resource_class.nested_attributes_options.keys
+        end
+        self.resources_configuration[:self][:build_nested_objects_for] = [*associations]
+      end
 
     private
 
