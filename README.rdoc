@@ -39,15 +39,12 @@ Or checkout from the v1.0 branch:
 
 == HasScope
 
-Since Inherited Resources 1.0, has_scope is not part of its core anymore.
-However, if you are using has_scope in your application, Inherited Resources
-will handle all the required hooks automatically.
-
-has_scope gem is available at:
+Since Inherited Resources 1.0, has_scope is not part of its core anymore but
+a gem dependency. Be sure to check the documentation to see how you can use it:
 
   http://github.com/plataformatec/has_scope
 
-And can be installed as:
+And it can be installed as:
 
   gem install has_scope
 
