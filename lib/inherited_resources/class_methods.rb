@@ -178,7 +178,16 @@ module InheritedResources
             class_name.constantize
           rescue NameError => e
             raise unless e.message.include?(class_name)
-            nil
+
+            # Let's try to namespace the model with the controller's namespace
+            if self.name.match(/::/)
+              class_name = (self.name.split("::")[0..-2] + [symbol.to_s.pluralize.classify]).join("::")
+              begin
+                class_name.constantize
+              rescue NameError => e
+                nil
+              end
+            end
           end
 
           config[:collection_name] = options.delete(:collection_name) || symbol.to_s.pluralize.to_sym
