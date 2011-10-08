@@ -9,6 +9,14 @@ end
 
 class ProductsController < InheritedResources::Base
   belongs_to :brand, :category, :polymorphic => true, :optional => true
+
+  before_filter :do_parent_activity
+
+  private
+
+  def do_parent_activity
+    @parent_activity = true if parent?
+  end
 end
 
 class OptionalTest < ActionController::TestCase
@@ -33,6 +41,14 @@ class OptionalTest < ActionController::TestCase
     get :index
     assert_equal nil, assigns(:category)
     assert_equal [mock_product], assigns(:products)
+  end
+
+  def test_parent_is_available_before_finder_is_run
+    Category.expects(:find).with('37').returns(mock_category)
+    mock_category.expects(:products).returns(Product)
+    Product.expects(:scoped).returns([mock_product])
+    get :index, :category_id => '37'
+    assert_equal true, assigns(:parent_activity)
   end
 
   def test_expose_the_requested_product_with_category

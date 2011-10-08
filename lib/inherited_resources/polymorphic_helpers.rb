@@ -108,7 +108,7 @@ module InheritedResources
       #
       def parent?
         if resources_configuration[:polymorphic][:optional]
-          parents_symbols.size > 1 || !@parent_type.nil?
+          parents_symbols.size > 1 || !@parent_type.nil? || symbols_for_association_chain.any?
         else
           true
         end
