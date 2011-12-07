@@ -59,15 +59,15 @@ class NestedModelWithShallowTest < ActionController::TestCase
 
   def test_expose_a_newly_create_group_with_speciality
     Speciality.expects(:find).with('37').twice.returns(mock_speciality)
-    Plan::Group.expects(:build).with({'these' => :params}).returns(mock_group(:save => true))
-    post :create, :speciality_id => '37', :group => {:these => :params}
+    Plan::Group.expects(:build).with({'these' => 'params'}).returns(mock_group(:save => true))
+    post :create, :speciality_id => '37', :group => {'these' => 'params'}
     assert_equal mock_group, assigns(:group)
   end
 
   def test_expose_a_update_group_with_speciality
     should_find_parents
-    mock_group.expects(:update_attributes).with('these' => :params).returns(true)
-    post :update, :id => 'forty_two', :group => {:these => :params}
+    mock_group.expects(:update_attributes).with('these' => 'params').returns(true)
+    post :update, :id => 'forty_two', :group => {'these' => 'params'}
     assert_equal mock_group, assigns(:group)
   end
 

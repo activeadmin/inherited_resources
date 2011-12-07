@@ -126,8 +126,7 @@ end
 # Create a TestHelper module with some helpers
 class UrlHelpersTest < ActiveSupport::TestCase
   def mock_polymorphic(controller, route)
-    controller.expects(:url_for).with(:no=>"no")
-    controller._routes.url_helpers.expects("hash_for_#{route}").returns({:no=>"no"})    
+    controller.expects(route)
   end
 
   def test_url_helpers_on_simple_inherited_resource
