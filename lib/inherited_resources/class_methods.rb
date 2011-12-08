@@ -259,7 +259,7 @@ module InheritedResources
       # Makes sense when using rails 3.1 mass assignment conventions
       def with_role(role)
         self.resources_configuration[:self][:role] = role.try(:to_sym)
-      end 
+      end
 
     private
 
@@ -338,6 +338,12 @@ module InheritedResources
 
         # Deal with namespaced controllers
         namespaces = self.controller_path.split('/')[0..-2]
+
+        # Remove namespace if its a mountable engine
+        namespaces.delete_if do |namespace|
+          namespace.camelize.constantize.respond_to? :_railtie
+        end
+
         config[:route_prefix] = namespaces.join('_') unless namespaces.empty?
 
         # Deal with default request parameters in namespaced controllers, e.g.
