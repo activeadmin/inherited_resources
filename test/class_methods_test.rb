@@ -50,6 +50,18 @@ module Library
   end
 end
 
+module MyEngine
+  class Engine < Rails::Engine
+    isolate_namespace MyEngine
+  end
+
+  class PeopleController < InheritedResources::Base; end
+end
+
+module MyNamespace
+  class PeopleController < InheritedResources::Base; end
+end
+
 class ActionsClassMethodTest < ActionController::TestCase
   tests BooksController
 
@@ -181,5 +193,16 @@ class SpecialCasesClassMethodTest < ActionController::TestCase
     assert_equal Controller::User, Controller::UsersController.send(:resource_class)
     assert_equal Controller::User, Controller::Admin::UsersController.send(:resource_class)
     assert_equal ControllerGroup, Controller::GroupsController.send(:resource_class)
+  end
+end
+
+class MountableEngineTest < ActiveSupport::TestCase
+  def test_route_prefix_do_not_include_engine_name
+    puts MyEngine::PeopleController.send(:resources_configuration)[:self][:route_prefix]
+    assert_nil MyEngine::PeopleController.send(:resources_configuration)[:self][:route_prefix]
+  end
+
+  def test_route_prefix_present_when_parent_module_is_not_a_engine
+    assert_equal 'my_namespace', MyNamespace::PeopleController.send(:resources_configuration)[:self][:route_prefix]
   end
 end
