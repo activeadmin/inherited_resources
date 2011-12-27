@@ -23,6 +23,18 @@ class DeansController < InheritedResources::Base
   belongs_to :school
 end
 
+module MyEngine
+  class Engine < Rails::Engine
+    isolate_namespace MyEngine
+  end
+
+  class PeopleController < InheritedResources::Base; end
+end
+
+module MyNamespace
+  class PeopleController < InheritedResources::Base; end
+end
+
 class ActionsClassMethodTest < ActionController::TestCase
   tests BooksController
 
@@ -130,5 +142,16 @@ class BelongsToErrorsTest < ActiveSupport::TestCase
     end
   ensure
     DeansController.send(:parents_symbols=, [:school])
+  end
+end
+
+class MountableEngineTest < ActiveSupport::TestCase
+  def test_route_prefix_do_not_include_engine_name
+    puts MyEngine::PeopleController.send(:resources_configuration)[:self][:route_prefix]
+    assert_nil MyEngine::PeopleController.send(:resources_configuration)[:self][:route_prefix]
+  end
+
+  def test_route_prefix_present_when_parent_module_is_not_a_engine
+    assert_equal 'my_namespace', MyNamespace::PeopleController.send(:resources_configuration)[:self][:route_prefix]
   end
 end
