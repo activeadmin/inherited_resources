@@ -74,13 +74,21 @@ module InheritedResources
         instantiated_object = instance_variable_get("@#{parent_config[:instance_name]}")
         return instantiated_object if instantiated_object
 
-        parent = if chain
-          chain.send(parent_config[:collection_name])
+        if parent_config[:singleton]
+          parent = if chain
+            chain.send(parent_config[:instance_name])
+          else
+            nil
+          end
         else
-          parent_config[:parent_class]
-        end
+          parent = if chain
+            chain.send(parent_config[:collection_name])
+          else
+            parent_config[:parent_class]
+          end
 
-        parent = parent.send(parent_config[:finder], params[parent_config[:param]])
+          parent = parent.send(parent_config[:finder], params[parent_config[:param]])
+        end
 
         instance_variable_set("@#{parent_config[:instance_name]}", parent)
       end
