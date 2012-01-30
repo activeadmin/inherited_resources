@@ -174,6 +174,7 @@ module InheritedResources
     def generate_url_and_path_helpers(prefix, name, resource_segments, resource_ivars) #:nodoc:
       resource_segments, resource_ivars = handle_shallow_resource(prefix, name, resource_segments, resource_ivars)
 
+      action      = prefix.to_s if prefix.present?
       ivars       = resource_ivars.dup
       singleton   = self.resources_configuration[:self][:singleton]
       polymorphic = self.parents_symbols.include?(:polymorphic)
@@ -207,19 +208,18 @@ module InheritedResources
         ivars    = ivars.join(', ')
       end
 
-      prefix = prefix ? "#{prefix}_" : ''
-      ivars << (ivars.empty? ? 'given_options' : ', given_options')
+      ivars << (ivars.empty? ? 'given_options' : ', given_options') 
 
       class_eval <<-URL_HELPERS, __FILE__, __LINE__
         protected
-          def #{prefix}#{name}_path(*given_args)
+          def #{prefix}_#{name}_path(*given_args)
             given_options = given_args.extract_options!
-            #{prefix}#{segments}_path(#{ivars})
+            #{segments}_path(#{ivars}, :action => :#{action})
           end
 
-          def #{prefix}#{name}_url(*given_args)
+          def #{prefix}_#{name}_url(*given_args)
             given_options = given_args.extract_options!
-            #{prefix}#{segments}_url(#{ivars})
+            #{segments}_url(#{ivars}, :action => :#{action})
           end
       URL_HELPERS
     end
