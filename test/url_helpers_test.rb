@@ -668,7 +668,7 @@ class UrlHelpersTest < ActiveSupport::TestCase
     new_bed.stubs(:persisted?).returns(false)
 
     controller = BedsController.new
-    controller.instance_variable_set('@parent_type', nil)
+    controller.stubs(:parent_type).returns(nil)
     controller.instance_variable_set('@bed', bed)
 
     [:url, :path].each do |path_or_url|
