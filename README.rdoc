@@ -4,7 +4,7 @@ Inherited Resources speeds up development by making your controllers inherit
 all restful actions so you just have to focus on what is important. It makes
 your controllers more powerful and cleaner at the same time.
 
-Plus, making your controllers follow a pattern, it helps you to write better
+In addition to making your controllers follow a pattern, it helps you to write better
 code by following fat models and skinny controllers convention. There are
 two screencasts available besides this README:
 
@@ -23,7 +23,7 @@ And then execute:
 
   bundle install 
 
-Or install it yourself as:
+Or install it yourself with:
 
   gem install inherited_resources
 
@@ -57,7 +57,7 @@ how it will change your application:
 
   http://github.com/plataformatec/responders
 
-And it can be installed as:
+And it can be installed with:
 
   gem install responders
 
@@ -85,7 +85,7 @@ The next step is to define which mime types this controller provides:
       respond_to :html, :xml, :json
     end
 
-You can also specify them based per action:
+You can also specify them per action:
 
     class ProjectsController < InheritedResources::Base
       respond_to :html, :xml, :json
@@ -93,7 +93,7 @@ You can also specify them based per action:
       respond_to :iphone, :except => [ :edit, :update ]
     end
 
-For each request, it first checkes if the "controller/action.format" file is
+For each request, it first checks if the "controller/action.format" file is
 available (for example "projects/create.xml") and if it's not, it checks if
 the resource respond to :to_format (in this case, :to_xml). Otherwise returns 404.
 
@@ -129,8 +129,8 @@ call inherit_resources in your controller class scope:
 == Overwriting defaults
 
 Whenever you inherit from InheritedResources, several defaults are assumed.
-For example you can have an AccountsController to account management while the
-resource is an User:
+For example you can have an AccountsController for account management while the
+resource is a User:
 
     class AccountsController < InheritedResources::Base
       defaults :resource_class => User, :collection_name => 'users', :instance_name => 'user'
@@ -141,7 +141,7 @@ the routes used will still be accounts_url and account_url. If you plan also to
 change the routes, you can use :route_collection_name and :route_instance_name.
 
 Namespaced controllers work out of the box, but if you need to specify a
-different route prefix, you can do the following:
+different route prefix you can do the following:
 
     class Administrators::PeopleController < InheritedResources::Base
       defaults :route_prefix => 'admin'
@@ -167,10 +167,10 @@ and scopes (more about this below).
 
 InheritedResources also introduces another method called begin_of_association_chain.
 It's mostly used when you want to create resources based on the @current_user and
-you have urls like "account/projects". In such cases, you have to do
+you have urls like "account/projects". In such cases you have to do
 @current_user.projects.find or @current_user.projects.build in your actions.
 
-You can deal with it just doing:
+You can deal with it just by doing:
 
     class ProjectsController < InheritedResources::Base
       protected
@@ -204,8 +204,8 @@ why all methods have aliases. So this is equivalent:
       end
     end
 
-Even more, since most of the times when you change a create, update or destroy
-action is because you want to to change to where it redirects, a shortcut is
+Since most of the time when you change a create, update or destroy
+action you do so because you want to to change its redirect url, a shortcut is 
 provided. So you can do:
 
     class ProjectsController < InheritedResources::Base
@@ -243,7 +243,7 @@ but you don't want to create a before filter for it:
       end
     end
 
-Yes, that simple! The nice part is since you already set the instance variable
+Yes, it's that simple! The nice part is since you already set the instance variable
 @project, it will not build a project again.
 
 Before we finish this topic, we should talk about one more thing: "success/failure
@@ -262,7 +262,7 @@ Our first attempt to do this would be:
      end
     end
 
-Looks to verbose, right? We can actually do:
+Looks too verbose, right? We can actually do:
 
     class ProjectsController < InheritedResources::Base
       def update
@@ -273,7 +273,7 @@ Looks to verbose, right? We can actually do:
     end
 
 Much better! So explaining everything: when you give a block which expects one
-argument it will be executed in both scenarios: success and failure. But If you
+argument it will be executed in both scenarios: success and failure. But if you
 give a block that expects two arguments, the first will be executed only in
 success scenarios and the second in failure scenarios. You keep everything
 clean and organized inside the same action.
@@ -284,8 +284,8 @@ Although the syntax above is a nice shortcut, you won't need to do it frequently
 because (since version 1.2) Inherited Resources has smart redirects. Redirects
 in actions calculates depending on the existent controller methods.
 
-Redirects in create and update actions calculates in following order resource_url,
-collection_url, parent_url (which we are going to see later), root_url. Redirect
+Redirects in create and update actions calculates in the following order resource_url,
+collection_url, parent_url (which we are going to see later), and root_url. Redirect
 in destroy action calculate in following order collection_url, parent_url, root_url.
 
 Example:
@@ -506,7 +506,7 @@ search_resources_{path,url} url helpers.
 
 == What about views?
 
-Sometimes just DRY the controllers is not enough, if you need to DRY up your views,
+Sometimes just DRYing up the controllers is not enough. If you need to DRY up your views,
 check this Wiki page:
 
 https://github.com/josevalim/inherited_resources/wiki/Views-Inheritance
