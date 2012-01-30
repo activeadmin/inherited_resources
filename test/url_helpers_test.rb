@@ -119,6 +119,14 @@ class ButtonsController < InheritedResources::Base
   custom_actions :resource => :delete, :collection => :search
 end
 
+class PanelController < InheritedResources::Base
+  belongs_to :display, :optional => true do
+    belongs_to :window
+  end
+  
+  custom_actions :resource => :lock, :collection => :search
+end
+
 class ImageButtonsController < ButtonsController
 end
 
@@ -761,6 +769,33 @@ class UrlHelpersTest < ActiveSupport::TestCase
       controller.send("delete_resource_#{path_or_url}")
 
       controller.expects("search_window_buttons_#{path_or_url}").with(:window, {}).once
+      controller.send("search_resources_#{path_or_url}")
+    end
+  end
+  
+  def test_url_helpers_on_custom_actions_with_optional_parents
+    controller = PanelController.new
+    controller.instance_variable_set('@display', :display)
+    controller.instance_variable_set('@window', :window)
+    controller.instance_variable_set('@panel', :panel)
+    [:url, :path].each do |path_or_url|
+      controller.expects("lock_display_window_panel_#{path_or_url}").with(:panel, {}).once
+      controller.send("lock_resource_#{path_or_url}")
+
+      controller.expects("search_display_window_panels_#{path_or_url}").with(:window, {}).once
+      controller.send("search_resources_#{path_or_url}")
+    end
+  end
+  
+  def test_url_helpers_on_custom_actions_without_optional_parents
+    controller = PanelController.new
+    controller.instance_variable_set('@window', :window)
+    controller.instance_variable_set('@panel', :panel)
+    [:url, :path].each do |path_or_url|
+      controller.expects("lock_window_panel_#{path_or_url}").with(:panel, {}).once
+      controller.send("lock_resource_#{path_or_url}")
+
+      controller.expects("search_window_panels_#{path_or_url}").with(:window, {}).once
       controller.send("search_resources_#{path_or_url}")
     end
   end
