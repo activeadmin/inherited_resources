@@ -45,7 +45,21 @@ class ChairsController < InheritedResources::Base
 end
 
 class OwnersController < InheritedResources::Base
-  singleton_belongs_to :house
+  defaults :singleton => true
+  
+  belongs_to :house
+end
+
+class Fireplace
+  extend ActiveModel::Naming
+end
+class Flame
+  extend ActiveModel::Naming
+end
+class FlamesController < InheritedResources::Base
+  belongs_to :house do
+    belongs_to :fireplace, :singleton => true
+  end
 end
 
 class Bed
@@ -77,6 +91,23 @@ end
 class DishesController < InheritedResources::Base
   belongs_to :house do
     polymorphic_belongs_to :table, :kitchen
+  end
+end
+
+class Dishwasher
+  extend ActiveModel::Naming
+end
+class Fork
+  extend ActiveModel::Naming
+end
+class Spot
+  extend ActiveModel::Naming
+end
+class SpotsController < InheritedResources::Base
+  belongs_to :house do
+    belongs_to :dishwasher, :singleton => true do
+      polymorphic_belongs_to :dish, :fork
+    end
   end
 end
 
@@ -244,6 +275,38 @@ class UrlHelpersTest < ActiveSupport::TestCase
       controller.send("resource_#{path_or_url}", :arg, :page => 1)
     end
   end
+  
+  def test_url_helpers_on_singleton_belongs_to
+    controller = FlamesController.new
+    controller.instance_variable_set('@house', :house)
+    controller.instance_variable_set('@fireplace', :fireplace)
+    controller.instance_variable_set('@flame', :flame)
+
+    [:url, :path].each do |path_or_url|
+      controller.expects("house_fireplace_flames_#{path_or_url}").with(:house, {}).once
+      controller.send("collection_#{path_or_url}")
+
+      controller.expects("house_fireplace_flame_#{path_or_url}").with(:house, :flame, {}).once
+      controller.send("resource_#{path_or_url}")
+
+      controller.expects("new_house_fireplace_flame_#{path_or_url}").with(:house, {}).once
+      controller.send("new_resource_#{path_or_url}")
+
+      controller.expects("edit_house_fireplace_flame_#{path_or_url}").with(:house, :flame, {}).once
+      controller.send("edit_resource_#{path_or_url}")
+
+      controller.expects("house_fireplace_#{path_or_url}").with(:house, {}).once
+      controller.send("parent_#{path_or_url}")
+
+      controller.expects("edit_house_fireplace_#{path_or_url}").with(:house, {}).once
+      controller.send("edit_parent_#{path_or_url}")
+
+      # With options
+      # Also tests that argument sent are not used
+      controller.expects("house_fireplace_flame_#{path_or_url}").with(:house, :arg, :page => 1).once
+      controller.send("resource_#{path_or_url}", :arg, :page => 1)
+    end
+  end
 
   def test_url_helpers_on_belongs_to
     controller = TablesController.new
@@ -394,6 +457,80 @@ class UrlHelpersTest < ActiveSupport::TestCase
       # Also tests that argument sent are not used
       controller.expects("house_owner_#{path_or_url}").with(:house, :page => 1).once
       controller.send("resource_#{path_or_url}", :arg, :page => 1)
+    end
+  end
+  
+  def test_url_helpers_on_nested_polymorphic_belongs_to
+    house = House.new
+    table = Table.new
+    dish  = Dish.new
+
+    new_dish = Dish.new
+    Dish.stubs(:new).returns(new_dish)
+    new_dish.stubs(:persisted?).returns(false)
+
+    controller = DishesController.new
+    controller.instance_variable_set('@parent_type', :table)
+    controller.instance_variable_set('@house', house)
+    controller.instance_variable_set('@table', table)
+    controller.instance_variable_set('@dish', dish)
+
+    [:url, :path].each do |path_or_url|
+      mock_polymorphic(controller, "house_table_dishes_#{path_or_url}").with(house, table).once
+      controller.send("collection_#{path_or_url}")
+
+      mock_polymorphic(controller, "house_table_dish_#{path_or_url}").with(house, table, dish).once
+      controller.send("resource_#{path_or_url}")
+
+      mock_polymorphic(controller, "new_house_table_dish_#{path_or_url}").with(house, table).once
+      controller.send("new_resource_#{path_or_url}")
+
+      mock_polymorphic(controller, "edit_house_table_dish_#{path_or_url}").with(house, table, dish).once
+      controller.send("edit_resource_#{path_or_url}")
+
+      mock_polymorphic(controller, "house_table_#{path_or_url}").with(house, table).once
+      controller.send("parent_#{path_or_url}")
+
+      mock_polymorphic(controller, "edit_house_table_#{path_or_url}").with(house, table).once
+      controller.send("edit_parent_#{path_or_url}")
+    end
+  end
+
+  def test_url_helpers_on_singleton_and_polymorphic_belongs_to
+    house = House.new
+    dishwasher = Dishwasher.new
+    fork = Fork.new
+    spot = Spot.new
+
+    new_spot = Spot.new
+    Spot.stubs(:new).returns(new_spot)
+    new_spot.stubs(:persisted?).returns(false)
+    
+    controller = SpotsController.new
+    controller.instance_variable_set('@parent_type', :fork)
+    controller.instance_variable_set('@house', house)
+    controller.instance_variable_set('@dishwasher', dishwasher)
+    controller.instance_variable_set('@fork', fork)
+    controller.instance_variable_set('@spot', spot)
+
+    [:url, :path].each do |path_or_url|
+      mock_polymorphic(controller, "house_dishwasher_fork_spots_#{path_or_url}").with(house, fork).once
+      controller.send("collection_#{path_or_url}")
+
+      mock_polymorphic(controller, "house_dishwasher_fork_spot_#{path_or_url}").with(house, fork, spot).once
+      controller.send("resource_#{path_or_url}")
+
+      mock_polymorphic(controller, "new_house_dishwasher_fork_spot_#{path_or_url}").with(house, fork).once
+      controller.send("new_resource_#{path_or_url}")
+
+      mock_polymorphic(controller, "edit_house_dishwasher_fork_spot_#{path_or_url}").with(house, fork, spot).once
+      controller.send("edit_resource_#{path_or_url}")
+
+      mock_polymorphic(controller, "house_dishwasher_fork_#{path_or_url}").with(house, fork).once
+      controller.send("parent_#{path_or_url}")
+
+      mock_polymorphic(controller, "edit_house_dishwasher_fork_#{path_or_url}").with(house, fork).once
+      controller.send("edit_parent_#{path_or_url}")
     end
   end
 
