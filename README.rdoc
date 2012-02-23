@@ -126,6 +126,14 @@ call inherit_resources in your controller class scope:
       inherit_resources
     end
 
+One reason to use the "inherit_resources" macro would be to ensure that your controller never responds with the html mime-type.  InheritedResources::Base already responds_to :html, and the respond_to macro is strictly additive.  Therefore, if you want to create a controller that, for example, responds ONLY via :js, you will have write it this way:
+
+    class AccountsController < ApplicationController
+      respond_to :js
+      inherit_resources
+    end
+
+
 == Overwriting defaults
 
 Whenever you inherit from InheritedResources, several defaults are assumed.
