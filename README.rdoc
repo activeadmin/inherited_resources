@@ -1,4 +1,4 @@
-Deprecation notice: Since Rails 3 came out, I have no longer used Inherited Resources. I have
+**Deprecation notice:** Since Rails 3 came out, I have no longer used Inherited Resources. I have
 found that the responders abstraction offers the perfect balance between hiding and showing
 too much logic. That said, I suggest developers to make use of the [responders gem](https://github.com/plataformatec/responders) and
 no longer use Inherited Resources.
