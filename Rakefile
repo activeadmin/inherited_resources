@@ -1,8 +1,7 @@
 # encoding: UTF-8
 
-require 'rake'
 require 'rake/testtask'
-require 'rake/rdoctask'
+require 'rdoc/task'
 
 desc 'Run tests for InheritedResources.'
 Rake::TestTask.new(:test) do |t|
