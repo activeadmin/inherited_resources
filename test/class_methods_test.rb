@@ -27,7 +27,7 @@ class ActionsClassMethodTest < ActionController::TestCase
   tests BooksController
 
   def test_cannot_render_actions
-    assert_raise ActionController::UnknownAction do
+    assert_raise AbstractController::ActionNotFound do
       get :new
     end
   end
