@@ -40,7 +40,7 @@ module InheritedResources
         options.symbolize_keys!
         options.assert_valid_keys(:resource_class, :collection_name, :instance_name,
                                   :class_name, :route_prefix, :route_collection_name,
-                                  :route_instance_name, :singleton, :finder)
+                                  :route_instance_name, :singleton, :finder, :param)
 
         self.resource_class = options[:resource_class] if options.key?(:resource_class)
         self.resource_class = options[:class_name].constantize if options.key?(:class_name)
