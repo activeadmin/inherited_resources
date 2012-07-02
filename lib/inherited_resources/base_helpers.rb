@@ -298,8 +298,13 @@ module InheritedResources
         url ||= root_url rescue nil
       end
 
-      # extract attributes from params
+      # memoize the extraction of attributes from params
       def resource_params
+        @resource_params ||= build_resource_params
+      end
+
+      # extract attributes from params
+      def build_resource_params
         rparams = [params[resource_request_name] || params[resource_instance_name] || {}]
         rparams << as_role if role_given?
         rparams
