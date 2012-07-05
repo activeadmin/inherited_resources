@@ -5,6 +5,7 @@ Bundler.setup
 
 require 'test/unit'
 require 'mocha'
+begin; require 'turn/autorun'; rescue LoadError; end
 
 ENV["RAILS_ENV"] = "test"
 RAILS_ROOT = "anywhere"
