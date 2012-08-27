@@ -178,13 +178,21 @@ class CreateActionBaseTest < ActionController::TestCase
     post :create, :user => {:these => 'params'}
     assert_equal mock_user, assigns(:user)
   end
-  
+
   def test_expose_a_newly_create_user_when_saved_with_success_and_role_setted
     @controller.class.send(:with_role, :admin)
     User.expects(:new).with({'these' => 'params'}, {:as => :admin}).returns(mock_user(:save => true))
     post :create, :user => {:these => 'params'}
     assert_equal mock_user, assigns(:user)
     @controller.class.send(:with_role, nil)
+  end
+
+  def test_expose_a_newly_create_user_when_saved_with_success_and_without_protection_setted
+   @controller.class.send(:without_protection, true)
+    User.expects(:new).with({'these' => 'params'}, {:without_protection => true}).returns(mock_user(:save => true))
+    post :create, :user => {:these => 'params'}
+    assert_equal mock_user, assigns(:user)
+    @controller.class.send(:without_protection, nil)
   end
 
   def test_redirect_to_the_created_user
@@ -229,7 +237,7 @@ class UpdateActionBaseTest < ActionController::TestCase
     put :update, :id => '42', :user => {:these => 'params'}
     assert_equal mock_user, assigns(:user)
   end
-  
+
   def test_update_the_requested_object_when_setted_role
     @controller.class.send(:with_role, :admin)
     User.expects(:find).with('42').returns(mock_user)
@@ -237,6 +245,15 @@ class UpdateActionBaseTest < ActionController::TestCase
     put :update, :id => '42', :user => {:these => 'params'}
     assert_equal mock_user, assigns(:user)
     @controller.class.send(:with_role, nil)
+  end
+
+  def test_update_the_requested_object_when_setted_without_protection
+    @controller.class.send(:without_protection, true)
+    User.expects(:find).with('42').returns(mock_user)
+    mock_user.expects(:update_attributes).with({'these' => 'params'}, {:without_protection => true}).returns(true)
+    put :update, :id => '42', :user => {:these => 'params'}
+    assert_equal mock_user, assigns(:user)
+    @controller.class.send(:without_protection, nil)
   end
 
   def test_redirect_to_the_updated_user

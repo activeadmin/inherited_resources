@@ -306,18 +306,31 @@ module InheritedResources
       # extract attributes from params
       def build_resource_params
         rparams = [params[resource_request_name] || params[resource_instance_name] || {}]
-        rparams << as_role if role_given?
+        if without_protection_given?
+          rparams << without_protection
+        else
+          rparams << as_role if role_given?
+        end
+
         rparams
       end
-      
+
       # checking if role given
       def role_given?
         self.resources_configuration[:self][:role].present?
       end
-      
+
       # getting role for mass-asignment
       def as_role
-         { :as => self.resources_configuration[:self][:role] }
+        { :as => self.resources_configuration[:self][:role] }
+      end
+
+      def without_protection_given?
+        self.resources_configuration[:self][:without_protection].present?
+      end
+
+      def without_protection
+        { :without_protection => self.resources_configuration[:self][:without_protection] }
       end
   end
 end
