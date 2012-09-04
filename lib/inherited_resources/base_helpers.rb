@@ -305,7 +305,7 @@ module InheritedResources
 
       # extract attributes from params
       def build_resource_params
-        rparams = [params[resource_request_name] || params[resource_instance_name] || {}]
+        rparams = [whitelisted_params || params[resource_request_name] || params[resource_instance_name] || {}]
         if without_protection_given?
           rparams << without_protection
         else
@@ -313,6 +313,11 @@ module InheritedResources
         end
 
         rparams
+      end
+
+      def whitelisted_params
+        whitelist_method = :"#{ resource_request_name }_params"
+        respond_to?(whitelist_method) && self.send(whitelist_method)
       end
 
       # checking if role given

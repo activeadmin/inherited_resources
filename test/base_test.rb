@@ -18,6 +18,10 @@ protected
     @scopes_applied = true
     object
   end
+
+  def user_params
+    (params[:user] || {}).slice(:these)
+  end
 end
 
 module UserTestHelper
@@ -193,6 +197,12 @@ class CreateActionBaseTest < ActionController::TestCase
     post :create, :user => {:these => 'params'}
     assert_equal mock_user, assigns(:user)
     @controller.class.send(:without_protection, nil)
+  end
+
+  def test_supports_convention_for_constructing_whitelisted_resource_params
+    User.expects(:new).with({'these' => 'params'}).returns(mock_user(:save => true))
+    post :create, :user => {:these => 'params', :those => 'params'}
+    assert_equal mock_user, assigns(:user)
   end
 
   def test_redirect_to_the_created_user
