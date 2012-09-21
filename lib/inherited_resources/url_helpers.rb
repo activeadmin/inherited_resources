@@ -47,7 +47,8 @@ module InheritedResources
       resource_segments, resource_ivars = [], []
       resource_config = self.resources_configuration[:self]
 
-      singleton   = self.resources_configuration[:self][:singleton]
+      singleton   = resource_config[:singleton]
+      uncountable = !singleton && resource_config[:route_collection_name] == resource_config[:route_instance_name]
       polymorphic = self.parents_symbols.include?(:polymorphic)
 
       # Add route_prefix if any.
@@ -123,9 +124,8 @@ module InheritedResources
       end
 
       # If route is uncountable then add "_index" suffix to collection index route name
-      #
-      if !singleton && resource_config[:route_collection_name] == resource_config[:route_instance_name]
-        collection_segments << :index
+      if uncountable
+        collection_segments << :"#{collection_segments.pop}_index"
       end
 
       generate_url_and_path_helpers nil,   :collection, collection_segments, collection_ivars
