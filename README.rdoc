@@ -360,7 +360,7 @@ If you need to configure any of these belongs to, you can nest them using blocks
 
 Warning: calling several belongs_to is the same as nesting them:
 
-    class CommentsConroller < InheritedResources::Base
+    class CommentsController < InheritedResources::Base
       belongs_to :project
       belongs_to :task
     end
