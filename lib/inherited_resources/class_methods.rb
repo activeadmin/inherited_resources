@@ -62,7 +62,7 @@ module InheritedResources
         create_resources_url_helpers!
       end
 
-      # Defines wich actions to keep from the inherited controller.
+      # Defines wich actions will be inherited from the inherited controller.
       # Syntax is borrowed from resource_controller.
       #
       #   actions :index, :show, :edit
