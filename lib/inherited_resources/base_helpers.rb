@@ -67,7 +67,7 @@ module InheritedResources
       end
 
       # Responsible for updating the resource in :update method. This allow you
-      # to handle how the resource is gona be updated, let's say in a different
+      # to handle how the resource is going to be updated, let's say in a different
       # way then the usual :update_attributes:
       #
       #   def update_resource(object, attributes)
