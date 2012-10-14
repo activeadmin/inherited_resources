@@ -19,6 +19,8 @@ protected
     object
   end
 
+private
+
   def user_params
     (params[:user] || {}).slice(:these)
   end

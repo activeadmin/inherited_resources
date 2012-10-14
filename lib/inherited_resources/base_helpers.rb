@@ -317,7 +317,7 @@ module InheritedResources
 
       def whitelisted_params
         whitelist_method = :"#{ resource_request_name }_params"
-        respond_to?(whitelist_method) && self.send(whitelist_method)
+        respond_to?(whitelist_method, true) && self.send(whitelist_method)
       end
 
       # checking if role given
