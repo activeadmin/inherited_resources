@@ -62,6 +62,13 @@ class SheepController < InheritedResources::Base
   belongs_to :news, :table, :polymorphic => true
 end
 
+class Fish
+  extend ActiveModel::Naming
+end
+class FishController < InheritedResources::Base
+  belongs_to :bed, :shallow => true
+end
+
 class Desk
   extend ActiveModel::Naming
 end
@@ -503,6 +510,39 @@ class UrlHelpersTest < ActiveSupport::TestCase
 
     controller.expects("polymorphic_url").with([:arg], {}).once
     controller.send("parent_url", :arg)
+  end
+
+  def test_url_helpers_on_shallow_belongs_to_using_uncountable
+    fish = Fish.new
+    bed  = Bed.new
+
+    new_fish = Fish.new
+    new_fish.stubs(:persisted?).returns(false)
+    Sheep.stubs(:new).returns(new_fish)
+
+    controller = FishController.new
+    controller.instance_variable_set('@bed', bed)
+    controller.instance_variable_set('@fish', fish)
+
+    [:url, :path].each do |path_or_url|
+      controller.expects("bed_fish_index_#{path_or_url}").with(bed, {}).once
+      controller.send("collection_#{path_or_url}")
+
+      controller.expects("fish_#{path_or_url}").with(fish, {}).once
+      controller.send("resource_#{path_or_url}")
+
+      controller.expects("new_bed_fish_#{path_or_url}").with(bed, {}).once
+      controller.send("new_resource_#{path_or_url}")
+
+      controller.expects("edit_fish_#{path_or_url}").with(fish, {}).once
+      controller.send("edit_resource_#{path_or_url}")
+
+      controller.expects("bed_#{path_or_url}").with(bed, {}).once
+      controller.send("parent_#{path_or_url}")
+
+      controller.expects("edit_bed_#{path_or_url}").with(bed, {}).once
+      controller.send("edit_parent_#{path_or_url}")
+    end
   end
 
   def test_url_helpers_on_namespaced_polymorphic_belongs_to
