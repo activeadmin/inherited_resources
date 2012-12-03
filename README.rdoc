@@ -218,7 +218,7 @@ provided. So you can do:
 
     class ProjectsController < InheritedResources::Base
       def destroy
-        destroy!{ root_url }
+        destroy! { root_url }
       end
     end
 
