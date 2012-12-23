@@ -218,7 +218,7 @@ provided. So you can do:
 
     class ProjectsController < InheritedResources::Base
       def destroy
-        destroy!{ root_url }
+        destroy! { root_url }
       end
     end
 
@@ -360,7 +360,7 @@ If you need to configure any of these belongs to, you can nest them using blocks
 
 Warning: calling several belongs_to is the same as nesting them:
 
-    class CommentsConroller < InheritedResources::Base
+    class CommentsController < InheritedResources::Base
       belongs_to :project
       belongs_to :task
     end
@@ -545,5 +545,5 @@ If you discover any bugs, please describe it in the issues tracker, including Ra
 
 Questions are better handled on StackOverflow.
 
-Copyright (c) 2011 José Valim http://blog.plataformatec.com.br
+Copyright (c) 2009-2012 José Valim http://blog.plataformatec.com.br
 See the attached MIT License.

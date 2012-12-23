@@ -62,7 +62,7 @@ module InheritedResources
         create_resources_url_helpers!
       end
 
-      # Defines wich actions to keep from the inherited controller.
+      # Defines wich actions will be inherited from the inherited controller.
       # Syntax is borrowed from resource_controller.
       #
       #   actions :index, :show, :edit
@@ -260,7 +260,11 @@ module InheritedResources
       # Makes sense when using rails 3.1 mass assignment conventions
       def with_role(role)
         self.resources_configuration[:self][:role] = role.try(:to_sym)
-      end 
+      end
+
+      def without_protection(flag)
+        self.resources_configuration[:self][:without_protection] = flag
+      end
 
     private
 
