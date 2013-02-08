@@ -82,6 +82,13 @@ class IndexActionBaseTest < ActionController::TestCase
     get :index
     assert_equal Array, assigns(:users).class
   end
+
+  def test_render_the_requested_users
+    user1, user2 = mock_user, mock_user
+    User.expects(:find).with(['1', '2']).returns([user1, user2])
+    get :index, :ids => ['1', '2']
+    assert_equal [user1, user2], assigns(:users)
+  end
 end
 
 class ShowActionBaseTest < ActionController::TestCase
