@@ -22,7 +22,9 @@ module InheritedResources
       def collection
         get_collection_ivar || begin
           c = end_of_association_chain
-          set_collection_ivar(c.respond_to?(:scoped) ? c.scoped : c.all)
+          coll = c.respond_to?(:scoped) ? c.scoped : c
+          coll = params[:ids] ? coll.find(params[:ids]) : coll.all
+          set_collection_ivar(coll)
         end
       end
 
