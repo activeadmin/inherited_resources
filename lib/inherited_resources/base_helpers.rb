@@ -292,7 +292,7 @@ module InheritedResources
         if respond_to? :index
           url ||= collection_url rescue nil
         end
-        if respond_to? :parent
+        if respond_to? :parent, true
           url ||= parent_url rescue nil
         end
         url ||= root_url rescue nil
