@@ -267,7 +267,7 @@ module InheritedResources
       # It's extend by HasScopeHelpers.
       #
       def apply_scopes_if_available(target_object) #:nodoc:
-        respond_to?(:apply_scopes) ? apply_scopes(target_object) : target_object
+        respond_to?(:apply_scopes, true) ? apply_scopes(target_object) : target_object
       end
 
       # Symbols chain in base helpers return nothing. This is later overwriten
