@@ -305,7 +305,8 @@ module InheritedResources
 
       # extract attributes from params
       def build_resource_params
-        rparams = [params[resource_request_name] || params[resource_instance_name] || {}]
+        parameters = respond_to?(:permitted_params) ? permitted_params : params
+        rparams = [parameters[resource_request_name] || parameters[resource_instance_name] || {}]
         if without_protection_given?
           rparams << without_protection
         else
