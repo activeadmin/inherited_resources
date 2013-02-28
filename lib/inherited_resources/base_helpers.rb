@@ -267,7 +267,7 @@ module InheritedResources
       # It's extend by HasScopeHelpers.
       #
       def apply_scopes_if_available(target_object) #:nodoc:
-        respond_to?(:apply_scopes) ? apply_scopes(target_object) : target_object
+        respond_to?(:apply_scopes, true) ? apply_scopes(target_object) : target_object
       end
 
       # Symbols chain in base helpers return nothing. This is later overwriten
@@ -292,7 +292,7 @@ module InheritedResources
         if respond_to? :index
           url ||= collection_url rescue nil
         end
-        if respond_to? :parent
+        if respond_to? :parent, true
           url ||= parent_url rescue nil
         end
         url ||= root_url rescue nil
