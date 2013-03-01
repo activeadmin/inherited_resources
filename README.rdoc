@@ -21,7 +21,7 @@ You can let bundler install Inherited Resources by adding this line to your appl
 
 And then execute:
 
-  bundle install 
+  bundle install
 
 Or install it yourself with:
 
