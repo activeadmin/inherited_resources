@@ -13,7 +13,7 @@ two screencasts available besides this README:
 
 == Installation
 
-=== Rails 3
+=== Rails 3 and Rails 4
 
 You can let bundler install Inherited Resources by adding this line to your application's Gemfile:
 
@@ -21,7 +21,7 @@ You can let bundler install Inherited Resources by adding this line to your appl
 
 And then execute:
 
-  bundle install 
+  bundle install
 
 Or install it yourself with:
 
