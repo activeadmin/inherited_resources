@@ -467,7 +467,7 @@ And they handle everything for you. :)
     resource_url(comment)      # => /posts/1/comments/#{comment.to_param}
     new_resource_url           # => /posts/1/comments/new
     edit_resource_url          # => /posts/1/comments/#{@comment.to_param}/edit
-    edit_resource_url(comment) #=>  /posts/1/comments/#{comment.to_param}/edit
+    edit_resource_url(comment) # => /posts/1/comments/#{comment.to_param}/edit
     collection_url             # => /posts/1/comments
     parent_url                 # => /posts/1
 
