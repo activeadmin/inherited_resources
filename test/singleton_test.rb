@@ -13,7 +13,8 @@ class Manager
 end
 
 class ManagersController < InheritedResources::Base
-  belongs_to :store, :singleton => true
+  defaults :singleton => true
+  belongs_to :store
 end
 
 class SingletonTest < ActionController::TestCase

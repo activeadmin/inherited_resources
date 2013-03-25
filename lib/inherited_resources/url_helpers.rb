@@ -69,8 +69,14 @@ module InheritedResources
           resource_ivars << :parent
         else
           config = self.resources_configuration[symbol]
-          resource_segments << config[:route_name]
-          resource_ivars    << :"@#{config[:instance_name]}"
+          if config[:singleton] && polymorphic
+            resource_ivars << config[:instance_name].inspect
+          else
+            resource_segments << config[:route_name]
+          end
+          if !config[:singleton]
+            resource_ivars    << :"@#{config[:instance_name]}"
+          end
         end
       end
 
