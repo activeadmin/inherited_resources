@@ -1,8 +1,16 @@
+# Version 1.4.0
+
+* Supports Ruby 2.0.0
+* Added support for the strong_parameters gem. See the README for more
+* Added the ability to pass without_protection when creating/updating
+* Fixed multi-level nested singletons
+* Correct paths now generated for uncountable shallow resources
+
 # Version 1.3.1
 
 * Fix polymorphic_belongs_to to get the parent
-* Addes support for Rails 3.2
-* Addes support to responders >= 0.6.0
+* Added support for Rails 3.2
+* Added support to responders >= 0.6.0
 
 # Version 1.3.0
 
@@ -41,7 +49,7 @@
   To install it, please do:
 
     sudo gem install has_scope
-  
+
 # Version 0.9
 
 * Allow dual blocks in destroy;
