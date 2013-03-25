@@ -145,13 +145,11 @@ module InheritedResources
 
         optional    = options.delete(:optional)
         shallow     = options.delete(:shallow)
-        singleton   = options.delete(:singleton)
         polymorphic = options.delete(:polymorphic)
         finder      = options.delete(:finder)
 
         include BelongsToHelpers if self.parents_symbols.empty?
 
-        acts_as_singleton!   if singleton
         acts_as_polymorphic! if polymorphic || optional
         acts_as_shallow!     if shallow
 
@@ -181,7 +179,7 @@ module InheritedResources
             nil
           end
 
-
+          config[:singleton]       = options.delete(:singleton) || false
           config[:collection_name] = options.delete(:collection_name) || symbol.to_s.pluralize.to_sym
           config[:instance_name]   = options.delete(:instance_name) || symbol
           config[:param]           = options.delete(:param) || :"#{symbol}_id"

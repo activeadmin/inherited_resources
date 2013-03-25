@@ -126,8 +126,16 @@ module InheritedResources
       # current resource).
       #
       def association_chain
-        @association_chain ||=
-          symbols_for_association_chain.inject([begin_of_association_chain]) do |chain, symbol|
+        return @association_chain if @association_chain
+
+        symbol_chain = if resources_configuration[:self][:singleton]
+          symbols_for_association_chain.reverse
+        else
+          symbols_for_association_chain
+        end
+
+        @association_chain =
+          symbol_chain.inject([begin_of_association_chain]) do |chain, symbol|
             chain << evaluate_parent(symbol, resources_configuration[symbol], chain.last)
           end.compact.freeze
       end
@@ -164,7 +172,6 @@ module InheritedResources
 
       # This methods gets your begin_of_association_chain, join it with your
       # parents chain and returns the scoped association.
-      #
       def end_of_association_chain #:nodoc:
         if chain = association_chain.last
           if method_for_association_chain
