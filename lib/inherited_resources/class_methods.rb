@@ -356,6 +356,7 @@ module InheritedResources
       end
 
       def create_custom_action(resource_or_collection, action)
+        return if method_defined?(action)
         class_eval <<-CUSTOM_ACTION, __FILE__, __LINE__
           def #{action}(options={}, &block)
             respond_with(*(with_chain(#{resource_or_collection}) << options), &block)
