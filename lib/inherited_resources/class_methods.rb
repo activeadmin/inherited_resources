@@ -154,7 +154,7 @@ module InheritedResources
         acts_as_shallow!     if shallow
 
         raise ArgumentError, 'You have to give me at least one association name.' if symbols.empty?
-        raise ArgumentError, 'You cannot define multiple associations with options: #{options.keys.inspect} to belongs to.' unless symbols.size == 1 || options.empty?
+        raise ArgumentError, "You cannot define multiple associations with options: #{options.keys.inspect} to belongs to." unless symbols.size == 1 || options.empty?
 
         symbols.each do |symbol|
           symbol = symbol.to_sym
