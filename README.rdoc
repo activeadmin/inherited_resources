@@ -433,13 +433,26 @@ Now we are going to add manager to projects. We say that Manager is a singleton
 resource because a Project has just one manager. You should declare it as
 has_one (or resource) in your routes.
 
-To declare an association as singleton, you just have to give the :singleton
-option.
+To declare an resource of current controller  as singleton, you just have to give the :singleton
+option in defaults.
 
     class ManagersController < InheritedResources::Base
-      belongs_to :project, :singleton => true
+      defaults :singleton => true
+      belongs_to :project
       # singleton_belongs_to :project
     end
+
+So now you can use urls like /projects/1/manager
+
+In the case of nested resources (when some of the can be singletons) you can declare it separately
+
+    class WorkersController < InheritedResources::Base
+      #defaults :singleton => true #if you have only single worker
+      belongs_to :project
+      belongs_to :manager, :singleton => true
+    end
+
+This is correspond urls like /projects/1/manager/workers/1
 
 It will deal with everything again and hide the action :index from you.
 
