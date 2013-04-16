@@ -267,7 +267,7 @@ Our first attempt to do this would be:
             format.html { redirect_to project_url(@project) }
           end
         end
-     end
+      end
     end
 
 Looks too verbose, right? We can actually do:
