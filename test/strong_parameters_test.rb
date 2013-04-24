@@ -12,6 +12,9 @@ class StrongParametersTest < ActionController::TestCase
     @controller = WidgetsController.new
     @controller.stubs(:widget_url).returns("/")
     @controller.stubs(:permitted_params).returns(:widget => {:permitted => 'param'})
+    class << @controller
+      private :permitted_params
+    end
   end
 
   def test_permitted_params_from_new
