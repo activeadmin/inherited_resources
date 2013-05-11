@@ -32,7 +32,7 @@ module InheritedResources
       #
       # * <tt>:finder</tt> - Specifies which method should be called to instantiate the resource.
       #
-      #     defaults :project, :finder => :find_by_slug
+      #     defaults :finder => :find_by_slug
       #
       def defaults(options)
         raise ArgumentError, 'Class method :defaults expects a hash of options.' unless options.is_a? Hash
