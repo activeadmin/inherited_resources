@@ -554,13 +554,30 @@ And then you can rewrite the last example as:
 
 == Strong Parameters
 
-If your controller defines a method named permitted_params, Inherited Resources will call it where it would normally call params. This allows for easy integration with the strong_parameters gem:
+If your controller defines a method named permitted_params, Inherited Resources
+will call it where it would normally call params. This allows for easy
+integration with the strong_parameters gem:
 
     def permitted_params
       params.permit(:widget => [:permitted_field, :other_permitted_field])
     end
 
-Note that this doesn't work if you use strong_parameters' require method instead of permit, because whereas permit returns the entire sanitized parameter hash, require returns only the sanitized params below the parameter you required.
+Note that this doesn't work if you use strong_parameters' require method
+instead of permit, because whereas permit returns the entire sanitized
+parameter hash, require returns only the sanitized params below the parameter
+you required.
+
+If you need params.require you can do it like this:
+
+    def permitted_params
+      {:widget => params.require(:widget => [:permitted_field, :other_permitted_field])}
+    end
+
+Or better yet just override build_resource_params directly:
+
+    def build_resource_params
+      [params.require(:widget => [:permitted_field, :other_permitted_field])]
+    end
 
 == Bugs and Feedback
 
