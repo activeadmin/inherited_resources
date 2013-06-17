@@ -22,7 +22,7 @@ module InheritedResources
       def collection
         get_collection_ivar || begin
           c = end_of_association_chain
-          use_scoped = c.respond_to?(:scoped) && !ActiveRecord.const_defined?(:DeprecatedFinders)
+          use_scoped = c.respond_to?(:scoped) && !defined?(ActiveRecord::DeprecatedFinders)
           set_collection_ivar(use_scoped ? c.scoped : c.all)
         end
       end
