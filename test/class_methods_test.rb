@@ -23,6 +23,20 @@ class DeansController < InheritedResources::Base
   belongs_to :school
 end
 
+module SubFolderModule
+  def view; return 'view_action' end
+end
+
+class SubFolderAController < FoldersController
+  include SubFolderModule
+  custom_actions :resource => [ :view ]
+end
+
+class SubFolderBController < FoldersController
+  include SubFolderModule
+  custom_actions :resource => [ :view ]
+end
+
 class ActionsClassMethodTest < ActionController::TestCase
   tests BooksController
 
@@ -93,6 +107,13 @@ class DefaultsClassMethodTest < ActiveSupport::TestCase
     BooksController.expects(:create_resources_url_helpers!).returns(true).once
     BooksController.send(:defaults, :instance_name => 'string', :collection_name => 'strings')
   end
+
+  def test_actions_are_refactorized_in_module
+    assert_equal 'view_action', SubFolderAController.new.view
+    assert_equal 'view_action', SubFolderBController.new.view
+  end
+
+
 end
 
 class BelongsToErrorsTest < ActiveSupport::TestCase
