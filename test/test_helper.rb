@@ -27,8 +27,8 @@ ActionController::Base.view_paths = File.join(File.dirname(__FILE__), 'views')
 
 InheritedResources::Routes = ActionDispatch::Routing::RouteSet.new
 InheritedResources::Routes.draw do
-  match ':controller(/:action(/:id))'
-  match ':controller(/:action)'
+  get ':controller(/:action(/:id))'
+  get ':controller(/:action)'
   resources 'posts'
   root :to => 'posts#index'
 end
