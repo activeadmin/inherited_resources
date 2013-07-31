@@ -1,4 +1,4 @@
-# Version 1.4.1 (unreleased)
+# Version 1.4.1
 
 * Supports Rails 4
 * Improved compatability with strong params.
