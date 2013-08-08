@@ -2,6 +2,12 @@ require File.expand_path('test_helper', File.dirname(__FILE__))
 
 class Book; end
 class Folder; end
+class Song;
+  class << self
+    def method_missing(*args)
+    end
+  end
+end
 
 class BooksController < InheritedResources::Base
   custom_actions :collection => :search, :resource => [:delete]
@@ -22,6 +28,20 @@ end
 class DeansController < InheritedResources::Base
   belongs_to :school
 end
+
+class SongsController < InheritedResources::Base
+  custom_actions :collection => :search, :resource => [:delete]
+  actions :index, :show
+  before_filter :if => :collection_action? do
+    @collection_action = true
+    @resource_action = false
+  end
+  before_filter :if => :resource_action? do
+    @resource_action = true
+    @collection_action = false
+  end
+end
+
 
 class ActionsClassMethodTest < ActionController::TestCase
   tests BooksController
@@ -55,7 +75,34 @@ class ActionsClassMethodTest < ActionController::TestCase
       assert action_methods.include? action
     end
   end
+end
 
+class ActionPredicatesTest < ActionController::TestCase
+  tests SongsController
+  def test_actions
+    resource_actions = SongsController.send(:resource_actions).map(&:to_sym)
+    assert_equal 2, resource_actions.size
+    [:show, :delete].each do |action|
+      assert resource_actions.include?(action)
+    end
+    collection_actions = SongsController.send(:collection_actions).map(&:to_sym)
+    assert_equal 2, collection_actions.size
+    [:index, :search].each do |action|
+      assert collection_actions.include?(action)
+    end
+  end
+  def test_action_type_predicates
+    [:index, :search].each do |action|
+      get action
+      assert_equal true, assigns(:collection_action)
+      assert_equal false, assigns(:resource_action)
+    end
+    [:show, :delete].each do |action|
+      get action
+      assert_equal false, assigns(:collection_action)
+      assert_equal true, assigns(:resource_action)
+    end
+  end
 end
 
 class DefaultsClassMethodTest < ActiveSupport::TestCase

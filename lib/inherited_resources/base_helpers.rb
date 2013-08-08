@@ -346,6 +346,14 @@ module InheritedResources
       def without_protection
         { :without_protection => self.resources_configuration[:self][:without_protection] }
       end
+
+      def resource_action?
+        self.class.send(:resource_actions).include? params[:action].to_sym
+      end
+
+      def collection_action?
+        self.class.send(:collection_actions).include? params[:action].to_sym
+      end
   end
 end
 
