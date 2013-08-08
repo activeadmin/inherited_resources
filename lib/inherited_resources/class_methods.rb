@@ -75,6 +75,7 @@ module InheritedResources
         actions_to_remove = Array(options[:except])
         actions_to_remove += ACTIONS - actions_to_keep.map { |a| a.to_sym } unless actions_to_keep.first == :all
         actions_to_remove.map! { |a| a.to_sym }.uniq!
+        self.resources_configuration[:self][:removed_actions] = actions_to_remove
         (instance_methods.map { |m| m.to_sym } & actions_to_remove).each do |action|
           undef_method action, "#{action}!"
         end
@@ -252,6 +253,24 @@ module InheritedResources
         [*options[:collection]].each do | action |
           helper_method "#{action}_resources_path", "#{action}_resources_url"
         end
+      end
+
+      # list of resource actions
+      def resource_actions
+        [*self.resources_configuration[:self][:custom_actions][:resource]] + basic_resource_actions
+      end
+
+      # list of collection actions
+      def collection_actions
+        [*self.resources_configuration[:self][:custom_actions][:collection]] + basic_collection_actions
+      end
+
+      def basic_resource_actions
+        [:new, :create, :edit, :update, :show, :destroy] - [*self.resources_configuration[:self][:removed_actions]]
+      end
+
+      def basic_collection_actions
+        [:index] - [*self.resources_configuration[:self][:removed_actions]]
       end
 
       # Defines the role to use when creating or updating resource.
