@@ -23,6 +23,17 @@ class DeansController < InheritedResources::Base
   belongs_to :school
 end
 
+module Library
+  class Category
+  end
+
+  class Subcategory
+  end
+
+  class SubcategoriesController < InheritedResources::Base
+  end
+end
+
 class ActionsClassMethodTest < ActionController::TestCase
   tests BooksController
 
@@ -130,5 +141,15 @@ class BelongsToErrorsTest < ActiveSupport::TestCase
     end
   ensure
     DeansController.send(:parents_symbols=, [:school])
+  end
+
+  def test_belongs_to_for_namespaced_controller_and_namespaced_model_fetches_model_in_the_namespace_firstly
+    Library::SubcategoriesController.send(:belongs_to, :category)
+    assert_equal Library::Category, Library::SubcategoriesController.resources_configuration[:category][:parent_class]
+  end
+
+  def test_belongs_to_without_namesoace_sets_parent_class_properly
+    FoldersController.send(:belongs_to, :book)
+    assert_equal Book, FoldersController.resources_configuration[:book][:parent_class]
   end
 end
