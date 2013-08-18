@@ -171,13 +171,34 @@ module InheritedResources
 
           config = self.resources_configuration[symbol] = {}
 
-          config[:parent_class] = options.delete(:parent_class) || begin
-            class_name = (options.delete(:class_name) || symbol).to_s.pluralize.classify
-            class_name.constantize
-          rescue NameError => e
-            raise unless e.message.include?(class_name)
-            nil
-          end
+          class_name = ''
+          config[:parent_class] = options.delete(:parent_class) ||
+            begin
+              class_name = if options[:class_name]
+                options.delete(:class_name).to_s.pluralize.classify
+              else
+                namespace = self.name.deconstantize
+                model_name = symbol.to_s.pluralize.classify
+
+                klass = model_name
+                while namespace != ''
+                  klass = "#{namespace}::#{model_name}"
+                  if klass.safe_constantize
+                    break
+                  else
+                    namespace = namespace.deconstantize
+                  end
+                end
+
+                klass = model_name if klass.start_with?('::')
+
+                klass
+              end
+              class_name.constantize
+            rescue NameError => e
+              raise unless e.message.include?(class_name)
+              nil
+            end
 
           config[:singleton]       = options.delete(:singleton) || false
           config[:collection_name] = options.delete(:collection_name) || symbol.to_s.pluralize.to_sym
