@@ -108,7 +108,7 @@ class BelongsToErrorsTest < ActiveSupport::TestCase
 
   def test_belongs_to_raises_an_error_when_multiple_associations_are_given_with_options
     assert_raise ArgumentError do
-      DeansController.send(:belongs_to, :arguments, :with_options, :parent_class => Professor)
+      DeansController.send(:belongs_to, :arguments, :with_options, :parent_class => Book)
     end
   end
 
