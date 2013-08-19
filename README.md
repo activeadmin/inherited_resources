@@ -687,7 +687,7 @@ If you need `params.require` you can do it like this:
 
 ```ruby
 def permitted_params
-  {:widget => params.require(:widget => [:permitted_field, :other_permitted_field])}
+  {:widget => params.require(:widget).permit(:permitted_field, :other_permitted_field)}
 end
 ```
 
@@ -695,7 +695,7 @@ Or better yet just override `#build_resource_params` directly:
 
 ```ruby
 def build_resource_params
-  [params.require(:widget => [:permitted_field, :other_permitted_field])]
+  [params.require(:widget).permit(:permitted_field, :other_permitted_field)]
 end
 ```
 
