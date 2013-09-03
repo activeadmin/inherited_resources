@@ -250,13 +250,13 @@ module InheritedResources
       # * <tt>:resource</tt> -  Allows you to specify resource actions.
       #     custom_actions :resource => :delete
       #                         This macro creates 'delete' method in controller and defines
-      #                         delete_reource_{path,url} helpers. The body of generated 'delete'
+      #                         delete_resource_{path,url} helpers. The body of generated 'delete'
       #                         method is same as 'show' method. So you can override it if need
       #
       # * <tt>:collection</tt> - Allows you to specify collection actions.
       #     custom_actions :collection => :search
       #                         This macro creates 'search' method in controller and defines
-      #                         search_reources_{path,url} helpers. The body of generated 'search'
+      #                         search_resources_{path,url} helpers. The body of generated 'search'
       #                         method is same as 'index' method. So you can override it if need
       #
       def custom_actions(options)
