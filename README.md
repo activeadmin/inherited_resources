@@ -52,9 +52,7 @@ http://github.com/josevalim/inherited_resources/tree/v1.0
 Since Inherited Resources 1.0, has_scope is not part of its core anymore but
 a gem dependency. Be sure to check the documentation to see how you can use it:
 
-```
-http://github.com/plataformatec/has_scope
-```
+- <http://github.com/plataformatec/has_scope>
 
 And it can be installed as:
 
@@ -69,9 +67,7 @@ but is set as Inherited Resources dependency and it's used by default by
 InheritedResources controllers. Be sure to check the documentation to see
 how it will change your application:
 
-```
-http://github.com/plataformatec/responders
-```
+- <http://github.com/plataformatec/responders>
 
 And it can be installed with:
 
