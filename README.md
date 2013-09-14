@@ -216,6 +216,22 @@ end
 The `end_of_association_chain` returns your resource after nesting all associations
 and scopes (more about this below).
 
+If you are using an API and generating the response with ```ActiveModel::Serializers```, you can easily include the pagination data in the response:
+
+```ruby
+def index(options={}, &block)
+  options = options.merge({
+    meta: {
+      total_entries: collection.total_entries,
+      current_page: collection.current_page,
+      total_pages: collection.total_pages,
+      per_page: collection.per_page }
+    })
+
+  index!(options)
+end
+```
+
 InheritedResources also introduces another method called `begin_of_association_chain`.
 It's mostly used when you want to create resources based on the `@current_user` and
 you have urls like "account/projects". In such cases you have to do
