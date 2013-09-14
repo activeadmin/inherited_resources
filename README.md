@@ -219,16 +219,18 @@ and scopes (more about this below).
 If you are using an API and generating the response with ```ActiveModel::Serializers```, you can easily include the pagination data in the response:
 
 ```ruby
-def index(options={}, &block)
-  options = options.merge({
-    meta: {
-      total_entries: collection.total_entries,
-      current_page: collection.current_page,
-      total_pages: collection.total_pages,
-      per_page: collection.per_page }
-    })
-
-  index!(options)
+class ProjectsController < InheritedResources::Base
+  def index(options={}, &block)
+    options = options.merge({
+      meta: {
+        total_entries: collection.total_entries,
+        current_page: collection.current_page,
+        total_pages: collection.total_pages,
+        per_page: collection.per_page }
+      })
+  
+    index!(options)
+  end
 end
 ```
 
