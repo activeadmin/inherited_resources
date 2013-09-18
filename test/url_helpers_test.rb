@@ -152,6 +152,10 @@ class Button
   extend ActiveModel::Naming
 end
 
+class Resource
+  extend ActiveModel::Naming
+end
+
 class ButtonsController < InheritedResources::Base
   belongs_to :display, :window, :shallow => true
   custom_actions :resource => :delete, :collection => :search
@@ -160,6 +164,8 @@ end
 class ImageButtonsController < ButtonsController
 end
 
+class ResourcesController < InheritedResources::Base
+end
 
 # Create a TestHelper module with some helpers
 class UrlHelpersTest < ActiveSupport::TestCase
@@ -957,6 +963,36 @@ class UrlHelpersTest < ActiveSupport::TestCase
     controller.send("edit_resource_path")
     controller.expects("delete_image_button_path").once
     controller.send("delete_resource_path")
+  end
+
+  def test_generating_helper_methods
+    controller = ResourcesController.new
+    resource_methods = %w(new_resource_path new_resource_url resource_path resource_url edit_resource_path edit_resource_url)
+    resource_methods.each do |method|
+      assert_raise NoMethodError, "undefined method '#{method}'" do
+        controller.send(method)
+      end
+    end
+    assert_raise NoMethodError, "undefined method 'resources_path'" do
+      controller.send(:collection_url)
+    end
+    assert_raise NoMethodError, "undefined method 'resources_url'" do
+      controller.send(:collection_url)
+    end
+
+    controller = ButtonsController.new
+    button_methods = %w(new_button_path new_button_url button_path button_url edit_button_path edit_button_url)
+    resource_methods.zip(button_methods).each do |method, button_method|
+      assert_raise NoMethodError, "undefined method '#{button_method}'" do
+        controller.send(method)
+      end
+    end
+    assert_raise NoMethodError, "undefined method 'buttons_path'" do
+      controller.send(:collection_url)
+    end
+    assert_raise NoMethodError, "undefined method 'buttons_url'" do
+      controller.send(:collection_url)
+    end
   end
 
   def test_url_helpers_on_namespaced_resource_with_shallowed_route
