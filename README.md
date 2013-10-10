@@ -262,7 +262,7 @@ end
 ```
 
 Since most of the time when you change a create, update or destroy
-action you do so because you want to to change its redirect url, a shortcut is
+action you do so because you want to change its redirect url, a shortcut is
 provided. So you can do:
 
 ```ruby
