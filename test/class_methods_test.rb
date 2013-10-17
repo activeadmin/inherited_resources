@@ -143,6 +143,11 @@ class BelongsToErrorsTest < ActiveSupport::TestCase
     DeansController.send(:parents_symbols=, [:school])
   end
 
+  def test_belongs_to_for_namespaced_controller_and_model_without_namespace_fetches_model_without_namespace
+    Library::SubcategoriesController.send(:belongs_to, :book)
+    assert_equal Book, Library::SubcategoriesController.resources_configuration[:book][:parent_class]
+  end
+
   def test_belongs_to_for_namespaced_controller_and_namespaced_model_fetches_model_in_the_namespace_firstly
     Library::SubcategoriesController.send(:belongs_to, :category)
     assert_equal Library::Category, Library::SubcategoriesController.resources_configuration[:category][:parent_class]
