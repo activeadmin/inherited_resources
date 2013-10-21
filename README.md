@@ -162,7 +162,7 @@ One reason to use the `inherit_resources` macro would be to ensure that your con
 never responds with the html mime-type. `InheritedResources::Base` already
 responds to `:html`, and the `respond_to` macro is strictly additive.
 Therefore, if you want to create a controller that, for example, responds ONLY via `:js`,
-you will have write it this way:
+you will have to write it this way:
 
 ```ruby
 class AccountsController < ApplicationController
