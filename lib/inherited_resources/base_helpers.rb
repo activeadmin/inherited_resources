@@ -51,7 +51,7 @@ module InheritedResources
         get_resource_ivar || set_resource_ivar(end_of_association_chain.send(method_for_find, params[:id]))
       end
 
-      # This method is responsable for building the object on :new and :create
+      # This method is responsible for building the object on :new and :create
       # methods. If you overwrite it, don't forget to cache the result in an
       # instance variable.
       #
