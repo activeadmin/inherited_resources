@@ -368,6 +368,21 @@ end
 
 This controller redirect to parent window after all CUD actions.
 
+These default orders can be overridden using redirect_order and passing either a single
+symbol describing the preferred redirect (one of :resource, :collection, :parent, :root)
+or an array which determines the order for calculating the redirect. :only and :except 
+can be used to limit which of the :create, :update or :destroy actions should be overwritten.
+
+Example:
+
+```ruby
+class ChargersController < InheritedResources::Base
+  belongs_to :phone
+  redirect_order [:parent, :resource], :only => :destroy
+  redirect_order :collection, :except => [:destroy, :update]
+end
+```
+
 ## Success and failure scenarios on destroy
 
 The destroy action can also fail, this usually happens when you have a
