@@ -634,9 +634,8 @@ index actions accordingly). Also, it will produce `delete_resource_{path,url}` a
 Sometimes just DRYing up the controllers is not enough. If you need to DRY up your views,
 check this Wiki page:
 
-```
 https://github.com/josevalim/inherited_resources/wiki/Views-Inheritance
-```
+
 
 Notice that Rails 3.1 ships with view inheritance built-in.
 
