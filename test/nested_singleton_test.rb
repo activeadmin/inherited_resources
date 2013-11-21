@@ -29,17 +29,17 @@ end
 # /party/37/venue/address case
 class AddressController < InheritedResources::Base
   defaults :singleton => true
-  belongs_to :venue, :singleton => true do
-    belongs_to :party
+  belongs_to :party do
+    belongs_to :venue, :singleton => true
   end
 end
 
 #and the more pathological case
 class GeolocationController < InheritedResources::Base
   defaults :singleton => true
-  belongs_to :address, :singleton => true do
+  belongs_to :party do
     belongs_to :venue, :singleton => true do
-      belongs_to :party
+      belongs_to :address, :singleton => true
     end
   end
 end
