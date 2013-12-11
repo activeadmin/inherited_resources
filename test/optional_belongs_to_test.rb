@@ -86,7 +86,8 @@ class OptionalTest < ActionController::TestCase
   def test_expose_a_newly_create_product_with_category
     Category.expects(:find).with('37').returns(mock_category)
     mock_category.expects(:products).returns(Product)
-    Product.expects(:build).with({'these' => 'params'}).returns(mock_product(:save => true))
+    Product.expects(:build).with({'these' => 'params'}).returns(mock_product)
+    mock_category.expects(:save).returns(true)
     post :create, :category_id => '37', :product => {:these => 'params'}
     assert_equal mock_category, assigns(:category)
     assert_equal mock_product, assigns(:product)

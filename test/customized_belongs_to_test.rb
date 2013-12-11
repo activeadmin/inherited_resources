@@ -46,7 +46,8 @@ class CustomizedBelongsToTest < ActionController::TestCase
   end
 
   def test_expose_the_requested_school_with_chosen_instance_variable_on_create
-    Professor.stubs(:build).returns(mock_professor(:save => true))
+    Professor.stubs(:build).returns(mock_professor)
+    mock_school.expects(:save).returns(true)
     post :create, :school_title => 'nice'
     assert_equal mock_school, assigns(:great_school)
   end

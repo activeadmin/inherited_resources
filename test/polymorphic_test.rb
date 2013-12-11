@@ -63,7 +63,8 @@ class PolymorphicFactoriesTest < ActionController::TestCase
   end
 
   def test_expose_a_newly_create_employee_on_create
-    Employee.expects(:build).with({'these' => 'params'}).returns(mock_employee(:save => true))
+    Employee.expects(:build).with({'these' => 'params'}).returns(mock_employee)
+    mock_factory.expects(:save).returns(true)
     post :create, :factory_id => '37', :employee => {:these => 'params'}
     assert_equal mock_factory, assigns(:factory)
     assert_equal mock_employee, assigns(:employee)
@@ -150,7 +151,8 @@ class PolymorphicCompanyTest < ActionController::TestCase
   end
 
   def test_expose_a_newly_create_employee_on_create
-    Employee.expects(:build).with({'these' => 'params'}).returns(mock_employee(:save => true))
+    Employee.expects(:build).with({'these' => 'params'}).returns(mock_employee)
+    mock_company.expects(:save).returns(true)
     post :create, :company_id => '37', :employee => {:these => 'params'}
     assert_equal mock_company, assigns(:company)
     assert_equal mock_employee, assigns(:employee)
