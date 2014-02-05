@@ -118,6 +118,9 @@ module InheritedResources
       # If the user actually scopes the url, you should use belongs_to method
       # and declare that projects belong to user.
       #
+      # If you return nil in your implementation, then your association chain will
+      # have no scope, i.e. you will show every object.
+      #
       def begin_of_association_chain
         nil
       end
