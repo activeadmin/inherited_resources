@@ -23,6 +23,22 @@ class DeansController < InheritedResources::Base
   belongs_to :school
 end
 
+module Controller
+  class User; end
+
+  class UsersController < InheritedResources::Base; end
+
+  module Admin
+    class UsersController < InheritedResources::Base; end
+  end
+end
+
+class ControllerGroup; end
+
+module Controller
+  class GroupsController < InheritedResources::Base; end
+end
+
 module Library
   class Category
   end
@@ -151,5 +167,14 @@ class BelongsToErrorsTest < ActiveSupport::TestCase
   def test_belongs_to_without_namespace_sets_parent_class_properly
     FoldersController.send(:belongs_to, :book)
     assert_equal Book, FoldersController.resources_configuration[:book][:parent_class]
+  end
+end
+
+class SpecialCasesClassMethodTest < ActionController::TestCase
+
+  def test_resource_class_to_corresponding_model_class
+    assert_equal Controller::User, Controller::UsersController.send(:resource_class)
+    assert_equal Controller::User, Controller::Admin::UsersController.send(:resource_class)
+    assert_equal ControllerGroup, Controller::GroupsController.send(:resource_class)
   end
 end

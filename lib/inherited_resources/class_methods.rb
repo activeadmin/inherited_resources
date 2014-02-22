@@ -312,7 +312,7 @@ module InheritedResources
       def initialize_resources_class_accessors! #:nodoc:
         # First priority is the namespaced model, e.g. User::Group
         self.resource_class ||= begin
-          namespaced_class = self.name.sub(/Controller/, '').singularize
+          namespaced_class = self.name.sub(/Controller$/, '').singularize
           namespaced_class.constantize
         rescue NameError
           nil
@@ -320,7 +320,7 @@ module InheritedResources
 
         # Second priority is the top namespace model, e.g. EngineName::Article for EngineName::Admin::ArticlesController
         self.resource_class ||= begin
-          namespaced_classes = self.name.sub(/Controller/, '').split('::')
+          namespaced_classes = self.name.sub(/Controller$/, '').split('::')
           namespaced_class = [namespaced_classes.first, namespaced_classes.last].join('::').singularize
           namespaced_class.constantize
         rescue NameError
@@ -329,7 +329,7 @@ module InheritedResources
 
         # Third priority the camelcased c, i.e. UserGroup
         self.resource_class ||= begin
-          camelcased_class = self.name.sub(/Controller/, '').gsub('::', '').singularize
+          camelcased_class = self.name.sub(/Controller$/, '').gsub('::', '').singularize
           camelcased_class.constantize
         rescue NameError
           nil
