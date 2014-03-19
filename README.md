@@ -311,6 +311,18 @@ end
 Yes, it's that simple! The nice part is since you already set the instance variable
 `@project`, it will not build a project again.
 
+Same goes for updating the project:
+
+```ruby
+class ProjectsController < InheritedResources::Base
+  def update
+    @project = Project.find(params[:id])
+    @project.something_special!
+    update!
+  end
+end
+```
+
 Before we finish this topic, we should talk about one more thing: "success/failure
 blocks". Let's suppose that when we update our project, in case of failure, we
 want to redirect to the project url instead of re-rendering the edit template.
