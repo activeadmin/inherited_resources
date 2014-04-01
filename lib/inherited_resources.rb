@@ -22,7 +22,7 @@ module InheritedResources
     Responders::FlashResponder.flash_keys = array
   end
 
-  def parent_controller
+  def self.parent_controller
     @parent_controller ||= begin
       klass = Railtie.config.parent_controller
       klass = klass.constantize if klass.is_a? String
