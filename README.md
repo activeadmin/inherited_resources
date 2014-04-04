@@ -706,6 +706,16 @@ def build_resource_params
 end
 ```
 
+
+Instead you can stick to a standard Rails 4 notation (as rails scaffold generates) and write:
+
+    def widget_params
+      params.require(:widget).permit(:permitted_field, :other_permitted_field)
+    end
+
+In such case you should remove #permitted_params method because it has greater priority.
+
+
 ## Bugs and Feedback
 
 If you discover any bugs, please describe it in the issues tracker, including Rails and InheritedResources versions.
