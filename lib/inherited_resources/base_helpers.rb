@@ -316,9 +316,44 @@ module InheritedResources
         @resource_params ||= build_resource_params
       end
 
+      def resource_params_method_name
+        "#{resource_instance_name}_params"
+      end
+
+      # Returns hash of sanitized params in a form like
+      # `{:project => {:project_attribute => 'value'}}`
+      #
+      # This method makes use of `project_params` (or `smth_else_params`) which
+      # is a default Rails controller method for strong parameters definition.
+      #
+      # `permitted_params` is usually fired by method :new, :create, :update
+      # actions. Action :new usually has no parameters so strong parameters
+      # `require` directive raises a +ActionController::ParameterMissing+
+      # exception. `#permitted_params` rescues such exceptions in :new and
+      # returns an empty hash of parameters (which is reasonable default).
+      # If for any reasons you need something more specific, you can redefine
+      # this method in a way previous `inherited_resources` versions did:
+      #
+      #    # Unnecessary redefinition
+      #    def permitted_params
+      #      params.permit(:project => [:project_attribute])
+      #    end
+      #
+      def permitted_params
+        return nil  unless respond_to?(resource_params_method_name, true)
+        {resource_request_name => send(resource_params_method_name)}
+      rescue ActionController::ParameterMissing
+        # typically :new action
+        if params[:action].to_s == 'new'
+          {resource_request_name => {}}
+        else
+          raise
+        end
+      end
+
       # extract attributes from params
       def build_resource_params
-        parameters = respond_to?(:permitted_params, true) ? permitted_params : params
+        parameters = permitted_params || params
         rparams = [parameters[resource_request_name] || parameters[resource_instance_name] || {}]
         if without_protection_given?
           rparams << without_protection
