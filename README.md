@@ -709,9 +709,11 @@ end
 
 Instead you can stick to a standard Rails 4 notation (as rails scaffold generates) and write:
 
-    def widget_params
-      params.require(:widget).permit(:permitted_field, :other_permitted_field)
-    end
+```ruby
+def widget_params
+  params.require(:widget).permit(:permitted_field, :other_permitted_field)
+end
+```
 
 In such case you should remove #permitted_params method because it has greater priority.
 
