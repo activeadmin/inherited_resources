@@ -685,6 +685,8 @@ def permitted_params
 end
 ```
 
+Remember that if your field is sent by client to server as an array, you have to write `:permitted_field => []`, not just `:permitted_field`.
+
 Note that this doesn't work if you use strong_parameters' require method
 instead of permit, because whereas permit returns the entire sanitized
 parameter hash, require returns only the sanitized params below the parameter
