@@ -77,6 +77,9 @@ module InheritedResources
         actions_to_remove.map! { |a| a.to_sym }.uniq!
         (instance_methods.map { |m| m.to_sym } & actions_to_remove).each do |action|
           undef_method action, "#{action}!"
+          undef_method "#{action}_resource_url" if [:new, :edit].include?(action)
+          undef_method :resource_url if action == :show
+          undef_method :collection_url if action == :index
         end
       end
 
