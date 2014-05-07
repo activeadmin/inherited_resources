@@ -38,6 +38,16 @@ module InheritedResources
   #      end
   #    end
   #
+  # If you need to configure parents scopes, you can specify them using 'scope' option:
+  #
+  #    class CommentsController < InheritedResources::Base
+  #      belongs_to :project, :scope => :shared
+  #    end
+  #
+  #    class CommentsController < InheritedResources::Base
+  #      belongs_to :projects, :scope => ->(u) { u.shared_for(current_user) }
+  #    end
+  #
   # Warning: calling several belongs_to is the same as nesting them:
   #
   #    class CommentsController < InheritedResources::Base
@@ -56,11 +66,11 @@ module InheritedResources
       def parent?
         true
       end
-      
+
       def parent
         @parent ||= association_chain[-1]
       end
-      
+
       def parent_type
         parent.class.name.underscore.to_sym
       end
@@ -87,7 +97,16 @@ module InheritedResources
             parent_config[:parent_class]
           end
 
-          parent = parent.send(parent_config[:finder], params[parent_config[:param]])
+          scope = case parent_config[:scope]
+          when Proc
+           parent_config[:scope].call(parent)
+          when Symbol, String
+            parent.send(parent_config[:scope])
+          else
+            parent
+          end
+
+          parent = scope.send(parent_config[:finder], params[parent_config[:param]])
         end
 
         instance_variable_set("@#{parent_config[:instance_name]}", parent)

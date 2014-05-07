@@ -141,7 +141,7 @@ module InheritedResources
         options.symbolize_keys!
         options.assert_valid_keys(:class_name, :parent_class, :instance_name, :param,
                                   :finder, :route_name, :collection_name, :singleton,
-                                  :polymorphic, :optional, :shallow)
+                                  :polymorphic, :optional, :shallow, :scope)
 
         optional    = options.delete(:optional)
         shallow     = options.delete(:shallow)
@@ -206,6 +206,7 @@ module InheritedResources
           config[:param]           = options.delete(:param) || :"#{symbol}_id"
           config[:route_name]      = options.delete(:route_name) || symbol
           config[:finder]          = finder || :find
+          config[:scope]           = options.delete(:scope)
         end
 
         if block_given?
