@@ -735,5 +735,4 @@ If you discover any bugs, please describe it in the issues tracker, including Ra
 
 Questions are better handled on StackOverflow.
 
-Copyright (c) 2009-2012 José Valim http://blog.plataformatec.com.br
-See the attached MIT License.
+MIT License. Copyright (c) 2009-2012 José Valim.
