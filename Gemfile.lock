@@ -3,7 +3,7 @@ PATH
   specs:
     inherited_resources (1.4.1)
       has_scope (~> 0.6.0.rc)
-      responders (~> 1.1.0)
+      responders (~> 1.0)
 
 GEM
   remote: https://rubygems.org/
