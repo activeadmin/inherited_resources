@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    inherited_resources (1.4.1)
+    inherited_resources (1.5.0)
       has_scope (~> 0.6.0.rc)
       responders (~> 1.0)
 

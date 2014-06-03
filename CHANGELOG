@@ -1,6 +1,7 @@
-# UNRELEASED
+# 1.5.0
 
 * Supports nested modules (namespaced models and controllers).
+* Supports Rails 4 Strong Parameters notation.
 
 # Version 1.4.1
 
