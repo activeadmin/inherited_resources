@@ -1,3 +1,12 @@
+## Deprecation notice
+ 
+Since Rails 3 came out, I have no longer used Inherited Resources and it is no
+longer actively maintained. I have found that the responders abstraction
+offers the perfect balance between hiding and showing too much logic in controllers.
+That said, I suggest developers to make use of Rails' `respond_with` feature
+alongside the [responders gem](https://github.com/plataformatec/responders) as a
+replacement to Inherited Resources.
+
 ## Inherited Resources
 
 Inherited Resources speeds up development by making your controllers inherit
