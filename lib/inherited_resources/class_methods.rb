@@ -170,6 +170,7 @@ module InheritedResources
           self.resources_configuration[:self][:shallow] = true if shallow
 
           config = self.resources_configuration[symbol] = {}
+          config[:singleton]       = options.delete(:singleton) || false
 
           class_name = ''
           config[:parent_class] = options.delete(:parent_class) ||
@@ -178,16 +179,13 @@ module InheritedResources
                 options.delete(:class_name).to_s.pluralize.classify
               else
                 namespace = self.name.deconstantize
-                model_name = symbol.to_s.pluralize.classify
+                model_name = config[:singleton] ? symbol.to_s.classify : symbol.to_s.pluralize.classify
 
                 klass = model_name
-                while namespace != ''
+                klass = "#{namespace}::#{model_name}"
+                while (!klass.safe_constantize and !namespace.empty?)
+                  namespace = namespace.deconstantize
                   klass = "#{namespace}::#{model_name}"
-                  if klass.safe_constantize
-                    break
-                  else
-                    namespace = namespace.deconstantize
-                  end
                 end
 
                 klass = model_name if klass.start_with?('::')
@@ -200,7 +198,6 @@ module InheritedResources
               nil
             end
 
-          config[:singleton]       = options.delete(:singleton) || false
           config[:collection_name] = options.delete(:collection_name) || symbol.to_s.pluralize.to_sym
           config[:instance_name]   = options.delete(:instance_name) || symbol
           config[:param]           = options.delete(:param) || :"#{symbol}_id"

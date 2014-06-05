@@ -148,6 +148,11 @@ class BelongsToErrorsTest < ActiveSupport::TestCase
     assert_equal Library::Category, Library::SubcategoriesController.resources_configuration[:category][:parent_class]
   end
 
+  def test_belongs_to_for_namespaced_controller_and_non_namespaced_model_sets_parent_class_properly
+    Library::SubcategoriesController.send(:belongs_to, :book)
+    assert_equal Book, Library::SubcategoriesController.resources_configuration[:book][:parent_class]
+  end
+
   def test_belongs_to_without_namespace_sets_parent_class_properly
     FoldersController.send(:belongs_to, :book)
     assert_equal Book, FoldersController.resources_configuration[:book][:parent_class]
