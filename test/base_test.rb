@@ -105,13 +105,6 @@ class ShowActionBaseTest < ActionController::TestCase
     User.expects(:find).with('42').returns(mock_user)
     mock_user.expects(:to_xml).returns("Generated XML")
 
-    # Bug in mocha does not accept strings on respond_to
-    mock_user.singleton_class.class_eval do
-      def respond_to?(method, *)
-        method == "to_xml" || super
-      end
-    end
-
     get :show, :id => '42'
     assert_response :success
     assert_equal 'Generated XML', @response.body
@@ -138,13 +131,6 @@ class NewActionBaseTest < ActionController::TestCase
     @request.accept = 'application/xml'
     User.expects(:new).returns(mock_user)
     mock_user.expects(:to_xml).returns("Generated XML")
-
-    # Bug in mocha does not accept strings on respond_to
-    mock_user.singleton_class.class_eval do
-      def respond_to?(method, *)
-        method == "to_xml" || super
-      end
-    end
 
     get :new
     assert_response :success
@@ -198,7 +184,7 @@ class CreateActionBaseTest < ActionController::TestCase
   def test_redirect_to_the_created_user
     User.stubs(:new).returns(mock_user(:save => true))
     @controller.expects(:resource_url).returns('http://test.host/')
-    post :create
+    post :create, format: :html
     assert_redirected_to 'http://test.host/'
   end
 

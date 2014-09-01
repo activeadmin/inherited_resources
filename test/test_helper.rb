@@ -3,9 +3,10 @@ require 'bundler'
 
 Bundler.setup
 
-require 'test/unit'
-require 'mocha/setup'
-begin; require 'turn/autorun'; rescue LoadError; end
+require 'minitest'
+require 'mocha/mini_test'
+require 'minitest/rg'
+require 'minitest/autorun'
 
 ENV["RAILS_ENV"] = "test"
 RAILS_ROOT = "anywhere"
