@@ -182,8 +182,9 @@ module InheritedResources
 
                 klass = model_name
                 while namespace != ''
-                  klass = "#{namespace}::#{model_name}"
-                  if klass.safe_constantize
+                  new_klass = "#{namespace}::#{model_name}"
+                  if new_klass.safe_constantize
+                    klass = new_klass
                     break
                   else
                     namespace = namespace.deconstantize
