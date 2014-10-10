@@ -19,5 +19,7 @@ Gem::Specification.new do |s|
   s.require_paths = ["lib"]
 
   s.add_dependency("responders", "~> 1.0")
+  s.add_dependency("actionpack", ">= 3.2", "< 4.2")
+  s.add_dependency("railties", ">= 3.2", "< 4.2")
   s.add_dependency("has_scope",  "~> 0.6.0.rc")
 end
