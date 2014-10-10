@@ -129,13 +129,6 @@ class AliasesTest < ActionController::TestCase
     mock_student = mock_student(:save => true, :to_xml => "XML")
     Student.stubs(:new).returns(mock_student)
 
-    # Bug in mocha does not accept strings on respond_to
-    mock_student.singleton_class.class_eval do
-      def respond_to?(method, *)
-        method == "to_xml" || super
-      end
-    end
-
     post :create
     assert_equal "http://test.host/", @response.location
   end
