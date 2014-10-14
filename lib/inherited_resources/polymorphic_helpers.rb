@@ -15,9 +15,15 @@ module InheritedResources
   #
   # Your routes should be something like:
   #
-  #   m.resources :files,    :has_many => :comments #=> /files/13/comments
-  #   m.resources :tasks,    :has_many => :comments #=> /tasks/17/comments
-  #   m.resources :messages, :has_many => :comments #=> /messages/11/comments
+  #   resources :files do
+  #     resources :comments #=> /files/13/comments
+  #   end
+  #   resources :tasks do
+  #     resources :comments #=> /tasks/17/comments
+  #   end
+  #   resources :messages do
+  #     resources :comments #=> /messages/11/comments
+  #   end
   #
   # When using polymorphic associations, you get some free helpers:
   #
@@ -74,10 +80,16 @@ module InheritedResources
   #
   # Finally your routes should be something like:
   #
-  #   map.resources :projects do |m|
-  #     m.resources :files,    :has_many => :comments #=> /projects/1/files/13/comments
-  #     m.resources :tasks,    :has_many => :comments #=> /projects/1/tasks/17/comments
-  #     m.resources :messages, :has_many => :comments #=> /projects/1/messages/11/comments
+  #   resources :projects do
+  #     resources :files do
+  #       resources :comments #=> /projects/1/files/13/comments
+  #     end
+  #     resources :tasks do
+  #       resources :comments #=> /projects/1/tasks/17/comments
+  #     end
+  #     resources :messages do
+  #       resources :comments #=> /projects/1/messages/11/comments
+  #     end
   #   end
   #
   # The helpers work in the same way as above.
