@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    inherited_resources (1.5.0)
+    inherited_resources (1.5.1)
       actionpack (>= 3.2, < 4.2)
       has_scope (~> 0.6.0.rc)
       railties (>= 3.2, < 4.2)
