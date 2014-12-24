@@ -250,11 +250,16 @@ class UpdateActionBaseTest < ActionController::TestCase
   end
 
   def test_redirect_to_the_users_list_if_show_undefined
+    klass = UsersController.dup
+
     @controller.class.send(:actions, :all, :except => :show)
     User.stubs(:find).returns(mock_user(:update_attributes => true))
     @controller.expects(:collection_url).returns('http://test.host/')
     put :update
     assert_redirected_to 'http://test.host/'
+
+    Object.send(:remove_const, :UsersController) if defined?(UsersController)
+    Object.const_set(:UsersController, klass)
   end
 
   def test_show_flash_message_when_success
