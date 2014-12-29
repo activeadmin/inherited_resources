@@ -12,7 +12,11 @@ class UsersController < AccountsController
   respond_to :js, :only => [:create, :update, :destroy]
   attr_reader :scopes_applied
 
-protected
+  def self.name
+    "UsersController"
+  end
+
+  protected
 
   def apply_scopes(object)
     @scopes_applied = true
@@ -22,7 +26,8 @@ end
 
 module UserTestHelper
   def setup
-    @controller          = UsersController.new
+    @controller_class    = Class.new(UsersController)
+    @controller          = @controller_class.new
     @controller.request  = @request  = ActionController::TestRequest.new
     @controller.response = @response = ActionController::TestResponse.new
     @controller.stubs(:user_url).returns("/")
