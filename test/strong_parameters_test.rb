@@ -6,6 +6,7 @@ end
 
 class Widget
   extend ActiveModel::Naming
+  include ActiveModel::Conversion
 end
 
 class WidgetsController < InheritedResources::Base
@@ -36,6 +37,9 @@ class StrongParametersTest < ActionController::TestCase
     mock_widget = mock
     mock_widget.stubs(:class).returns(Widget)
     mock_widget.expects(:update_attributes).with(:permitted => 'param')
+    mock_widget.stubs(:persisted?).returns(true)
+    mock_widget.stubs(:to_model).returns(mock_widget)
+    mock_widget.stubs(:model_name).returns(Widget.model_name)
     Widget.expects(:find).with('42').returns(mock_widget)
     put :update, :id => '42', :widget => {:permitted => 'param', :prohibited => 'param'}
   end
@@ -76,6 +80,9 @@ class StrongParametersWithoutPermittedParamsTest < ActionController::TestCase
     mock_widget = mock
     mock_widget.stubs(:class).returns(Widget)
     mock_widget.expects(:update_attributes).with(:permitted => 'param')
+    mock_widget.stubs(:persisted?).returns(true)
+    mock_widget.stubs(:to_model).returns(mock_widget)
+    mock_widget.stubs(:model_name).returns(Widget.model_name)
     Widget.expects(:find).with('42').returns(mock_widget)
     put :update, :id => '42', :widget => {:permitted => 'param', :prohibited => 'param'}
   end
@@ -114,6 +121,9 @@ class StrongParametersIntegrationTest < ActionController::TestCase
     mock_widget = mock
     mock_widget.stubs(:class).returns(Widget)
     mock_widget.expects(:update_attributes).with('permitted' => 'param')
+    mock_widget.stubs(:persisted?).returns(true)
+    mock_widget.stubs(:to_model).returns(mock_widget)
+    mock_widget.stubs(:model_name).returns(Widget.model_name)
     Widget.expects(:find).with('42').returns(mock_widget)
     put :update, :id => '42', :widget => {:permitted => 'param', :prohibited => 'param'}
   end
