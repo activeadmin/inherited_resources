@@ -1,0 +1,11 @@
+language: ruby
+rvm:
+  - 1.9.3
+  - 2.0.0
+  - 2.1.5
+  - 2.2.0
+  - jruby-19mode # JRuby in 1.9 mode
+  - rbx-2.1.1
+gemfile:
+  - test/gemfiles/Gemfile-Rails-4-1
+  - test/gemfiles/Gemfile-Rails-4-2
