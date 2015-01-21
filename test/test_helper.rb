@@ -3,10 +3,9 @@ require 'bundler'
 
 Bundler.setup
 
-require 'minitest'
+require 'minitest/autorun'
 require 'mocha/mini_test'
 require 'minitest/rg'
-require 'minitest/autorun'
 
 ENV["RAILS_ENV"] = "test"
 RAILS_ROOT = "anywhere"

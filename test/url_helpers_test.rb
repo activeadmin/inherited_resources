@@ -1,34 +1,34 @@
 require File.expand_path('test_helper', File.dirname(__FILE__))
 
-class Universe
+class ModelBase
   extend ActiveModel::Naming
+  include ActiveModel::Conversion
+end
+
+class Universe < ModelBase
 end
 class UniversesController < InheritedResources::Base
   defaults :singleton => true, :route_instance_name => 'universum'
 end
 
-class House
-  extend ActiveModel::Naming
+class House < ModelBase
 end
 class HousesController < InheritedResources::Base
 end
 
-class News
-  extend ActiveModel::Naming
+class News < ModelBase
 end
 class NewsController < InheritedResources::Base
 end
 
-class Backpack
-  extend ActiveModel::Naming
+class Backpack < ModelBase
 end
 module Admin; end
 class Admin::BackpacksController < InheritedResources::Base
   defaults :route_collection_name => 'tour_backpacks'
 end
 
-class Table
-  extend ActiveModel::Naming
+class Table < ModelBase
 end
 class TablesController < InheritedResources::Base
   belongs_to :house
@@ -64,27 +64,25 @@ end
 
 class Bed
   extend ActiveModel::Naming
+  include ActiveModel::Conversion
 end
 class BedsController < InheritedResources::Base
   optional_belongs_to :house, :building
 end
 
-class Sheep
-  extend ActiveModel::Naming
+class Sheep < ModelBase
 end
 class SheepController < InheritedResources::Base
   belongs_to :news, :table, :polymorphic => true
 end
 
-class Fish
-  extend ActiveModel::Naming
+class Fish < ModelBase
 end
 class FishController < InheritedResources::Base
   belongs_to :bed, :shallow => true
 end
 
-class Desk
-  extend ActiveModel::Naming
+class Desk < ModelBase
 end
 module Admin
   class DesksController < InheritedResources::Base
@@ -92,8 +90,7 @@ module Admin
   end
 end
 
-class Dish
-  extend ActiveModel::Naming
+class Dish < ModelBase
 end
 class DishesController < InheritedResources::Base
   belongs_to :house do
@@ -101,14 +98,11 @@ class DishesController < InheritedResources::Base
   end
 end
 
-class Dishwasher
-  extend ActiveModel::Naming
+class Dishwasher < ModelBase
 end
-class Fork
-  extend ActiveModel::Naming
+class Fork < ModelBase
 end
-class Spot
-  extend ActiveModel::Naming
+class Spot < ModelBase
 end
 class SpotsController < InheritedResources::Base
   belongs_to :house do
@@ -507,7 +501,9 @@ class UrlHelpersTest < ActiveSupport::TestCase
     house = House.new
     dishwasher = Dishwasher.new
     fork = Fork.new
+    fork.stubs(:persisted?).returns(true)
     spot = Spot.new
+    spot.stubs(:persisted?).returns(true)
 
     new_spot = Spot.new
     Spot.stubs(:new).returns(new_spot)
@@ -543,7 +539,9 @@ class UrlHelpersTest < ActiveSupport::TestCase
 
   def test_url_helpers_on_polymorphic_belongs_to
     house = House.new
+    house.stubs(:persisted?).returns(true)
     bed   = Bed.new
+    bed.stubs(:persisted?).returns(true)
 
     new_bed = Bed.new
     Bed.stubs(:new).returns(new_bed)
@@ -597,7 +595,9 @@ class UrlHelpersTest < ActiveSupport::TestCase
 
   def test_url_helpers_on_polymorphic_belongs_to_using_uncountable
     sheep  = Sheep.new
+    sheep.stubs(:persisted?).returns(true)
     news = News.new
+    news.stubs(:persisted?).returns(true)
 
     new_sheep = Sheep.new
     Sheep.stubs(:new).returns(new_sheep)
@@ -684,7 +684,9 @@ class UrlHelpersTest < ActiveSupport::TestCase
 
   def test_url_helpers_on_namespaced_polymorphic_belongs_to
     house = House.new
+    house.stubs(:persisted?).returns(true)
     desk  = Desk.new
+    desk.stubs(:persisted?).returns(true)
 
     new_desk = Desk.new
     Desk.stubs(:new).returns(new_desk)
@@ -739,7 +741,9 @@ class UrlHelpersTest < ActiveSupport::TestCase
   def test_url_helpers_on_nested_polymorphic_belongs_to
     house = House.new
     table = Table.new
+    table.stubs(:persisted?).returns(true)
     dish  = Dish.new
+    dish.stubs(:persisted?).returns(true)
 
     new_dish = Dish.new
     Dish.stubs(:new).returns(new_dish)
@@ -793,7 +797,9 @@ class UrlHelpersTest < ActiveSupport::TestCase
     # This must not be usefull in singleton controllers...
     # Center.new
     house = House.new
+    house.stubs(:persisted?).returns(true)
     table = Table.new
+    table.stubs(:persisted?).returns(true)
 
     controller = CentersController.new
     controller.instance_variable_set('@parent_type', :table)
@@ -840,6 +846,7 @@ class UrlHelpersTest < ActiveSupport::TestCase
 
   def test_url_helpers_on_optional_polymorphic_belongs_to
     bed   = Bed.new
+    bed.stubs(:persisted?).returns(true)
     new_bed = Bed.new
     Bed.stubs(:new).returns(new_bed)
     new_bed.stubs(:persisted?).returns(false)
