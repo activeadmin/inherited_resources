@@ -1,3 +1,7 @@
+# Version 1.6.0
+
+* Support Rails 4.2.
+
 # Version 1.5.1
 
 * Lock the Rails version until only 4.2.
