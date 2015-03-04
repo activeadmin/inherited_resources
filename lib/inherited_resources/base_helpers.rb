@@ -340,6 +340,7 @@ module InheritedResources
       #    end
       #
       def permitted_params
+        return super if defined?(super)
         return nil  unless respond_to?(resource_params_method_name, true)
         {resource_request_name => send(resource_params_method_name)}
       rescue ActionController::ParameterMissing
