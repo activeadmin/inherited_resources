@@ -1,11 +1,3 @@
-## Deprecation notice
- 
-Since Rails 3 came out, I have no longer used Inherited Resources and it is no
-longer actively maintained. I have found that the responders abstraction
-offers the perfect balance between hiding and showing too much logic in controllers.
-That said, I suggest developers to make use of Rails' `respond_with` feature
-alongside the [responders gem](https://github.com/plataformatec/responders) as a
-replacement to Inherited Resources.
 
 ## Inherited Resources
 
@@ -732,6 +724,16 @@ In such case you should remove #permitted_params method because it has greater p
 ## Bugs and Feedback
 
 If you discover any bugs, please describe it in the issues tracker, including Rails and InheritedResources versions.
+
+## Note from the original Author
+ 
+Since Rails 3 came out, I have no longer used Inherited Resources and it is now
+being maintained by others. I have found that the responders abstraction
+offers the perfect balance between hiding and showing too much logic in controllers.
+That said, I suggest developers to make use of Rails' `respond_with` feature
+alongside the [responders gem](https://github.com/plataformatec/responders) as a
+replacement to Inherited Resources.
+
 
 Questions are better handled on StackOverflow.
 
