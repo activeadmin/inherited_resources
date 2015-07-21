@@ -86,7 +86,7 @@ module InheritedResources
       end
 
       # Handle the :destroy method for the resource. Overwrite it to call your
-      # own method for destroing the resource, as:
+      # own method for destroying the resource, as:
       #
       #   def destroy_resource(object)
       #     object.cancel
