@@ -2,7 +2,7 @@
 require 'inherited_resources/blank_slate'
 
 module InheritedResources
-  # Base helpers for InheritedResource work. Some methods here can be overwriten
+  # Base helpers for InheritedResource work. Some methods here can be overwritten
   # and you will need to do that to customize your controllers from time to time.
   #
   module BaseHelpers
@@ -75,7 +75,7 @@ module InheritedResources
 
       # Responsible for updating the resource in :update method. This allow you
       # to handle how the resource is going to be updated, let's say in a different
-      # way then the usual :update_attributes:
+      # way than the usual :update_attributes:
       #
       #   def update_resource(object, attributes)
       #     object.reset_password!(attributes)
@@ -123,7 +123,7 @@ module InheritedResources
       end
 
       # Returns if the controller has a parent. When only base helpers are loaded,
-      # it's always false and should not be overwriten.
+      # it's always false and should not be overwritten.
       #
       def parent?
         false
@@ -184,7 +184,7 @@ module InheritedResources
             apply_scopes_if_available(chain.send(method_for_association_chain))
           else
             # This only happens when we specify begin_of_association_chain in
-            # a singletion controller without parents. In this case, the chain
+            # a singleton controller without parents. In this case, the chain
             # is exactly the begin_of_association_chain which is already an
             # instance and then not scopable.
             chain
@@ -200,7 +200,7 @@ module InheritedResources
         (begin_of_association_chain || parent?) ? method_for_association_build : :new
       end
 
-      # Returns the name of the method used for build the resource in cases
+      # Returns the name of the method used for building the resource in cases
       # where we have a parent. This is overwritten in singleton scenarios.
       #
       def method_for_association_build
@@ -208,7 +208,7 @@ module InheritedResources
       end
 
       # Returns the name of the method to be called, before returning the end
-      # of the association chain. This is overwriten by singleton cases
+      # of the association chain. This is overwritten by singleton cases
       # where no method for association chain is called.
       #
       def method_for_association_chain #:nodoc:
@@ -283,7 +283,7 @@ module InheritedResources
         respond_to?(:apply_scopes, true) ? apply_scopes(target_object) : target_object
       end
 
-      # Symbols chain in base helpers return nothing. This is later overwriten
+      # Symbols chain in base helpers return nothing. This is later overwritten
       # by belongs_to and can be complex in polymorphic cases.
       #
       def symbols_for_association_chain #:nodoc:
