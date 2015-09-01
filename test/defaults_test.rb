@@ -195,3 +195,30 @@ class TwoPartNameModelForNamespacedController < ActionController::TestCase
     assert_equal 'user', @controller.resources_configuration[:self][:request_name]
   end
 end
+
+module MyEngine
+  class Engine < Rails::Engine
+    isolate_namespace MyEngine
+  end
+
+  class Person
+    extend ActiveModel::Naming
+  end
+
+  class PeopleController < InheritedResources::Base
+    defaults resource_class: Person
+  end
+end
+
+class IsolatedEngineModelController < ActionController::TestCase
+  tests MyEngine::PeopleController
+
+  def setup
+    # make public so we can test it
+    MyEngine::PeopleController.send(:public, *MyEngine::PeopleController.protected_instance_methods)
+  end
+
+  def test_isolated_model_name
+    assert_equal 'person', @controller.resources_configuration[:self][:request_name]
+  end
+end
