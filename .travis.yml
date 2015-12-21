@@ -11,7 +11,12 @@ gemfile:
   - test/gemfiles/Gemfile-Rails-4-0
   - test/gemfiles/Gemfile-Rails-4-1
   - test/gemfiles/Gemfile-Rails-4-2
+  - test/gemfiles/Gemfile-Rails-5-0
 matrix:
   exclude:
     - rvm: 2.2.0
       gemfile: test/gemfiles/Gemfile-Rails-3-2
+    - rvm: 1.9.3
+      gemfile: test/gemfiles/Gemfile-Rails-5-0
+    - rvm: 2.0.0
+      gemfile: test/gemfiles/Gemfile-Rails-5-0
