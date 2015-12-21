@@ -28,8 +28,13 @@ module UserTestHelper
   def setup
     @controller_class    = Class.new(UsersController)
     @controller          = @controller_class.new
-    @controller.request  = @request  = ActionController::TestRequest.new
-    @controller.response = @response = ActionController::TestResponse.new
+    if Rails::VERSION::MAJOR >= 5
+      @controller.request  = @request  = ActionController::TestRequest.create
+      @controller.response = @response = ActionDispatch::TestResponse.new
+    else
+      @controller.request  = @request  = ActionController::TestRequest.new
+      @controller.response = @response = ActionController::TestResponse.new
+    end
     @controller.stubs(:user_url).returns("/")
   end
 
