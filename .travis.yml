@@ -6,6 +6,9 @@ rvm:
   - 2.2.0
   - jruby-19mode # JRuby in 1.9 mode
   - rbx-2.2.10
+before_install:
+  - gem update --system
+  - gem install bundler -v 1.10.6
 gemfile:
   - test/gemfiles/Gemfile-Rails-3-2
   - test/gemfiles/Gemfile-Rails-4-0
