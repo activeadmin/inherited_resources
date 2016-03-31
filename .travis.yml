@@ -7,7 +7,7 @@ rvm:
   - 2.1.8
   - 2.2.4
   - 2.3.0
-  - jruby
+  - jruby-9.0.5.0
 gemfile:
   - test/gemfiles/Gemfile-Rails-3-2
   - test/gemfiles/Gemfile-Rails-4-0
