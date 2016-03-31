@@ -1,4 +1,10 @@
 language: ruby
+sudo: false
+before_install:
+  - gem install bundler
+before_script:
+  - bundle update
+cache: bundler
 rvm:
   - 1.9.3
   - 2.0.0
