@@ -3,7 +3,6 @@ sudo: false
 install:
   - gem install bundler # use the very latest Bundler
   - bundle install
-  - bundle clean # delete now-outdated gems
 rvm:
   - 1.9.3
   - 2.0.0
