@@ -5,12 +5,10 @@ install:
   - bundle install
 rvm:
   - 1.9.3
-  - 2.0.0
   - 2.1.8
   - 2.2.4
   - 2.3.0
-  - jruby-19mode # JRuby in 1.9 mode
-  - rbx-2.2.10
+  - jruby
 gemfile:
   - test/gemfiles/Gemfile-Rails-3-2
   - test/gemfiles/Gemfile-Rails-4-0
@@ -18,5 +16,12 @@ gemfile:
   - test/gemfiles/Gemfile-Rails-4-2
 matrix:
   exclude:
-    - rvm: 2.2.0
+    - rvm: 1.9.3
+      gemfile: test/gemfiles/Gemfile-Rails-4-0
+      gemfile: test/gemfiles/Gemfile-Rails-4-1
+      gemfile: test/gemfiles/Gemfile-Rails-4-2
+    - rvm: 2.2.4
       gemfile: test/gemfiles/Gemfile-Rails-3-2
+    - rvm: 2.3.0
+      gemfile: test/gemfiles/Gemfile-Rails-3-2
+
