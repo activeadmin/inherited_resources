@@ -20,5 +20,5 @@ Gem::Specification.new do |s|
   s.add_dependency("responders")
   s.add_dependency("actionpack", ">= 3.2", "< 5.1")
   s.add_dependency("railties", ">= 3.2", "< 5.1")
-  s.add_dependency("has_scope",  "~> 0.6.0.rc")
+  s.add_dependency("has_scope",  "~> 0.6")
 end
