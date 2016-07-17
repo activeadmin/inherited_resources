@@ -1,3 +1,9 @@
+# Version 1.7.0
+
+* Support Rails 5
+* Remove support for Ruby < 2.1
+* Fix URL helpers on mountable engines
+
 # Version 1.6.0
 
 * Support Rails 4.2.
