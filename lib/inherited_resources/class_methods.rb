@@ -368,7 +368,7 @@ module InheritedResources
         namespaces.delete_if do |namespace|
           begin
             "#{namespace}/engine".camelize.constantize.isolated?
-          rescue
+          rescue LoadError, NoMethodError
             false
           end
         end
