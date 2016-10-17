@@ -62,6 +62,8 @@ module MyNamespace
   class PeopleController < InheritedResources::Base; end
 end
 
+module EmptyNamespace; end
+
 class ActionsClassMethodTest < ActionController::TestCase
   tests BooksController
 
@@ -204,5 +206,15 @@ class MountableEngineTest < ActiveSupport::TestCase
 
   def test_route_prefix_present_when_parent_module_is_not_a_engine
     assert_equal 'my_namespace', MyNamespace::PeopleController.send(:resources_configuration)[:self][:route_prefix]
+  end
+end
+
+class EngineLoadErrorTest < ActiveSupport::TestCase
+  def test_does_not_crash_on_engine_load_error
+    ActiveSupport::Dependencies.autoload_paths << 'test/autoload'
+
+    EmptyNamespace.class_eval <<-RUBY
+      class PeopleController < InheritedResources::Base; end
+    RUBY
   end
 end
