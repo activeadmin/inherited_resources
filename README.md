@@ -1,13 +1,16 @@
-## Deprecation notice
+## Notice
  
-Since Rails 3 came out, I have no longer used Inherited Resources and it is no
-longer actively maintained. I have found that the responders abstraction
-offers the perfect balance between hiding and showing too much logic in controllers.
-That said, I suggest developers to make use of Rails' `respond_with` feature
-alongside the [responders gem](https://github.com/plataformatec/responders) as a
-replacement to Inherited Resources.
+Inherited Resources is no longer actively maintained by the original author and
+has been transferred to the ActiveAdmin organization for maintenance.  New feature
+requests are not encouraged.
+
+If you are not already using Inherited Resources we suggest instead using Rails' 
+`respond_with` feature alongside the [responders gem](https://github.com/plataformatec/responders).
 
 ## Inherited Resources
+
+[![Version         ](http://img.shields.io/gem/v/inherited_resources.svg)                               ](https://rubygems.org/gems/inherited_resources)
+[![Travis CI       ](http://img.shields.io/travis/activeadmin/inherited_resources/master.svg)           ](https://travis-ci.org/activeadmin/inherited_resources)
 
 Inherited Resources speeds up development by making your controllers inherit
 all restful actions so you just have to focus on what is important. It makes
@@ -21,8 +24,6 @@ two screencasts available besides this README:
 * http://akitaonrails.com/2009/09/01/screencast-real-thin-restful-controllers-with-inherited-resources
 
 ## Installation
-
-### Rails 3
 
 You can let bundler install Inherited Resources by adding this line to your application's Gemfile:
 
@@ -40,20 +41,6 @@ Or install it yourself with:
 
 ```sh
 $ gem install inherited_resources
-```
-
-### Rails 2.3.x
-
-If you want to use the Rails 2.3.x version, you should install:
-
-```sh
-$ gem install inherited_resources --version=1.0.6
-```
-
-Or checkout from the v1.0 branch:
-
-```
-http://github.com/josevalim/inherited_resources/tree/v1.0
 ```
 
 ## HasScope
@@ -428,7 +415,7 @@ end
 ```
 
 It also accepts `:route_name`, `:parent_class` and `:instance_name` as options.
-Check the [lib/inherited_resources/class_methods.rb](https://github.com/josevalim/inherited_resources/blob/master/lib/inherited_resources/class_methods.rb)
+Check the [lib/inherited_resources/class_methods.rb](https://github.com/activeadmin/inherited_resources/blob/master/lib/inherited_resources/class_methods.rb)
 for more.
 
 ## Nested belongs to
@@ -655,7 +642,7 @@ index actions accordingly). Also, it will produce `delete_resource_{path,url}` a
 Sometimes just DRYing up the controllers is not enough. If you need to DRY up your views,
 check this Wiki page:
 
-https://github.com/josevalim/inherited_resources/wiki/Views-Inheritance
+https://github.com/activeadmin/inherited_resources/wiki/Views-Inheritance
 
 
 Notice that Rails 3.1 ships with view inheritance built-in.
