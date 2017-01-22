@@ -3,7 +3,7 @@ rvm:
   - 2.1.9
   - 2.2.5
   - 2.3.1
-  - jruby-9.0.5.0
+  - jruby-9.1.7.0
   - rbx-2.2.10
 gemfile:
   - test/gemfiles/Gemfile-Rails-3-2
