@@ -8,3 +8,4 @@ gem 'minitest', '~> 4.0'
 
 gem 'mocha'
 gem 'minitest-rg'
+gem 'test-unit' # for Rails 3.2/Ruby 2.2 compatibiilty only, rails/rails#18177

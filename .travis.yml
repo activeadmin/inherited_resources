@@ -10,7 +10,3 @@ gemfile:
   - test/gemfiles/Gemfile-Rails-4-0
   - test/gemfiles/Gemfile-Rails-4-1
   - test/gemfiles/Gemfile-Rails-4-2
-matrix:
-  exclude:
-    - rvm: 2.2.0
-      gemfile: test/gemfiles/Gemfile-Rails-3-2
