@@ -1,11 +1,11 @@
 PATH
   remote: .
   specs:
-    inherited_resources (1.5.1)
-      actionpack (>= 3.2, < 5)
-      has_scope (~> 0.6.0.rc)
-      railties (>= 3.2, < 5)
-      responders (~> 1.0)
+    inherited_resources (1.6.0)
+      actionpack (>= 3.2, < 5.1)
+      has_scope (~> 0.6)
+      railties (>= 3.2, < 5.1)
+      responders
 
 GEM
   remote: https://rubygems.org/
@@ -30,9 +30,9 @@ GEM
       tzinfo (~> 1.1)
     builder (3.2.2)
     erubis (2.7.0)
-    has_scope (0.6.0.rc)
-      actionpack (>= 3.2, < 5)
-      activesupport (>= 3.2, < 5)
+    has_scope (0.7.0)
+      actionpack (>= 4.1, < 5.1)
+      activesupport (>= 4.1, < 5.1)
     i18n (0.6.11)
     json (1.8.1)
     metaclass (0.0.4)

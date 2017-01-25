@@ -3,7 +3,7 @@ rvm:
   - 2.1.9
   - 2.2.5
   - 2.3.1
-  - jruby-9.0.5.0
+  - jruby-9.1.7.0
   - rbx-2.2.10
 gemfile:
   - test/gemfiles/Gemfile-Rails-3-2
@@ -11,6 +11,5 @@ gemfile:
   - test/gemfiles/Gemfile-Rails-4-1
   - test/gemfiles/Gemfile-Rails-4-2
 matrix:
-  exclude:
-    - rvm: 2.2.0
-      gemfile: test/gemfiles/Gemfile-Rails-3-2
+  allow_failures:
+    - rvm: rbx-2.2.10
