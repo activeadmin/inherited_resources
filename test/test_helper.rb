@@ -14,6 +14,11 @@ require "active_support"
 require "active_model"
 require "action_controller"
 
+if ActionPack::VERSION::MAJOR >= 5
+  require 'rails-controller-testing'
+  Rails::Controller::Testing.install
+end
+
 I18n.load_path << File.join(File.dirname(__FILE__), 'locales', 'en.yml')
 I18n.reload!
 

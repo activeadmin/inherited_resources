@@ -1,0 +1,9 @@
+source 'https://rubygems.org'
+
+gemspec :path => '../..'
+
+gem 'rails', '~> 5.0.1'
+
+gem 'mocha'
+gem 'minitest-rg'
+gem 'rails-controller-testing'
