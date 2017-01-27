@@ -8,7 +8,11 @@ module InheritedResources
   # call <tt>default</tt> class method, call <<tt>actions</tt> class method
   # or overwrite some helpers in the base_helpers.rb file.
   #
-  class Base < ::ApplicationController
+  # By default the base class inherits from ActionController::Base, since it is not
+  # given an ::ApplicationController exists in every Rails application.
+  # This can be changed through an initializer. eg.
+  #   InheritedResources::Railtie.config.parent_controller = "ApplicationController"
+  class Base < InheritedResources.parent_controller
     # Overwrite inherit_resources to add specific InheritedResources behavior.
     def self.inherit_resources(base)
       base.class_eval do

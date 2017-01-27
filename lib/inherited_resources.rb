@@ -22,8 +22,18 @@ module InheritedResources
     Responders::FlashResponder.flash_keys = array
   end
 
+  def self.parent_controller
+    @parent_controller ||= begin
+      klass = Railtie.config.parent_controller
+      klass = klass.constantize if klass.is_a? String
+      klass
+    end
+  end
+
   class Railtie < ::Rails::Engine
     config.inherited_resources = InheritedResources
+    config.parent_controller = "ActionController::Base"
+
     if config.respond_to?(:app_generators)
       config.app_generators.scaffold_controller = :inherited_resources_controller
     else
