@@ -31,7 +31,7 @@ class OptionalTest < ActionController::TestCase
   def test_expose_all_products_as_instance_variable_without_category
     Product.expects(:scoped).returns([mock_product])
     get :index
-    assert_equal nil, assigns(:category)
+    assert_nil assigns(:category)
     assert_equal [mock_product], assigns(:products)
   end
 
@@ -47,7 +47,7 @@ class OptionalTest < ActionController::TestCase
   def test_expose_the_requested_product_without_category
     Product.expects(:find).with('42').returns(mock_product)
     get :show, :id => '42'
-    assert_equal nil, assigns(:category)
+    assert_nil assigns(:category)
     assert_equal mock_product, assigns(:product)
   end
 
@@ -63,7 +63,7 @@ class OptionalTest < ActionController::TestCase
   def test_expose_a_new_product_without_category
     Product.expects(:new).returns(mock_product)
     get :new
-    assert_equal nil, assigns(:category)
+    assert_nil assigns(:category)
     assert_equal mock_product, assigns(:product)
   end
 
@@ -79,7 +79,7 @@ class OptionalTest < ActionController::TestCase
   def test_expose_the_requested_product_for_edition_without_category
     Product.expects(:find).with('42').returns(mock_product)
     get :edit, :id => '42'
-    assert_equal nil, assigns(:category)
+    assert_nil assigns(:category)
     assert_equal mock_product, assigns(:product)
   end
 
@@ -95,7 +95,7 @@ class OptionalTest < ActionController::TestCase
   def test_expose_a_newly_create_product_without_category
     Product.expects(:new).with({'these' => 'params'}).returns(mock_product(:save => true))
     post :create, :product => {:these => 'params'}
-    assert_equal nil, assigns(:category)
+    assert_nil assigns(:category)
     assert_equal mock_product, assigns(:product)
   end
 
@@ -115,7 +115,7 @@ class OptionalTest < ActionController::TestCase
     mock_product.expects(:update_attributes).with({'these' => 'params'}).returns(true)
 
     put :update, :id => '42', :product => {:these => 'params'}
-    assert_equal nil, assigns(:category)
+    assert_nil assigns(:category)
     assert_equal mock_product, assigns(:product)
   end
 
@@ -137,7 +137,7 @@ class OptionalTest < ActionController::TestCase
     @controller.expects(:collection_url).returns('/')
 
     delete :destroy, :id => '42'
-    assert_equal nil, assigns(:category)
+    assert_nil assigns(:category)
     assert_equal mock_product, assigns(:product)
   end
 
@@ -146,11 +146,11 @@ class OptionalTest < ActionController::TestCase
     get :index
 
     assert !@controller.send(:parent?)
-    assert_equal nil, assigns(:parent_type)
-    assert_equal nil, @controller.send(:parent_type)
-    assert_equal nil, @controller.send(:parent_class)
-    assert_equal nil, assigns(:category)
-    assert_equal nil, @controller.send(:parent)
+    assert_nil assigns(:parent_type)
+    assert_nil @controller.send(:parent_type)
+    assert_nil @controller.send(:parent_class)
+    assert_nil assigns(:category)
+    assert_nil @controller.send(:parent)
   end
 
   protected
