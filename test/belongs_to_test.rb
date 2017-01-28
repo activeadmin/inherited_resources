@@ -15,6 +15,11 @@ end
 class BelongsToTest < ActionController::TestCase
   tests CommentsController
 
+  def self.test_order
+    # version 5 defaults to random, which fails...
+    MiniTest::Unit::VERSION.to_i >= 5 ? :alpha : super
+  end
+
   def setup
     Post.expects(:find).with('37').returns(mock_post)
     mock_post.expects(:comments).returns(Comment)
