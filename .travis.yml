@@ -10,6 +10,10 @@ gemfile:
   - test/gemfiles/Gemfile-Rails-4-0
   - test/gemfiles/Gemfile-Rails-4-1
   - test/gemfiles/Gemfile-Rails-4-2
+  - test/gemfiles/Gemfile-Rails-5-0
 matrix:
+  exclude:
+    - rvm: 2.1.9
+      gemfile: test/gemfiles/Gemfile-Rails-5-0
   allow_failures:
     - rvm: rbx-2.2.10

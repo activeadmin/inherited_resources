@@ -71,9 +71,16 @@ module InheritedResources
       # association chain.
       #
       def evaluate_parent(parent_symbol, parent_config, chain = nil) #:nodoc:
-        instantiated_object = instance_variable_get("@#{parent_config[:instance_name]}")
-        return instantiated_object if instantiated_object
+        get_parent_ivar(parent_config[:instance_name]) ||
+          set_parent_instance(parent_config, chain)
+      end
 
+      def get_parent_ivar(instance_name)
+        instance_variable_defined?(:"@#{instance_name}") &&
+          instance_variable_get("@#{instance_name}")
+      end
+
+      def set_parent_instance(parent_config, chain)
         if parent_config[:singleton]
           parent = if chain
             chain.send(parent_config[:instance_name])

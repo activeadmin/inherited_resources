@@ -28,12 +28,24 @@ module UserTestHelper
   def setup
     @controller_class    = Class.new(UsersController)
     @controller          = @controller_class.new
-    @controller.request  = @request  = ActionController::TestRequest.new
-    @controller.response = @response = ActionController::TestResponse.new
+    @controller.request  = @request = new_request
+    @controller.response = @response = new_response
     @controller.stubs(:user_url).returns("/")
   end
 
   protected
+
+  def new_request
+    ActionPack::VERSION::MAJOR >= 5 ? # see Rails 3806eb7
+      ActionController::TestRequest.new({}, ActionController::TestSession.new) :
+      ActionController::TestRequest.new
+  end
+
+  def new_response
+    ActionPack::VERSION::MAJOR >= 5 ? # see Rails e26d11c
+      ActionDispatch::TestResponse.new :
+      ActionController::TestResponse.new
+  end
 
   def mock_user(expectations={})
     @mock_user ||= begin
