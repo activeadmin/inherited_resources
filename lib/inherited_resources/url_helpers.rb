@@ -221,13 +221,23 @@ module InheritedResources
           undef :#{prefix}#{name}_path if method_defined? :#{prefix}#{name}_path
           def #{prefix}#{name}_path(*given_args)
             given_options = given_args.extract_options!
-            #{prefix}#{segments}_path(#{ivars})
+            if given_options[:action] then
+              prefix = "\#{given_options[:action]}_"
+              send prefix + "#{segments}_path", #{ivars}
+            else
+              #{prefix}#{segments}_path(#{ivars})
+            end
           end
 
           undef :#{prefix}#{name}_url if method_defined? :#{prefix}#{name}_url
           def #{prefix}#{name}_url(*given_args)
             given_options = given_args.extract_options!
-            #{prefix}#{segments}_url(#{ivars})
+            if given_options[:action] then
+              prefix = "\#{given_options[:action]}_"
+              send prefix + "#{segments}_url", #{ivars}
+            else
+              #{prefix}#{segments}_url(#{ivars})
+            end
           end
       URL_HELPERS
     end
