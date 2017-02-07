@@ -3,6 +3,8 @@
 * Support Rails 5
 * Remove support for Ruby < 2.1
 * Fix URL helpers on mountable engines
+* Allow support to has_scope > 0.6 and < 1.0. Users are now able to choose which
+  version they want to use in their applications.
 
 # Version 1.6.0
 
