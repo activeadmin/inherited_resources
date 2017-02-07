@@ -1,16 +1,16 @@
 ## Notice
- 
+
 Inherited Resources is no longer actively maintained by the original author and
 has been transferred to the ActiveAdmin organization for maintenance.  New feature
 requests are not encouraged.
 
-If you are not already using Inherited Resources we suggest instead using Rails' 
+If you are not already using Inherited Resources we suggest instead using Rails'
 `respond_with` feature alongside the [responders gem](https://github.com/plataformatec/responders).
 
 ## Inherited Resources
 
-[![Version         ](http://img.shields.io/gem/v/inherited_resources.svg)                               ](https://rubygems.org/gems/inherited_resources)
-[![Travis CI       ](http://img.shields.io/travis/activeadmin/inherited_resources/master.svg)           ](https://travis-ci.org/activeadmin/inherited_resources)
+[![Version](http://img.shields.io/gem/v/inherited_resources.svg)](https://rubygems.org/gems/inherited_resources)
+[![Travis CI](http://img.shields.io/travis/activeadmin/inherited_resources/master.svg)](https://travis-ci.org/activeadmin/inherited_resources)
 
 Inherited Resources speeds up development by making your controllers inherit
 all restful actions so you just have to focus on what is important. It makes
@@ -634,7 +634,7 @@ end
 ```
 
 This code creates delete and search actions in controller (they behaves like show and
-index actions accordingly). Also, it will produce `delete_resource_{path,url}` and 
+index actions accordingly). Also, it will produce `delete_resource_{path,url}` and
 `search_resources_{path,url}` url helpers.
 
 ## What about views?
