@@ -722,4 +722,4 @@ If you discover any bugs, please describe it in the issues tracker, including Ra
 
 Questions are better handled on StackOverflow.
 
-MIT License. Copyright (c) 2009-2012 José Valim.
+MIT License. Copyright (c) 2009-2017 José Valim.
