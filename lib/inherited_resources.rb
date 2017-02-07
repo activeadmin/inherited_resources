@@ -1,5 +1,7 @@
+# This is here because responders don't require it.
 require 'rails/engine'
 require 'responders'
+require 'inherited_resources/engine'
 require 'inherited_resources/blank_slate'
 require 'inherited_resources/responder'
 
@@ -20,15 +22,6 @@ module InheritedResources
   # Change the flash keys used by FlashResponder.
   def self.flash_keys=(array)
     Responders::FlashResponder.flash_keys = array
-  end
-
-  class Railtie < ::Rails::Engine
-    config.inherited_resources = InheritedResources
-    if config.respond_to?(:app_generators)
-      config.app_generators.scaffold_controller = :inherited_resources_controller
-    else
-      config.generators.scaffold_controller = :inherited_resources_controller
-    end
   end
 end
 
