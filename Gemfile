@@ -2,9 +2,8 @@ source 'https://rubygems.org'
 
 gemspec
 
+gem 'rails', '~> 5.0'
+
 gem 'mocha'
 gem 'minitest-rg'
-
-group :test do
-  gem 'strong_parameters'
-end
+gem 'rails-controller-testing'
