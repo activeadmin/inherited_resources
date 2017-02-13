@@ -223,8 +223,11 @@ module InheritedResources
       # Get resource ivar based on the current resource controller.
       #
       def get_resource_ivar #:nodoc:
-        instance_variable_defined?(:"@#{resource_instance_name}") &&
+        if instance_variable_defined?(:"@#{resource_instance_name}")
           instance_variable_get("@#{resource_instance_name}")
+        else
+          nil
+        end
       end
 
       # Set resource ivar based on the current resource controller.
@@ -236,8 +239,11 @@ module InheritedResources
       # Get collection ivar based on the current resource controller.
       #
       def get_collection_ivar #:nodoc:
-        instance_variable_defined?(:"@#{resource_collection_name}") &&
+        if instance_variable_defined?(:"@#{resource_collection_name}")
           instance_variable_get("@#{resource_collection_name}")
+        else
+          nil
+        end
       end
 
       # Set collection ivar based on the current resource controller.
