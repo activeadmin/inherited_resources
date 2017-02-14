@@ -75,12 +75,12 @@ module InheritedResources
           set_parent_instance(parent_config, chain)
       end
 
-      def get_parent_ivar(instance_name)
+      def get_parent_ivar(instance_name) #:nodoc:
         instance_variable_defined?(:"@#{instance_name}") &&
           instance_variable_get("@#{instance_name}")
       end
 
-      def set_parent_instance(parent_config, chain)
+      def set_parent_instance(parent_config, chain) #:nodoc:
         if parent_config[:singleton]
           parent = if chain
             chain.send(parent_config[:instance_name])
