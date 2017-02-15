@@ -27,14 +27,14 @@ end
 
 ActiveSupport.on_load(:action_controller) do
   # We can remove this check and change to `on_load(:action_controller_base)` in Rails 5.2.
-  break unless self == ActionController::Base
-
-  # If you cannot inherit from InheritedResources::Base you can call
-  # inherit_resources in your controller to have all the required modules and
-  # funcionality included.
-  def self.inherit_resources
-    InheritedResources::Base.inherit_resources(self)
-    initialize_resources_class_accessors!
-    create_resources_url_helpers!
+  if self == ActionController::Base
+    # If you cannot inherit from InheritedResources::Base you can call
+    # inherit_resources in your controller to have all the required modules and
+    # funcionality included.
+    def self.inherit_resources
+      InheritedResources::Base.inherit_resources(self)
+      initialize_resources_class_accessors!
+      create_resources_url_helpers!
+    end
   end
 end
