@@ -299,22 +299,49 @@ module InheritedResources
       end
 
       # URL to redirect to when redirect implies resource url.
-      def smart_resource_url
-        url = nil
-        if respond_to? :show
-          url = resource_url rescue nil
-        end
-        url ||= smart_collection_url
+      def smart_resource_url(action = nil)
+        order = order_for(action, :resource, :collection, :parent)
+        smart_url(*order)
       end
 
       # URL to redirect to when redirect implies collection url.
-      def smart_collection_url
-        url = nil
-        if respond_to? :index
-          url ||= collection_url rescue nil
+      def smart_collection_url(action = nil)
+        order = order_for(action, :collection, :parent)
+        smart_url(*order)
+      end
+
+      # Returns custom redirect order or default
+      def order_for(action, *default)
+        if action && resources_configuration[:redirect_order]
+          resources_configuration[:redirect_order].try(:[], action.to_sym) || default
+        else
+          default
         end
-        if respond_to? :parent, true
-          url ||= parent_url rescue nil
+      end
+
+      # Creates the smart URL to redirect to. Attempts to resolve URLs order specified
+      def smart_url(*order)
+        url = nil
+        order.each do |redirect_type|
+
+          case redirect_type
+          when :resource
+            if respond_to? :show
+              url ||= resource_url rescue nil
+            end
+          when :collection
+            if respond_to? :index
+              url ||= collection_url rescue nil
+            end
+          when :parent
+            if respond_to? :parent, true
+              url ||= parent_url rescue nil
+            end
+          else
+            url ||= root_url rescue nil
+          end
+
+          break if url
         end
         url ||= root_url rescue nil
       end

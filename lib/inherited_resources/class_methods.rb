@@ -286,6 +286,26 @@ module InheritedResources
         self.resources_configuration[:self][:without_protection] = flag
       end
 
+      # Defines a new redirect order for successful Create/Update/Delete actions.
+      #
+      # redirect_order [:parent, :collection]
+      # redirect_order :collection, :only => [:create, :update]
+      # redirect_order [:parent, :resource, :collection], :except => :destroy
+      #
+      def redirect_order(order, *actions)
+        options = actions.extract_options!
+        redirects_for = [:create, :update, :destroy]
+
+        redirects_for = redirects_for & [*options[:only]] if options[:only]
+        redirects_for = redirects_for - [*options[:except]] if options[:except]
+
+        resources_configuration[:redirect_order] ||= {}
+
+        redirects_for.each do |action|
+          resources_configuration[:redirect_order][action] = [*order]
+        end
+      end
+
     private
 
       def acts_as_singleton! #:nodoc:
