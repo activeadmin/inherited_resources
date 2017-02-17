@@ -223,7 +223,7 @@ module InheritedResources
       def polymorphic_belongs_to(*symbols, &block)
         options = symbols.extract_options!
         options.merge!(:polymorphic => true)
-        belongs_to(*symbols, options, &block)
+        belongs_to(*symbols << options, &block)
       end
 
       # A quick method to declare singleton belongs to.
@@ -231,7 +231,7 @@ module InheritedResources
       def singleton_belongs_to(*symbols, &block)
         options = symbols.extract_options!
         options.merge!(:singleton => true)
-        belongs_to(*symbols, options, &block)
+        belongs_to(*symbols << options, &block)
       end
 
       # A quick method to declare optional belongs to.
@@ -239,7 +239,7 @@ module InheritedResources
       def optional_belongs_to(*symbols, &block)
         options = symbols.extract_options!
         options.merge!(:optional => true)
-        belongs_to(*symbols, options, &block)
+        belongs_to(*symbols << options, &block)
       end
 
       # Defines custom restful actions by resource or collection basis.
@@ -390,7 +390,7 @@ module InheritedResources
       def create_custom_action(resource_or_collection, action)
         class_eval <<-CUSTOM_ACTION, __FILE__, __LINE__
           def #{action}(options={}, &block)
-            respond_with(*with_chain(#{resource_or_collection}), options, &block)
+            respond_with(*(with_chain(#{resource_or_collection}) << options), &block)
           end
           alias :#{action}! :#{action}
           protected :#{action}!
