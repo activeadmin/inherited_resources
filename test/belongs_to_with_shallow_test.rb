@@ -38,7 +38,8 @@ class BelongsToWithShallowTest < ActionController::TestCase
   end
 
   def test_expose_a_newly_create_tag_on_create
-    Tag.expects(:build).with({'these' => 'params'}).returns(mock_tag(:save => true))
+    Tag.expects(:build).with({'these' => 'params'}).returns(mock_tag)
+    mock_post.expects(:save).returns(true)
     post :create, :post_id => 'thirty_seven', :tag => {:these => 'params'}
     assert_equal mock_post, assigns(:post)
     assert_equal mock_tag, assigns(:tag)

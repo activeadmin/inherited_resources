@@ -52,7 +52,8 @@ class SingletonTest < ActionController::TestCase
 
   def test_expose_a_newly_create_manager_on_create
     Store.expects(:find).with('37').returns(mock_store)
-    mock_store.expects(:build_manager).with({'these' => 'params'}).returns(mock_manager(:save => true))
+    mock_store.expects(:build_manager).with({'these' => 'params'}).returns(mock_manager)
+    mock_store.expects(:save).returns(true)
     post :create, :store_id => '37', :manager => {:these => 'params'}
     assert_equal mock_store, assigns(:store)
     assert_equal mock_manager, assigns(:manager)

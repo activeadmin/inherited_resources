@@ -11,7 +11,7 @@ class Venue
   extend ActiveModel::Naming
 end
 
-class Address 
+class Address
   extend ActiveModel::Naming
 end
 
@@ -25,7 +25,7 @@ class VenueController < InheritedResources::Base
   belongs_to :party
 end
 
-# for the slightly pathological 
+# for the slightly pathological
 # /party/37/venue/address case
 class AddressController < InheritedResources::Base
   defaults :singleton => true
@@ -92,7 +92,7 @@ class NestedSingletonTest < ActionController::TestCase
     assert_equal mock_venue, assigns(:venue)
     assert_equal mock_address, assigns(:address)
   end
-  
+
   def test_expose_the_address_on_edit
     Party.expects(:find).with('37').returns(mock_party)
     mock_party.expects(:venue).returns(mock_venue)
@@ -118,7 +118,8 @@ class NestedSingletonTest < ActionController::TestCase
   def test_expose_a_newly_create_address_on_create
     Party.expects(:find).with('37').returns(mock_party)
     mock_party.expects(:venue).returns(mock_venue)
-    mock_venue.expects(:build_address).with({'these' => 'params'}).returns(mock_address(:save => true))
+    mock_venue.expects(:build_address).with({'these' => 'params'}).returns(mock_address)
+    mock_venue.expects(:save).returns(true)
     post :create, :party_id => '37', :address => {:these => 'params'}
     assert_equal mock_party, assigns(:party)
     assert_equal mock_venue, assigns(:venue)

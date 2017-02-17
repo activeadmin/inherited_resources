@@ -70,7 +70,7 @@ module InheritedResources
       #   end
       #
       def create_resource(object)
-        object.save
+        parent? ? parent.save : object.save
       end
 
       # Responsible for updating the resource in :update method. This allow you

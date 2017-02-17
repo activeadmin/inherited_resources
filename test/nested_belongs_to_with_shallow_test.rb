@@ -71,7 +71,7 @@ class NestedBelongsToWithShallowTest < ActionController::TestCase
     Shelf.expects(:find).with('37').twice.returns(mock_shelf)
 
     Plate.expects(:build).with({'these' => 'params'}).returns(mock_plate)
-    mock_plate.expects(:save).returns(true)
+    mock_shelf.expects(:save).returns(true)
     post :create, :shelf_id => '37', :plate => {:these => 'params'}
 
     assert_equal mock_dresser, assigns(:dresser)

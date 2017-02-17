@@ -208,7 +208,8 @@ class MultipleNestedOptionalTest < ActionController::TestCase
 	def test_expose_a_newly_created_project_with_student
 		Student.expects(:find).with('37').returns(mock_student)
 		mock_student.expects(:projects).returns(Project)
-		Project.expects(:build).with({ 'these' => 'params' }).returns(mock_project(:save => true))
+		Project.expects(:build).with({ 'these' => 'params' }).returns(mock_project)
+    mock_student.expects(:save).returns(true)
 		post :create, :student_id => '37', :project => { :these => 'params' }
 		assert_equal mock_student, assigns(:student)
 		assert_equal mock_project, assigns(:project)
@@ -217,16 +218,18 @@ class MultipleNestedOptionalTest < ActionController::TestCase
 	def test_expose_a_newly_created_project_with_manager
 		Manager.expects(:find).with('37').returns(mock_manager)
 		mock_manager.expects(:projects).returns(Project)
-		Project.expects(:build).with({ 'these' => 'params' }).returns(mock_project(:save => true))
+		Project.expects(:build).with({ 'these' => 'params' }).returns(mock_project)
+    mock_manager.expects(:save).returns(true)
 		post :create, :manager_id => '37', :project => { :these => 'params' }
 		assert_equal mock_manager, assigns(:manager)
 		assert_equal mock_project, assigns(:project)
 	end
-	
+
 	def test_expose_a_newly_created_project_with_employee
 		Employee.expects(:find).with('37').returns(mock_employee)
 		mock_employee.expects(:projects).returns(Project)
-		Project.expects(:build).with({ 'these' => 'params' }).returns(mock_project(:save => true))
+		Project.expects(:build).with({ 'these' => 'params' }).returns(mock_project)
+    mock_employee.expects(:save).returns(true)
 		post :create, :employee_id => '37', :project => { :these => 'params' }
 		assert_equal mock_employee, assigns(:employee)
 		assert_equal mock_project, assigns(:project)
@@ -237,7 +240,8 @@ class MultipleNestedOptionalTest < ActionController::TestCase
 		mock_manager.expects(:employees).returns(Employee)
 		Employee.expects(:find).with('42').returns(mock_employee)
 		mock_employee.expects(:projects).returns(Project)
-		Project.expects(:build).with({ 'these' => 'params' }).returns(mock_project(:save => true))
+		Project.expects(:build).with({ 'these' => 'params' }).returns(mock_project)
+    mock_employee.expects(:save).returns(true)
 		post :create, :manager_id => '37', :employee_id => '42', :project => { :these => 'params' }
 		assert_equal mock_manager, assigns(:manager)
 		assert_equal mock_employee, assigns(:employee)

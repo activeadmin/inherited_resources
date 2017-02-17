@@ -65,7 +65,8 @@ class BelongsToTest < ActionController::TestCase
   end
 
   def test_expose_a_newly_create_comment_on_create
-    Comment.expects(:build).with({'these' => 'params'}).returns(mock_comment(:save => true))
+    Comment.expects(:build).with({'these' => 'params'}).returns(mock_comment)
+    mock_post.expects(:save).returns(true)
     post :create, :post_id => '37', :comment => {:these => 'params'}
     assert_equal mock_post, assigns(:post)
     assert_equal mock_comment, assigns(:comment)

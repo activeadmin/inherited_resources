@@ -65,7 +65,7 @@ class NestedBelongsToTest < ActionController::TestCase
 
   def test_assigns_country_and_state_and_city_on_create
     City.expects(:build).with({'these' => 'params'}).returns(mock_city)
-    mock_city.expects(:save).returns(true)
+    mock_state.expects(:save).returns(true)
     post :create, :state_id => '37', :country_id => '13', :city => {:these => 'params'}
 
     assert_equal mock_country, assigns(:country)
@@ -82,7 +82,7 @@ class NestedBelongsToTest < ActionController::TestCase
     assert_equal mock_state, assigns(:state)
     assert_equal mock_city, assigns(:city)
   end
-  
+
   def test_assigns_country_and_state_and_city_on_destroy
     City.expects(:find).with('42').returns(mock_city)
     mock_city.expects(:destroy)
