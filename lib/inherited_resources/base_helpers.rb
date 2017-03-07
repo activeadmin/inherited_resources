@@ -149,7 +149,7 @@ module InheritedResources
       # Overwrite this method to provide other interpolation options when
       # the flash message is going to be set.
       #
-      # def interpolation_options
+      # def flash_interpolation_options
       #    { }
       # end
 
