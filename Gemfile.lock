@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    inherited_resources (1.7.0)
+    inherited_resources (1.7.1)
       actionpack (>= 3.2, < 5.1)
       has_scope (~> 0.6)
       railties (>= 3.2, < 5.1)
@@ -134,4 +134,4 @@ DEPENDENCIES
   rails-controller-testing
 
 BUNDLED WITH
-   1.14.3
+   1.14.6
