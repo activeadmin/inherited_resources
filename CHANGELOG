@@ -1,3 +1,9 @@
+# Version 1.7.1
+
+* Fix regression with `get_resource_ivar` that was returning `false`
+  instead of `nil` when the value was not set.
+* Do not load `ActionController::Base` on boot time.
+
 # Version 1.7.0
 
 * Support Rails 5
