@@ -1,3 +1,7 @@
+# Version 1.7.2
+
+* Support Rails 5.1
+
 # Version 1.7.1
 
 * Fix regression with `get_resource_ivar` that was returning `false`

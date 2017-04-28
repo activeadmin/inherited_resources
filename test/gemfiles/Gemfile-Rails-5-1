@@ -1,8 +1,8 @@
 source 'https://rubygems.org'
 
-gemspec
+gemspec :path => '../..'
 
-gem 'rails', '~> 5.1'
+gem 'rails', '~> 5.1.0'
 
 gem 'mocha'
 gem 'minitest-rg'
