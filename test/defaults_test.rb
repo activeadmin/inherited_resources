@@ -30,7 +30,7 @@ class DefaultsTest < ActionController::TestCase
 
   def test_expose_the_requested_painter_on_show
     Malarz.expects(:find_by_slug).with('forty_two').returns(mock_painter)
-    get :show, :id => 'forty_two'
+    get :show, request_params(:id => 'forty_two')
     assert_equal mock_painter, assigns(:malarz)
   end
 
@@ -42,28 +42,28 @@ class DefaultsTest < ActionController::TestCase
 
   def test_expose_the_requested_painter_on_edit
     Malarz.expects(:find_by_slug).with('forty_two').returns(mock_painter)
-    get :edit, :id => 'forty_two'
+    get :edit, request_params(:id => 'forty_two')
     assert_response :success
     assert_equal mock_painter, assigns(:malarz)
   end
 
   def test_expose_a_newly_create_painter_when_saved_with_success
     Malarz.expects(:new).with({'these' => 'params'}).returns(mock_painter(:save => true))
-    post :create, :malarz => {:these => 'params'}
+    post :create, request_params(:malarz => {:these => 'params'})
     assert_equal mock_painter, assigns(:malarz)
   end
 
   def test_update_the_requested_object
     Malarz.expects(:find_by_slug).with('forty_two').returns(mock_painter)
     mock_painter.expects(:update_attributes).with({'these' => 'params'}).returns(true)
-    put :update, :id => 'forty_two', :malarz => {:these => 'params'}
+    put :update, request_params(:id => 'forty_two', :malarz => {:these => 'params'})
     assert_equal mock_painter, assigns(:malarz)
   end
 
   def test_the_requested_painter_is_destroyed
     Malarz.expects(:find_by_slug).with('forty_two').returns(mock_painter)
     mock_painter.expects(:destroy)
-    delete :destroy, :id => 'forty_two'
+    delete :destroy, request_params(:id => 'forty_two')
     assert_equal mock_painter, assigns(:malarz)
   end
 
@@ -97,7 +97,7 @@ class DefaultsNamespaceTest < ActionController::TestCase
 
   def test_expose_the_requested_painter_on_show
     Professor.expects(:find_by_slug).with('forty_two').returns(mock_professor)
-    get :show, :id => 'forty_two'
+    get :show, request_params(:id => 'forty_two')
     assert_equal mock_professor, assigns(:professor)
   end
 
@@ -109,28 +109,28 @@ class DefaultsNamespaceTest < ActionController::TestCase
 
   def test_expose_the_requested_painter_on_edit
     Professor.expects(:find_by_slug).with('forty_two').returns(mock_professor)
-    get :edit, :id => 'forty_two'
+    get :edit, request_params(:id => 'forty_two')
     assert_response :success
     assert_equal mock_professor, assigns(:professor)
   end
 
   def test_expose_a_newly_create_professor_when_saved_with_success
     Professor.expects(:new).with({'these' => 'params'}).returns(mock_professor(:save => true))
-    post :create, :professor => {:these => 'params'}
+    post :create, request_params(:professor => {:these => 'params'})
     assert_equal mock_professor, assigns(:professor)
   end
 
   def test_update_the_professor
     Professor.expects(:find_by_slug).with('forty_two').returns(mock_professor)
     mock_professor.expects(:update_attributes).with({'these' => 'params'}).returns(true)
-    put :update, :id => 'forty_two', :professor => {:these => 'params'}
+    put :update, request_params(:id => 'forty_two', :professor => {:these => 'params'})
     assert_equal mock_professor, assigns(:professor)
   end
 
   def test_the_requested_painter_is_destroyed
     Professor.expects(:find_by_slug).with('forty_two').returns(mock_professor)
     mock_professor.expects(:destroy)
-    delete :destroy, :id => 'forty_two'
+    delete :destroy, request_params(:id => 'forty_two')
     assert_equal mock_professor, assigns(:professor)
   end
 

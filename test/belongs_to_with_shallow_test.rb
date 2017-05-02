@@ -25,35 +25,35 @@ class BelongsToWithShallowTest < ActionController::TestCase
 
   def test_expose_all_tags_as_instance_variable_on_index
     Tag.expects(:scoped).returns([mock_tag])
-    get :index, :post_id => 'thirty_seven'
+    get :index, request_params(:post_id => 'thirty_seven')
     assert_equal mock_post, assigns(:post)
     assert_equal [mock_tag], assigns(:tags)
   end
 
   def test_expose_a_new_tag_on_new
     Tag.expects(:build).returns(mock_tag)
-    get :new, :post_id => 'thirty_seven'
+    get :new, request_params(:post_id => 'thirty_seven')
     assert_equal mock_post, assigns(:post)
     assert_equal mock_tag, assigns(:tag)
   end
 
   def test_expose_a_newly_create_tag_on_create
     Tag.expects(:build).with({'these' => 'params'}).returns(mock_tag(:save => true))
-    post :create, :post_id => 'thirty_seven', :tag => {:these => 'params'}
+    post :create, request_params(:post_id => 'thirty_seven', :tag => {:these => 'params'})
     assert_equal mock_post, assigns(:post)
     assert_equal mock_tag, assigns(:tag)
   end
 
   def test_expose_the_requested_tag_on_show
     should_find_parents
-    get :show, :id => '42'
+    get :show, request_params(:id => '42')
     assert_equal mock_post, assigns(:post)
     assert_equal mock_tag, assigns(:tag)
   end
 
   def test_expose_the_requested_tag_on_edit
     should_find_parents
-    get :edit, :id => '42'
+    get :edit, request_params(:id => '42')
     assert_equal mock_post, assigns(:post)
     assert_equal mock_tag, assigns(:tag)
   end
@@ -61,7 +61,7 @@ class BelongsToWithShallowTest < ActionController::TestCase
   def test_update_the_requested_object_on_update
     should_find_parents
     mock_tag.expects(:update_attributes).with({'these' => 'params'}).returns(true)
-    put :update, :id => '42', :tag => {:these => 'params'}
+    put :update, request_params(:id => '42', :tag => {:these => 'params'})
     assert_equal mock_post, assigns(:post)
     assert_equal mock_tag, assigns(:tag)
   end
@@ -69,7 +69,7 @@ class BelongsToWithShallowTest < ActionController::TestCase
   def test_the_requested_tag_is_destroyed_on_destroy
     should_find_parents
     mock_tag.expects(:destroy)
-    delete :destroy, :id => '42', :post_id => '37'
+    delete :destroy, request_params(:id => '42', :post_id => '37')
     assert_equal mock_post, assigns(:post)
     assert_equal mock_tag, assigns(:tag)
   end
