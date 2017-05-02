@@ -36,15 +36,16 @@ module UserTestHelper
   protected
 
   def new_request
-    ActionPack::VERSION::MAJOR >= 5 ? # see Rails 3806eb7
-      ActionController::TestRequest.new({}, ActionController::TestSession.new) :
-      ActionController::TestRequest.new
+    return ActionController::TestRequest.new if ActionPack::VERSION::MAJOR < 5
+    if ActionPack::VERSION::MAJOR == 5 && ActionPack::VERSION::MINOR < 1
+      ActionController::TestRequest.new({}, ActionController::TestSession.new)
+    else
+      ActionController::TestRequest.create(UsersController)
+    end
   end
 
   def new_response
-    ActionPack::VERSION::MAJOR >= 5 ? # see Rails e26d11c
-      ActionDispatch::TestResponse.new :
-      ActionController::TestResponse.new
+    ActionPack::VERSION::MAJOR < 5 ? ActionController::TestResponse.new : ActionDispatch::TestResponse.create
   end
 
   def mock_user(expectations={})
