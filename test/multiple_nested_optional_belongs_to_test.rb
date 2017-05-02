@@ -25,7 +25,7 @@ class MultipleNestedOptionalTest < ActionController::TestCase
 		Student.expects(:find).with('37').returns(mock_student)
 		mock_student.expects(:projects).returns(Project)
 		Project.expects(:scoped).returns([mock_project])
-		get :index, :student_id => '37'
+		get :index, request_params(:student_id => '37')
 		assert_equal mock_student, assigns(:student)
 		assert_equal [mock_project], assigns(:projects)
 	end
@@ -34,7 +34,7 @@ class MultipleNestedOptionalTest < ActionController::TestCase
 		Manager.expects(:find).with('38').returns(mock_manager)
 		mock_manager.expects(:projects).returns(Project)
 		Project.expects(:scoped).returns([mock_project])
-		get :index, :manager_id => '38'
+		get :index, request_params(:manager_id => '38')
 		assert_equal mock_manager, assigns(:manager)
 		assert_equal [mock_project], assigns(:projects)
 	end
@@ -43,7 +43,7 @@ class MultipleNestedOptionalTest < ActionController::TestCase
 		Employee.expects(:find).with('666').returns(mock_employee)
 		mock_employee.expects(:projects).returns(Project)
 		Project.expects(:scoped).returns([mock_project])
-		get :index, :employee_id => '666'
+		get :index, request_params(:employee_id => '666')
 		assert_equal mock_employee, assigns(:employee)
 		assert_equal [mock_project], assigns(:projects)
 	end
@@ -54,7 +54,7 @@ class MultipleNestedOptionalTest < ActionController::TestCase
 		Employee.expects(:find).with('42').returns(mock_employee)
 		mock_employee.expects(:projects).returns(Project)
 		Project.expects(:scoped).returns([mock_project])
-		get :index, :manager_id => '37', :employee_id => '42'
+		get :index, request_params(:manager_id => '37', :employee_id => '42')
 		assert_equal mock_manager, assigns(:manager)
 		assert_equal mock_employee, assigns(:employee)
 		assert_equal [mock_project], assigns(:projects)
@@ -71,7 +71,7 @@ class MultipleNestedOptionalTest < ActionController::TestCase
 		Student.expects(:find).with('37').returns(mock_student)
 		mock_student.expects(:projects).returns(Project)
 		Project.expects(:find).with('42').returns(mock_project)
-		get :show, :id => '42', :student_id => '37'
+		get :show, request_params(:id => '42', :student_id => '37')
 		assert_equal mock_student, assigns(:student)
 		assert_equal mock_project, assigns(:project)
 	end
@@ -80,7 +80,7 @@ class MultipleNestedOptionalTest < ActionController::TestCase
 		Manager.expects(:find).with('37').returns(mock_manager)
 		mock_manager.expects(:projects).returns(Project)
 		Project.expects(:find).with('42').returns(mock_project)
-		get :show, :id => '42', :manager_id => '37'
+		get :show, request_params(:id => '42', :manager_id => '37')
 		assert_equal mock_manager, assigns(:manager)
 		assert_equal mock_project, assigns(:project)
 	end
@@ -89,7 +89,7 @@ class MultipleNestedOptionalTest < ActionController::TestCase
 		Employee.expects(:find).with('37').returns(mock_employee)
 		mock_employee.expects(:projects).returns(Project)
 		Project.expects(:find).with('42').returns(mock_project)
-		get :show, :id => '42', :employee_id => '37'
+		get :show, request_params(:id => '42', :employee_id => '37')
 		assert_equal mock_employee, assigns(:employee)
 		assert_equal mock_project, assigns(:project)
 	end
@@ -100,7 +100,7 @@ class MultipleNestedOptionalTest < ActionController::TestCase
 		Employee.expects(:find).with('42').returns(mock_employee)
 		mock_employee.expects(:projects).returns(Project)
 		Project.expects(:find).with('13').returns(mock_project)
-		get :show, :id => '13', :manager_id => '37', :employee_id => '42'
+		get :show, request_params(:id => '13', :manager_id => '37', :employee_id => '42')
 		assert_equal mock_manager, assigns(:manager)
 		assert_equal mock_employee, assigns(:employee)
 		assert_equal mock_project, assigns(:project)
@@ -108,7 +108,7 @@ class MultipleNestedOptionalTest < ActionController::TestCase
 
 	def test_expose_the_requested_project_without_parents
 		Project.expects(:find).with('13').returns(mock_project)
-		get :show, :id => '13'
+		get :show, request_params(:id => '13')
 		assert_equal mock_project, assigns(:project)
 	end
 
@@ -117,7 +117,7 @@ class MultipleNestedOptionalTest < ActionController::TestCase
 		Student.expects(:find).with('37').returns(mock_student)
 		mock_student.expects(:projects).returns(Project)
 		Project.expects(:build).returns(mock_project)
-		get :new, :student_id => '37'
+		get :new, request_params(:student_id => '37')
 		assert_equal mock_student, assigns(:student)
 		assert_equal mock_project, assigns(:project)
 	end
@@ -126,7 +126,7 @@ class MultipleNestedOptionalTest < ActionController::TestCase
 		Manager.expects(:find).with('37').returns(mock_manager)
 		mock_manager.expects(:projects).returns(Project)
 		Project.expects(:build).returns(mock_project)
-		get :new, :manager_id => '37'
+		get :new, request_params(:manager_id => '37')
 		assert_equal mock_manager, assigns(:manager)
 		assert_equal mock_project, assigns(:project)
 	end
@@ -135,7 +135,7 @@ class MultipleNestedOptionalTest < ActionController::TestCase
 		Employee.expects(:find).with('37').returns(mock_employee)
 		mock_employee.expects(:projects).returns(Project)
 		Project.expects(:build).returns(mock_project)
-		get :new, :employee_id => '37'
+		get :new, request_params(:employee_id => '37')
 		assert_equal mock_employee, assigns(:employee)
 		assert_equal mock_project, assigns(:project)
 	end
@@ -146,7 +146,7 @@ class MultipleNestedOptionalTest < ActionController::TestCase
 		Employee.expects(:find).with('42').returns(mock_employee)
 		mock_employee.expects(:projects).returns(Project)
 		Project.expects(:build).returns(mock_project)
-		get :new, :manager_id => '37', :employee_id => '42'
+		get :new, request_params(:manager_id => '37', :employee_id => '42')
 		assert_equal mock_manager, assigns(:manager)
 		assert_equal mock_employee, assigns(:employee)
 		assert_equal mock_project, assigns(:project)
@@ -163,7 +163,7 @@ class MultipleNestedOptionalTest < ActionController::TestCase
 		Student.expects(:find).with('37').returns(mock_student)
 		mock_student.expects(:projects).returns(Project)
 		Project.expects(:find).with('42').returns(mock_project)
-		get :edit, :id => '42', :student_id => '37'
+		get :edit, request_params(:id => '42', :student_id => '37')
 		assert_equal mock_student, assigns(:student)
 		assert_equal mock_project, assigns(:project)
 	end
@@ -172,7 +172,7 @@ class MultipleNestedOptionalTest < ActionController::TestCase
 		Manager.expects(:find).with('37').returns(mock_manager)
 		mock_manager.expects(:projects).returns(Project)
 		Project.expects(:find).with('42').returns(mock_project)
-		get :edit, :id => '42', :manager_id => '37'
+		get :edit, request_params(:id => '42', :manager_id => '37')
 		assert_equal mock_manager, assigns(:manager)
 		assert_equal mock_project, assigns(:project)
 	end
@@ -181,7 +181,7 @@ class MultipleNestedOptionalTest < ActionController::TestCase
 		Employee.expects(:find).with('37').returns(mock_employee)
 		mock_employee.expects(:projects).returns(Project)
 		Project.expects(:find).with('42').returns(mock_project)
-		get :edit, :id => '42', :employee_id => '37'
+		get :edit, request_params(:id => '42', :employee_id => '37')
 		assert_equal mock_employee, assigns(:employee)
 		assert_equal mock_project, assigns(:project)
 	end
@@ -192,7 +192,7 @@ class MultipleNestedOptionalTest < ActionController::TestCase
 		Employee.expects(:find).with('42').returns(mock_employee)
 		mock_employee.expects(:projects).returns(Project)
 		Project.expects(:find).with('13').returns(mock_project)
-		get :edit, :id => '13', :manager_id => '37', :employee_id => '42'
+		get :edit, request_params(:id => '13', :manager_id => '37', :employee_id => '42')
 		assert_equal mock_manager, assigns(:manager)
 		assert_equal mock_employee, assigns(:employee)
 		assert_equal mock_project, assigns(:project)
@@ -200,7 +200,7 @@ class MultipleNestedOptionalTest < ActionController::TestCase
 
 	def test_expose_the_requested_project_for_edition_without_parents
 		Project.expects(:find).with('13').returns(mock_project)
-		get :edit, :id => '13'
+		get :edit, request_params(:id => '13')
 		assert_equal mock_project, assigns(:project)
 	end
 
@@ -209,7 +209,7 @@ class MultipleNestedOptionalTest < ActionController::TestCase
 		Student.expects(:find).with('37').returns(mock_student)
 		mock_student.expects(:projects).returns(Project)
 		Project.expects(:build).with({ 'these' => 'params' }).returns(mock_project(:save => true))
-		post :create, :student_id => '37', :project => { :these => 'params' }
+		post :create, request_params(:student_id => '37', :project => { :these => 'params' })
 		assert_equal mock_student, assigns(:student)
 		assert_equal mock_project, assigns(:project)
 	end
@@ -218,7 +218,7 @@ class MultipleNestedOptionalTest < ActionController::TestCase
 		Manager.expects(:find).with('37').returns(mock_manager)
 		mock_manager.expects(:projects).returns(Project)
 		Project.expects(:build).with({ 'these' => 'params' }).returns(mock_project(:save => true))
-		post :create, :manager_id => '37', :project => { :these => 'params' }
+		post :create, request_params(:manager_id => '37', :project => { :these => 'params' })
 		assert_equal mock_manager, assigns(:manager)
 		assert_equal mock_project, assigns(:project)
 	end
@@ -227,7 +227,7 @@ class MultipleNestedOptionalTest < ActionController::TestCase
 		Employee.expects(:find).with('37').returns(mock_employee)
 		mock_employee.expects(:projects).returns(Project)
 		Project.expects(:build).with({ 'these' => 'params' }).returns(mock_project(:save => true))
-		post :create, :employee_id => '37', :project => { :these => 'params' }
+		post :create, request_params(:employee_id => '37', :project => { :these => 'params' })
 		assert_equal mock_employee, assigns(:employee)
 		assert_equal mock_project, assigns(:project)
 	end
@@ -238,7 +238,7 @@ class MultipleNestedOptionalTest < ActionController::TestCase
 		Employee.expects(:find).with('42').returns(mock_employee)
 		mock_employee.expects(:projects).returns(Project)
 		Project.expects(:build).with({ 'these' => 'params' }).returns(mock_project(:save => true))
-		post :create, :manager_id => '37', :employee_id => '42', :project => { :these => 'params' }
+		post :create, request_params(:manager_id => '37', :employee_id => '42', :project => { :these => 'params' })
 		assert_equal mock_manager, assigns(:manager)
 		assert_equal mock_employee, assigns(:employee)
 		assert_equal mock_project, assigns(:project)
@@ -246,7 +246,7 @@ class MultipleNestedOptionalTest < ActionController::TestCase
 
 	def test_expose_a_newly_created_project_without_parents
 		Project.expects(:new).with({ 'these' => 'params' }).returns(mock_project(:save => true))
-		post :create, :project => { :these => 'params' }
+		post :create, request_params(:project => { :these => 'params' })
 		assert_equal mock_project, assigns(:project)
 	end
 
@@ -256,7 +256,7 @@ class MultipleNestedOptionalTest < ActionController::TestCase
 		mock_student.expects(:projects).returns(Project)
 		Project.expects(:find).with('42').returns(mock_project)
 		mock_project.expects(:update_attributes).with({ 'these' => 'params' }).returns(true)
-		put :update, :id => '42', :student_id => '37', :project => { :these => 'params' }
+		put :update, request_params(:id => '42', :student_id => '37', :project => { :these => 'params' })
 		assert_equal mock_student, assigns(:student)
 		assert_equal mock_project, assigns(:project)
 	end
@@ -266,7 +266,7 @@ class MultipleNestedOptionalTest < ActionController::TestCase
 		mock_manager.expects(:projects).returns(Project)
 		Project.expects(:find).with('42').returns(mock_project)
 		mock_project.expects(:update_attributes).with({ 'these' => 'params' }).returns(true)
-		put :update, :id => '42', :manager_id => '37', :project => { :these => 'params' }
+		put :update, request_params(:id => '42', :manager_id => '37', :project => { :these => 'params' })
 		assert_equal mock_manager, assigns(:manager)
 		assert_equal mock_project, assigns(:project)
 	end
@@ -276,7 +276,7 @@ class MultipleNestedOptionalTest < ActionController::TestCase
 		mock_employee.expects(:projects).returns(Project)
 		Project.expects(:find).with('42').returns(mock_project)
 		mock_project.expects(:update_attributes).with({ 'these' => 'params' }).returns(true)
-		put :update, :id => '42', :employee_id => '37', :project => { :these => 'params' }
+		put :update, request_params(:id => '42', :employee_id => '37', :project => { :these => 'params' })
 		assert_equal mock_employee, assigns(:employee)
 		assert_equal mock_project, assigns(:project)
 	end
@@ -288,7 +288,7 @@ class MultipleNestedOptionalTest < ActionController::TestCase
 		mock_employee.expects(:projects).returns(Project)
 		Project.expects(:find).with('42').returns(mock_project)
 		mock_project.expects(:update_attributes).with({ 'these' => 'params' }).returns(true)
-		put :update, :id => '42', :manager_id => '37', :employee_id => '13', :project => { :these => 'params' }
+		put :update, request_params(:id => '42', :manager_id => '37', :employee_id => '13', :project => { :these => 'params' })
 		assert_equal mock_manager, assigns(:manager)
 		assert_equal mock_employee, assigns(:employee)
 		assert_equal mock_project, assigns(:project)
@@ -301,7 +301,7 @@ class MultipleNestedOptionalTest < ActionController::TestCase
 		Project.expects(:find).with('42').returns(mock_project)
 		mock_project.expects(:destroy).returns(true)
 
-		delete :destroy, :id => '42', :student_id => '37'
+		delete :destroy, request_params(:id => '42', :student_id => '37')
 		assert_equal mock_student, assigns(:student)
 		assert_equal mock_project, assigns(:project)
 	end
@@ -312,7 +312,7 @@ class MultipleNestedOptionalTest < ActionController::TestCase
 		Project.expects(:find).with('42').returns(mock_project)
 		mock_project.expects(:destroy).returns(true)
 
-		delete :destroy, :id => '42', :manager_id => '37'
+		delete :destroy, request_params(:id => '42', :manager_id => '37')
 		assert_equal mock_manager, assigns(:manager)
 		assert_equal mock_project, assigns(:project)
 	end
@@ -323,7 +323,7 @@ class MultipleNestedOptionalTest < ActionController::TestCase
 		Project.expects(:find).with('42').returns(mock_project)
 		mock_project.expects(:destroy).returns(true)
 
-		delete :destroy, :id => '42', :employee_id => '37'
+		delete :destroy, request_params(:id => '42', :employee_id => '37')
 		assert_equal mock_employee, assigns(:employee)
 		assert_equal mock_project, assigns(:project)
 	end
@@ -336,7 +336,7 @@ class MultipleNestedOptionalTest < ActionController::TestCase
 		Project.expects(:find).with('42').returns(mock_project)
 		mock_project.expects(:destroy).returns(true)
 
-		delete :destroy, :id => '42', :manager_id => '37', :employee_id => '13'
+		delete :destroy, request_params(:id => '42', :manager_id => '37', :employee_id => '13')
 		assert_equal mock_manager, assigns(:manager)
 		assert_equal mock_employee, assigns(:employee)
 		assert_equal mock_project, assigns(:project)
@@ -346,7 +346,7 @@ class MultipleNestedOptionalTest < ActionController::TestCase
 		Project.expects(:find).with('42').returns(mock_project)
 		mock_project.expects(:destroy).returns(true)
 
-		delete :destroy, :id => '42'
+		delete :destroy, request_params(:id => '42')
 		assert_equal mock_project, assigns(:project)
 	end
 

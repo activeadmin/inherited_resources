@@ -57,7 +57,7 @@ class AliasesTest < ActionController::TestCase
 
   def test_expose_the_requested_user_on_edit
     Student.expects(:find).with('42').returns(mock_student)
-    get :edit, :id => '42'
+    get :edit, request_params(:id => '42')
     assert_equal mock_student, assigns(:student)
     assert_response :success
   end
@@ -113,7 +113,7 @@ class AliasesTest < ActionController::TestCase
   def test_dumb_responder_quietly_receives_everything_on_success
     Student.stubs(:find).returns(mock_student(:update_attributes => true))
     @controller.stubs(:resource_url).returns('http://test.host/')
-    put :update, :id => '42', :student => {:these => 'params'}
+    put :update, request_params(:id => '42', :student => {:these => 'params'})
     assert_equal mock_student, assigns(:student)
   end
 
@@ -138,9 +138,8 @@ class AliasesTest < ActionController::TestCase
       @mock_student ||= begin
         student = mock(expectations.except(:errors))
         student.stubs(:class).returns(Student)
-        student.stubs(:errors).returns(expectations.fetch(:errors, {})) 
+        student.stubs(:errors).returns(expectations.fetch(:errors, {}))
         student
       end
     end
 end
-

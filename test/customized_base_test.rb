@@ -80,7 +80,7 @@ class ShowActionCustomizedBaseTest < ActionController::TestCase
 
   def test_expose_the_requested_user
     Car.expects(:get).with('42').returns(mock_car)
-    get :show, :id => '42'
+    get :show, request_params(:id => '42')
     assert_equal mock_car, assigns(:car)
   end
 end
@@ -100,7 +100,7 @@ class EditActionCustomizedBaseTest < ActionController::TestCase
 
   def test_expose_the_requested_user
     Car.expects(:get).with('42').returns(mock_car)
-    get :edit, :id => '42'
+    get :edit, request_params(:id => '42')
     assert_response :success
     assert_equal mock_car, assigns(:car)
   end
@@ -111,7 +111,7 @@ class CreateActionCustomizedBaseTest < ActionController::TestCase
 
   def test_expose_a_newly_create_user_when_saved_with_success
     Car.expects(:create_new).with({'these' => 'params'}).returns(mock_car(:save_successfully => true))
-    post :create, :car => {:these => 'params'}
+    post :create, request_params(:car => {:these => 'params'})
     assert_equal mock_car, assigns(:car)
   end
 
@@ -136,7 +136,7 @@ class UpdateActionCustomizedBaseTest < ActionController::TestCase
   def test_update_the_requested_object
     Car.expects(:get).with('42').returns(mock_car)
     mock_car.expects(:update_successfully).with({'these' => 'params'}).returns(true)
-    put :update, :id => '42', :car => {:these => 'params'}
+    put :update, request_params(:id => '42', :car => {:these => 'params'})
     assert_equal mock_car, assigns(:car)
   end
 
@@ -161,7 +161,7 @@ class DestroyActionCustomizedBaseTest < ActionController::TestCase
   def test_the_requested_user_is_destroyed
     Car.expects(:get).with('42').returns(mock_car)
     mock_car.expects(:destroy_successfully)
-    delete :destroy, :id => '42'
+    delete :destroy, request_params(:id => '42')
     assert_equal mock_car, assigns(:car)
   end
 
@@ -177,4 +177,3 @@ class DestroyActionCustomizedBaseTest < ActionController::TestCase
     assert_equal flash[:alert], 'Car could not be destroyed.'
   end
 end
-
