@@ -1,5 +1,9 @@
 require File.expand_path('test_helper', File.dirname(__FILE__))
 
+def plain_text
+  ActionPack::VERSION::MAJOR >= 5 ? :plain : :text
+end
+
 class Student
   extend ActiveModel::Naming
 end
@@ -14,7 +18,7 @@ class StudentsController < ApplicationController
 
   def edit
     edit! do |format|
-      format.xml { render :text => 'Render XML' }
+      format.xml { render plain_text => 'Render XML' }
     end
   end
 
@@ -24,17 +28,17 @@ class StudentsController < ApplicationController
   end
 
   create!(:location => "http://test.host/") do |success, failure|
-    success.html { render :text => "I won't redirect!" }
-    failure.xml { render :text => "I shouldn't be rendered" }
+    success.html { render plain_text => "I won't redirect!" }
+    failure.xml { render plain_text => "I shouldn't be rendered" }
   end
 
   update! do |success, failure|
     success.html { redirect_to(resource_url) }
-    failure.html { render :text => "I won't render!" }
+    failure.html { render plain_text => "I won't render!" }
   end
 
   destroy! do |format|
-    format.html { render :text => "Destroyed!" }
+    format.html { render plain_text => "Destroyed!" }
   end
 end
 
