@@ -228,6 +228,17 @@ class ProjectsController < InheritedResources::Base
 end
 ```
 
+For example, in case you are using Devise gem for user authentication, you can use `current_user` helper:
+
+```ruby
+class ProjectsController < InheritedResources::Base
+  protected
+    def begin_of_association_chain
+      @current_user = current_user
+    end
+end
+```
+
 ## Overwriting actions
 
 Let's suppose that after destroying a project you want to redirect to your
