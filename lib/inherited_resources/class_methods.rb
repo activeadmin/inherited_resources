@@ -187,13 +187,12 @@ module InheritedResources
                     klass = new_klass
                     break
                   else
+                    klass = nil
                     namespace = namespace.deconstantize
                   end
                 end
 
-                klass = model_name if klass.start_with?('::')
-
-                klass
+                klass || model_name
               end
               class_name.constantize
             rescue NameError => e
