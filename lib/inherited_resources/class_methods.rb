@@ -175,7 +175,7 @@ module InheritedResources
           config[:parent_class] = options.delete(:parent_class) ||
             begin
               class_name = if options[:class_name]
-                options.delete(:class_name).to_s.pluralize.classify
+                options.delete(:class_name)
               else
                 namespace = self.name.deconstantize
                 model_name = symbol.to_s.pluralize.classify

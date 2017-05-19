@@ -40,6 +40,9 @@ module Controller
 end
 
 module Library
+  class Base
+  end
+
   class Category
   end
 
@@ -181,6 +184,11 @@ class BelongsToErrorsTest < ActiveSupport::TestCase
   def test_belongs_to_for_namespaced_controller_and_non_namespaced_model_sets_parent_class_properly
     Library::SubcategoriesController.send(:belongs_to, :book)
     assert_equal Book, Library::SubcategoriesController.resources_configuration[:book][:parent_class]
+  end
+
+  def test_belongs_to_for_namespaced_model_sets_parent_class_properly
+    Library::SubcategoriesController.send(:belongs_to, :library, :class_name => 'Library::Base')
+    assert_equal Library::Base, Library::SubcategoriesController.resources_configuration[:library][:parent_class]
   end
 
   def test_belongs_to_without_namespace_sets_parent_class_properly
