@@ -51,7 +51,11 @@ module InheritedResources
         config[:route_prefix] = options.delete(:route_prefix) if options.key?(:route_prefix)
 
         if options.key?(:resource_class) or options.key?(:class_name)
-          config[:request_name] = self.resource_class.to_s.underscore.gsub('/', '_')
+          config[:request_name] = begin
+            request_name = self.resource_class
+            request_name = request_name.model_name.param_key if request_name.respond_to?(:model_name)
+            request_name.to_s.underscore.gsub('/', '_')
+          end
           options.delete(:resource_class) and options.delete(:class_name)
         end
 
