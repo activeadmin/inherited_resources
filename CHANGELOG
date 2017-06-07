@@ -1,3 +1,12 @@
+# Master (unreleased)
+
+* Supports Ruby 2.4
+* Remove support for Ruby < 2.2, Rails < 4.2
+* Fixed broken class name in belongs_to
+* Remove use of HttpCacheResponder
+* Correct request_name in isolated engines
+* Fix nested controllers and singleton option
+
 # Version 1.7.2
 
 * Support Rails 5.1
