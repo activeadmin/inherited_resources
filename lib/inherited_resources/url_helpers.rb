@@ -216,6 +216,9 @@ module InheritedResources
       prefix = prefix ? "#{prefix}_" : ''
       ivars << (ivars.empty? ? 'given_options' : ', given_options')
 
+      # Don't define helpers if resource's name is "Resource" to prevent collisions
+      return if resource_class.to_s == 'Resource' && name != :collection
+
       class_eval <<-URL_HELPERS, __FILE__, __LINE__
         protected
           undef :#{prefix}#{name}_path if method_defined? :#{prefix}#{name}_path
