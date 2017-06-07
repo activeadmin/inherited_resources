@@ -46,6 +46,7 @@ module InheritedResources
     def create_resources_url_helpers!
       resource_segments, resource_ivars = [], []
       resource_config = self.resources_configuration[:self]
+      router = resource_config[:router]
 
       singleton   = resource_config[:singleton]
       uncountable = !singleton && resource_config[:route_collection_name] == resource_config[:route_instance_name]
@@ -86,8 +87,8 @@ module InheritedResources
 
       # Generate parent url before we add resource instances.
       unless parents_symbols.empty?
-        generate_url_and_path_helpers nil,   :parent, resource_segments, resource_ivars
-        generate_url_and_path_helpers :edit, :parent, resource_segments, resource_ivars
+        generate_url_and_path_helpers router, nil,   :parent, resource_segments, resource_ivars
+        generate_url_and_path_helpers router, :edit, :parent, resource_segments, resource_ivars
       end
 
       # This is the default route configuration, later we have to deal with
@@ -134,17 +135,17 @@ module InheritedResources
         collection_segments << :"#{collection_segments.pop}_index"
       end
 
-      generate_url_and_path_helpers nil,   :collection, collection_segments, collection_ivars
-      generate_url_and_path_helpers :new,  :resource,   resource_segments,   new_ivars || collection_ivars
-      generate_url_and_path_helpers nil,   :resource,   resource_segments,   resource_ivars
-      generate_url_and_path_helpers :edit, :resource,   resource_segments,   resource_ivars
+      generate_url_and_path_helpers router, nil,   :collection, collection_segments, collection_ivars
+      generate_url_and_path_helpers router, :new,  :resource,   resource_segments,   new_ivars || collection_ivars
+      generate_url_and_path_helpers router, nil,   :resource,   resource_segments,   resource_ivars
+      generate_url_and_path_helpers router, :edit, :resource,   resource_segments,   resource_ivars
 
       if resource_config[:custom_actions]
         [*resource_config[:custom_actions][:resource]].each do | method |
-          generate_url_and_path_helpers method, :resource, resource_segments, resource_ivars
+          generate_url_and_path_helpers router, method, :resource, resource_segments, resource_ivars
         end
         [*resource_config[:custom_actions][:collection]].each do | method |
-          generate_url_and_path_helpers method, :resources, collection_segments, collection_ivars
+          generate_url_and_path_helpers router, method, :resources, collection_segments, collection_ivars
         end
       end
     end
@@ -177,7 +178,7 @@ module InheritedResources
       return segments, ivars
     end
 
-    def generate_url_and_path_helpers(prefix, name, resource_segments, resource_ivars) #:nodoc:
+    def generate_url_and_path_helpers(router, prefix, name, resource_segments, resource_ivars) #:nodoc:
       resource_segments, resource_ivars = handle_shallow_resource(prefix, name, resource_segments, resource_ivars)
 
       ivars       = resource_ivars.dup
@@ -213,6 +214,7 @@ module InheritedResources
         ivars    = ivars.join(', ')
       end
 
+      router = router ? "#{router}." : ''
       prefix = prefix ? "#{prefix}_" : ''
       ivars << (ivars.empty? ? 'given_options' : ', given_options')
 
@@ -221,13 +223,13 @@ module InheritedResources
           undef :#{prefix}#{name}_path if method_defined? :#{prefix}#{name}_path
           def #{prefix}#{name}_path(*given_args)
             given_options = given_args.extract_options!
-            #{prefix}#{segments}_path(#{ivars})
+            #{router}#{prefix}#{segments}_path(#{ivars})
           end
 
           undef :#{prefix}#{name}_url if method_defined? :#{prefix}#{name}_url
           def #{prefix}#{name}_url(*given_args)
             given_options = given_args.extract_options!
-            #{prefix}#{segments}_url(#{ivars})
+            #{router}#{prefix}#{segments}_url(#{ivars})
           end
       URL_HELPERS
     end

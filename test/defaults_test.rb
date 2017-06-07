@@ -10,7 +10,7 @@ end
 
 class PaintersController < InheritedResources::Base
   defaults :instance_name => 'malarz', :collection_name => 'malarze',
-           :resource_class => Malarz, :route_prefix => nil,
+           :resource_class => Malarz, :route_prefix => nil, :router => nil,
            :finder => :find_by_slug
 end
 

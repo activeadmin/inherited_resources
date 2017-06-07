@@ -28,6 +28,8 @@ module InheritedResources
       # * <tt>:route_prefix</tt> - The route prefix which is automically set in namespaced
       #                            controllers. Default to :admin on Admin::ProjectsController.
       #
+      # * <tt>:router</tt> - The router which is automatically used in isolated engines.
+      #
       # * <tt>:singleton</tt> - Tells if this controller is singleton or not.
       #
       # * <tt>:finder</tt> - Specifies which method should be called to instantiate the resource.
@@ -39,7 +41,7 @@ module InheritedResources
 
         options.symbolize_keys!
         options.assert_valid_keys(:resource_class, :collection_name, :instance_name,
-                                  :class_name, :route_prefix, :route_collection_name,
+                                  :class_name, :route_prefix, :router, :route_collection_name,
                                   :route_instance_name, :singleton, :finder)
 
         self.resource_class = options[:resource_class] if options.key?(:resource_class)
@@ -49,6 +51,7 @@ module InheritedResources
 
         config = self.resources_configuration[:self]
         config[:route_prefix] = options.delete(:route_prefix) if options.key?(:route_prefix)
+        config[:router] = options.delete(:router) if options.key?(:router)
 
         if options.key?(:resource_class) or options.key?(:class_name)
           config[:request_name] = begin
