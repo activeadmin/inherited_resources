@@ -57,3 +57,18 @@ class ActiveSupport::TestCase
     @routes = InheritedResources::Routes
   end
 end
+
+# make possible testing with existence or absence of deprecated finders
+class ActiveRecord
+  class << self
+    attr_accessor :use_deprecated_finders
+    def const_defined?(name)
+      if name == :DeprecatedFinders
+        return use_deprecated_finders
+      else
+        super
+      end
+    end
+  end
+end
+ActiveRecord.use_deprecated_finders = false
