@@ -254,6 +254,18 @@ module InheritedResources
 
       # Used to allow to specify success and failure within just one block:
       #
+      #   # three block arity
+      #   def create
+      #     create! do |resource, success, failure|
+      #       success.html {
+      #         #current_user.tag(:resource, :on => :tags, :with => 'test,resource')
+      #         redirect_to url_for(resource)
+      #       }
+      #       failure.html { redirect_to root_url }
+      #     end
+      #   end
+      #
+      #   # two block arity
       #   def create
       #     create! do |success, failure|
       #       failure.html { redirect_to root_url }
@@ -267,6 +279,15 @@ module InheritedResources
         args = (with_chain(object) << options)
 
         case block.try(:arity)
+          when 3
+            respond_with(*args) do |responder|
+              blank_slate = InheritedResources::BlankSlate.new
+              if object.errors.empty?
+                block.call(object, responder, blank_slate)
+              else
+                block.call(object, blank_slate, responder)
+              end
+            end
           when 2
             respond_with(*args) do |responder|
               blank_slate = InheritedResources::BlankSlate.new
