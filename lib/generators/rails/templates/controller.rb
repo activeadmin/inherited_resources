@@ -7,7 +7,7 @@ class <%= controller_class_name %>Controller < InheritedResources::Base
   private
 
     def <%= singular_name %>_params
-      params.require(:<%= singular_name %>).permit(<%= attributes_names.map{ |a_name| ":#{a_name}" }.join(", ") %>)
+      params.require(:<%= singular_name %>).permit(<%= attributes_names.map(&:to_sym).join(", ") %>)
     end
 <% end -%>
 end
