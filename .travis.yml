@@ -1,22 +1,10 @@
 language: ruby
 rvm:
-  - 2.1.9
   - 2.2.5
   - 2.3.1
+  - 2.4.1
   - jruby-9.1.7.0
-  - rbx-2.2.10
 gemfile:
-  - test/gemfiles/Gemfile-Rails-3-2
-  - test/gemfiles/Gemfile-Rails-4-0
-  - test/gemfiles/Gemfile-Rails-4-1
   - test/gemfiles/Gemfile-Rails-4-2
   - test/gemfiles/Gemfile-Rails-5-0
   - test/gemfiles/Gemfile-Rails-5-1
-matrix:
-  exclude:
-    - rvm: 2.1.9
-      gemfile: test/gemfiles/Gemfile-Rails-5-0
-    - rvm: 2.1.9
-      gemfile: test/gemfiles/Gemfile-Rails-5-1
-  allow_failures:
-    - rvm: rbx-2.2.10
