@@ -216,16 +216,20 @@ module InheritedResources
       prefix = prefix ? "#{prefix}_" : ''
       ivars << (ivars.empty? ? 'given_options' : ', given_options')
 
+      given_args_transform = defined?(ActionController::Parameters) ? 'given_args = given_args.collect { |arg| arg.is_a?(ActionController::Parameters) ? arg.to_h : arg }' : ''
+
       class_eval <<-URL_HELPERS, __FILE__, __LINE__
         protected
           undef :#{prefix}#{name}_path if method_defined? :#{prefix}#{name}_path
           def #{prefix}#{name}_path(*given_args)
+            #{given_args_transform}
             given_options = given_args.extract_options!
             #{prefix}#{segments}_path(#{ivars})
           end
 
           undef :#{prefix}#{name}_url if method_defined? :#{prefix}#{name}_url
           def #{prefix}#{name}_url(*given_args)
+            #{given_args_transform}
             given_options = given_args.extract_options!
             #{prefix}#{segments}_url(#{ivars})
           end
