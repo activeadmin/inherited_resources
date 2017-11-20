@@ -216,7 +216,7 @@ module InheritedResources
       prefix = prefix ? "#{prefix}_" : ''
       ivars << (ivars.empty? ? 'given_options' : ', given_options')
 
-      given_args_transform = defined?(ActionController::Parameters) ? 'given_args = given_args.collect { |arg| arg.respond_to?(:permitted?) ? arg.to_h : arg }' : ''
+      given_args_transform = 'given_args = given_args.collect { |arg| arg.respond_to?(:permitted?) ? arg.to_h : arg }'
 
       class_eval <<-URL_HELPERS, __FILE__, __LINE__
         protected
