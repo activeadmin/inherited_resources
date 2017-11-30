@@ -1,5 +1,6 @@
 # Master (unreleased)
 
+* Support Rails 5.2
 * Supports Ruby 2.4
 * Remove support for Ruby < 2.2, Rails < 4.2
 * Fixed broken class name in belongs_to

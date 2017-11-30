@@ -8,3 +8,4 @@ gemfile:
   - test/gemfiles/Gemfile-Rails-4-2
   - test/gemfiles/Gemfile-Rails-5-0
   - test/gemfiles/Gemfile-Rails-5-1
+  - test/gemfiles/Gemfile-Rails-5-2
