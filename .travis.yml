@@ -1,8 +1,9 @@
 language: ruby
 rvm:
-  - 2.2.5
-  - 2.3.1
-  - 2.4.1
+  - 2.2
+  - 2.3
+  - 2.4
+  - 2.5
   - jruby-9.1.7.0
 gemfile:
   - test/gemfiles/Gemfile-Rails-4-2
