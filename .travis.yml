@@ -1,12 +1,18 @@
 language: ruby
 rvm:
-  - 2.2
   - 2.3
   - 2.4
   - 2.5
-  - jruby-9.1.7.0
+  - jruby-9.1.16.0
+
 gemfile:
   - test/gemfiles/Gemfile-Rails-4-2
   - test/gemfiles/Gemfile-Rails-5-0
   - test/gemfiles/Gemfile-Rails-5-1
   - test/gemfiles/Gemfile-Rails-5-2
+
+matrix:
+  fast_finish: true
+
+  allow_failures:
+    - rvm: jruby-9.1.16.0

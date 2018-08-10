@@ -1,5 +1,12 @@
 # Master (unreleased)
 
+# Version 1.9.0
+
+* Support Rails 5.2.1
+* Remove support for Ruby < 2.3
+
+# Version 1.8.0
+
 * Support Rails 5.2
 * Supports Ruby 2.4
 * Remove support for Ruby < 2.2, Rails < 4.2
