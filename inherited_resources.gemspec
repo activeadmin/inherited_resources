@@ -17,7 +17,7 @@ Gem::Specification.new do |s|
   s.files         = Dir["app/**/*", "lib/**/*", "README.md", "MIT-LICENSE"]
   s.require_paths = ["lib"]
 
-  s.required_ruby_version = '>= 2.2'
+  s.required_ruby_version = '>= 2.3'
 
   s.add_dependency("responders")
   s.add_dependency("actionpack", ">= 4.2", "< 5.3")
