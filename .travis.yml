@@ -13,8 +13,8 @@ gemfile:
   - test/gemfiles/Gemfile-Rails-5-1
   - Gemfile
 
-script:
-  - rm "${BUNDLE_GEMFILE}.lock" && bundle exec rake
+before_install:
+  - rm "${BUNDLE_GEMFILE}.lock"
 
 matrix:
   fast_finish: true
