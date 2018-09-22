@@ -9,7 +9,10 @@ gemfile:
   - test/gemfiles/Gemfile-Rails-4-2
   - test/gemfiles/Gemfile-Rails-5-0
   - test/gemfiles/Gemfile-Rails-5-1
-  - test/gemfiles/Gemfile-Rails-5-2
+  - Gemfile
+
+before_install:
+  - rm "${BUNDLE_GEMFILE}.lock"
 
 matrix:
   fast_finish: true
