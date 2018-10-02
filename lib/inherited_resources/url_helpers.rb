@@ -184,13 +184,6 @@ module InheritedResources
       singleton   = self.resources_configuration[:self][:singleton]
       polymorphic = self.parents_symbols.include?(:polymorphic)
 
-      # If it's not a singleton, ivars are not empty, not a collection or
-      # not a "new" named route, we can pass a resource as argument.
-      #
-      unless (singleton && name != :parent) || ivars.empty? || name == :collection || prefix == :new
-        ivars.push "(given_args.first || #{ivars.pop})"
-      end
-
       # In collection in polymorphic cases, allow an argument to be given as a
       # replacemente for the parent.
       #
@@ -206,16 +199,21 @@ module InheritedResources
 
       ivars = ivars.present? ? Array(ivars) : []
 
-      define_params_helper(prefix, name, polymorphic, parent_index)
+      define_params_helper(prefix, name, singleton, polymorphic, parent_index)
       [:path, :url].each { |suffix| define_helper_method(prefix, name, suffix, segments, ivars) }
     end
 
-    def define_params_helper(prefix, name, polymorphic, parent_index)
+    def define_params_helper(prefix, name, singleton, polymorphic, parent_index)
       params_method_name = ['', prefix, name, :params].compact.join(?_)
 
       undef_method params_method_name if method_defined? params_method_name
 
       define_method params_method_name do |given_args, given_options, *args|
+        if !(singleton && name != :parent) && args.present? && name != :collection && prefix != :new
+          resource = args.pop
+          args.push(given_args.first || resource)
+        end
+
         args[parent_index] = given_args.first if parent_index && given_args.present?
         args.compact! if self.resources_configuration[:polymorphic][:optional]
         args = [args] if polymorphic
