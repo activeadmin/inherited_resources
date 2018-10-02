@@ -210,10 +210,10 @@ module InheritedResources
         ivars   << '.compact' if self.resources_configuration[:polymorphic][:optional]
       else
         segments = resource_segments.empty? ? 'root' : resource_segments.join('_')
-        ivars    = ivars.join(', ')
       end
 
-      ivars << (ivars.empty? ? 'given_options' : ', given_options')
+      ivars = ivars.present? ? Array(ivars) : []
+      ivars << 'given_options'
 
       [:path, :url].each { |suffix| define_helper_method(prefix, name, suffix, segments, ivars) }
     end
@@ -228,7 +228,7 @@ module InheritedResources
         def #{method_name}(*given_args)
           given_args = given_args.collect { |arg| arg.respond_to?(:permitted?) ? arg.to_h : arg }
           given_options = given_args.extract_options!
-          #{segments_method}(#{ivars})
+          #{segments_method}(#{ivars.join(?,)})
         end
       URL_HELPERS
       protected method_name
