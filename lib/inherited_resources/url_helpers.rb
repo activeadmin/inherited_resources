@@ -222,15 +222,16 @@ module InheritedResources
       method_name = [prefix, name, suffix].compact.join(?_)
       segments_method = [prefix, segments, suffix].compact.join(?_)
 
+      undef_method method_name if method_defined? method_name
+
       class_eval <<-URL_HELPERS, __FILE__, __LINE__
-        undef :#{method_name} if method_defined? :#{method_name}
         def #{method_name}(*given_args)
           given_args = given_args.collect { |arg| arg.respond_to?(:permitted?) ? arg.to_h : arg }
           given_options = given_args.extract_options!
           #{segments_method}(#{ivars})
         end
-        protected method_name
       URL_HELPERS
+      protected method_name
     end
 
   end
