@@ -213,7 +213,6 @@ module InheritedResources
       end
 
       ivars = ivars.present? ? Array(ivars) : []
-      ivars << 'given_options'
 
       define_params_helper(prefix, name, ivars)
       [:path, :url].each { |suffix| define_helper_method(prefix, name, suffix, segments, ivars) }
@@ -224,8 +223,8 @@ module InheritedResources
 
       undef_method params_method_name if method_defined? params_method_name
 
-      define_method params_method_name do |*args|
-        args
+      define_method params_method_name do |given_options, *args|
+        args << given_options
       end
       protected params_method_name
     end
@@ -241,7 +240,7 @@ module InheritedResources
         def #{method_name}(*given_args)
           given_args = given_args.collect { |arg| arg.respond_to?(:permitted?) ? arg.to_h : arg }
           given_options = given_args.extract_options!
-          #{segments_method}(*#{params_method_name}(#{ivars.join(?,)}))
+          #{segments_method}(*#{params_method_name}(given_options, #{ivars.join(?,)}))
         end
       URL_HELPERS
       protected method_name
