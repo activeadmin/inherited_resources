@@ -90,13 +90,6 @@ module InheritedResources
         generate_url_and_path_helpers :edit, :parent, resource_segments, resource_ivars
       end
 
-      # This is the default route configuration, later we have to deal with
-      # exception from polymorphic and singleton cases.
-      #
-      collection_segments << resource_config[:route_collection_name]
-      resource_segments   << resource_config[:route_instance_name]
-      resource_ivars      << :"@#{resource_config[:instance_name]}"
-
       # In singleton cases, we do not send the current element instance variable
       # because the id is not in the URL. For example, we should call:
       #
@@ -114,19 +107,20 @@ module InheritedResources
       #
       # If the singleton does not have a parent, it will default to root_url.
       #
+      collection_segments << resource_config[:route_collection_name] unless singleton
+      resource_segments   << resource_config[:route_instance_name]
+      resource_ivars      << :"@#{resource_config[:instance_name]}" unless singleton
+
       # Finally, polymorphic cases we have to give hints to the polymorphic url
       # builder. This works by attaching new ivars as symbols or records.
       #
-      if singleton
-        collection_segments.pop
-        resource_ivars.pop
-
-        if polymorphic
+      if polymorphic
+        if singleton
           resource_ivars << resource_config[:instance_name].inspect
           new_ivars       = resource_ivars
+        else
+          collection_ivars << '(@_resource_class_new ||= resource_class.new)'
         end
-      elsif polymorphic
-        collection_ivars << '(@_resource_class_new ||= resource_class.new)'
       end
 
       # If route is uncountable then add "_index" suffix to collection index route name
