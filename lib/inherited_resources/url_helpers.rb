@@ -194,36 +194,31 @@ module InheritedResources
       # In collection in polymorphic cases, allow an argument to be given as a
       # replacemente for the parent.
       #
-      if name == :collection && polymorphic
-        index = ivars.index(:parent)
-        ivars.insert index, "(given_args.first || parent)"
-        ivars.delete(:parent)
-      end
+      parent_index = ivars.index(:parent) if name == :collection && polymorphic
 
-      # When polymorphic is true, the segments must be replace by :polymorphic
-      # and ivars should be gathered into an array, which is compacted when
-      # optional.
-      #
-      if polymorphic
-        segments = :polymorphic
-        ivars    = "[#{ivars.join(', ')}]"
-        ivars   << '.compact' if self.resources_configuration[:polymorphic][:optional]
+      segments = if polymorphic
+        :polymorphic
+      elsif resource_segments.empty?
+        'root'
       else
-        segments = resource_segments.empty? ? 'root' : resource_segments.join('_')
+        resource_segments.join('_')
       end
 
       ivars = ivars.present? ? Array(ivars) : []
 
-      define_params_helper(prefix, name, ivars)
+      define_params_helper(prefix, name, polymorphic, parent_index)
       [:path, :url].each { |suffix| define_helper_method(prefix, name, suffix, segments, ivars) }
     end
 
-    def define_params_helper(prefix, name, _ivars)
+    def define_params_helper(prefix, name, polymorphic, parent_index)
       params_method_name = ['', prefix, name, :params].compact.join(?_)
 
       undef_method params_method_name if method_defined? params_method_name
 
       define_method params_method_name do |given_args, given_options, *args|
+        args[parent_index] = given_args.first if parent_index && given_args.present?
+        args.compact! if self.resources_configuration[:polymorphic][:optional]
+        args = [args] if polymorphic
         args << given_options
       end
       protected params_method_name
