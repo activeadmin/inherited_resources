@@ -54,7 +54,7 @@ module InheritedResources
       # Add route_prefix if any.
       unless resource_config[:route_prefix].blank?
         if polymorphic
-          resource_ivars << resource_config[:route_prefix].to_s.inspect
+          resource_ivars << resource_config[:route_prefix].to_s
         else
           resource_segments << resource_config[:route_prefix]
         end
@@ -70,7 +70,7 @@ module InheritedResources
         else
           config = self.resources_configuration[symbol]
           if config[:singleton] && polymorphic
-            resource_ivars << config[:instance_name].inspect
+            resource_ivars << config[:instance_name]
           else
             resource_segments << config[:route_name]
           end
@@ -115,7 +115,7 @@ module InheritedResources
       # builder. This works by attaching new ivars as symbols or records.
       #
       if polymorphic && singleton
-        resource_ivars << resource_config[:instance_name].inspect
+        resource_ivars << resource_config[:instance_name]
         new_ivars       = resource_ivars
       end
 
@@ -189,18 +189,23 @@ module InheritedResources
 
       ivars = ivars.present? ? Array(ivars) : []
 
-      define_params_helper(prefix, name, singleton, polymorphic, parent_index)
-      [:path, :url].each { |suffix| define_helper_method(prefix, name, suffix, segments, ivars) }
+      define_params_helper(prefix, name, singleton, polymorphic, parent_index, ivars)
+      [:path, :url].each { |suffix| define_helper_method(prefix, name, suffix, segments) }
     end
 
-    def define_params_helper(prefix, name, singleton, polymorphic, parent_index)
+    def define_params_helper(prefix, name, singleton, polymorphic, parent_index, ivars)
       params_method_name = ['', prefix, name, :params].compact.join(?_)
 
       undef_method params_method_name if method_defined? params_method_name
 
-      define_method params_method_name do |given_args, *args|
+      define_method params_method_name do |*given_args|
         given_args = given_args.collect { |arg| arg.respond_to?(:permitted?) ? arg.to_h : arg }
         given_options = given_args.extract_options!
+
+        args = ivars.map do |ivar|
+          ivar.is_a?(Symbol) && ivar.to_s.start_with?(?@) ? instance_variable_get(ivar) : ivar
+        end
+        args[parent_index] = parent if parent_index 
 
         if !(singleton && name != :parent) && args.present? && name != :collection && prefix != :new
           resource = args.pop
@@ -222,7 +227,7 @@ module InheritedResources
       protected params_method_name
     end
 
-    def define_helper_method(prefix, name, suffix, segments, ivars)
+    def define_helper_method(prefix, name, suffix, segments)
       method_name = [prefix, name, suffix].compact.join(?_)
       params_method_name = ['', prefix, name, :params].compact.join(?_)
       segments_method = [prefix, segments, suffix].compact.join(?_)
@@ -231,7 +236,7 @@ module InheritedResources
 
       class_eval <<-URL_HELPERS, __FILE__, __LINE__
         def #{method_name}(*given_args)
-          #{segments_method}(*#{params_method_name}(given_args, #{ivars.join(?,)}))
+          #{segments_method}(*#{params_method_name}(*given_args))
         end
       URL_HELPERS
       protected method_name
