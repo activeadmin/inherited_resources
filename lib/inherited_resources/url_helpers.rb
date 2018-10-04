@@ -114,13 +114,9 @@ module InheritedResources
       # Finally, polymorphic cases we have to give hints to the polymorphic url
       # builder. This works by attaching new ivars as symbols or records.
       #
-      if polymorphic
-        if singleton
-          resource_ivars << resource_config[:instance_name].inspect
-          new_ivars       = resource_ivars
-        else
-          collection_ivars << '(@_resource_class_new ||= resource_class.new)'
-        end
+      if polymorphic && singleton
+        resource_ivars << resource_config[:instance_name].inspect
+        new_ivars       = resource_ivars
       end
 
       # If route is uncountable then add "_index" suffix to collection index route name
@@ -181,7 +177,7 @@ module InheritedResources
       # In collection in polymorphic cases, allow an argument to be given as a
       # replacemente for the parent.
       #
-      parent_index = ivars.index(:parent) if name == :collection && polymorphic
+      parent_index = ivars.index(:parent) if polymorphic
 
       segments = if polymorphic
         :polymorphic
@@ -211,9 +207,16 @@ module InheritedResources
           args.push(given_args.first || resource)
         end
 
-        args[parent_index] = given_args.first if parent_index && given_args.present?
-        args.compact! if self.resources_configuration[:polymorphic][:optional]
-        args = [args] if polymorphic
+        if polymorphic
+          if name == :collection
+            args[parent_index] = given_args.present? ? given_args.first : parent
+          end
+          if (name == :collection || name == :resource && prefix == :new) && !singleton
+            args << (@_resource_class_new ||= resource_class.new)
+          end
+          args.compact! if self.resources_configuration[:polymorphic][:optional]
+          args = [args]
+        end
         args << given_options
       end
       protected params_method_name
