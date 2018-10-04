@@ -234,11 +234,10 @@ module InheritedResources
 
       undef_method method_name if method_defined? method_name
 
-      class_eval <<-URL_HELPERS, __FILE__, __LINE__
-        def #{method_name}(*given_args)
-          #{segments_method}(*#{params_method_name}(*given_args))
-        end
-      URL_HELPERS
+      define_method method_name do |*given_args|
+        given_args = send params_method_name, *given_args
+        send segments_method, *given_args
+      end
       protected method_name
     end
 
