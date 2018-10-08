@@ -187,14 +187,13 @@ module InheritedResources
         resource_segments.join('_')
       end
 
-      ivars = ivars.present? ? Array(ivars) : []
-
       define_params_helper(prefix, name, singleton, polymorphic, parent_index, ivars)
-      [:path, :url].each { |suffix| define_helper_method(prefix, name, suffix, segments) }
+      define_helper_method(prefix, name, :path, segments)
+      define_helper_method(prefix, name, :url, segments)
     end
 
     def define_params_helper(prefix, name, singleton, polymorphic, parent_index, ivars)
-      params_method_name = ['', prefix, name, :params].compact.join(?_)
+      params_method_name = ['', prefix, name, :params].compact.join('_')
 
       undef_method params_method_name if method_defined? params_method_name
 
@@ -203,7 +202,7 @@ module InheritedResources
         given_options = given_args.extract_options!
 
         args = ivars.map do |ivar|
-          ivar.is_a?(Symbol) && ivar.to_s.start_with?(?@) ? instance_variable_get(ivar) : ivar
+          ivar.is_a?(Symbol) && ivar.to_s.start_with?('@') ? instance_variable_get(ivar) : ivar
         end
         args[parent_index] = parent if parent_index 
 
@@ -228,9 +227,9 @@ module InheritedResources
     end
 
     def define_helper_method(prefix, name, suffix, segments)
-      method_name = [prefix, name, suffix].compact.join(?_)
-      params_method_name = ['', prefix, name, :params].compact.join(?_)
-      segments_method = [prefix, segments, suffix].compact.join(?_)
+      method_name = [prefix, name, suffix].compact.join('_')
+      params_method_name = ['', prefix, name, :params].compact.join('_')
+      segments_method = [prefix, segments, suffix].compact.join('_')
 
       undef_method method_name if method_defined? method_name
 
