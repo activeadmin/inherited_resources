@@ -54,7 +54,7 @@ module InheritedResources
       # Add route_prefix if any.
       unless resource_config[:route_prefix].blank?
         if polymorphic
-          resource_ivars << resource_config[:route_prefix].to_s.inspect
+          resource_ivars << resource_config[:route_prefix].to_s
         else
           resource_segments << resource_config[:route_prefix]
         end
@@ -70,7 +70,7 @@ module InheritedResources
         else
           config = self.resources_configuration[symbol]
           if config[:singleton] && polymorphic
-            resource_ivars << config[:instance_name].inspect
+            resource_ivars << config[:instance_name]
           else
             resource_segments << config[:route_name]
           end
@@ -90,13 +90,6 @@ module InheritedResources
         generate_url_and_path_helpers :edit, :parent, resource_segments, resource_ivars
       end
 
-      # This is the default route configuration, later we have to deal with
-      # exception from polymorphic and singleton cases.
-      #
-      collection_segments << resource_config[:route_collection_name]
-      resource_segments   << resource_config[:route_instance_name]
-      resource_ivars      << :"@#{resource_config[:instance_name]}"
-
       # In singleton cases, we do not send the current element instance variable
       # because the id is not in the URL. For example, we should call:
       #
@@ -114,19 +107,16 @@ module InheritedResources
       #
       # If the singleton does not have a parent, it will default to root_url.
       #
+      collection_segments << resource_config[:route_collection_name] unless singleton
+      resource_segments   << resource_config[:route_instance_name]
+      resource_ivars      << :"@#{resource_config[:instance_name]}" unless singleton
+
       # Finally, polymorphic cases we have to give hints to the polymorphic url
       # builder. This works by attaching new ivars as symbols or records.
       #
-      if singleton
-        collection_segments.pop
-        resource_ivars.pop
-
-        if polymorphic
-          resource_ivars << resource_config[:instance_name].inspect
-          new_ivars       = resource_ivars
-        end
-      elsif polymorphic
-        collection_ivars << '(@_resource_class_new ||= resource_class.new)'
+      if polymorphic && singleton
+        resource_ivars << resource_config[:instance_name]
+        new_ivars       = resource_ivars
       end
 
       # If route is uncountable then add "_index" suffix to collection index route name
@@ -184,56 +174,70 @@ module InheritedResources
       singleton   = self.resources_configuration[:self][:singleton]
       polymorphic = self.parents_symbols.include?(:polymorphic)
 
-      # If it's not a singleton, ivars are not empty, not a collection or
-      # not a "new" named route, we can pass a resource as argument.
-      #
-      unless (singleton && name != :parent) || ivars.empty? || name == :collection || prefix == :new
-        ivars.push "(given_args.first || #{ivars.pop})"
-      end
-
       # In collection in polymorphic cases, allow an argument to be given as a
       # replacemente for the parent.
       #
-      if name == :collection && polymorphic
-        index = ivars.index(:parent)
-        ivars.insert index, "(given_args.first || parent)"
-        ivars.delete(:parent)
-      end
+      parent_index = ivars.index(:parent) if polymorphic
 
-      # When polymorphic is true, the segments must be replace by :polymorphic
-      # and ivars should be gathered into an array, which is compacted when
-      # optional.
-      #
-      if polymorphic
-        segments = :polymorphic
-        ivars    = "[#{ivars.join(', ')}]"
-        ivars   << '.compact' if self.resources_configuration[:polymorphic][:optional]
+      segments = if polymorphic
+        :polymorphic
+      elsif resource_segments.empty?
+        'root'
       else
-        segments = resource_segments.empty? ? 'root' : resource_segments.join('_')
-        ivars    = ivars.join(', ')
+        resource_segments.join('_')
       end
 
-      prefix = prefix ? "#{prefix}_" : ''
-      ivars << (ivars.empty? ? 'given_options' : ', given_options')
+      define_params_helper(prefix, name, singleton, polymorphic, parent_index, ivars)
+      define_helper_method(prefix, name, :path, segments)
+      define_helper_method(prefix, name, :url, segments)
+    end
 
-      given_args_transform = 'given_args = given_args.collect { |arg| arg.respond_to?(:permitted?) ? arg.to_h : arg }'
+    def define_params_helper(prefix, name, singleton, polymorphic, parent_index, ivars)
+      params_method_name = ['', prefix, name, :params].compact.join('_')
 
-      class_eval <<-URL_HELPERS, __FILE__, __LINE__
-        protected
-          undef :#{prefix}#{name}_path if method_defined? :#{prefix}#{name}_path
-          def #{prefix}#{name}_path(*given_args)
-            #{given_args_transform}
-            given_options = given_args.extract_options!
-            #{prefix}#{segments}_path(#{ivars})
+      undef_method params_method_name if method_defined? params_method_name
+
+      define_method params_method_name do |*given_args|
+        given_args = given_args.collect { |arg| arg.respond_to?(:permitted?) ? arg.to_h : arg }
+        given_options = given_args.extract_options!
+
+        args = ivars.map do |ivar|
+          ivar.is_a?(Symbol) && ivar.to_s.start_with?('@') ? instance_variable_get(ivar) : ivar
+        end
+        args[parent_index] = parent if parent_index 
+
+        if !(singleton && name != :parent) && args.present? && name != :collection && prefix != :new
+          resource = args.pop
+          args.push(given_args.first || resource)
+        end
+
+        if polymorphic
+          if name == :collection
+            args[parent_index] = given_args.present? ? given_args.first : parent
           end
-
-          undef :#{prefix}#{name}_url if method_defined? :#{prefix}#{name}_url
-          def #{prefix}#{name}_url(*given_args)
-            #{given_args_transform}
-            given_options = given_args.extract_options!
-            #{prefix}#{segments}_url(#{ivars})
+          if (name == :collection || name == :resource && prefix == :new) && !singleton
+            args << (@_resource_class_new ||= resource_class.new)
           end
-      URL_HELPERS
+          args.compact! if self.resources_configuration[:polymorphic][:optional]
+          args = [args]
+        end
+        args << given_options
+      end
+      protected params_method_name
+    end
+
+    def define_helper_method(prefix, name, suffix, segments)
+      method_name = [prefix, name, suffix].compact.join('_')
+      params_method_name = ['', prefix, name, :params].compact.join('_')
+      segments_method = [prefix, segments, suffix].compact.join('_')
+
+      undef_method method_name if method_defined? method_name
+
+      define_method method_name do |*given_args|
+        given_args = send params_method_name, *given_args
+        send segments_method, *given_args
+      end
+      protected method_name
     end
 
   end
