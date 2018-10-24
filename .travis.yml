@@ -20,6 +20,3 @@ before_install:
 
 matrix:
   fast_finish: true
-
-  allow_failures:
-    - rvm: jruby-9.1.17.0
