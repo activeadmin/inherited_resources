@@ -14,12 +14,12 @@ class ChangelogTest < ActiveSupport::TestCase
     end
   end
 
-  def test_entry_does_not_end_with_a_punctuation
+  def test_entry_does_end_with_a_punctuation
     lines = @changelog.each_line
     entries = lines.grep(/^\*/)
 
     entries.each do |entry|
-      refute_match(/\.$/, entry)
+      assert_match(/(\.|\:)$/, entry)
     end
   end
 end
