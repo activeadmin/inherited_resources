@@ -23,7 +23,7 @@
 
 * Fix regression with `get_resource_ivar` that was returning `false`
   instead of `nil` when the value was not set.
-* Do not load `ActionController::Base` on boot time.
+* Do not load `ActionController::Base` on boot time
 
 # Version 1.7.0
 
@@ -35,23 +35,23 @@
 
 # Version 1.6.0
 
-* Support Rails 4.2.
+* Support Rails 4.2
 
 # Version 1.5.1
 
-* Lock the Rails version until only 4.2.
-* Fix parent class lookup.
-* Fix resource_class default value definition.
+* Lock the Rails version until only 4.2
+* Fix parent class lookup
+* Fix resource_class default value definition
 
 # Version 1.5.0
 
-* Supports nested modules (namespaced models and controllers).
-* Supports Rails 4 Strong Parameters notation.
+* Supports nested modules (namespaced models and controllers)
+* Supports Rails 4 Strong Parameters notation
 
 # Version 1.4.1
 
 * Supports Rails 4
-* Improved compatability with strong params.
+* Improved compatability with strong params
 
 # Version 1.4.0
 
@@ -100,7 +100,7 @@
 
     sudo gem install responders
 
-* has_scope was removed from InheritedResources core and is now available as a standalone gem.
+* has_scope was removed from InheritedResources core and is now available as a standalone gem
   To install it, please do:
 
     sudo gem install has_scope
@@ -116,29 +116,29 @@
 
 # Version 0.8
 
-* Fixed a small bug on optional belongs to with namespaced controllers.
+* Fixed a small bug on optional belongs to with namespaced controllers
 * Allow a parameter to be given to collection_url in polymorphic cases to replace
   the parent.
-* Allow InheritedResources to be called without inheritance.
+* Allow InheritedResources to be called without inheritance
 * Ensure that controllers that inherit from a controller with InheritedResources
   works properly.
 
 # Version 0.7
 
-* Allow procs as default value in has scope to be able to use values from session, for example.
+* Allow procs as default value in has scope to be able to use values from session, for example
 * Allow blocks with arity 0 or -1 to be given as the redirect url:
 
     def destroy
       destroy!{ project_url(@project) }
     end
 
-* Allow interpolation_options to be set in the application controller.
-* Added has_scope to controller (an interface for named_scopes).
+* Allow interpolation_options to be set in the application controller
+* Added has_scope to controller (an interface for named_scopes)
 * Added polymorphic_belongs_to, optional_belongs_to and singleton_belongs_to
-  as quick methods.
+  as quick methods
 * Only load belongs_to, singleton and polymorphic helpers if they are actually
   required. base_helpers, class_methods, dumb_responder and url_helpers are loaded
-  when you inherited from base for the first time.
+  when you inherited from base for the first time
 
 # Version 0.6
 
@@ -159,53 +159,53 @@
   route_prefix to be nil.
 * Cleaned up tests and responder structure. Whenever you pass a block to aliases
   and this block responds to the request, the other blocks are not parsed improving performance.
-* [BACKWARDS INCOMPATIBLE] By default, Inherited Resources respond only :html requests.
-* Added a quick way to overwrite the redirect to url in :create, :update and :destroy.
+* [BACKWARDS INCOMPATIBLE] By default, Inherited Resources respond only :html requests
+* Added a quick way to overwrite the redirect to url in :create, :update and :destroy
 
 # Version 0.5
 
 * Decoupled routes name from :instance_name and :collection_name. This way we
   have more flexibility. Use route_instance_name and route_collection_name to
   to change routes.
-* Avoid calling human_name on nil when a resource class is not defined.
-* Only call I18n if it's defined.
+* Avoid calling human_name on nil when a resource class is not defined
+* Only call I18n if it's defined
 
 # Version 0.4
 
-* Dealing with namespaced controllers out of the box.
-* Added support to namespaced routes through :route_prefix.
-* Added fix when resource_url is not defined.
-* Added better handling for namespaced controllers.
-* Added flash messages scoped by namespaced controllers.
-* Deprecated {{resource}} in I18n, use {{resource_name}} instead.
+* Dealing with namespaced controllers out of the box
+* Added support to namespaced routes through :route_prefix
+* Added fix when resource_url is not defined
+* Added better handling for namespaced controllers
+* Added flash messages scoped by namespaced controllers
+* Deprecated {{resource}} in I18n, use {{resource_name}} instead
 * rspec bug fix is not automatically required anymore. User has to do it
   explicitly.
 * Added a file which fix a rspec bug when render is called inside a method
   which receives a block.
 * parent? does not take begin_of_association_chain into account anymore
-* Added options to url helpers.
+* Added options to url helpers
 * Added :optional to belongs_to associations. It allows you to deal with
   categories/1/products/2 and /products/2 with just one controller.
-* Cleaned up tests.
+* Cleaned up tests
 
 # Version 0.3
 
-* Minor bump after three bug fixes.
-* Bug fix when showing warning of constant redefinition.
-* Bug fix with ApplicationController not being unloaded properly on development.
+* Minor bump after three bug fixes
+* Bug fix when showing warning of constant redefinition
+* Bug fix with ApplicationController not being unloaded properly on development
 * Bug fix when having root singleton resources. Calling collection_url would
   raise "NoMethodError _url", not it will call root_url.
-* More comments on UrlHelpers.
+* More comments on UrlHelpers
 
 # Version 0.2
 
-* Bug fix when ApplicationController is already loaded when we load respond_to.
-* Added support success/failure blocks.
-* Eager loading of files to work properly in multithreaded environments.
+* Bug fix when ApplicationController is already loaded when we load respond_to
+* Added support success/failure blocks
+* Eager loading of files to work properly in multithreaded environments
 
 # Version 0.1
 
-* Added more helper_methods.
-* Added Rails 2.3.0 and changed tests to work with ActionController::TestCase.
+* Added more helper_methods
+* Added Rails 2.3.0 and changed tests to work with ActionController::TestCase
 * First release. Support to I18n, singleton controllers, polymorphic
 controllers, belongs_to, nested_belongs_to and url helpers.
