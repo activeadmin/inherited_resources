@@ -7,7 +7,7 @@ rvm:
   - 2.3
   - 2.4
   - 2.5
-  - jruby-9.1.16.0
+  - jruby-9.1.17.0
 
 gemfile:
   - test/gemfiles/Gemfile-Rails-4-2
@@ -22,4 +22,4 @@ matrix:
   fast_finish: true
 
   allow_failures:
-    - rvm: jruby-9.1.16.0
+    - rvm: jruby-9.1.17.0
