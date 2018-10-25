@@ -4,9 +4,9 @@ branches:
 
 language: ruby
 rvm:
-  - 2.3
-  - 2.4
-  - 2.5
+  - 2.3.8
+  - 2.4.5
+  - 2.5.3
   - jruby-9.1.17.0
   - jruby-9.2.0.0
 
