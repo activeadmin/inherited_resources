@@ -102,11 +102,13 @@ module InheritedResources
       # as parent types.
       #
       def parent_type
-        unless @parent_type
+        unless instance_variable_defined?(:@parent_type)
           symbols_for_association_chain
         end
 
-        @parent_type
+        if instance_variable_defined?(:@parent_type)
+          @parent_type
+        end
       end
 
       def parent_class
