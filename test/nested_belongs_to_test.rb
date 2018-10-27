@@ -27,8 +27,8 @@ class NestedBelongsToTest < ActionController::TestCase
     @controller.stubs(:collection_url).returns('/')
   end
 
-  def test_assigns_country_and_state_and_city_on_create
-    City.expects(:find).with(:all).returns([mock_city])
+  def test_assigns_country_and_state_and_city_on_index
+    City.expects(:scoped).returns([mock_city])
     get :index, params: { state_id: '37', country_id: '13' }
 
     assert_equal mock_country, assigns(:country)
