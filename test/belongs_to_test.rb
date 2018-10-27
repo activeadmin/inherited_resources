@@ -56,7 +56,7 @@ class BelongsToTest < ActionController::TestCase
     assert_equal mock_comment, assigns(:comment)
   end
 
-  def test_redirect_to_the_post_on_update_if_show_and_index_undefined
+  def test_redirect_to_the_post_on_create_if_show_and_index_undefined
     @controller.class.send(:actions, :all, except: [:show, :index])
     @controller.expects(:parent_url).returns('http://test.host/')
     Comment.expects(:build).with({'these' => 'params'}).returns(mock_comment(save: true))
