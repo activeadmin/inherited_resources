@@ -1,4 +1,4 @@
-require File.expand_path('test_helper', File.dirname(__FILE__))
+require 'test_helper'
 
 class ModelBase
   extend ActiveModel::Naming
@@ -46,7 +46,7 @@ end
 
 class OwnersController < InheritedResources::Base
   defaults :singleton => true
-  
+
   belongs_to :house
 end
 
@@ -276,7 +276,7 @@ class UrlHelpersTest < ActiveSupport::TestCase
       controller.send("resource_#{path_or_url}", :arg, :page => 1)
     end
   end
-  
+
   def test_url_helpers_on_singleton_belongs_to
     controller = FlamesController.new
     controller.instance_variable_set('@house', :house)
@@ -460,7 +460,7 @@ class UrlHelpersTest < ActiveSupport::TestCase
       controller.send("resource_#{path_or_url}", :arg, :page => 1)
     end
   end
-  
+
   def test_url_helpers_on_nested_polymorphic_belongs_to
     house = House.new
     table = Table.new
@@ -508,7 +508,7 @@ class UrlHelpersTest < ActiveSupport::TestCase
     new_spot = Spot.new
     Spot.stubs(:new).returns(new_spot)
     new_spot.stubs(:persisted?).returns(false)
-    
+
     controller = SpotsController.new
     controller.instance_variable_set('@parent_type', :fork)
     controller.instance_variable_set('@house', house)

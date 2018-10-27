@@ -1,4 +1,4 @@
-require File.expand_path('test_helper', File.dirname(__FILE__))
+require 'test_helper'
 
 if ActionPack::VERSION::MAJOR == 3
   require 'strong_parameters'

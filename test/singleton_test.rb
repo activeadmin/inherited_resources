@@ -1,4 +1,4 @@
-require File.expand_path('test_helper', File.dirname(__FILE__))
+require 'test_helper'
 
 # This test file is instead to test the how controller flow and actions
 # using a belongs_to association. This is done using mocks a la rspec.

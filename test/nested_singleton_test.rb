@@ -1,4 +1,4 @@
-require File.expand_path('test_helper', File.dirname(__FILE__))
+require 'test_helper'
 
 # This test file is instead to test the how controller flow and actions
 # using a belongs_to association. This is done using mocks a la rspec.
@@ -11,7 +11,7 @@ class Venue
   extend ActiveModel::Naming
 end
 
-class Address 
+class Address
   extend ActiveModel::Naming
 end
 
@@ -25,7 +25,7 @@ class VenueController < InheritedResources::Base
   belongs_to :party
 end
 
-# for the slightly pathological 
+# for the slightly pathological
 # /party/37/venue/address case
 class AddressController < InheritedResources::Base
   defaults :singleton => true
@@ -92,7 +92,7 @@ class NestedSingletonTest < ActionController::TestCase
     assert_equal mock_venue, assigns(:venue)
     assert_equal mock_address, assigns(:address)
   end
-  
+
   def test_expose_the_address_on_edit
     Party.expects(:find).with('37').returns(mock_party)
     mock_party.expects(:venue).returns(mock_venue)

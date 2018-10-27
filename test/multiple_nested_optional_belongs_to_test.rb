@@ -1,4 +1,4 @@
-require File.expand_path('test_helper', File.dirname(__FILE__))
+require 'test_helper'
 
 class Student; end
 class Manager; end
@@ -222,7 +222,7 @@ class MultipleNestedOptionalTest < ActionController::TestCase
 		assert_equal mock_manager, assigns(:manager)
 		assert_equal mock_project, assigns(:project)
 	end
-	
+
 	def test_expose_a_newly_created_project_with_employee
 		Employee.expects(:find).with('37').returns(mock_employee)
 		mock_employee.expects(:projects).returns(Project)
