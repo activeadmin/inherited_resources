@@ -56,11 +56,11 @@ module InheritedResources
       def parent?
         true
       end
-      
+
       def parent
         @parent ||= association_chain[-1]
       end
-      
+
       def parent_type
         parent.class.name.underscore.to_sym
       end

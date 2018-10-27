@@ -1,0 +1,15 @@
+---
+
+AllCops:
+  DisabledByDefault: true
+
+  DisplayCopNames: true
+  DisplayStyleGuide: true
+
+  TargetRubyVersion: 2.3
+
+Metrics:
+  Enabled: false
+
+Layout/TrailingWhitespace:
+  Enabled: true
