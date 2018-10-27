@@ -181,7 +181,7 @@ class User
 end
 class Admin::UsersController < InheritedResources::Base
 end
-class TwoPartNameModelForNamespacedController < ActionController::TestCase
+class AnotherTwoPartNameModelForNamespacedController < ActionController::TestCase
   tests Admin::UsersController
 
   def setup
