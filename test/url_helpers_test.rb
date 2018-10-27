@@ -993,18 +993,16 @@ class UrlHelpersTest < ActiveSupport::TestCase
     end
   end
 
-  if ActionPack::VERSION::MAJOR >= 4
-    def test_url_helpers_with_action_controller_parameters
-      parameters = ActionController::Parameters.new(:page => 2)
-      parameters.permit!
+  def test_url_helpers_with_action_controller_parameters
+    parameters = ActionController::Parameters.new(:page => 2)
+    parameters.permit!
 
-      controller = HousesController.new
-      controller.instance_variable_set('@house', :house)
+    controller = HousesController.new
+    controller.instance_variable_set('@house', :house)
 
-      [:url, :path].each do |path_or_url|
-        controller.expects("houses_#{path_or_url}").with({'page' => 2}).once
-        controller.send("collection_#{path_or_url}", parameters)
-      end
+    [:url, :path].each do |path_or_url|
+      controller.expects("houses_#{path_or_url}").with({'page' => 2}).once
+      controller.send("collection_#{path_or_url}", parameters)
     end
   end
 end
