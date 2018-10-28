@@ -10,6 +10,7 @@ If you are not already using Inherited Resources we suggest instead using Rails'
 ## Inherited Resources
 
 [![Version         ][rubygems_badge]][rubygems]
+[![CircleCI        ][circleci_badge]][circleci]
 [![Tidelift        ][tidelift_badge]][tidelift]
 
 Inherited Resources speeds up development by making your controllers inherit
@@ -727,5 +728,7 @@ MIT License. Copyright (c) 2009-2017 José Valim.
 
 [rubygems_badge]: http://img.shields.io/gem/v/inherited_resources.svg
 [rubygems]: https://rubygems.org/gems/inherited_resources
+[circleci_badge]: https://circleci.com/gh/activeadmin/inherited_resources.svg?style=svg
+[circleci]: https://circleci.com/gh/activeadmin/inherited_resources
 [tidelift_badge]: https://tidelift.com/badges/github/activeadmin/inherited_resources
 [tidelift]: https://tidelift.com/subscription/pkg/rubygems-inherited-resources?utm_source=rubygems-inherited-resources&utm_medium=readme
