@@ -22,14 +22,7 @@ module InheritedResources
       def collection
         get_collection_ivar || begin
           c = end_of_association_chain
-          if defined?(ActiveRecord::DeprecatedFinders)
-            # ActiveRecord::Base#scoped and ActiveRecord::Relation#all
-            # are deprecated in Rails 4.  If it's a relation just use
-            # it, otherwise use .all to get a relation.
-            set_collection_ivar(c.is_a?(ActiveRecord::Relation) ? c : c.all)
-          else
-            set_collection_ivar(c.respond_to?(:scoped) ? c.scoped : c.all)
-          end
+          set_collection_ivar(c.respond_to?(:scoped) ? c.scoped : c.all)
         end
       end
 

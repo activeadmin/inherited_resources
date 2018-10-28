@@ -1,9 +1,5 @@
 require 'test_helper'
 
-if ActionPack::VERSION::MAJOR == 3
-  require 'strong_parameters'
-end
-
 class Widget
   extend ActiveModel::Naming
   include ActiveModel::Conversion

@@ -1,5 +1,7 @@
 # Master (unreleased)
 
+* Remove support for Rails 4.2.
+
 # Version 1.9.0
 
 * Support Rails 5.2.1.

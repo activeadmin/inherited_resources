@@ -14,17 +14,11 @@ require "active_support"
 require "active_model"
 require "action_controller"
 
-if ActionPack::VERSION::MAJOR >= 5
-  require 'rails-controller-testing'
-  Rails::Controller::Testing.install
+require 'rails-controller-testing'
+Rails::Controller::Testing.install
 
-  def request_params(params)
-    { params: params }
-  end
-else
-  def request_params(params)
-    params
-  end
+def request_params(params)
+  { params: params }
 end
 
 I18n.load_path << File.join(File.dirname(__FILE__), 'locales', 'en.yml')
