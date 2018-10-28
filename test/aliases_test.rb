@@ -1,4 +1,4 @@
-require File.expand_path('test_helper', File.dirname(__FILE__))
+require 'test_helper'
 
 def plain_text
   ActionPack::VERSION::MAJOR >= 5 ? :plain : :text

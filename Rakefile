@@ -1,12 +1,12 @@
-# encoding: UTF-8
-
 require 'bundler/gem_tasks'
 require 'rake/testtask'
 require 'rdoc/task'
 
 desc 'Run tests for InheritedResources.'
 Rake::TestTask.new(:test) do |t|
-  t.pattern = 'test/**/*_test.rb'
+  t.pattern = "test/**/*_test.rb"
+  t.libs << "test"
+  t.libs << "lib"
   t.verbose = true
 end
 
@@ -21,4 +21,4 @@ Rake::RDocTask.new(:rdoc) do |rdoc|
 end
 
 # Make test the default task.
-task :default => :test
+task default: :test

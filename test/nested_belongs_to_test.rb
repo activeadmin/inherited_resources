@@ -1,4 +1,4 @@
-require File.expand_path('test_helper', File.dirname(__FILE__))
+require 'test_helper'
 
 class Country
 end
@@ -82,7 +82,7 @@ class NestedBelongsToTest < ActionController::TestCase
     assert_equal mock_state, assigns(:state)
     assert_equal mock_city, assigns(:city)
   end
-  
+
   def test_assigns_country_and_state_and_city_on_destroy
     City.expects(:find).with('42').returns(mock_city)
     mock_city.expects(:destroy)

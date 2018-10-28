@@ -1,4 +1,4 @@
-require File.expand_path('test_helper', File.dirname(__FILE__))
+require 'test_helper'
 
 class Pet
   extend ActiveModel::Naming
@@ -10,7 +10,7 @@ end
 
 class PetsController < InheritedResources::Base
   attr_accessor :current_user
-  
+
   def edit
     @pet = 'new pet'
     edit!

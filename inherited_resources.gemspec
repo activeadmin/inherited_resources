@@ -1,5 +1,5 @@
-# -*- encoding: utf-8 -*-
-$:.push File.expand_path("../lib", __FILE__)
+lib = File.expand_path("lib", __dir__)
+$LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
 require "inherited_resources/version"
 
 Gem::Specification.new do |s|
@@ -7,7 +7,7 @@ Gem::Specification.new do |s|
   s.version     = InheritedResources::VERSION.dup
   s.platform    = Gem::Platform::RUBY
   s.summary     = "Inherited Resources speeds up development by making your controllers inherit all restful actions so you just have to focus on what is important."
-  s.homepage    = "http://github.com/activeadmin/inherited_resources"
+  s.homepage    = "https://github.com/activeadmin/inherited_resources"
   s.description = "Inherited Resources speeds up development by making your controllers inherit all restful actions so you just have to focus on what is important."
   s.authors     = ['José Valim', 'Rafael Mendonça França']
   s.license     = "MIT"
