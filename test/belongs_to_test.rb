@@ -132,4 +132,3 @@ class BelongsToTest < ActionController::TestCase
     end
 
 end
-

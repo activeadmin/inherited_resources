@@ -90,4 +90,3 @@ class BelongsToWithShallowTest < ActionController::TestCase
     end
 
 end
-

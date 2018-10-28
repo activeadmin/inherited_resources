@@ -171,4 +171,3 @@ module InheritedResources
 
   end
 end
-

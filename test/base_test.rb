@@ -344,4 +344,3 @@ class DestroyActionBaseTest < ActionController::TestCase
     assert_redirected_to 'http://test.host/'
   end
 end
-
