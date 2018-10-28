@@ -14,6 +14,9 @@ Metrics:
 Layout/EmptyLinesAroundAccessModifier:
   Enabled: true
 
+Layout/EmptyLinesAroundClassBody:
+  Enabled: true
+
 Layout/TrailingWhitespace:
   Enabled: true
 

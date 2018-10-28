@@ -1,7 +1,6 @@
 require 'test_helper'
 
 class ChangelogTest < ActiveSupport::TestCase
-
   def setup
     path = File.join(File.dirname(__dir__), "CHANGELOG.md")
     @changelog = File.read(path)

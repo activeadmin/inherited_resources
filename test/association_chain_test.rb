@@ -85,7 +85,6 @@ class BeginOfAssociationChainTest < ActionController::TestCase
     def mock_pet(stubs={})
       @mock_pet ||= mock(stubs)
     end
-
 end
 
 class PuppetsController < InheritedResources::Base

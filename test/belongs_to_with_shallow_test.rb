@@ -89,5 +89,4 @@ class BelongsToWithShallowTest < ActionController::TestCase
     def mock_tag(stubs={})
       @mock_tag ||= mock(stubs)
     end
-
 end
