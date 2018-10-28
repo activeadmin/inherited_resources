@@ -17,6 +17,7 @@ class PetsController < InheritedResources::Base
   end
 
   protected
+
     def collection
       @pets ||= end_of_association_chain.all
     end
@@ -80,6 +81,7 @@ class BeginOfAssociationChainTest < ActionController::TestCase
   end
 
   protected
+
     def mock_pet(stubs={})
       @mock_pet ||= mock(stubs)
     end
@@ -115,6 +117,7 @@ class AssociationChainTest < ActionController::TestCase
   end
 
   protected
+
     def mock_pet(stubs={})
       @mock_pet ||= mock(stubs)
     end

@@ -77,6 +77,7 @@ class SingletonTest < ActionController::TestCase
   end
 
   protected
+
     def mock_store(stubs={})
       @mock_store ||= mock(stubs)
     end

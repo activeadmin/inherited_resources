@@ -72,6 +72,7 @@ class NestedModelWithShallowTest < ActionController::TestCase
   end
 
   protected
+
     def should_find_parents
       Plan::Group.expects(:find_by_slug).with('forty_two').returns(mock_group)
       mock_group.expects(:speciality).returns(mock_speciality)
@@ -119,6 +120,7 @@ class TwoNestedModelWithShallowTest < ActionController::TestCase
 
 
   protected
+
     def should_find_parents
       Plan::Group.expects(:find_by_slug).with('forty_two').returns(mock_group)
       mock_group.expects(:speciality).returns(mock_speciality)

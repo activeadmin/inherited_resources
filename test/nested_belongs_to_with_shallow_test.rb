@@ -101,6 +101,7 @@ class NestedBelongsToWithShallowTest < ActionController::TestCase
 
 
   protected
+
     def should_find_parents
       Plate.expects(:find).with('42').returns(mock_plate)
       mock_plate.expects(:shelf).returns(mock_shelf)

@@ -11,6 +11,9 @@ AllCops:
 Metrics:
   Enabled: false
 
+Layout/EmptyLinesAroundAccessModifier:
+  Enabled: true
+
 Layout/TrailingWhitespace:
   Enabled: true
 

@@ -26,6 +26,7 @@ class RedirectToIndexWithoutShowTest < ActionController::TestCase
    end
 
   protected
+
     def mock_machine(stubs={})
       @mock_machine ||= mock(stubs)
     end

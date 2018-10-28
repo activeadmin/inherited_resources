@@ -134,6 +134,7 @@ class AliasesTest < ActionController::TestCase
   end
 
   protected
+
     def mock_student(expectations={})
       @mock_student ||= begin
         student = mock(expectations.except(:errors))

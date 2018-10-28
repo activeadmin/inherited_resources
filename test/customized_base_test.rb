@@ -43,6 +43,7 @@ module CarTestHelper
   end
 
   protected
+
     def new_request
       if ActionPack::VERSION::MAJOR == 5 && ActionPack::VERSION::MINOR < 1
         ActionController::TestRequest.new({}, ActionController::TestSession.new)

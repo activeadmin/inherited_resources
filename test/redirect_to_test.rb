@@ -18,6 +18,7 @@ class MachinesController < InheritedResources::Base
   end
 
   protected
+
     def complex_url(name, arg2, arg3)
       'http://test.host/' + name.to_s
     end
@@ -45,6 +46,7 @@ class RedirectToWithBlockTest < ActionController::TestCase
   end
 
   protected
+
     def mock_machine(stubs={})
       @mock_machine ||= mock(stubs)
     end

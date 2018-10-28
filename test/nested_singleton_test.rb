@@ -149,6 +149,7 @@ class NestedSingletonTest < ActionController::TestCase
 
 
   protected
+
     def mock_party(stubs={})
       @mock_party ||= mock('party',stubs)
     end
