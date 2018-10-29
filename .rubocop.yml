@@ -17,6 +17,9 @@ Layout/EmptyLinesAroundAccessModifier:
 Layout/EmptyLinesAroundClassBody:
   Enabled: true
 
+Layout/Tab:
+  Enabled: true
+
 Layout/TrailingWhitespace:
   Enabled: true
 

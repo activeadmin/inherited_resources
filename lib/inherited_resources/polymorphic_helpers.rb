@@ -161,7 +161,7 @@ module InheritedResources
               nil
             else
               @parent_type = keys[-1].to_sym
-							@parent_types = keys.map(&:to_sym)
+              @parent_types = keys.map(&:to_sym)
             end
           else
             symbol
