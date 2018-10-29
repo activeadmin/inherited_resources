@@ -9,7 +9,6 @@ end
 
 class Manager
   extend ActiveModel::Naming
-#  def self.human_name; 'Manager'; end
 end
 
 class ManagersController < InheritedResources::Base
