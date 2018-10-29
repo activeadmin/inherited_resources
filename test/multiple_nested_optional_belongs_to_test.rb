@@ -352,19 +352,19 @@ class MultipleNestedOptionalTest < ActionController::TestCase
 
   protected
 
-  def mock_manager(stubs={})
-    @mock_manager ||= mock(stubs)
-  end
+    def mock_manager(stubs={})
+      @mock_manager ||= mock(stubs)
+    end
 
-  def mock_employee(stubs={})
-    @mock_employee ||= mock(stubs)
-  end
+    def mock_employee(stubs={})
+      @mock_employee ||= mock(stubs)
+    end
 
-  def mock_student(stubs={})
-    @mock_student ||= mock(stubs)
-  end
+    def mock_student(stubs={})
+      @mock_student ||= mock(stubs)
+    end
 
-  def mock_project(stubs={})
-    @mock_project ||= mock(stubs)
-  end
+    def mock_project(stubs={})
+      @mock_project ||= mock(stubs)
+    end
 end

@@ -42,12 +42,12 @@ class StrongParametersTest < ActionController::TestCase
 
   # `permitted_params` has greater priority than `widget_params`
   def test_with_permitted_and_resource_methods
-      @controller.stubs(:widget_params).returns(permitted: 'another_param')
-      class << @controller
-        private :widget_params
-      end
-      Widget.expects(:new).with(permitted: 'param')
-      get :new, params: { widget: { permitted: 'param', prohibited: 'param' } }
+    @controller.stubs(:widget_params).returns(permitted: 'another_param')
+    class << @controller
+      private :widget_params
+    end
+    Widget.expects(:new).with(permitted: 'param')
+    get :new, params: { widget: { permitted: 'param', prohibited: 'param' } }
   end
 end
 

@@ -28,6 +28,9 @@ Layout/IndentationConsistency:
   Enabled: true
   EnforcedStyle: rails
 
+Layout/IndentationWidth:
+  Enabled: true
+
 Layout/Tab:
   Enabled: true
 

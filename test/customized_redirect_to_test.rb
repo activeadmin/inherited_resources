@@ -5,7 +5,7 @@ class Post;
 end
 
 class PostsController < InheritedResources::Base
-    actions :all, except: [:show]
+  actions :all, except: [:show]
 end
 
 class RedirectToIndexWithoutShowTest < ActionController::TestCase

@@ -18,10 +18,10 @@ class UsersController < AccountsController
 
   protected
 
-  def apply_scopes(object)
-    @scopes_applied = true
-    object
-  end
+    def apply_scopes(object)
+      @scopes_applied = true
+      object
+    end
 end
 
 module UserTestHelper
@@ -35,32 +35,32 @@ module UserTestHelper
 
   protected
 
-  def new_request
-    if ActionPack::VERSION::MAJOR == 5 && ActionPack::VERSION::MINOR < 1
-      ActionController::TestRequest.new({}, ActionController::TestSession.new)
-    else
-      ActionController::TestRequest.create(UsersController)
-    end
-  end
-
-  def new_response
-    ActionDispatch::TestResponse.create
-  end
-
-  def mock_user(expectations={})
-    @mock_user ||= begin
-      user = mock(expectations.except(:errors))
-      user.stubs(:class).returns(User)
-      user.stubs(:errors).returns(expectations.fetch(:errors, {}))
-      user.singleton_class.class_eval do
-        def method_missing(symbol, *arguments, &block)
-          raise NoMethodError.new('this is expected by Array#flatten') if symbol == :to_ary
-          super
-        end
+    def new_request
+      if ActionPack::VERSION::MAJOR == 5 && ActionPack::VERSION::MINOR < 1
+        ActionController::TestRequest.new({}, ActionController::TestSession.new)
+      else
+        ActionController::TestRequest.create(UsersController)
       end
-      user
     end
-  end
+
+    def new_response
+      ActionDispatch::TestResponse.create
+    end
+
+    def mock_user(expectations={})
+      @mock_user ||= begin
+        user = mock(expectations.except(:errors))
+        user.stubs(:class).returns(User)
+        user.stubs(:errors).returns(expectations.fetch(:errors, {}))
+        user.singleton_class.class_eval do
+          def method_missing(symbol, *arguments, &block)
+            raise NoMethodError.new('this is expected by Array#flatten') if symbol == :to_ary
+            super
+          end
+        end
+        user
+      end
+    end
 end
 
 class IndexActionBaseTest < ActionController::TestCase
