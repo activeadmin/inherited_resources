@@ -365,7 +365,7 @@ module InheritedResources
 
       # getting role for mass-asignment
       def as_role
-        { :as => self.resources_configuration[:self][:role] }
+        { as: self.resources_configuration[:self][:role] }
       end
 
       def without_protection_given?
@@ -373,7 +373,7 @@ module InheritedResources
       end
 
       def without_protection
-        { :without_protection => self.resources_configuration[:self][:without_protection] }
+        { without_protection: self.resources_configuration[:self][:without_protection] }
       end
   end
 end

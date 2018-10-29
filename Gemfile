@@ -1,6 +1,6 @@
 source 'https://rubygems.org'
 
-gemspec :path => '.'
+gemspec path: '.'
 
 gem 'rails', '~> 5.2.x'
 

@@ -23,7 +23,7 @@ class StudentsController < ApplicationController
     new!
   end
 
-  create!(:location => "http://test.host/") do |success, failure|
+  create!(location: "http://test.host/") do |success, failure|
     success.html { render plain: "I won't redirect!" }
     failure.xml { render plain: "I shouldn't be rendered" }
   end
@@ -57,7 +57,7 @@ class AliasesTest < ActionController::TestCase
 
   def test_expose_the_requested_user_on_edit
     Student.expects(:find).with('42').returns(mock_student)
-    get :edit, params: { :id => '42' }
+    get :edit, params: { id: '42' }
     assert_equal mock_student, assigns(:student)
     assert_response :success
   end
@@ -78,7 +78,7 @@ class AliasesTest < ActionController::TestCase
   end
 
   def test_is_not_redirected_on_create_with_success_if_success_block_is_given
-    Student.stubs(:new).returns(mock_student(:save => true))
+    Student.stubs(:new).returns(mock_student(save: true))
     @controller.stubs(:resource_url).returns('http://test.host/')
     post :create
     assert_response :success
@@ -87,7 +87,7 @@ class AliasesTest < ActionController::TestCase
 
   def test_dumb_responder_quietly_receives_everything_on_failure
     @request.accept = 'text/html'
-    Student.stubs(:new).returns(mock_student(:save => false, :errors => {:some => :error}))
+    Student.stubs(:new).returns(mock_student(save: false, errors: {some: :error}))
     @controller.stubs(:resource_url).returns('http://test.host/')
     post :create
     assert_response :success
@@ -96,7 +96,7 @@ class AliasesTest < ActionController::TestCase
 
   def test_html_is_the_default_when_only_xml_is_overwriten
     @request.accept = '*/*'
-    Student.stubs(:new).returns(mock_student(:save => false, :errors => {:some => :error}))
+    Student.stubs(:new).returns(mock_student(save: false, errors: {some: :error}))
     @controller.stubs(:resource_url).returns('http://test.host/')
     post :create
     assert_response :success
@@ -104,21 +104,21 @@ class AliasesTest < ActionController::TestCase
   end
 
   def test_wont_render_edit_template_on_update_with_failure_if_failure_block_is_given
-    Student.stubs(:find).returns(mock_student(:update_attributes => false, :errors => { :fail => true }))
+    Student.stubs(:find).returns(mock_student(update_attributes: false, errors: { fail: true }))
     put :update, params: { id: '42' }
     assert_response :success
     assert_equal "I won't render!", @response.body
   end
 
   def test_dumb_responder_quietly_receives_everything_on_success
-    Student.stubs(:find).returns(mock_student(:update_attributes => true))
+    Student.stubs(:find).returns(mock_student(update_attributes: true))
     @controller.stubs(:resource_url).returns('http://test.host/')
-    put :update, params: { :id => '42', :student => {:these => 'params'} }
+    put :update, params: { id: '42', student: {these: 'params'} }
     assert_equal mock_student, assigns(:student)
   end
 
   def test_block_is_called_when_student_is_destroyed
-    Student.stubs(:find).returns(mock_student(:destroy => true))
+    Student.stubs(:find).returns(mock_student(destroy: true))
     delete :destroy, params: { id: '42' }
     assert_response :success
     assert_equal "Destroyed!", @response.body
@@ -126,7 +126,7 @@ class AliasesTest < ActionController::TestCase
 
   def test_options_are_used_in_respond_with
     @request.accept = "application/xml"
-    mock_student = mock_student(:save => true, :to_xml => "XML")
+    mock_student = mock_student(save: true, to_xml: "XML")
     Student.stubs(:new).returns(mock_student)
 
     post :create

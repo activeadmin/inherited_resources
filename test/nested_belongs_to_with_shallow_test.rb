@@ -10,7 +10,7 @@ class Plate
 end
 
 class PlatesController < InheritedResources::Base
-  belongs_to :dresser, :shelf, :shallow => true
+  belongs_to :dresser, :shelf, shallow: true
 end
 
 class NestedBelongsToWithShallowTest < ActionController::TestCase
@@ -31,7 +31,7 @@ class NestedBelongsToWithShallowTest < ActionController::TestCase
   def test_assigns_dresser_and_shelf_and_plate_on_index
     Shelf.expects(:find).with('37').twice.returns(mock_shelf)
     Plate.expects(:scoped).returns([mock_plate])
-    get :index, params: { :shelf_id => '37' }
+    get :index, params: { shelf_id: '37' }
 
     assert_equal mock_dresser, assigns(:dresser)
     assert_equal mock_shelf, assigns(:shelf)
@@ -40,7 +40,7 @@ class NestedBelongsToWithShallowTest < ActionController::TestCase
 
   def test_assigns_dresser_and_shelf_and_plate_on_show
     should_find_parents
-    get :show, params: { :id => '42' }
+    get :show, params: { id: '42' }
 
     assert_equal mock_dresser, assigns(:dresser)
     assert_equal mock_shelf, assigns(:shelf)
@@ -50,7 +50,7 @@ class NestedBelongsToWithShallowTest < ActionController::TestCase
   def test_assigns_dresser_and_shelf_and_plate_on_new
     Plate.expects(:build).returns(mock_plate)
     Shelf.expects(:find).with('37').twice.returns(mock_shelf)
-    get :new, params: { :shelf_id => '37' }
+    get :new, params: { shelf_id: '37' }
 
     assert_equal mock_dresser, assigns(:dresser)
     assert_equal mock_shelf, assigns(:shelf)
@@ -59,7 +59,7 @@ class NestedBelongsToWithShallowTest < ActionController::TestCase
 
   def test_assigns_dresser_and_shelf_and_plate_on_edit
     should_find_parents
-    get :edit, params: { :id => '42' }
+    get :edit, params: { id: '42' }
 
     assert_equal mock_dresser, assigns(:dresser)
     assert_equal mock_shelf, assigns(:shelf)
@@ -72,7 +72,7 @@ class NestedBelongsToWithShallowTest < ActionController::TestCase
 
     Plate.expects(:build).with({'these' => 'params'}).returns(mock_plate)
     mock_plate.expects(:save).returns(true)
-    post :create, params: { :shelf_id => '37', :plate => {:these => 'params'} }
+    post :create, params: { shelf_id: '37', plate: {these: 'params'} }
 
     assert_equal mock_dresser, assigns(:dresser)
     assert_equal mock_shelf, assigns(:shelf)
@@ -82,7 +82,7 @@ class NestedBelongsToWithShallowTest < ActionController::TestCase
   def test_assigns_dresser_and_shelf_and_plate_on_update
     should_find_parents
     mock_plate.expects(:update_attributes).returns(true)
-    put :update, params: { :id => '42', :plate => {:these => 'params'} }
+    put :update, params: { id: '42', plate: {these: 'params'} }
 
     assert_equal mock_dresser, assigns(:dresser)
     assert_equal mock_shelf, assigns(:shelf)
@@ -92,7 +92,7 @@ class NestedBelongsToWithShallowTest < ActionController::TestCase
   def test_assigns_dresser_and_shelf_and_plate_on_destroy
     should_find_parents
     mock_plate.expects(:destroy)
-    delete :destroy, params: { :id => '42' }
+    delete :destroy, params: { id: '42' }
 
     assert_equal mock_dresser, assigns(:dresser)
     assert_equal mock_shelf, assigns(:shelf)
