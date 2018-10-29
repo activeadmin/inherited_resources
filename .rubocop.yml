@@ -17,6 +17,10 @@ Layout/EmptyLinesAroundAccessModifier:
 Layout/EmptyLinesAroundClassBody:
   Enabled: true
 
+Layout/IndentationConsistency:
+  Enabled: true
+  EnforcedStyle: rails
+
 Layout/Tab:
   Enabled: true
 
