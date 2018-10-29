@@ -11,6 +11,9 @@ AllCops:
 Metrics:
   Enabled: false
 
+Layout/CommentIndentation:
+  Enabled: true
+
 Layout/EmptyLinesAroundAccessModifier:
   Enabled: true
 
