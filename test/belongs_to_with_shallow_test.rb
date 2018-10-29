@@ -75,6 +75,7 @@ class BelongsToWithShallowTest < ActionController::TestCase
   end
 
   protected
+
     def should_find_parents
       mock_tag.expects(:post).returns(mock_post)
       mock_post.expects(:to_param).returns('thirty_seven')
@@ -88,6 +89,4 @@ class BelongsToWithShallowTest < ActionController::TestCase
     def mock_tag(stubs={})
       @mock_tag ||= mock(stubs)
     end
-
 end
-

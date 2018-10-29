@@ -351,6 +351,7 @@ class MultipleNestedOptionalTest < ActionController::TestCase
 	end
 
 	protected
+
 	def mock_manager(stubs={})
 		@mock_manager ||= mock(stubs)
 	end

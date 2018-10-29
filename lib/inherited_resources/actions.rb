@@ -64,4 +64,3 @@ module InheritedResources
     protected :index!, :show!, :new!, :create!, :edit!, :update!, :destroy!
   end
 end
-

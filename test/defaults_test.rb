@@ -68,6 +68,7 @@ class DefaultsTest < ActionController::TestCase
   end
 
   protected
+
     def mock_painter(stubs={})
       @mock_painter ||= mock(stubs)
     end
@@ -135,6 +136,7 @@ class DefaultsNamespaceTest < ActionController::TestCase
   end
 
   protected
+
     def mock_professor(stubs={})
       @mock_professor ||= mock(stubs)
     end

@@ -100,6 +100,7 @@ class PolymorphicFactoriesTest < ActionController::TestCase
   end
 
   protected
+
     def mock_factory(stubs={})
       @mock_factory ||= mock(stubs)
     end
@@ -187,6 +188,7 @@ class PolymorphicCompanyTest < ActionController::TestCase
   end
 
   protected
+
     def mock_company(stubs={})
       @mock_company ||= mock(stubs)
     end
@@ -209,6 +211,7 @@ class PolymorphicPhotosTest < ActionController::TestCase
   end
 
   protected
+
     def mock_user(stubs={})
       @mock_user ||= mock(stubs)
     end

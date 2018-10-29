@@ -73,4 +73,3 @@ class CustomizedBelongsToTest < ActionController::TestCase
       @mock_professor ||= mock(stubs)
     end
 end
-

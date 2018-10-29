@@ -204,7 +204,7 @@ module InheritedResources
         args = ivars.map do |ivar|
           ivar.is_a?(Symbol) && ivar.to_s.start_with?('@') ? instance_variable_get(ivar) : ivar
         end
-        args[parent_index] = parent if parent_index 
+        args[parent_index] = parent if parent_index
 
         if !(singleton && name != :parent) && args.present? && name != :collection && prefix != :new
           resource = args.pop

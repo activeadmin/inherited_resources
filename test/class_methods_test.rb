@@ -99,7 +99,6 @@ class ActionsClassMethodTest < ActionController::TestCase
       assert action_methods.include? action
     end
   end
-
 end
 
 class DefaultsClassMethodTest < ActiveSupport::TestCase
@@ -198,7 +197,6 @@ class BelongsToErrorsTest < ActiveSupport::TestCase
 end
 
 class SpecialCasesClassMethodTest < ActionController::TestCase
-
   def test_resource_class_to_corresponding_model_class
     assert_equal Controller::User, Controller::UsersController.send(:resource_class)
     assert_equal Controller::User, Controller::Admin::UsersController.send(:resource_class)

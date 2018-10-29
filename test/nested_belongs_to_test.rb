@@ -94,6 +94,7 @@ class NestedBelongsToTest < ActionController::TestCase
   end
 
   protected
+
     def mock_country(stubs={})
       @mock_country ||= mock(stubs)
     end

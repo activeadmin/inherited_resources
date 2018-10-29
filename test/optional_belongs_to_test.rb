@@ -154,6 +154,7 @@ class OptionalTest < ActionController::TestCase
   end
 
   protected
+
     def mock_category(stubs={})
       @mock_category ||= mock(stubs)
     end

@@ -1,0 +1,24 @@
+---
+
+AllCops:
+  DisabledByDefault: true
+
+  DisplayCopNames: true
+  DisplayStyleGuide: true
+
+  TargetRubyVersion: 2.3
+
+Metrics:
+  Enabled: false
+
+Layout/EmptyLinesAroundAccessModifier:
+  Enabled: true
+
+Layout/EmptyLinesAroundClassBody:
+  Enabled: true
+
+Layout/TrailingWhitespace:
+  Enabled: true
+
+Layout/TrailingBlankLines:
+  Enabled: true

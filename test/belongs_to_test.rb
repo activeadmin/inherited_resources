@@ -130,6 +130,4 @@ class BelongsToTest < ActionController::TestCase
     def mock_comment(stubs={})
       @mock_comment ||= mock(stubs)
     end
-
 end
-
