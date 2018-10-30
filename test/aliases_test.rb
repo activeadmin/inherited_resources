@@ -57,14 +57,14 @@ class AliasesTest < ActionController::TestCase
 
   def test_expose_the_requested_user_on_edit
     Student.expects(:find).with('42').returns(mock_student)
-    get :edit, request_params(:id => '42')
+    get :edit, params: { :id => '42' }
     assert_equal mock_student, assigns(:student)
     assert_response :success
   end
 
   def test_controller_should_render_edit
     Student.stubs(:find).returns(mock_student)
-    get :edit, request_params(id: '42')
+    get :edit, params: { id: '42' }
     assert_response :success
     assert_equal 'Edit HTML', @response.body.strip
   end
@@ -72,7 +72,7 @@ class AliasesTest < ActionController::TestCase
   def test_render_xml_when_it_is_given_as_a_block
     @request.accept = 'application/xml'
     Student.stubs(:find).returns(mock_student)
-    get :edit, request_params(id: '42')
+    get :edit, params: { id: '42' }
     assert_response :success
     assert_equal 'Render XML', @response.body
   end
@@ -105,7 +105,7 @@ class AliasesTest < ActionController::TestCase
 
   def test_wont_render_edit_template_on_update_with_failure_if_failure_block_is_given
     Student.stubs(:find).returns(mock_student(:update_attributes => false, :errors => { :fail => true }))
-    put :update, request_params(id: '42')
+    put :update, params: { id: '42' }
     assert_response :success
     assert_equal "I won't render!", @response.body
   end
@@ -113,13 +113,13 @@ class AliasesTest < ActionController::TestCase
   def test_dumb_responder_quietly_receives_everything_on_success
     Student.stubs(:find).returns(mock_student(:update_attributes => true))
     @controller.stubs(:resource_url).returns('http://test.host/')
-    put :update, request_params(:id => '42', :student => {:these => 'params'})
+    put :update, params: { :id => '42', :student => {:these => 'params'} }
     assert_equal mock_student, assigns(:student)
   end
 
   def test_block_is_called_when_student_is_destroyed
     Student.stubs(:find).returns(mock_student(:destroy => true))
-    delete :destroy, request_params(id: '42')
+    delete :destroy, params: { id: '42' }
     assert_response :success
     assert_equal "Destroyed!", @response.body
   end

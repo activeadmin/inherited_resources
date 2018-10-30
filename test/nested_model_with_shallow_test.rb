@@ -50,7 +50,7 @@ class NestedModelWithShallowTest < ActionController::TestCase
 
   def test_assigns_subfaculty_and_speciality_and_group_on_edit
     should_find_parents
-    get :edit, request_params(:id => 'forty_two')
+    get :edit, params: { :id => 'forty_two' }
 
     assert_equal mock_subfaculty, assigns(:subfaculty)
     assert_equal mock_speciality, assigns(:speciality)
@@ -60,14 +60,14 @@ class NestedModelWithShallowTest < ActionController::TestCase
   def test_expose_a_newly_create_group_with_speciality
     Speciality.expects(:find).with('37').twice.returns(mock_speciality)
     Plan::Group.expects(:build).with({'these' => 'params'}).returns(mock_group(:save => true))
-    post :create, request_params(:speciality_id => '37', :group => {'these' => 'params'})
+    post :create, params: { :speciality_id => '37', :group => {'these' => 'params'} }
     assert_equal mock_group, assigns(:group)
   end
 
   def test_expose_a_update_group_with_speciality
     should_find_parents
     mock_group.expects(:update_attributes).with('these' => 'params').returns(true)
-    post :update, request_params(:id => 'forty_two', :group => {'these' => 'params'})
+    post :update, params: { :id => 'forty_two', :group => {'these' => 'params'} }
     assert_equal mock_group, assigns(:group)
   end
 
@@ -110,7 +110,7 @@ class TwoNestedModelWithShallowTest < ActionController::TestCase
 
   def test_assigns_subfaculty_and_speciality_and_group_on_new
     should_find_parents
-    get :new, request_params(:group_id => 'forty_two')
+    get :new, params: { :group_id => 'forty_two' }
 
     assert_equal mock_subfaculty, assigns(:subfaculty)
     assert_equal mock_speciality, assigns(:speciality)

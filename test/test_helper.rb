@@ -17,11 +17,6 @@ require "action_controller"
 require 'rails-controller-testing'
 Rails::Controller::Testing.install
 
-# FIXME: update tests now to inline this
-def request_params(params, **options)
-  { params: params }.merge(options)
-end
-
 I18n.load_path << File.join(File.dirname(__FILE__), 'locales', 'en.yml')
 I18n.reload!
 
