@@ -119,11 +119,11 @@ class DefaultsClassMethodTest < ActiveSupport::TestCase
     assert_equal :string, BooksController.send(:resources_configuration)[:self][:instance_name]
     assert_equal :strings, BooksController.send(:resources_configuration)[:self][:collection_name]
 
-    BooksController.send(:defaults, class_name: 'Fixnum', instance_name: :fixnum, collection_name: :fixnums)
+    BooksController.send(:defaults, class_name: 'Integer', instance_name: :integer, collection_name: :integers)
 
-    assert_equal Fixnum, BooksController.send(:resource_class)
-    assert_equal :fixnum, BooksController.send(:resources_configuration)[:self][:instance_name]
-    assert_equal :fixnums, BooksController.send(:resources_configuration)[:self][:collection_name]
+    assert_equal Integer, BooksController.send(:resource_class)
+    assert_equal :integer, BooksController.send(:resources_configuration)[:self][:instance_name]
+    assert_equal :integers, BooksController.send(:resources_configuration)[:self][:collection_name]
   end
 
   def test_defaults_raises_invalid_key
