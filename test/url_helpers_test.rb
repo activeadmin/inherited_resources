@@ -461,42 +461,6 @@ class UrlHelpersTest < ActiveSupport::TestCase
     end
   end
 
-  def test_url_helpers_on_nested_polymorphic_belongs_to
-    house = House.new
-    table = Table.new
-    dish  = Dish.new
-
-    new_dish = Dish.new
-    Dish.stubs(:new).returns(new_dish)
-    new_dish.stubs(:persisted?).returns(false)
-
-    controller = DishesController.new
-    controller.instance_variable_set('@parent_type', :table)
-    controller.instance_variable_set('@house', house)
-    controller.instance_variable_set('@table', table)
-    controller.instance_variable_set('@dish', dish)
-
-    [:url, :path].each do |path_or_url|
-      mock_polymorphic(controller, "house_table_dishes_#{path_or_url}").with(house, table).once
-      controller.send("collection_#{path_or_url}")
-
-      mock_polymorphic(controller, "house_table_dish_#{path_or_url}").with(house, table, dish).once
-      controller.send("resource_#{path_or_url}")
-
-      mock_polymorphic(controller, "new_house_table_dish_#{path_or_url}").with(house, table).once
-      controller.send("new_resource_#{path_or_url}")
-
-      mock_polymorphic(controller, "edit_house_table_dish_#{path_or_url}").with(house, table, dish).once
-      controller.send("edit_resource_#{path_or_url}")
-
-      mock_polymorphic(controller, "house_table_#{path_or_url}").with(house, table).once
-      controller.send("parent_#{path_or_url}")
-
-      mock_polymorphic(controller, "edit_house_table_#{path_or_url}").with(house, table).once
-      controller.send("edit_parent_#{path_or_url}")
-    end
-  end
-
   def test_url_helpers_on_singleton_and_polymorphic_belongs_to
     house = House.new
     dishwasher = Dishwasher.new

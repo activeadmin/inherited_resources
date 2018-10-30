@@ -21,12 +21,12 @@ class StrongParametersTest < ActionController::TestCase
 
   def test_permitted_params_from_new
     Widget.expects(:new).with(:permitted => 'param')
-    get :new, request_params(:widget => { :permitted => 'param', :prohibited => 'param' })
+    get :new, params: { :widget => { :permitted => 'param', :prohibited => 'param' } }
   end
 
   def test_permitted_params_from_create
     Widget.expects(:new).with(:permitted => 'param').returns(mock(:save => true))
-    post :create, request_params(:widget => { :permitted => 'param', :prohibited => 'param' })
+    post :create, params: { :widget => { :permitted => 'param', :prohibited => 'param' } }
   end
 
   def test_permitted_params_from_update
@@ -37,7 +37,7 @@ class StrongParametersTest < ActionController::TestCase
     mock_widget.stubs(:to_model).returns(mock_widget)
     mock_widget.stubs(:model_name).returns(Widget.model_name)
     Widget.expects(:find).with('42').returns(mock_widget)
-    put :update, request_params(:id => '42', :widget => {:permitted => 'param', :prohibited => 'param'})
+    put :update, params: { :id => '42', :widget => {:permitted => 'param', :prohibited => 'param'} }
   end
 
   # `permitted_params` has greater priority than `widget_params`
@@ -47,7 +47,7 @@ class StrongParametersTest < ActionController::TestCase
         private :widget_params
       end
       Widget.expects(:new).with(:permitted => 'param')
-      get :new, request_params(:widget => { :permitted => 'param', :prohibited => 'param' })
+      get :new, params: { :widget => { :permitted => 'param', :prohibited => 'param' } }
   end
 end
 
@@ -64,12 +64,12 @@ class StrongParametersWithoutPermittedParamsTest < ActionController::TestCase
 
   def test_permitted_params_from_new
     Widget.expects(:new).with(:permitted => 'param')
-    get :new, request_params(:widget => { :permitted => 'param', :prohibited => 'param' })
+    get :new, params: { :widget => { :permitted => 'param', :prohibited => 'param' } }
   end
 
   def test_permitted_params_from_create
     Widget.expects(:new).with(:permitted => 'param').returns(mock(:save => true))
-    post :create, request_params(:widget => { :permitted => 'param', :prohibited => 'param' })
+    post :create, params: { :widget => { :permitted => 'param', :prohibited => 'param' } }
   end
 
   def test_permitted_params_from_update
@@ -80,7 +80,7 @@ class StrongParametersWithoutPermittedParamsTest < ActionController::TestCase
     mock_widget.stubs(:to_model).returns(mock_widget)
     mock_widget.stubs(:model_name).returns(Widget.model_name)
     Widget.expects(:find).with('42').returns(mock_widget)
-    put :update, request_params(:id => '42', :widget => {:permitted => 'param', :prohibited => 'param'})
+    put :update, params: { :id => '42', :widget => {:permitted => 'param', :prohibited => 'param'} }
   end
 end
 
@@ -100,17 +100,17 @@ class StrongParametersIntegrationTest < ActionController::TestCase
 
   def test_permitted_empty_params_from_new
     Widget.expects(:new).with({})
-    get :new, request_params({})
+    get :new, params: {}
   end
 
   def test_permitted_params_from_new
     Widget.expects(:new).with('permitted' => 'param')
-    get :new, request_params(:widget => { :permitted => 'param', :prohibited => 'param' })
+    get :new, params: { :widget => { :permitted => 'param', :prohibited => 'param' } }
   end
 
   def test_permitted_params_from_create
     Widget.expects(:new).with('permitted' => 'param').returns(mock(:save => true))
-    post :create, request_params(:widget => { :permitted => 'param', :prohibited => 'param' })
+    post :create, params: { :widget => { :permitted => 'param', :prohibited => 'param' } }
   end
 
   def test_permitted_params_from_update
@@ -121,6 +121,6 @@ class StrongParametersIntegrationTest < ActionController::TestCase
     mock_widget.stubs(:to_model).returns(mock_widget)
     mock_widget.stubs(:model_name).returns(Widget.model_name)
     Widget.expects(:find).with('42').returns(mock_widget)
-    put :update, request_params(:id => '42', :widget => {:permitted => 'param', :prohibited => 'param'})
+    put :update, params: { :id => '42', :widget => {:permitted => 'param', :prohibited => 'param'} }
   end
 end

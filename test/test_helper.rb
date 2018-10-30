@@ -17,10 +17,6 @@ require "action_controller"
 require 'rails-controller-testing'
 Rails::Controller::Testing.install
 
-def request_params(params)
-  { params: params }
-end
-
 I18n.load_path << File.join(File.dirname(__FILE__), 'locales', 'en.yml')
 I18n.reload!
 

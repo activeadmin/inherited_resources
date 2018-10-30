@@ -106,13 +106,13 @@ class ShowActionBaseTest < ActionController::TestCase
 
   def test_expose_the_requested_user
     User.expects(:find).with('42').returns(mock_user)
-    get :show, request_params(:id => '42')
+    get :show, params: { :id => '42' }
     assert_equal mock_user, assigns(:user)
   end
 
   def test_controller_should_render_show
     User.stubs(:find).returns(mock_user)
-    get :show
+    get :show, params: { id: '42' }
     assert_response :success
     assert_equal 'Show HTML', @response.body.strip
   end
@@ -122,7 +122,7 @@ class ShowActionBaseTest < ActionController::TestCase
     User.expects(:find).with('42').returns(mock_user)
     mock_user.expects(:to_xml).returns("Generated XML")
 
-    get :show, request_params(:id => '42')
+    get :show, params: { :id => '42' }
     assert_response :success
     assert_equal 'Generated XML', @response.body
   end
@@ -160,14 +160,14 @@ class EditActionBaseTest < ActionController::TestCase
 
   def test_expose_the_requested_user
     User.expects(:find).with('42').returns(mock_user)
-    get :edit, request_params(:id => '42')
+    get :edit, params: { :id => '42' }
     assert_response :success
     assert_equal mock_user, assigns(:user)
   end
 
   def test_controller_should_render_edit
     User.stubs(:find).returns(mock_user)
-    get :edit
+    get :edit, params: { id: '42' }
     assert_response :success
     assert_equal 'Edit HTML', @response.body.strip
   end
@@ -178,21 +178,21 @@ class CreateActionBaseTest < ActionController::TestCase
 
   def test_expose_a_newly_create_user_when_saved_with_success
     User.expects(:new).with({'these' => 'params'}).returns(mock_user(:save => true))
-    post :create, request_params(:user => {:these => 'params'})
+    post :create, params: { :user => {:these => 'params'} }
     assert_equal mock_user, assigns(:user)
   end
 
   def test_expose_a_newly_create_user_when_saved_with_success_and_role_setted
     @controller.class.send(:with_role, :admin)
     User.expects(:new).with({'these' => 'params'}, {:as => :admin}).returns(mock_user(:save => true))
-    post :create, request_params(:user => {:these => 'params'})
+    post :create, params: { :user => {:these => 'params'} }
     assert_equal mock_user, assigns(:user)
   end
 
   def test_expose_a_newly_create_user_when_saved_with_success_and_without_protection_setted
     @controller.class.send(:without_protection, true)
     User.expects(:new).with({'these' => 'params'}, {:without_protection => true}).returns(mock_user(:save => true))
-    post :create, request_params(:user => {:these => 'params'})
+    post :create, params: { :user => {:these => 'params'} }
     assert_equal mock_user, assigns(:user)
   end
 
@@ -235,7 +235,7 @@ class UpdateActionBaseTest < ActionController::TestCase
   def test_update_the_requested_object
     User.expects(:find).with('42').returns(mock_user)
     mock_user.expects(:update_attributes).with({'these' => 'params'}).returns(true)
-    put :update, request_params(:id => '42', :user => {:these => 'params'})
+    put :update, params: { :id => '42', :user => {:these => 'params'} }
     assert_equal mock_user, assigns(:user)
   end
 
@@ -243,7 +243,7 @@ class UpdateActionBaseTest < ActionController::TestCase
     @controller.class.send(:with_role, :admin)
     User.expects(:find).with('42').returns(mock_user)
     mock_user.expects(:update_attributes).with({'these' => 'params'}, {:as => :admin}).returns(true)
-    put :update, request_params(:id => '42', :user => {:these => 'params'})
+    put :update, params: { :id => '42', :user => {:these => 'params'} }
     assert_equal mock_user, assigns(:user)
   end
 
@@ -251,14 +251,14 @@ class UpdateActionBaseTest < ActionController::TestCase
     @controller.class.send(:without_protection, true)
     User.expects(:find).with('42').returns(mock_user)
     mock_user.expects(:update_attributes).with({'these' => 'params'}, {:without_protection => true}).returns(true)
-    put :update, request_params(:id => '42', :user => {:these => 'params'})
+    put :update, params: { :id => '42', :user => {:these => 'params'} }
     assert_equal mock_user, assigns(:user)
   end
 
   def test_redirect_to_the_updated_user
     User.stubs(:find).returns(mock_user(:update_attributes => true))
     @controller.expects(:resource_url).returns('http://test.host/')
-    put :update
+    put :update, params: { id: '42' }
     assert_redirected_to 'http://test.host/'
   end
 
@@ -266,32 +266,32 @@ class UpdateActionBaseTest < ActionController::TestCase
     @controller.class.send(:actions, :all, :except => :show)
     User.stubs(:find).returns(mock_user(:update_attributes => true))
     @controller.expects(:collection_url).returns('http://test.host/')
-    put :update
+    put :update, params: { id: '42' }
     assert_redirected_to 'http://test.host/'
   end
 
   def test_show_flash_message_when_success
     User.stubs(:find).returns(mock_user(:update_attributes => true))
-    put :update
+    put :update, params: { id: '42' }
     assert_equal flash[:notice], 'User was successfully updated.'
   end
 
   def test_show_flash_message_with_javascript_request_when_success
     User.stubs(:find).returns(mock_user(:update_attributes => true))
-    post :update, :format => :js
+    post :update, params: { id: '42' }, format: :js
     assert_equal flash[:notice], 'User was successfully updated.'
   end
 
   def test_render_edit_template_when_user_cannot_be_saved
     User.stubs(:find).returns(mock_user(:update_attributes => false, :errors => {:some => :error}))
-    put :update
+    put :update, params: { id: '42' }
     assert_response :success
     assert_equal "Edit HTML", @response.body.strip
   end
 
   def test_dont_show_flash_message_when_user_cannot_be_saved
     User.stubs(:find).returns(mock_user(:update_attributes => false, :errors => {:some => :error}))
-    put :update
+    put :update, params: { id: '42' }
     assert flash.empty?
   end
 end
@@ -302,45 +302,45 @@ class DestroyActionBaseTest < ActionController::TestCase
   def test_the_requested_user_is_destroyed
     User.expects(:find).with('42').returns(mock_user)
     mock_user.expects(:destroy).returns(true)
-    delete :destroy, request_params(:id => '42')
+    delete :destroy, params: { :id => '42' }
     assert_equal mock_user, assigns(:user)
   end
 
   def test_show_flash_message_when_user_can_be_deleted
     User.stubs(:find).returns(mock_user(:destroy => true))
-    delete :destroy
+    delete :destroy, params: { id: '42' }
     assert_equal flash[:notice], 'User was successfully destroyed.'
   end
 
   def test_show_flash_message_with_javascript_request_when_user_can_be_deleted
     User.stubs(:find).returns(mock_user(:destroy => true))
-    delete :destroy, :format => :js
+    delete :destroy, params: { id: '42' }, format: :js
     assert_equal flash[:notice], 'User was successfully destroyed.'
   end
 
   def test_show_flash_message_when_user_cannot_be_deleted
     User.stubs(:find).returns(mock_user(:destroy => false, :errors => { :fail => true }))
-    delete :destroy
+    delete :destroy, params: { id: '42' }
     assert_equal flash[:alert], 'User could not be destroyed.'
   end
 
   def test_show_flash_message_with_javascript_request_when_user_cannot_be_deleted
     User.stubs(:find).returns(mock_user(:destroy => false, :errors => { :fail => true }))
-    delete :destroy, :format => :js
+    delete :destroy, params: { id: '42' }, format: :js
     assert_equal flash[:alert], 'User could not be destroyed.'
   end
 
   def test_redirects_to_users_list
     User.stubs(:find).returns(mock_user(:destroy => true))
     @controller.expects(:collection_url).returns('http://test.host/')
-    delete :destroy
+    delete :destroy, params: { id: '42' }
     assert_redirected_to 'http://test.host/'
   end
 
   def test_redirects_to_the_resource_if_cannot_be_destroyed
     User.stubs(:find).returns(mock_user(:destroy => false))
     @controller.expects(:collection_url).returns('http://test.host/')
-    delete :destroy
+    delete :destroy, params: { id: '42' }
     assert_redirected_to 'http://test.host/'
   end
 end
