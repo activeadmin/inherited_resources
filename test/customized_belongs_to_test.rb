@@ -29,7 +29,7 @@ class CustomizedBelongsToTest < ActionController::TestCase
 
   def test_expose_the_requested_school_with_chosen_instance_variable_on_show
     Professor.stubs(:find).returns(mock_professor)
-    get :show, request_params(:school_title => 'nice')
+    get :show, request_params(id: 42, school_title: 'nice')
     assert_equal mock_school, assigns(:great_school)
   end
 
@@ -41,7 +41,7 @@ class CustomizedBelongsToTest < ActionController::TestCase
 
   def test_expose_the_requested_school_with_chosen_instance_variable_on_edit
     Professor.stubs(:find).returns(mock_professor)
-    get :edit, request_params(:school_title => 'nice')
+    get :edit, request_params(id: 42, school_title: 'nice')
     assert_equal mock_school, assigns(:great_school)
   end
 
@@ -53,13 +53,13 @@ class CustomizedBelongsToTest < ActionController::TestCase
 
   def test_expose_the_requested_school_with_chosen_instance_variable_on_update
     Professor.stubs(:find).returns(mock_professor(:update_attributes => true))
-    put :update, request_params(:school_title => 'nice')
+    put :update, request_params(id: 42, school_title: 'nice')
     assert_equal mock_school, assigns(:great_school)
   end
 
   def test_expose_the_requested_school_with_chosen_instance_variable_on_destroy
     Professor.stubs(:find).returns(mock_professor(:destroy => true))
-    delete :destroy, request_params(:school_title => 'nice')
+    delete :destroy, request_params(id: 42, school_title: 'nice')
     assert_equal mock_school, assigns(:great_school)
   end
 

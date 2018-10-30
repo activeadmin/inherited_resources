@@ -144,13 +144,13 @@ class UpdateActionCustomizedBaseTest < ActionController::TestCase
   def test_redirect_to_the_created_user
     Car.stubs(:get).returns(mock_car(:update_successfully => true))
     @controller.expects(:resource_url).returns('http://test.host/')
-    put :update
+    put :update, request_params(id: '42')
     assert_redirected_to 'http://test.host/'
   end
 
   def test_render_edit_template_when_user_cannot_be_saved
     Car.stubs(:get).returns(mock_car(:update_successfully => false, :errors => {:some => :error}))
-    put :update
+    put :update, request_params(id: '42')
     assert_response :success
     assert_equal "Edit HTML", @response.body.strip
   end
@@ -168,13 +168,13 @@ class DestroyActionCustomizedBaseTest < ActionController::TestCase
 
   def test_show_flash_message_when_user_can_be_deleted
     Car.stubs(:get).returns(mock_car(:destroy_successfully => true))
-    delete :destroy
+    delete :destroy, request_params(id: '42')
     assert_equal flash[:notice], 'Car was successfully destroyed.'
   end
 
   def test_show_flash_message_when_cannot_be_deleted
     Car.stubs(:get).returns(mock_car(:destroy_successfully => false, :errors => { :fail => true }))
-    delete :destroy
+    delete :destroy, request_params(id: '42')
     assert_equal flash[:alert], 'Car could not be destroyed.'
   end
 end

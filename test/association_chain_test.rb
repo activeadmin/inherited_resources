@@ -61,7 +61,7 @@ class BeginOfAssociationChainTest < ActionController::TestCase
   def test_instance_variable_should_not_be_set_if_already_defined
     @controller.current_user.expects(:pets).never
     Pet.expects(:find).never
-    get :edit
+    get :edit, request_params(id: '47')
     assert_response :success
     assert_equal 'new pet', assigns(:pet)
   end

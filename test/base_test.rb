@@ -112,7 +112,7 @@ class ShowActionBaseTest < ActionController::TestCase
 
   def test_controller_should_render_show
     User.stubs(:find).returns(mock_user)
-    get :show
+    get :show, request_params(id: '42')
     assert_response :success
     assert_equal 'Show HTML', @response.body.strip
   end
@@ -167,7 +167,7 @@ class EditActionBaseTest < ActionController::TestCase
 
   def test_controller_should_render_edit
     User.stubs(:find).returns(mock_user)
-    get :edit
+    get :edit, request_params(id: '42')
     assert_response :success
     assert_equal 'Edit HTML', @response.body.strip
   end
@@ -258,7 +258,7 @@ class UpdateActionBaseTest < ActionController::TestCase
   def test_redirect_to_the_updated_user
     User.stubs(:find).returns(mock_user(:update_attributes => true))
     @controller.expects(:resource_url).returns('http://test.host/')
-    put :update
+    put :update, request_params(id: '42')
     assert_redirected_to 'http://test.host/'
   end
 
@@ -266,32 +266,32 @@ class UpdateActionBaseTest < ActionController::TestCase
     @controller.class.send(:actions, :all, :except => :show)
     User.stubs(:find).returns(mock_user(:update_attributes => true))
     @controller.expects(:collection_url).returns('http://test.host/')
-    put :update
+    put :update, request_params(id: '42')
     assert_redirected_to 'http://test.host/'
   end
 
   def test_show_flash_message_when_success
     User.stubs(:find).returns(mock_user(:update_attributes => true))
-    put :update
+    put :update, request_params(id: '42')
     assert_equal flash[:notice], 'User was successfully updated.'
   end
 
   def test_show_flash_message_with_javascript_request_when_success
     User.stubs(:find).returns(mock_user(:update_attributes => true))
-    post :update, :format => :js
+    post :update, request_params({ id: '42' }, format: :js)
     assert_equal flash[:notice], 'User was successfully updated.'
   end
 
   def test_render_edit_template_when_user_cannot_be_saved
     User.stubs(:find).returns(mock_user(:update_attributes => false, :errors => {:some => :error}))
-    put :update
+    put :update, request_params(id: '42')
     assert_response :success
     assert_equal "Edit HTML", @response.body.strip
   end
 
   def test_dont_show_flash_message_when_user_cannot_be_saved
     User.stubs(:find).returns(mock_user(:update_attributes => false, :errors => {:some => :error}))
-    put :update
+    put :update, request_params(id: '42')
     assert flash.empty?
   end
 end
@@ -308,39 +308,39 @@ class DestroyActionBaseTest < ActionController::TestCase
 
   def test_show_flash_message_when_user_can_be_deleted
     User.stubs(:find).returns(mock_user(:destroy => true))
-    delete :destroy
+    delete :destroy, request_params(id: '42')
     assert_equal flash[:notice], 'User was successfully destroyed.'
   end
 
   def test_show_flash_message_with_javascript_request_when_user_can_be_deleted
     User.stubs(:find).returns(mock_user(:destroy => true))
-    delete :destroy, :format => :js
+    delete :destroy, request_params({ id: '42' }, format: :js)
     assert_equal flash[:notice], 'User was successfully destroyed.'
   end
 
   def test_show_flash_message_when_user_cannot_be_deleted
     User.stubs(:find).returns(mock_user(:destroy => false, :errors => { :fail => true }))
-    delete :destroy
+    delete :destroy, request_params(id: '42')
     assert_equal flash[:alert], 'User could not be destroyed.'
   end
 
   def test_show_flash_message_with_javascript_request_when_user_cannot_be_deleted
     User.stubs(:find).returns(mock_user(:destroy => false, :errors => { :fail => true }))
-    delete :destroy, :format => :js
+    delete :destroy, request_params({ id: '42' }, format: :js)
     assert_equal flash[:alert], 'User could not be destroyed.'
   end
 
   def test_redirects_to_users_list
     User.stubs(:find).returns(mock_user(:destroy => true))
     @controller.expects(:collection_url).returns('http://test.host/')
-    delete :destroy
+    delete :destroy, request_params(id: '42')
     assert_redirected_to 'http://test.host/'
   end
 
   def test_redirects_to_the_resource_if_cannot_be_destroyed
     User.stubs(:find).returns(mock_user(:destroy => false))
     @controller.expects(:collection_url).returns('http://test.host/')
-    delete :destroy
+    delete :destroy, request_params(id: '42')
     assert_redirected_to 'http://test.host/'
   end
 end
