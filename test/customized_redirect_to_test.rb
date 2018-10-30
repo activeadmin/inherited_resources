@@ -18,12 +18,12 @@ class RedirectToIndexWithoutShowTest < ActionController::TestCase
     assert_redirected_to 'http://test.host/posts'
   end
 
-   def test_redirect_to_index_url_after_update
-     Post.stubs(:find).returns(mock_machine(:update_attributes => true))
-     assert !PostsController.respond_to?(:show)
-     put :update
-     assert_redirected_to 'http://test.host/posts'
-   end
+  def test_redirect_to_index_url_after_update
+    Post.stubs(:find).returns(mock_machine(:update_attributes => true))
+    assert !PostsController.respond_to?(:show)
+    put :update
+    assert_redirected_to 'http://test.host/posts'
+  end
 
   protected
 
