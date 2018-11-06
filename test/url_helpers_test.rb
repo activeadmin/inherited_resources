@@ -8,7 +8,7 @@ end
 class Universe < ModelBase
 end
 class UniversesController < InheritedResources::Base
-  defaults :singleton => true, :route_instance_name => 'universum'
+  defaults singleton: true, route_instance_name: 'universum'
 end
 
 class House < ModelBase
@@ -25,7 +25,7 @@ class Backpack < ModelBase
 end
 module Admin; end
 class Admin::BackpacksController < InheritedResources::Base
-  defaults :route_collection_name => 'tour_backpacks'
+  defaults route_collection_name: 'tour_backpacks'
 end
 
 class Table < ModelBase
@@ -35,7 +35,7 @@ class TablesController < InheritedResources::Base
 end
 
 class RoomsController < InheritedResources::Base
-  belongs_to :house, :route_name => 'big_house'
+  belongs_to :house, route_name: 'big_house'
 end
 
 class ChairsController < InheritedResources::Base
@@ -45,7 +45,7 @@ class ChairsController < InheritedResources::Base
 end
 
 class OwnersController < InheritedResources::Base
-  defaults :singleton => true
+  defaults singleton: true
 
   belongs_to :house
 end
@@ -58,7 +58,7 @@ class Flame
 end
 class FlamesController < InheritedResources::Base
   belongs_to :house do
-    belongs_to :fireplace, :singleton => true
+    belongs_to :fireplace, singleton: true
   end
 end
 
@@ -73,13 +73,13 @@ end
 class Sheep < ModelBase
 end
 class SheepController < InheritedResources::Base
-  belongs_to :news, :table, :polymorphic => true
+  belongs_to :news, :table, polymorphic: true
 end
 
 class Fish < ModelBase
 end
 class FishController < InheritedResources::Base
-  belongs_to :bed, :shallow => true
+  belongs_to :bed, shallow: true
 end
 
 class Desk < ModelBase
@@ -106,7 +106,7 @@ class Spot < ModelBase
 end
 class SpotsController < InheritedResources::Base
   belongs_to :house do
-    belongs_to :dishwasher, :singleton => true do
+    belongs_to :dishwasher, singleton: true do
       polymorphic_belongs_to :dish, :fork
     end
   end
@@ -119,7 +119,7 @@ class CentersController < InheritedResources::Base
   acts_as_singleton!
 
   belongs_to :house do
-    belongs_to :table, :kitchen, :polymorphic => true
+    belongs_to :table, :kitchen, polymorphic: true
   end
 end
 
@@ -127,10 +127,10 @@ class Mirror
   extend ActiveModel::Naming
 end
 class MirrorsController < InheritedResources::Base
-  belongs_to :house, :shallow => true
+  belongs_to :house, shallow: true
 end
 class Admin::MirrorsController < InheritedResources::Base
-  belongs_to :house, :shallow => true
+  belongs_to :house, shallow: true
 end
 
 
@@ -147,8 +147,8 @@ class Button
 end
 
 class ButtonsController < InheritedResources::Base
-  belongs_to :display, :window, :shallow => true
-  custom_actions :resource => :delete, :collection => :search
+  belongs_to :display, :window, shallow: true
+  custom_actions resource: :delete, collection: :search
 end
 
 class ImageButtonsController < ButtonsController
@@ -186,8 +186,8 @@ class UrlHelpersTest < ActiveSupport::TestCase
       controller.send("resource_#{path_or_url}", :arg)
 
       # With options
-      controller.expects("house_#{path_or_url}").with(:arg, :page => 1).once
-      controller.send("resource_#{path_or_url}", :arg, :page => 1)
+      controller.expects("house_#{path_or_url}").with(:arg, page: 1).once
+      controller.send("resource_#{path_or_url}", :arg, page: 1)
     end
   end
 
@@ -216,8 +216,8 @@ class UrlHelpersTest < ActiveSupport::TestCase
       controller.send("resource_#{path_or_url}", :arg)
 
       # With options
-      controller.expects("news_#{path_or_url}").with(:arg, :page => 1).once
-      controller.send("resource_#{path_or_url}", :arg, :page => 1)
+      controller.expects("news_#{path_or_url}").with(:arg, page: 1).once
+      controller.send("resource_#{path_or_url}", :arg, page: 1)
     end
   end
 
@@ -248,8 +248,8 @@ class UrlHelpersTest < ActiveSupport::TestCase
       controller.send("resource_#{path_or_url}", :arg)
 
       # With options
-      controller.expects("admin_backpack_#{path_or_url}").with(:arg, :page => 1).once
-      controller.send("resource_#{path_or_url}", :arg, :page => 1)
+      controller.expects("admin_backpack_#{path_or_url}").with(:arg, page: 1).once
+      controller.send("resource_#{path_or_url}", :arg, page: 1)
     end
   end
 
@@ -272,8 +272,8 @@ class UrlHelpersTest < ActiveSupport::TestCase
 
       # With options
       # Also tests that argument sent are not used
-      controller.expects("universum_#{path_or_url}").with(:page => 1).once
-      controller.send("resource_#{path_or_url}", :arg, :page => 1)
+      controller.expects("universum_#{path_or_url}").with(page: 1).once
+      controller.send("resource_#{path_or_url}", :arg, page: 1)
     end
   end
 
@@ -304,8 +304,8 @@ class UrlHelpersTest < ActiveSupport::TestCase
 
       # With options
       # Also tests that argument sent are not used
-      controller.expects("house_fireplace_flame_#{path_or_url}").with(:house, :arg, :page => 1).once
-      controller.send("resource_#{path_or_url}", :arg, :page => 1)
+      controller.expects("house_fireplace_flame_#{path_or_url}").with(:house, :arg, page: 1).once
+      controller.send("resource_#{path_or_url}", :arg, page: 1)
     end
   end
 
@@ -344,8 +344,8 @@ class UrlHelpersTest < ActiveSupport::TestCase
       controller.send("parent_#{path_or_url}", :arg)
 
       # With options
-      controller.expects("house_table_#{path_or_url}").with(:house, :arg, :page => 1).once
-      controller.send("resource_#{path_or_url}", :arg, :page => 1)
+      controller.expects("house_table_#{path_or_url}").with(:house, :arg, page: 1).once
+      controller.send("resource_#{path_or_url}", :arg, page: 1)
     end
   end
 
@@ -384,8 +384,8 @@ class UrlHelpersTest < ActiveSupport::TestCase
       controller.send("parent_#{path_or_url}", :arg)
 
       # With options
-      controller.expects("big_house_room_#{path_or_url}").with(:house, :arg, :page => 1).once
-      controller.send("resource_#{path_or_url}", :arg, :page => 1)
+      controller.expects("big_house_room_#{path_or_url}").with(:house, :arg, page: 1).once
+      controller.send("resource_#{path_or_url}", :arg, page: 1)
     end
   end
 
@@ -425,8 +425,8 @@ class UrlHelpersTest < ActiveSupport::TestCase
       controller.send("parent_#{path_or_url}", :arg)
 
       # With options
-      controller.expects("edit_house_table_chair_#{path_or_url}").with(:house, :table, :arg, :page => 1).once
-      controller.send("edit_resource_#{path_or_url}", :arg, :page => 1)
+      controller.expects("edit_house_table_chair_#{path_or_url}").with(:house, :table, :arg, page: 1).once
+      controller.send("edit_resource_#{path_or_url}", :arg, page: 1)
     end
   end
 
@@ -456,8 +456,8 @@ class UrlHelpersTest < ActiveSupport::TestCase
 
       # With options
       # Also tests that argument sent are not used
-      controller.expects("house_owner_#{path_or_url}").with(:house, :page => 1).once
-      controller.send("resource_#{path_or_url}", :arg, :page => 1)
+      controller.expects("house_owner_#{path_or_url}").with(:house, page: 1).once
+      controller.send("resource_#{path_or_url}", :arg, page: 1)
     end
   end
 
@@ -537,11 +537,11 @@ class UrlHelpersTest < ActiveSupport::TestCase
     end
 
     # With options
-    mock_polymorphic(controller, "house_bed_url").with(house, bed, :page => 1).once
-    controller.send("resource_url", :page => 1)
+    mock_polymorphic(controller, "house_bed_url").with(house, bed, page: 1).once
+    controller.send("resource_url", page: 1)
 
-    mock_polymorphic(controller, "house_url").with(house, :page => 1).once
-    controller.send("parent_url", :page => 1)
+    mock_polymorphic(controller, "house_url").with(house, page: 1).once
+    controller.send("parent_url", page: 1)
 
     # With args
     controller.expects("polymorphic_url").with([:arg, new_bed], {}).once
@@ -593,11 +593,11 @@ class UrlHelpersTest < ActiveSupport::TestCase
     end
 
     # With options
-    mock_polymorphic(controller, "news_sheep_url").with(news, sheep, :page => 1).once
-    controller.send("resource_url", :page => 1)
+    mock_polymorphic(controller, "news_sheep_url").with(news, sheep, page: 1).once
+    controller.send("resource_url", page: 1)
 
-    mock_polymorphic(controller, "news_url").with(news, :page => 1).once
-    controller.send("parent_url", :page => 1)
+    mock_polymorphic(controller, "news_url").with(news, page: 1).once
+    controller.send("parent_url", page: 1)
 
     # With args
     controller.expects("polymorphic_url").with([:arg, new_sheep], {}).once
@@ -682,11 +682,11 @@ class UrlHelpersTest < ActiveSupport::TestCase
     end
 
     # With options
-    mock_polymorphic(controller, "admin_house_desk_url").with(house, desk, :page => 1).once
-    controller.send("resource_url", :page => 1)
+    mock_polymorphic(controller, "admin_house_desk_url").with(house, desk, page: 1).once
+    controller.send("resource_url", page: 1)
 
-    mock_polymorphic(controller, "admin_house_url").with(house, :page => 1).once
-    controller.send("parent_url", :page => 1)
+    mock_polymorphic(controller, "admin_house_url").with(house, page: 1).once
+    controller.send("parent_url", page: 1)
 
     # With args
     controller.expects("polymorphic_url").with(['admin', :arg, new_desk], {}).once
@@ -740,11 +740,11 @@ class UrlHelpersTest < ActiveSupport::TestCase
     end
 
     # With options
-    mock_polymorphic(controller, "house_table_dish_url").with(house, table, dish, :page => 1).once
-    controller.send("resource_url", :page => 1)
+    mock_polymorphic(controller, "house_table_dish_url").with(house, table, dish, page: 1).once
+    controller.send("resource_url", page: 1)
 
-    mock_polymorphic(controller, "house_table_url").with(house, table, :page => 1).once
-    controller.send("parent_url", :page => 1)
+    mock_polymorphic(controller, "house_table_url").with(house, table, page: 1).once
+    controller.send("parent_url", page: 1)
 
     # With args
     controller.expects("polymorphic_url").with([house, table, :arg], {}).once
@@ -794,11 +794,11 @@ class UrlHelpersTest < ActiveSupport::TestCase
     end
 
     # With options
-    mock_polymorphic(controller, "house_table_center_url").with(house, table, :page => 1)
-    controller.send("resource_url", :page => 1)
+    mock_polymorphic(controller, "house_table_center_url").with(house, table, page: 1)
+    controller.send("resource_url", page: 1)
 
-    mock_polymorphic(controller, "house_table_url").with(house, table, :page => 1)
-    controller.send("parent_url", :page => 1)
+    mock_polymorphic(controller, "house_table_url").with(house, table, page: 1)
+    controller.send("parent_url", page: 1)
 
     # With args
     controller.expects("polymorphic_url").with([house, table, :center], {}).once
@@ -834,8 +834,8 @@ class UrlHelpersTest < ActiveSupport::TestCase
     end
 
     # With options
-    mock_polymorphic(controller, "bed_url").with(bed, :page => 1).once
-    controller.send("resource_url", :page => 1)
+    mock_polymorphic(controller, "bed_url").with(bed, page: 1).once
+    controller.send("resource_url", page: 1)
 
     # With args
     controller.expects("polymorphic_url").with([:arg], {}).once
@@ -958,7 +958,7 @@ class UrlHelpersTest < ActiveSupport::TestCase
   end
 
   def test_url_helpers_with_action_controller_parameters
-    parameters = ActionController::Parameters.new(:page => 2)
+    parameters = ActionController::Parameters.new(page: 2)
     parameters.permit!
 
     controller = HousesController.new

@@ -28,19 +28,19 @@ class RedirectToWithBlockTest < ActionController::TestCase
   tests MachinesController
 
   def test_redirect_to_the_given_url_on_create
-    Machine.stubs(:new).returns(mock_machine(:save => true))
+    Machine.stubs(:new).returns(mock_machine(save: true))
     post :create
     assert_redirected_to 'http://test.host/create'
   end
 
   def test_redirect_to_the_given_url_on_update
-    Machine.stubs(:find).returns(mock_machine(:update_attributes => true))
+    Machine.stubs(:find).returns(mock_machine(update_attributes: true))
     put :update, params: { id: '42' }
     assert_redirected_to 'http://test.host/update'
   end
 
   def test_redirect_to_the_given_url_on_destroy
-    Machine.stubs(:find).returns(mock_machine(:destroy => true))
+    Machine.stubs(:find).returns(mock_machine(destroy: true))
     delete :destroy, params: { id: '42' }
     assert_redirected_to 'http://test.host/destroy'
   end

@@ -1,6 +1,7 @@
 require 'bundler/gem_tasks'
 require 'rake/testtask'
 require 'rdoc/task'
+require 'rubocop/rake_task'
 
 desc 'Run tests for InheritedResources.'
 Rake::TestTask.new(:test) do |t|
@@ -20,5 +21,7 @@ Rake::RDocTask.new(:rdoc) do |rdoc|
   rdoc.rdoc_files.include('lib/**/*.rb')
 end
 
+RuboCop::RakeTask.new
+
 # Make test the default task.
-task default: :test
+task default: [:test, :rubocop]

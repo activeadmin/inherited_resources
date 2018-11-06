@@ -33,7 +33,7 @@ InheritedResources::Routes.draw do
   get ':controller(/:action(/:id))'
   get ':controller(/:action)'
   resources 'posts'
-  root :to => 'posts#index'
+  root to: 'posts#index'
 end
 
 ActionController::Base.send :include, InheritedResources::Routes.url_helpers

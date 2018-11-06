@@ -226,7 +226,7 @@ module InheritedResources
       #
       def polymorphic_belongs_to(*symbols, &block)
         options = symbols.extract_options!
-        options.merge!(:polymorphic => true)
+        options.merge!(polymorphic: true)
         belongs_to(*symbols, options, &block)
       end
 
@@ -234,7 +234,7 @@ module InheritedResources
       #
       def singleton_belongs_to(*symbols, &block)
         options = symbols.extract_options!
-        options.merge!(:singleton => true)
+        options.merge!(singleton: true)
         belongs_to(*symbols, options, &block)
       end
 
@@ -242,7 +242,7 @@ module InheritedResources
       #
       def optional_belongs_to(*symbols, &block)
         options = symbols.extract_options!
-        options.merge!(:optional => true)
+        options.merge!(optional: true)
         belongs_to(*symbols, options, &block)
       end
 
@@ -296,7 +296,7 @@ module InheritedResources
         unless self.resources_configuration[:self][:singleton]
           self.resources_configuration[:self][:singleton] = true
           include SingletonHelpers
-          actions :all, :except => :index
+          actions :all, except: :index
         end
       end
 
@@ -386,7 +386,7 @@ module InheritedResources
         config[:request_name] = self.resource_class.to_s.underscore.gsub('/', '_')
 
         # Initialize polymorphic, singleton, scopes and belongs_to parameters
-        polymorphic = self.resources_configuration[:polymorphic] || { :symbols => [], :optional => false }
+        polymorphic = self.resources_configuration[:polymorphic] || { symbols: [], optional: false }
         polymorphic[:symbols] = polymorphic[:symbols].dup
         self.resources_configuration[:polymorphic] = polymorphic
       end

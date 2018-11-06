@@ -11,14 +11,34 @@ AllCops:
 Metrics:
   Enabled: false
 
+Layout/CommentIndentation:
+  Enabled: true
+
+Layout/EndAlignment:
+  EnforcedStyleAlignWith: variable
+  Enabled: true
+
 Layout/EmptyLinesAroundAccessModifier:
   Enabled: true
 
 Layout/EmptyLinesAroundClassBody:
   Enabled: true
 
+Layout/IndentationConsistency:
+  Enabled: true
+  EnforcedStyle: rails
+
+Layout/IndentationWidth:
+  Enabled: true
+
+Layout/Tab:
+  Enabled: true
+
 Layout/TrailingWhitespace:
   Enabled: true
 
 Layout/TrailingBlankLines:
+  Enabled: true
+
+Style/HashSyntax:
   Enabled: true

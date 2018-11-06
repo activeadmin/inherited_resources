@@ -132,12 +132,17 @@ module InheritedResources
           end.compact.freeze
       end
 
+      # rubocop:disable Layout/CommentIndentation
+      # See https://github.com/rubocop-hq/rubocop/issues/6450
+      #
       # Overwrite this method to provide other interpolation options when
       # the flash message is going to be set.
       #
       # def flash_interpolation_options
       #    { }
       # end
+      #
+      # rubocop:enable Layout/CommentIndentation
 
     private
 
@@ -365,7 +370,7 @@ module InheritedResources
 
       # getting role for mass-asignment
       def as_role
-        { :as => self.resources_configuration[:self][:role] }
+        { as: self.resources_configuration[:self][:role] }
       end
 
       def without_protection_given?
@@ -373,7 +378,7 @@ module InheritedResources
       end
 
       def without_protection
-        { :without_protection => self.resources_configuration[:self][:without_protection] }
+        { without_protection: self.resources_configuration[:self][:without_protection] }
       end
   end
 end
