@@ -29,12 +29,6 @@ require 'inherited_resources'
 ActionController::Base.view_paths = File.join(File.dirname(__FILE__), 'views')
 
 InheritedResources::Routes = ActionDispatch::Routing::RouteSet.new
-InheritedResources::Routes.draw do
-  get ':controller(/:action(/:id))'
-  get ':controller(/:action)'
-  resources 'posts'
-  root to: 'posts#index'
-end
 
 def draw_routes(&block)
   InheritedResources::Routes.draw(&block)
