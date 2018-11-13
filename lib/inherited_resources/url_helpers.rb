@@ -83,7 +83,6 @@ module InheritedResources
         collection_ivars    = resource_ivars.dup
         collection_segments = resource_segments.dup
 
-
         # Generate parent url before we add resource instances.
         unless parents_symbols.empty?
           generate_url_and_path_helpers nil,   :parent, resource_segments, resource_ivars

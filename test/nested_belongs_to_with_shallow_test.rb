@@ -66,7 +66,6 @@ class NestedBelongsToWithShallowTest < ActionController::TestCase
     assert_equal mock_plate, assigns(:plate)
   end
 
-
   def test_assigns_dresser_and_shelf_and_plate_on_create
     Shelf.expects(:find).with('37').twice.returns(mock_shelf)
 
@@ -98,7 +97,6 @@ class NestedBelongsToWithShallowTest < ActionController::TestCase
     assert_equal mock_shelf, assigns(:shelf)
     assert_equal mock_plate, assigns(:plate)
   end
-
 
   protected
 

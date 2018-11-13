@@ -133,7 +133,6 @@ class Admin::MirrorsController < InheritedResources::Base
   belongs_to :house, shallow: true
 end
 
-
 class Display
   extend ActiveModel::Naming
 end
@@ -153,7 +152,6 @@ end
 
 class ImageButtonsController < ButtonsController
 end
-
 
 # Create a TestHelper module with some helpers
 class UrlHelpersTest < ActiveSupport::TestCase
@@ -844,7 +842,6 @@ class UrlHelpersTest < ActiveSupport::TestCase
     controller.expects("edit_polymorphic_url").with([:arg], {}).once
     controller.send("edit_resource_url", :arg)
   end
-
 
   def test_url_helpers_on_belongs_to_with_shallowed_route
     controller = MirrorsController.new
