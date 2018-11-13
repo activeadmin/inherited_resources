@@ -36,6 +36,14 @@ InheritedResources::Routes.draw do
   root to: 'posts#index'
 end
 
+def draw_routes(&block)
+  InheritedResources::Routes.draw(&block)
+end
+
+def clear_routes
+  InheritedResources::Routes.draw { }
+end
+
 ActionController::Base.send :include, InheritedResources::Routes.url_helpers
 
 # Add app base to load path
