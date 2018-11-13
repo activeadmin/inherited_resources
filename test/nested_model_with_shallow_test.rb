@@ -37,6 +37,10 @@ class NestedModelWithShallowTest < ActionController::TestCase
   tests GroupsController
 
   def setup
+    draw_routes do
+      resources :groups
+    end
+
     mock_speciality.expects(:subfaculty).returns(mock_subfaculty)
     mock_subfaculty.expects(:to_param).returns('13')
 
@@ -46,6 +50,10 @@ class NestedModelWithShallowTest < ActionController::TestCase
 
     @controller.stubs(:resource_url).returns('/')
     @controller.stubs(:collection_url).returns('/')
+  end
+
+  def teardown
+    clear_routes
   end
 
   def test_assigns_subfaculty_and_speciality_and_group_on_edit
@@ -98,6 +106,10 @@ class TwoNestedModelWithShallowTest < ActionController::TestCase
   tests EducationsController
 
   def setup
+    draw_routes do
+      resources :educations
+    end
+
     mock_speciality.expects(:subfaculty).returns(mock_subfaculty)
     mock_subfaculty.expects(:to_param).returns('13')
     Subfaculty.expects(:find).with('13').returns(mock_subfaculty)
@@ -106,6 +118,10 @@ class TwoNestedModelWithShallowTest < ActionController::TestCase
 
     @controller.stubs(:resource_url).returns('/')
     @controller.stubs(:collection_url).returns('/')
+  end
+
+  def teardown
+    clear_routes
   end
 
   def test_assigns_subfaculty_and_speciality_and_group_on_new

@@ -11,6 +11,16 @@ end
 class RedirectToIndexWithoutShowTest < ActionController::TestCase
   tests PostsController
 
+  def setup
+    draw_routes do
+      resources :posts
+    end
+  end
+
+  def teardown
+    clear_routes
+  end
+
   def test_redirect_index_url_after_create
     Post.stubs(:new).returns(mock_machine(save: true))
     assert !PostsController.respond_to?(:show)

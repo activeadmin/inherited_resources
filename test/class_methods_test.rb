@@ -70,6 +70,16 @@ module EmptyNamespace; end
 class ActionsClassMethodTest < ActionController::TestCase
   tests BooksController
 
+  def setup
+    draw_routes do
+      resources :books
+    end
+  end
+
+  def teardown
+    clear_routes
+  end
+
   def test_cannot_render_actions
     assert_raise AbstractController::ActionNotFound do
       get :new

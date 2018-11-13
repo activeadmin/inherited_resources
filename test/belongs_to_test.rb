@@ -21,11 +21,19 @@ class BelongsToTest < ActionController::TestCase
   end
 
   def setup
+    draw_routes do
+      resources :comments, :posts
+    end
+
     Post.expects(:find).with('37').returns(mock_post)
     mock_post.expects(:comments).returns(Comment)
 
     @controller.stubs(:resource_url).returns('/')
     @controller.stubs(:collection_url).returns('/')
+  end
+
+  def teardown
+    clear_routes
   end
 
   def test_expose_all_comments_as_instance_variable_on_index

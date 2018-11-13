@@ -18,6 +18,10 @@ class NestedBelongsToTest < ActionController::TestCase
   tests CitiesController
 
   def setup
+    draw_routes do
+      resources :cities
+    end
+
     Country.expects(:find).with('13').returns(mock_country)
     mock_country.expects(:states).returns(State)
     State.expects(:find).with('37').returns(mock_state)
@@ -25,6 +29,10 @@ class NestedBelongsToTest < ActionController::TestCase
 
     @controller.stubs(:resource_url).returns('/')
     @controller.stubs(:collection_url).returns('/')
+  end
+
+  def teardown
+    clear_routes
   end
 
   def test_assigns_country_and_state_and_city_on_index

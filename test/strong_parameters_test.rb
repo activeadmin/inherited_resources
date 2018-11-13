@@ -11,12 +11,20 @@ end
 # test usage of `permitted_params`
 class StrongParametersTest < ActionController::TestCase
   def setup
+    draw_routes do
+      resources :widgets
+    end
+
     @controller = WidgetsController.new
     @controller.stubs(:widget_url).returns("/")
     @controller.stubs(:permitted_params).returns(widget: {permitted: 'param'})
     class << @controller
       private :permitted_params
     end
+  end
+
+  def teardown
+    clear_routes
   end
 
   def test_permitted_params_from_new
@@ -54,12 +62,20 @@ end
 # test usage of `widget_params`
 class StrongParametersWithoutPermittedParamsTest < ActionController::TestCase
   def setup
+    draw_routes do
+      resources :widgets
+    end
+
     @controller = WidgetsController.new
     @controller.stubs(:widget_url).returns("/")
     @controller.stubs(:widget_params).returns(permitted: 'param')
     class << @controller
       private :widget_params
     end
+  end
+
+  def teardown
+    clear_routes
   end
 
   def test_permitted_params_from_new
@@ -87,6 +103,10 @@ end
 # test usage of `widget_params` integrated with strong parameters (not using stubs)
 class StrongParametersIntegrationTest < ActionController::TestCase
   def setup
+    draw_routes do
+      resources :widgets
+    end
+
     @controller = WidgetsController.new
     @controller.stubs(:widget_url).returns("/")
 
@@ -96,6 +116,10 @@ class StrongParametersIntegrationTest < ActionController::TestCase
       end
       private :widget_params
     end
+  end
+
+  def teardown
+    clear_routes
   end
 
   def test_permitted_empty_params_from_new

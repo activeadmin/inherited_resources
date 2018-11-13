@@ -16,9 +16,17 @@ class CustomizedBelongsToTest < ActionController::TestCase
   tests ProfessorsController
 
   def setup
+    draw_routes do
+      resources :professors
+    end
+
     GreatSchool.expects(:find_by_title!).with('nice').returns(mock_school(professors: Professor))
     @controller.stubs(:resource_url).returns('/')
     @controller.stubs(:collection_url).returns('/')
+  end
+
+  def teardown
+    clear_routes
   end
 
   def test_expose_the_requested_school_with_chosen_instance_variable_on_index

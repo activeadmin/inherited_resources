@@ -31,7 +31,15 @@ class BeginOfAssociationChainTest < ActionController::TestCase
   tests PetsController
 
   def setup
+    draw_routes do
+      resources :pets
+    end
+
     @controller.current_user = mock()
+  end
+
+  def teardown
+    clear_routes
   end
 
   def test_begin_of_association_chain_is_called_on_index
@@ -95,8 +103,16 @@ class AssociationChainTest < ActionController::TestCase
   tests PuppetsController
 
   def setup
+    draw_routes do
+      resources :puppets
+    end
+
     @controller.stubs(:resource_url).returns('/')
     @controller.stubs(:collection_url).returns('/')
+  end
+
+  def teardown
+    clear_routes
   end
 
   def test_parent_is_added_to_association_chain

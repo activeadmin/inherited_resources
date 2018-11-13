@@ -41,6 +41,16 @@ end
 class AliasesTest < ActionController::TestCase
   tests StudentsController
 
+  def setup
+    draw_routes do
+      resources :students
+    end
+  end
+
+  def teardown
+    clear_routes
+  end
+
   def test_assignments_before_calling_alias
     Student.stubs(:new).returns(mock_student)
     get :new

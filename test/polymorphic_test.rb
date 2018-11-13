@@ -26,11 +26,19 @@ class PolymorphicFactoriesTest < ActionController::TestCase
   tests EmployeesController
 
   def setup
+    draw_routes do
+      resources :employees
+    end
+
     Factory.expects(:find).with('37').returns(mock_factory)
     mock_factory.expects(:employees).returns(Employee)
 
     @controller.stubs(:resource_url).returns('/')
     @controller.stubs(:collection_url).returns('/')
+  end
+
+  def teardown
+    clear_routes
   end
 
   def test_expose_all_employees_as_instance_variable_on_index
@@ -114,11 +122,19 @@ class PolymorphicCompanyTest < ActionController::TestCase
   tests EmployeesController
 
   def setup
+    draw_routes do
+      resources :employees
+    end
+
     Company.expects(:find).with('37').returns(mock_company)
     mock_company.expects(:employees).returns(Employee)
 
     @controller.stubs(:resource_url).returns('/')
     @controller.stubs(:collection_url).returns('/')
+  end
+
+  def teardown
+    clear_routes
   end
 
   def test_expose_all_employees_as_instance_variable_on_index
@@ -202,7 +218,15 @@ class PolymorphicPhotosTest < ActionController::TestCase
   tests PhotosController
 
   def setup
+    draw_routes do
+      resources :photos
+    end
+
     User.expects(:find).with('37').returns(mock_user)
+  end
+
+  def teardown
+    clear_routes
   end
 
   def test_parent_as_instance_variable_on_index_when_method_overwritten

@@ -18,8 +18,16 @@ class DefaultsTest < ActionController::TestCase
   tests PaintersController
 
   def setup
+    draw_routes do
+      resources :painters
+    end
+
     @controller.stubs(:resource_url).returns('/')
     @controller.stubs(:collection_url).returns('/')
+  end
+
+  def teardown
+    clear_routes
   end
 
   def test_expose_all_painters_as_instance_variable
@@ -86,8 +94,18 @@ class DefaultsNamespaceTest < ActionController::TestCase
   tests University::LecturersController
 
   def setup
+    draw_routes do
+      namespace :university do
+        resources :lecturers
+      end
+    end
+
     @controller.stubs(:resource_url).returns('/')
     @controller.stubs(:collection_url).returns('/')
+  end
+
+  def teardown
+    clear_routes
   end
 
   def test_expose_all_lecturers_as_instance_variable
