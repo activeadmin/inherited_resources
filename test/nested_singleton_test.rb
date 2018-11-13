@@ -82,7 +82,6 @@ class NestedSingletonTest < ActionController::TestCase
     @controller = old_controller
   end
 
-
   def test_expose_a_new_address_on_new
     Party.expects(:find).with('37').returns(mock_party)
     mock_party.expects(:venue).returns(mock_venue)
@@ -146,7 +145,6 @@ class NestedSingletonTest < ActionController::TestCase
     assert_equal mock_venue, assigns(:venue)
     assert_equal mock_address, assigns(:address)
   end
-
 
   protected
 

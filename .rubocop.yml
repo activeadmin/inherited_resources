@@ -18,6 +18,9 @@ Layout/EndAlignment:
   EnforcedStyleAlignWith: variable
   Enabled: true
 
+Layout/EmptyLines:
+  Enabled: true
+
 Layout/EmptyLinesAroundAccessModifier:
   Enabled: true
 

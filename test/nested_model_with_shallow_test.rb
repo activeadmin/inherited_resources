@@ -118,7 +118,6 @@ class TwoNestedModelWithShallowTest < ActionController::TestCase
     assert_equal mock_education, assigns(:education)
   end
 
-
   protected
 
     def should_find_parents
