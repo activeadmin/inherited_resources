@@ -152,7 +152,10 @@ module InheritedResources
         polymorphic = options.delete(:polymorphic)
         finder      = options.delete(:finder)
 
-        include BelongsToHelpers if self.parents_symbols.empty?
+        if self.parents_symbols.empty?
+          include BelongsToHelpers
+          helper_method :parent, :parent?
+        end
 
         acts_as_polymorphic! if polymorphic || optional
         acts_as_shallow!     if shallow
@@ -218,7 +221,6 @@ module InheritedResources
         else
           create_resources_url_helpers!
         end
-        helper_method :parent, :parent?
       end
       alias :nested_belongs_to :belongs_to
 

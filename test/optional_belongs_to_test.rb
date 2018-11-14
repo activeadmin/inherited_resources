@@ -15,8 +15,16 @@ class OptionalTest < ActionController::TestCase
   tests ProductsController
 
   def setup
+    draw_routes do
+      resources :products
+    end
+
     @controller.stubs(:resource_url).returns('/')
     @controller.stubs(:collection_url).returns('/')
+  end
+
+  def teardown
+    clear_routes
   end
 
   def test_expose_all_products_as_instance_variable_with_category

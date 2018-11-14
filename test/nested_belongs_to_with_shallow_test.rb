@@ -17,6 +17,10 @@ class NestedBelongsToWithShallowTest < ActionController::TestCase
   tests PlatesController
 
   def setup
+    draw_routes do
+      resources :plates
+    end
+
     mock_shelf.expects(:dresser).returns(mock_dresser)
     mock_dresser.expects(:to_param).returns('13')
 
@@ -26,6 +30,10 @@ class NestedBelongsToWithShallowTest < ActionController::TestCase
 
     @controller.stubs(:resource_url).returns('/')
     @controller.stubs(:collection_url).returns('/')
+  end
+
+  def teardown
+    clear_routes
   end
 
   def test_assigns_dresser_and_shelf_and_plate_on_index

@@ -36,10 +36,18 @@ end
 
 module CarTestHelper
   def setup
+    draw_routes do
+      resources :cars
+    end
+
     @controller          = CarsController.new
     @controller.request  = @request  = new_request
     @controller.response = @response = new_response
     @controller.stubs(:car_url).returns("/")
+  end
+
+  def teardown
+    clear_routes
   end
 
   protected

@@ -16,11 +16,19 @@ class BelongsToWithShallowTest < ActionController::TestCase
   tests TagsController
 
   def setup
+    draw_routes do
+      resources :tags
+    end
+
     Post.expects(:find_by_slug).with('thirty_seven').returns(mock_post)
     mock_post.expects(:tags).returns(Tag)
 
     @controller.stubs(:resource_url).returns('/')
     @controller.stubs(:collection_url).returns('/')
+  end
+
+  def teardown
+    clear_routes
   end
 
   def test_expose_all_tags_as_instance_variable_on_index

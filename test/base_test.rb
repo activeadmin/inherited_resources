@@ -26,11 +26,19 @@ end
 
 module UserTestHelper
   def setup
+    draw_routes do
+      resources :users
+    end
+
     @controller_class    = Class.new(UsersController)
     @controller          = @controller_class.new
     @controller.request  = @request = new_request
     @controller.response = @response = new_response
     @controller.stubs(:user_url).returns("/")
+  end
+
+  def teardown
+    clear_routes
   end
 
   protected

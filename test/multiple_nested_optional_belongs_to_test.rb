@@ -16,8 +16,16 @@ class MultipleNestedOptionalTest < ActionController::TestCase
   tests ProjectsController
 
   def setup
+    draw_routes do
+      resources :projects
+    end
+
     @controller.stubs(:resource_url).returns('/')
     @controller.stubs(:collection_url).returns('/')
+  end
+
+  def teardown
+    clear_routes
   end
 
   # INDEX

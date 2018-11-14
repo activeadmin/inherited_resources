@@ -20,8 +20,18 @@ class SingletonTest < ActionController::TestCase
   tests ManagersController
 
   def setup
+    draw_routes do
+      resources :store do
+        resource :manager
+      end
+    end
+
     @controller.stubs(:resource_url).returns('/')
     @controller.stubs(:collection_url).returns('/')
+  end
+
+  def teardown
+    clear_routes
   end
 
   def test_expose_the_requested_manager_on_show

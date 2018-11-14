@@ -15,17 +15,26 @@ end
 class BelongsToTest < ActionController::TestCase
   tests CommentsController
 
+  # TODO: look into the failures as this should run randomly
   def self.test_order
     # version 5 defaults to random, which fails...
     MiniTest::Unit::VERSION.to_i >= 5 ? :alpha : super
   end
 
   def setup
+    draw_routes do
+      resources :comments, :posts
+    end
+
     Post.expects(:find).with('37').returns(mock_post)
     mock_post.expects(:comments).returns(Comment)
 
     @controller.stubs(:resource_url).returns('/')
     @controller.stubs(:collection_url).returns('/')
+  end
+
+  def teardown
+    clear_routes
   end
 
   def test_expose_all_comments_as_instance_variable_on_index
@@ -56,7 +65,7 @@ class BelongsToTest < ActionController::TestCase
     assert_equal mock_comment, assigns(:comment)
   end
 
-  def test_redirect_to_the_post_on_update_if_show_and_index_undefined
+  def test_redirect_to_the_post_on_create_if_show_and_index_undefined
     @controller.class.send(:actions, :all, except: [:show, :index])
     @controller.expects(:parent_url).returns('http://test.host/')
     Comment.expects(:build).with({'these' => 'params'}).returns(mock_comment(save: true))

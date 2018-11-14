@@ -48,8 +48,22 @@ class NestedSingletonTest < ActionController::TestCase
   tests AddressController
 
   def setup
+    draw_routes do
+      resources :party do
+        resource :venue, controller: :venue do
+          resource :address, controller: :address do
+            resource :geolocation, controller: :geolocation
+          end
+        end
+      end
+    end
+
     @controller.stubs(:resource_url).returns('/')
     @controller.stubs(:collection_url).returns('/')
+  end
+
+  def teardown
+    clear_routes
   end
 
   def test_does_not_break_parent_controller
