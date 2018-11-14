@@ -118,8 +118,6 @@ class BelongsToTest < ActionController::TestCase
   end
 
   def test_helpers
-    mock_post.stubs(:class).returns(Post)
-
     Comment.expects(:scoped).returns([mock_comment])
     get :index, params: { post_id: '37' }
 
