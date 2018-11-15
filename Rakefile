@@ -3,6 +3,8 @@ require 'rake/testtask'
 require 'rdoc/task'
 require 'rubocop/rake_task'
 
+import 'tasks/gemfiles.rake'
+
 desc 'Run tests for InheritedResources.'
 Rake::TestTask.new(:test) do |t|
   t.pattern = "test/**/*_test.rb"
