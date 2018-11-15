@@ -15,12 +15,6 @@ end
 class BelongsToTest < ActionController::TestCase
   tests CommentsController
 
-  # TODO: look into the failures as this should run randomly
-  def self.test_order
-    # version 5 defaults to random, which fails...
-    MiniTest::Unit::VERSION.to_i >= 5 ? :alpha : super
-  end
-
   def setup
     draw_routes do
       resources :comments, :posts
@@ -65,27 +59,11 @@ class BelongsToTest < ActionController::TestCase
     assert_equal mock_comment, assigns(:comment)
   end
 
-  def test_redirect_to_the_post_on_create_if_show_and_index_undefined
-    @controller.class.send(:actions, :all, except: [:show, :index])
-    @controller.expects(:parent_url).returns('http://test.host/')
-    Comment.expects(:build).with({'these' => 'params'}).returns(mock_comment(save: true))
-    post :create, params: { post_id: '37', comment: {these: 'params'} }
-    assert_redirected_to 'http://test.host/'
-  end
-
   def test_expose_a_newly_create_comment_on_create
     Comment.expects(:build).with({'these' => 'params'}).returns(mock_comment(save: true))
     post :create, params: { post_id: '37', comment: {these: 'params'} }
     assert_equal mock_post, assigns(:post)
     assert_equal mock_comment, assigns(:comment)
-  end
-
-  def test_redirect_to_the_post_on_update_if_show_and_index_undefined
-    @controller.class.send(:actions, :all, except: [:show, :index])
-    Comment.stubs(:find).returns(mock_comment(update_attributes: true))
-    @controller.expects(:parent_url).returns('http://test.host/')
-    put :update, params: { id: '42', post_id: '37', comment: {these: 'params'} }
-    assert_redirected_to 'http://test.host/'
   end
 
   def test_update_the_requested_object_on_update
@@ -94,15 +72,6 @@ class BelongsToTest < ActionController::TestCase
     put :update, params: { id: '42', post_id: '37', comment: {these: 'params'} }
     assert_equal mock_post, assigns(:post)
     assert_equal mock_comment, assigns(:comment)
-  end
-
-  def test_redirect_to_the_post_on_destroy_if_show_and_index_undefined
-    @controller.class.send(:actions, :all, except: [:show, :index])
-    Comment.expects(:find).with('42').returns(mock_comment)
-    mock_comment.expects(:destroy)
-    @controller.expects(:parent_url).returns('http://test.host/')
-    delete :destroy, params: { id: '42', post_id: '37' }
-    assert_redirected_to 'http://test.host/'
   end
 
   def test_the_requested_comment_is_destroyed_on_destroy
@@ -118,8 +87,6 @@ class BelongsToTest < ActionController::TestCase
   end
 
   def test_helpers
-    mock_post.stubs(:class).returns(Post)
-
     Comment.expects(:scoped).returns([mock_comment])
     get :index, params: { post_id: '37' }
 
@@ -138,5 +105,66 @@ class BelongsToTest < ActionController::TestCase
 
     def mock_comment(stubs={})
       @mock_comment ||= mock(stubs)
+    end
+end
+
+class Reply
+  extend ActiveModel::Naming
+end
+
+class RepliesController < InheritedResources::Base
+  belongs_to :post
+  actions :all, except: [:show, :index]
+end
+
+class BelongsToWithRedirectsTest < ActionController::TestCase
+  tests RepliesController
+
+  def setup
+    draw_routes do
+      resources :replies, :posts
+    end
+
+    Post.expects(:find).with('37').returns(mock_post)
+    mock_post.expects(:replies).returns(Reply)
+
+    @controller.stubs(:resource_url).returns('/')
+    @controller.stubs(:collection_url).returns('/')
+  end
+
+  def teardown
+    clear_routes
+  end
+
+  def test_redirect_to_the_post_on_create_if_show_and_index_undefined
+    @controller.expects(:parent_url).returns('http://test.host/')
+    Reply.expects(:build).with({'these' => 'params'}).returns(mock_reply(save: true))
+    post :create, params: { post_id: '37', reply: { these: 'params' } }
+    assert_redirected_to 'http://test.host/'
+  end
+
+  def test_redirect_to_the_post_on_update_if_show_and_index_undefined
+    Reply.stubs(:find).returns(mock_reply(update_attributes: true))
+    @controller.expects(:parent_url).returns('http://test.host/')
+    put :update, params: { id: '42', post_id: '37', reply: { these: 'params' } }
+    assert_redirected_to 'http://test.host/'
+  end
+
+  def test_redirect_to_the_post_on_destroy_if_show_and_index_undefined
+    Reply.expects(:find).with('42').returns(mock_reply)
+    mock_reply.expects(:destroy)
+    @controller.expects(:parent_url).returns('http://test.host/')
+    delete :destroy, params: { id: '42', post_id: '37' }
+    assert_redirected_to 'http://test.host/'
+  end
+
+  protected
+
+    def mock_post(stubs={})
+      @mock_post ||= mock(stubs)
+    end
+
+    def mock_reply(stubs={})
+      @mock_reply ||= mock(stubs)
     end
 end
