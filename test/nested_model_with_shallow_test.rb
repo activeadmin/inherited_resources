@@ -47,9 +47,6 @@ class NestedModelWithShallowTest < ActionController::TestCase
     Subfaculty.expects(:find).with('13').returns(mock_subfaculty)
     mock_subfaculty.expects(:specialities).returns(Speciality)
     mock_speciality.expects(:groups).returns(Plan::Group)
-
-    @controller.stubs(:resource_url).returns('/')
-    @controller.stubs(:collection_url).returns('/')
   end
 
   def teardown
@@ -115,9 +112,6 @@ class TwoNestedModelWithShallowTest < ActionController::TestCase
     Subfaculty.expects(:find).with('13').returns(mock_subfaculty)
     mock_subfaculty.expects(:specialities).returns(Speciality)
     mock_speciality.expects(:groups).returns(Plan::Group)
-
-    @controller.stubs(:resource_url).returns('/')
-    @controller.stubs(:collection_url).returns('/')
   end
 
   def teardown

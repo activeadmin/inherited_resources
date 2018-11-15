@@ -28,7 +28,6 @@ class NestedBelongsToWithShallowTest < ActionController::TestCase
     mock_dresser.expects(:shelves).returns(Shelf)
     mock_shelf.expects(:plates).returns(Plate)
 
-    @controller.stubs(:resource_url).returns('/')
     @controller.stubs(:collection_url).returns('/')
   end
 

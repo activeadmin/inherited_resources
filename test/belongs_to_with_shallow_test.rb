@@ -23,7 +23,6 @@ class BelongsToWithShallowTest < ActionController::TestCase
     Post.expects(:find_by_slug).with('thirty_seven').returns(mock_post)
     mock_post.expects(:tags).returns(Tag)
 
-    @controller.stubs(:resource_url).returns('/')
     @controller.stubs(:collection_url).returns('/')
   end
 

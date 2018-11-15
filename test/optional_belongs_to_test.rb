@@ -20,7 +20,6 @@ class OptionalTest < ActionController::TestCase
     end
 
     @controller.stubs(:resource_url).returns('/')
-    @controller.stubs(:collection_url).returns('/')
   end
 
   def teardown
