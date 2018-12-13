@@ -33,6 +33,11 @@ version: 2.1
     name: Make sure gemfiles are up to date
     command: bundle exec ruby -Itest -e 'require "gemfiles/lint.rb"; Minitest.run'
 
+.check_gemspec: &check_gemspec
+  run:
+    name: Make sure gemspec builds without warnings
+    command: bundle exec ruby -Itest -e 'require "gemfiles/gemspec_lint.rb"; Minitest.run'
+
 .run_tests: &run_tests
   run:
     name: Run tests
@@ -46,6 +51,7 @@ version: 2.1
   - *install_dependencies
   - *save_cache
   - *check_gemfiles
+  - *check_gemspec
   - *run_tests
 
 jobs:
