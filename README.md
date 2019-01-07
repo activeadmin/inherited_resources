@@ -725,6 +725,10 @@ Questions are better handled on StackOverflow.
 
 MIT License. Copyright (c) 2009-2017 José Valim.
 
+## Security contact information
+
+Please use the Tidelift security contact to [report a security vulnerability][Tidelift security contact].
+Tidelift will coordinate the fix and disclosure.
 
 [rubygems_badge]: http://img.shields.io/gem/v/inherited_resources.svg
 [rubygems]: https://rubygems.org/gems/inherited_resources
@@ -732,3 +736,5 @@ MIT License. Copyright (c) 2009-2017 José Valim.
 [circleci]: https://circleci.com/gh/activeadmin/inherited_resources
 [tidelift_badge]: https://tidelift.com/badges/github/activeadmin/inherited_resources
 [tidelift]: https://tidelift.com/subscription/pkg/rubygems-inherited-resources?utm_source=rubygems-inherited-resources&utm_medium=readme
+
+[Tidelift security contact]: https://tidelift.com/security
