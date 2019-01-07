@@ -22,9 +22,6 @@ class BelongsToTest < ActionController::TestCase
 
     Post.expects(:find).with('37').returns(mock_post)
     mock_post.expects(:comments).returns(Comment)
-
-    @controller.stubs(:resource_url).returns('/')
-    @controller.stubs(:collection_url).returns('/')
   end
 
   def teardown
@@ -127,9 +124,6 @@ class BelongsToWithRedirectsTest < ActionController::TestCase
 
     Post.expects(:find).with('37').returns(mock_post)
     mock_post.expects(:replies).returns(Reply)
-
-    @controller.stubs(:resource_url).returns('/')
-    @controller.stubs(:collection_url).returns('/')
   end
 
   def teardown

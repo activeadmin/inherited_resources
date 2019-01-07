@@ -21,7 +21,6 @@ class CustomizedBelongsToTest < ActionController::TestCase
     end
 
     GreatSchool.expects(:find_by_title!).with('nice').returns(mock_school(professors: Professor))
-    @controller.stubs(:resource_url).returns('/')
     @controller.stubs(:collection_url).returns('/')
   end
 

@@ -21,9 +21,6 @@ class DefaultsTest < ActionController::TestCase
     draw_routes do
       resources :painters
     end
-
-    @controller.stubs(:resource_url).returns('/')
-    @controller.stubs(:collection_url).returns('/')
   end
 
   def teardown
@@ -99,9 +96,6 @@ class DefaultsNamespaceTest < ActionController::TestCase
         resources :lecturers
       end
     end
-
-    @controller.stubs(:resource_url).returns('/')
-    @controller.stubs(:collection_url).returns('/')
   end
 
   def teardown

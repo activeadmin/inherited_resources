@@ -107,7 +107,6 @@ class AssociationChainTest < ActionController::TestCase
       resources :puppets
     end
 
-    @controller.stubs(:resource_url).returns('/')
     @controller.stubs(:collection_url).returns('/')
   end
 

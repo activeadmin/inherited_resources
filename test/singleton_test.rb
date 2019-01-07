@@ -25,9 +25,6 @@ class SingletonTest < ActionController::TestCase
         resource :manager
       end
     end
-
-    @controller.stubs(:resource_url).returns('/')
-    @controller.stubs(:collection_url).returns('/')
   end
 
   def teardown

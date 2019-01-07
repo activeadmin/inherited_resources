@@ -27,7 +27,6 @@ class NestedBelongsToTest < ActionController::TestCase
     State.expects(:find).with('37').returns(mock_state)
     mock_state.expects(:cities).returns(City)
 
-    @controller.stubs(:resource_url).returns('/')
     @controller.stubs(:collection_url).returns('/')
   end
 
