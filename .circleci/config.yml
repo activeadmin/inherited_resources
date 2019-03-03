@@ -68,7 +68,7 @@ jobs:
       - image: circleci/ruby:2.3.7
 
     environment:
-      BUNDLE_GEMFILE: Gemfile
+      BUNDLE_GEMFILE: test/gemfiles/Gemfile-Rails-5-2
 
     steps:
       *test_steps
@@ -98,7 +98,7 @@ jobs:
       - image: circleci/ruby:2.4.4
 
     environment:
-      BUNDLE_GEMFILE: Gemfile
+      BUNDLE_GEMFILE: test/gemfiles/Gemfile-Rails-5-2
 
     steps:
       *test_steps
