@@ -133,112 +133,122 @@ jobs:
     steps:
       *test_steps
 
-  ruby25rails60:
-    docker:
-      - image: circleci/ruby:2.5.1
-
-    environment:
-      BUNDLE_GEMFILE: test/gemfiles/Gemfile-Rails-5-2
-
-    steps:
-      *test_steps
-
-  ruby25rails60:
-    docker:
-      - image: circleci/ruby:2.5.1
-
-    environment:
-      BUNDLE_GEMFILE: Gemfile
-
-    steps:
-      *test_steps
-
-  ruby26rails50:
-    docker:
-      - image: circleci/ruby:2.6.1
-
-    environment:
-      BUNDLE_GEMFILE: test/gemfiles/Gemfile-Rails-5-0
-
-    steps:
-      *test_steps
-
-  ruby26rails51:
-    docker:
-      - image: circleci/ruby:2.6.1
-
-    environment:
-      BUNDLE_GEMFILE: test/gemfiles/Gemfile-Rails-5-1
-
-    steps:
-      *test_steps
-
-  ruby26rails52:
-    docker:
-      - image: circleci/ruby:2.6.1
-
-    environment:
-      BUNDLE_GEMFILE: test/gemfiles/Gemfile-Rails-5-2
-
-    steps:
-      *test_steps
-
-  ruby26rails60:
-    docker:
-      - image: circleci/ruby:2.6.1
-
-    environment:
-      BUNDLE_GEMFILE: Gemfile
-
-    steps:
-      *test_steps
-
-  ruby26rails50:
-    docker:
-      - image: circleci/ruby:2.6.1
-
-    environment:
-      BUNDLE_GEMFILE: test/gemfiles/Gemfile-Rails-5-0
-
-    steps:
-      *test_steps
-
-  ruby26rails51:
-    docker:
-      - image: circleci/ruby:2.6.1
-
-    environment:
-      BUNDLE_GEMFILE: test/gemfiles/Gemfile-Rails-5-1
-
-    steps:
-      *test_steps
-
-  ruby26rails52:
-    docker:
-      - image: circleci/ruby:2.6.1
-
-    environment:
-      BUNDLE_GEMFILE: test/gemfiles/Gemfile-Rails-5-2
-
-    steps:
-      *test_steps
-
-  ruby26rails60:
-    docker:
-      - image: circleci/ruby:2.6.1
-
-    environment:
-      BUNDLE_GEMFILE: Gemfile
-
-    steps:
-      *test_steps
-
   ruby25rails60beta:
     docker:
     - image: circleci/ruby:2.5.1
 
     environment:
       BUNDLE_GEMFILE: test/gemfiles/Gemfile-Rails-6-0-beta
+
+    steps:
+      *test_steps
+
+  ruby25rails60:
+    docker:
+      - image: circleci/ruby:2.5.1
+
+    environment:
+      BUNDLE_GEMFILE: test/gemfiles/Gemfile-Rails-5-2
+
+    steps:
+      *test_steps
+
+  ruby25rails60:
+    docker:
+      - image: circleci/ruby:2.5.1
+
+    environment:
+      BUNDLE_GEMFILE: Gemfile
+
+    steps:
+      *test_steps
+
+  ruby26rails50:
+    docker:
+      - image: circleci/ruby:2.6.1
+
+    environment:
+      BUNDLE_GEMFILE: test/gemfiles/Gemfile-Rails-5-0
+
+    steps:
+      *test_steps
+
+  ruby26rails51:
+    docker:
+      - image: circleci/ruby:2.6.1
+
+    environment:
+      BUNDLE_GEMFILE: test/gemfiles/Gemfile-Rails-5-1
+
+    steps:
+      *test_steps
+
+  ruby26rails52:
+    docker:
+      - image: circleci/ruby:2.6.1
+
+    environment:
+      BUNDLE_GEMFILE: test/gemfiles/Gemfile-Rails-5-2
+
+    steps:
+      *test_steps
+
+  ruby26rails60:
+    docker:
+      - image: circleci/ruby:2.6.1
+
+    environment:
+      BUNDLE_GEMFILE: Gemfile
+
+    steps:
+      *test_steps
+
+  ruby26rails50:
+    docker:
+      - image: circleci/ruby:2.6.1
+
+    environment:
+      BUNDLE_GEMFILE: test/gemfiles/Gemfile-Rails-5-0
+
+    steps:
+      *test_steps
+
+  ruby26rails51:
+    docker:
+      - image: circleci/ruby:2.6.1
+
+    environment:
+      BUNDLE_GEMFILE: test/gemfiles/Gemfile-Rails-5-1
+
+    steps:
+      *test_steps
+
+  ruby26rails52:
+    docker:
+      - image: circleci/ruby:2.6.1
+
+    environment:
+      BUNDLE_GEMFILE: test/gemfiles/Gemfile-Rails-5-2
+
+    steps:
+      *test_steps
+
+  ruby26rails60beta:
+    docker:
+      - image: circleci/ruby:2.6.1
+
+    environment:
+      BUNDLE_GEMFILE: test/gemfiles/Gemfile-Rails-6-0-beta
+
+    steps:
+      *test_steps
+
+  ruby26rails60:
+    docker:
+      - image: circleci/ruby:2.6.1
+
+    environment:
+      BUNDLE_GEMFILE: Gemfile
 
     steps:
       *test_steps
