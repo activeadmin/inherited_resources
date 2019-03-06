@@ -291,7 +291,6 @@ workflows:
       - jruby91rails50
       - jruby91rails51
       - jruby91rails52
-      - jruby91rails60beta
 
       # JRuby 9.2.0
       - jruby92rails50
