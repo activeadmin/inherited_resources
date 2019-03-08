@@ -249,6 +249,17 @@ jobs:
     steps:
       *test_steps
 
+  jruby92rails60beta:
+    docker:
+      - image: ccistaging/jruby:9.2.0.0
+
+    environment:
+      BUNDLE_GEMFILE: test/gemfiles/Gemfile-Rails-6-0-beta
+      JRUBY_OPTS: -J-Xmx1024m --dev --debug
+
+    steps:
+      *test_steps
+
 workflows:
   version: 2
 
@@ -285,3 +296,4 @@ workflows:
       - jruby92rails50
       - jruby92rails51
       - jruby92rails52
+      - jruby92rails60beta
