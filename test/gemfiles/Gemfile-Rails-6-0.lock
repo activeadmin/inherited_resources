@@ -174,7 +174,7 @@ DEPENDENCIES
   inherited_resources!
   minitest-rg
   mocha
-  rails (= 6.0.0.beta2)
+  rails (~> 6.0.a)
   rails-controller-testing
   rubocop
 

@@ -2,7 +2,7 @@ source 'https://rubygems.org'
 
 gemspec path: '.'
 
-gem 'rails', '~> 5.2.x'
+gem 'rails', '~> 5.2.a'
 
 gem 'mocha'
 gem 'minitest-rg'

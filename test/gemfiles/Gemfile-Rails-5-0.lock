@@ -149,7 +149,7 @@ DEPENDENCIES
   inherited_resources!
   minitest-rg
   mocha
-  rails (~> 5.0.1)
+  rails (~> 5.0.a)
   rails-controller-testing
   rubocop
 
