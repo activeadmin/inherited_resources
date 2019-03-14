@@ -28,6 +28,11 @@ version: 2.1
     paths:
       - vendor/bundle
 
+.check_gemfiles: &check_gemfiles
+  run:
+    name: Make sure gemfiles are up to date
+    command: bundle exec ruby -Itest -e 'require "gemfiles/lint.rb"; Minitest.run'
+
 .run_tests: &run_tests
   run:
     name: Run tests
@@ -40,6 +45,7 @@ version: 2.1
   - *restore_cache
   - *install_dependencies
   - *save_cache
+  - *check_gemfiles
   - *run_tests
 
 jobs:
