@@ -138,7 +138,7 @@ jobs:
     - image: circleci/ruby:2.5.1
 
     environment:
-      BUNDLE_GEMFILE: test/gemfiles/Gemfile-Rails-6-0-beta
+      BUNDLE_GEMFILE: test/gemfiles/Gemfile-Rails-6-0
 
     steps:
       *test_steps
@@ -178,7 +178,7 @@ jobs:
       - image: circleci/ruby:2.6.1
 
     environment:
-      BUNDLE_GEMFILE: test/gemfiles/Gemfile-Rails-6-0-beta
+      BUNDLE_GEMFILE: test/gemfiles/Gemfile-Rails-6-0
 
     steps:
       *test_steps
@@ -254,7 +254,7 @@ jobs:
       - image: circleci/jruby:9.2.6.0
 
     environment:
-      BUNDLE_GEMFILE: test/gemfiles/Gemfile-Rails-6-0-beta
+      BUNDLE_GEMFILE: test/gemfiles/Gemfile-Rails-6-0
       JRUBY_OPTS: -J-Xmx1024m --dev --debug
 
     steps:
