@@ -20,7 +20,7 @@ version: 2.1
 .install_dependencies: &install_dependencies
   run:
     name: Install dependencies
-    command: BUNDLER_VERSION=2.0.1 bundle install --without development --path /home/circleci/project/vendor/bundle --retry 3 --jobs 3
+    command: bundle install --without development --path /home/circleci/project/vendor/bundle --retry 3 --jobs 3
 
 .save_cache: &save_cache
   save_cache:
@@ -28,10 +28,15 @@ version: 2.1
     paths:
       - vendor/bundle
 
+.check_gemfiles: &check_gemfiles
+  run:
+    name: Make sure gemfiles are up to date
+    command: bundle exec ruby -Itest -e 'require "gemfiles/lint.rb"; Minitest.run'
+
 .run_tests: &run_tests
   run:
     name: Run tests
-    command: BUNDLER_VERSION=2.0.1 bundle exec rake test TESTOPTS="--verbose"
+    command: bundle exec rake test TESTOPTS="--verbose"
 
 .test_steps: &test_steps
   - checkout
@@ -40,12 +45,13 @@ version: 2.1
   - *restore_cache
   - *install_dependencies
   - *save_cache
+  - *check_gemfiles
   - *run_tests
 
 jobs:
   ruby23rails50:
     docker:
-      - image: circleci/ruby:2.3.7
+      - image: circleci/ruby:2.3.8
 
     environment:
       BUNDLE_GEMFILE: test/gemfiles/Gemfile-Rails-5-0
@@ -55,7 +61,7 @@ jobs:
 
   ruby23rails51:
     docker:
-      - image: circleci/ruby:2.3.7
+      - image: circleci/ruby:2.3.8
 
     environment:
       BUNDLE_GEMFILE: test/gemfiles/Gemfile-Rails-5-1
@@ -65,7 +71,7 @@ jobs:
 
   ruby23rails52:
     docker:
-      - image: circleci/ruby:2.3.7
+      - image: circleci/ruby:2.3.8
 
     environment:
       BUNDLE_GEMFILE: Gemfile
@@ -75,7 +81,7 @@ jobs:
 
   ruby24rails50:
     docker:
-      - image: circleci/ruby:2.4.4
+      - image: circleci/ruby:2.4.5
 
     environment:
       BUNDLE_GEMFILE: test/gemfiles/Gemfile-Rails-5-0
@@ -85,7 +91,7 @@ jobs:
 
   ruby24rails51:
     docker:
-      - image: circleci/ruby:2.4.4
+      - image: circleci/ruby:2.4.5
 
     environment:
       BUNDLE_GEMFILE: test/gemfiles/Gemfile-Rails-5-1
@@ -95,7 +101,7 @@ jobs:
 
   ruby24rails52:
     docker:
-      - image: circleci/ruby:2.4.4
+      - image: circleci/ruby:2.4.5
 
     environment:
       BUNDLE_GEMFILE: Gemfile
@@ -105,7 +111,7 @@ jobs:
 
   ruby25rails50:
     docker:
-      - image: circleci/ruby:2.5.1
+      - image: circleci/ruby:2.5.3
 
     environment:
       BUNDLE_GEMFILE: test/gemfiles/Gemfile-Rails-5-0
@@ -115,7 +121,7 @@ jobs:
 
   ruby25rails51:
     docker:
-      - image: circleci/ruby:2.5.1
+      - image: circleci/ruby:2.5.3
 
     environment:
       BUNDLE_GEMFILE: test/gemfiles/Gemfile-Rails-5-1
@@ -125,7 +131,7 @@ jobs:
 
   ruby25rails52:
     docker:
-      - image: circleci/ruby:2.5.1
+      - image: circleci/ruby:2.5.3
 
     environment:
       BUNDLE_GEMFILE: Gemfile
@@ -133,12 +139,12 @@ jobs:
     steps:
       *test_steps
 
-  ruby25rails60beta:
+  ruby25rails60:
     docker:
-    - image: circleci/ruby:2.5.1
+    - image: circleci/ruby:2.5.3
 
     environment:
-      BUNDLE_GEMFILE: test/gemfiles/Gemfile-Rails-6-0-beta
+      BUNDLE_GEMFILE: test/gemfiles/Gemfile-Rails-6-0
 
     steps:
       *test_steps
@@ -173,12 +179,12 @@ jobs:
     steps:
       *test_steps
 
-  ruby26rails60beta:
+  ruby26rails60:
     docker:
       - image: circleci/ruby:2.6.1
 
     environment:
-      BUNDLE_GEMFILE: test/gemfiles/Gemfile-Rails-6-0-beta
+      BUNDLE_GEMFILE: test/gemfiles/Gemfile-Rails-6-0
 
     steps:
       *test_steps
@@ -249,12 +255,12 @@ jobs:
     steps:
       *test_steps
 
-  jruby92rails60beta:
+  jruby92rails60:
     docker:
       - image: circleci/jruby:9.2.6.0
 
     environment:
-      BUNDLE_GEMFILE: test/gemfiles/Gemfile-Rails-6-0-beta
+      BUNDLE_GEMFILE: test/gemfiles/Gemfile-Rails-6-0
       JRUBY_OPTS: -J-Xmx1024m --dev --debug
 
     steps:
@@ -279,13 +285,13 @@ workflows:
       - ruby25rails50
       - ruby25rails51
       - ruby25rails52
-      - ruby25rails60beta
+      - ruby25rails60
 
       # Ruby 2.6
       - ruby26rails50
       - ruby26rails51
       - ruby26rails52
-      - ruby26rails60beta
+      - ruby26rails60
 
       # JRuby 9.1.7
       - jruby91rails50
@@ -296,4 +302,4 @@ workflows:
       - jruby92rails50
       - jruby92rails51
       - jruby92rails52
-      - jruby92rails60beta
+      - jruby92rails60
