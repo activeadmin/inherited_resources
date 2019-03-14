@@ -20,7 +20,7 @@ version: 2.1
 .install_dependencies: &install_dependencies
   run:
     name: Install dependencies
-    command: BUNDLER_VERSION=2.0.1 bundle install --without development --path /home/circleci/project/vendor/bundle --retry 3 --jobs 3
+    command: bundle install --without development --path /home/circleci/project/vendor/bundle --retry 3 --jobs 3
 
 .save_cache: &save_cache
   save_cache:
@@ -36,7 +36,7 @@ version: 2.1
 .run_tests: &run_tests
   run:
     name: Run tests
-    command: BUNDLER_VERSION=2.0.1 bundle exec rake test TESTOPTS="--verbose"
+    command: bundle exec rake test TESTOPTS="--verbose"
 
 .test_steps: &test_steps
   - checkout
