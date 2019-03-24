@@ -1,5 +1,6 @@
 # Master (unreleased)
 
+* Preliminary support for Rails 6.0.
 * Remove support for Rails 4.2.
 
 # Version 1.9.0
