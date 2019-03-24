@@ -4,6 +4,7 @@ require 'rdoc/task'
 require 'rubocop/rake_task'
 
 import 'tasks/gemfiles.rake'
+import 'tasks/release.rake'
 
 desc 'Run tests for InheritedResources.'
 Rake::TestTask.new(:test) do |t|
