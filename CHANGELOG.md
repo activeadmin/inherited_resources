@@ -1,5 +1,9 @@
 # Master (unreleased)
 
+# Version 1.10.0
+
+_No changes_.
+
 # Version 1.10.0.rc1
 
 * Preliminary support for Rails 6.0.
