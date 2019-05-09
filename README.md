@@ -742,6 +742,6 @@ Tidelift will coordinate the fix and disclosure.
 [circleci_badge]: https://circleci.com/gh/activeadmin/inherited_resources.svg?style=svg
 [circleci]: https://circleci.com/gh/activeadmin/inherited_resources
 [tidelift_badge]: https://tidelift.com/badges/github/activeadmin/inherited_resources
-[tidelift]: https://tidelift.com/subscription/pkg/rubygems-inherited-resources?utm_source=rubygems-inherited-resources&utm_medium=readme
+[tidelift]: https://tidelift.com/subscription/pkg/rubygems-inherited-resources?utm_source=rubygems-inherited-resources&utm_medium=referral&utm_campaign=readme
 
 [Tidelift security contact]: https://tidelift.com/security
