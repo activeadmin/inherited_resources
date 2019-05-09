@@ -716,6 +716,13 @@ end
 
 In such case you should remove #permitted_params method because it has greater priority.
 
+## Funding
+
+If you want to support us financially, you can [help fund the project
+through a Tidelift subscription][tidelift]. By buying a Tidelift subscription
+you make sure your whole dependency stack is properly maintained, while also
+getting a comprehensive view of outdated dependencies, new releases, security
+alerts, and licensing compatibility issues.
 
 ## Bugs and Feedback
 
