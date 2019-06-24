@@ -79,7 +79,7 @@ class PolymorphicFactoriesTest < ActionController::TestCase
 
   def test_update_the_requested_object_on_update
     Employee.expects(:find).with('42').returns(mock_employee)
-    mock_employee.expects(:update_attributes).with({'these' => 'params'}).returns(true)
+    mock_employee.expects(:update).with({'these' => 'params'}).returns(true)
     put :update, params: { id: '42', factory_id: '37', employee: {these: 'params'} }
     assert_equal mock_factory, assigns(:factory)
     assert_equal mock_employee, assigns(:employee)
@@ -175,7 +175,7 @@ class PolymorphicCompanyTest < ActionController::TestCase
 
   def test_update_the_requested_object_on_update
     Employee.expects(:find).with('42').returns(mock_employee)
-    mock_employee.expects(:update_attributes).with({'these' => 'params'}).returns(true)
+    mock_employee.expects(:update).with({'these' => 'params'}).returns(true)
     put :update, params: { id: '42', company_id: '37', employee: {these: 'params'} }
     assert_equal mock_company, assigns(:company)
     assert_equal mock_employee, assigns(:employee)

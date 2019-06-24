@@ -66,7 +66,7 @@ class SingletonTest < ActionController::TestCase
 
   def test_update_the_requested_object_on_update
     Store.expects(:find).with('37').returns(mock_store(manager: mock_manager))
-    mock_manager.expects(:update_attributes).with({'these' => 'params'}).returns(true)
+    mock_manager.expects(:update).with({'these' => 'params'}).returns(true)
     put :update, params: { store_id: '37', manager: {these: 'params'} }
     assert_equal mock_store, assigns(:store)
     assert_equal mock_manager, assigns(:manager)

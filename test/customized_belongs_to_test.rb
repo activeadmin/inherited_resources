@@ -59,7 +59,7 @@ class CustomizedBelongsToTest < ActionController::TestCase
   end
 
   def test_expose_the_requested_school_with_chosen_instance_variable_on_update
-    Professor.stubs(:find).returns(mock_professor(update_attributes: true))
+    Professor.stubs(:find).returns(mock_professor(update: true))
     put :update, params: { id: 42, school_title: 'nice' }
     assert_equal mock_school, assigns(:great_school)
   end

@@ -40,7 +40,7 @@ class StrongParametersTest < ActionController::TestCase
   def test_permitted_params_from_update
     mock_widget = mock
     mock_widget.stubs(:class).returns(Widget)
-    mock_widget.expects(:update_attributes).with(permitted: 'param')
+    mock_widget.expects(:update).with(permitted: 'param')
     mock_widget.stubs(:persisted?).returns(true)
     mock_widget.stubs(:to_model).returns(mock_widget)
     mock_widget.stubs(:model_name).returns(Widget.model_name)
@@ -91,7 +91,7 @@ class StrongParametersWithoutPermittedParamsTest < ActionController::TestCase
   def test_permitted_params_from_update
     mock_widget = mock
     mock_widget.stubs(:class).returns(Widget)
-    mock_widget.expects(:update_attributes).with(permitted: 'param')
+    mock_widget.expects(:update).with(permitted: 'param')
     mock_widget.stubs(:persisted?).returns(true)
     mock_widget.stubs(:to_model).returns(mock_widget)
     mock_widget.stubs(:model_name).returns(Widget.model_name)
@@ -140,7 +140,7 @@ class StrongParametersIntegrationTest < ActionController::TestCase
   def test_permitted_params_from_update
     mock_widget = mock
     mock_widget.stubs(:class).returns(Widget)
-    mock_widget.expects(:update_attributes).with('permitted' => 'param')
+    mock_widget.expects(:update).with('permitted' => 'param')
     mock_widget.stubs(:persisted?).returns(true)
     mock_widget.stubs(:to_model).returns(mock_widget)
     mock_widget.stubs(:model_name).returns(Widget.model_name)

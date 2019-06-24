@@ -138,7 +138,7 @@ class NestedSingletonTest < ActionController::TestCase
   def test_update_the_requested_object_on_update
     Party.expects(:find).with('37').returns(mock_party)
     mock_party.expects(:venue).returns(mock_venue(address: mock_address))
-    mock_address.expects(:update_attributes).with({'these' => 'params'}).returns(mock_address(save: true))
+    mock_address.expects(:update).with({'these' => 'params'}).returns(mock_address(save: true))
     post :update, params: { party_id: '37', address: {these: 'params'} }
     assert_equal mock_party, assigns(:party)
     assert_equal mock_venue, assigns(:venue)

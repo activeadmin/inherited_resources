@@ -110,7 +110,7 @@ class OptionalTest < ActionController::TestCase
     Category.expects(:find).with('37').returns(mock_category)
     mock_category.expects(:products).returns(Product)
     Product.expects(:find).with('42').returns(mock_product)
-    mock_product.expects(:update_attributes).with({'these' => 'params'}).returns(true)
+    mock_product.expects(:update).with({'these' => 'params'}).returns(true)
 
     put :update, params: { id: '42', category_id: '37', product: {these: 'params'} }
     assert_equal mock_category, assigns(:category)
@@ -119,7 +119,7 @@ class OptionalTest < ActionController::TestCase
 
   def test_update_the_requested_object_without_category
     Product.expects(:find).with('42').returns(mock_product)
-    mock_product.expects(:update_attributes).with({'these' => 'params'}).returns(true)
+    mock_product.expects(:update).with({'these' => 'params'}).returns(true)
 
     put :update, params: { id: '42', product: {these: 'params'} }
     assert_nil assigns(:category)
