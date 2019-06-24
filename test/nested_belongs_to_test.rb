@@ -82,7 +82,7 @@ class NestedBelongsToTest < ActionController::TestCase
 
   def test_assigns_country_and_state_and_city_on_update
     City.expects(:find).with('42').returns(mock_city)
-    mock_city.expects(:update_attributes).returns(true)
+    mock_city.expects(:update).returns(true)
     put :update, params: { id: '42', state_id: '37', country_id: '13', city: {these: 'params'} }
 
     assert_equal mock_country, assigns(:country)

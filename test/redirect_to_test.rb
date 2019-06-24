@@ -44,7 +44,7 @@ class RedirectToWithBlockTest < ActionController::TestCase
   end
 
   def test_redirect_to_the_given_url_on_update
-    Machine.stubs(:find).returns(mock_machine(update_attributes: true))
+    Machine.stubs(:find).returns(mock_machine(update: true))
     put :update, params: { id: '42' }
     assert_redirected_to 'http://test.host/update'
   end

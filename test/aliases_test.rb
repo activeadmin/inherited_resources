@@ -114,14 +114,14 @@ class AliasesTest < ActionController::TestCase
   end
 
   def test_wont_render_edit_template_on_update_with_failure_if_failure_block_is_given
-    Student.stubs(:find).returns(mock_student(update_attributes: false, errors: { fail: true }))
+    Student.stubs(:find).returns(mock_student(update: false, errors: { fail: true }))
     put :update, params: { id: '42' }
     assert_response :success
     assert_equal "I won't render!", @response.body
   end
 
   def test_dumb_responder_quietly_receives_everything_on_success
-    Student.stubs(:find).returns(mock_student(update_attributes: true))
+    Student.stubs(:find).returns(mock_student(update: true))
     @controller.stubs(:resource_url).returns('http://test.host/')
     put :update, params: { id: '42', student: {these: 'params'} }
     assert_equal mock_student, assigns(:student)

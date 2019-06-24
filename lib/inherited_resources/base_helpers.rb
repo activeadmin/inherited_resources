@@ -68,14 +68,14 @@ module InheritedResources
 
       # Responsible for updating the resource in :update method. This allow you
       # to handle how the resource is going to be updated, let's say in a different
-      # way than the usual :update_attributes:
+      # way than the usual :update:
       #
       #   def update_resource(object, attributes)
       #     object.reset_password!(attributes)
       #   end
       #
       def update_resource(object, attributes)
-        object.update_attributes(*attributes)
+        object.update(*attributes)
       end
 
       # Handle the :destroy method for the resource. Overwrite it to call your

@@ -65,7 +65,7 @@ class BelongsToTest < ActionController::TestCase
 
   def test_update_the_requested_object_on_update
     Comment.expects(:find).with('42').returns(mock_comment)
-    mock_comment.expects(:update_attributes).with({'these' => 'params'}).returns(true)
+    mock_comment.expects(:update).with({'these' => 'params'}).returns(true)
     put :update, params: { id: '42', post_id: '37', comment: {these: 'params'} }
     assert_equal mock_post, assigns(:post)
     assert_equal mock_comment, assigns(:comment)
@@ -138,7 +138,7 @@ class BelongsToWithRedirectsTest < ActionController::TestCase
   end
 
   def test_redirect_to_the_post_on_update_if_show_and_index_undefined
-    Reply.stubs(:find).returns(mock_reply(update_attributes: true))
+    Reply.stubs(:find).returns(mock_reply(update: true))
     @controller.expects(:parent_url).returns('http://test.host/')
     put :update, params: { id: '42', post_id: '37', reply: { these: 'params' } }
     assert_redirected_to 'http://test.host/'

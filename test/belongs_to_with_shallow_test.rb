@@ -67,7 +67,7 @@ class BelongsToWithShallowTest < ActionController::TestCase
 
   def test_update_the_requested_object_on_update
     should_find_parents
-    mock_tag.expects(:update_attributes).with({'these' => 'params'}).returns(true)
+    mock_tag.expects(:update).with({'these' => 'params'}).returns(true)
     put :update, params: { id: '42', tag: {these: 'params'} }
     assert_equal mock_post, assigns(:post)
     assert_equal mock_tag, assigns(:tag)

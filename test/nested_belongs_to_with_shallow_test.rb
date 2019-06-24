@@ -87,7 +87,7 @@ class NestedBelongsToWithShallowTest < ActionController::TestCase
 
   def test_assigns_dresser_and_shelf_and_plate_on_update
     should_find_parents
-    mock_plate.expects(:update_attributes).returns(true)
+    mock_plate.expects(:update).returns(true)
     put :update, params: { id: '42', plate: {these: 'params'} }
 
     assert_equal mock_dresser, assigns(:dresser)
