@@ -60,7 +60,7 @@ jobs:
       - image: circleci/ruby:2.3.8
 
     environment:
-      BUNDLE_GEMFILE: test/gemfiles/Gemfile-Rails-5-0
+      BUNDLE_GEMFILE: test/rails_50/Gemfile
 
     steps:
       *test_steps
@@ -70,7 +70,7 @@ jobs:
       - image: circleci/ruby:2.3.8
 
     environment:
-      BUNDLE_GEMFILE: test/gemfiles/Gemfile-Rails-5-1
+      BUNDLE_GEMFILE: test/rails_51/Gemfile
 
     steps:
       *test_steps
@@ -90,7 +90,7 @@ jobs:
       - image: circleci/ruby:2.4.5
 
     environment:
-      BUNDLE_GEMFILE: test/gemfiles/Gemfile-Rails-5-0
+      BUNDLE_GEMFILE: test/rails_50/Gemfile
 
     steps:
       *test_steps
@@ -100,7 +100,7 @@ jobs:
       - image: circleci/ruby:2.4.5
 
     environment:
-      BUNDLE_GEMFILE: test/gemfiles/Gemfile-Rails-5-1
+      BUNDLE_GEMFILE: test/rails_51/Gemfile
 
     steps:
       *test_steps
@@ -120,7 +120,7 @@ jobs:
       - image: circleci/ruby:2.5.3
 
     environment:
-      BUNDLE_GEMFILE: test/gemfiles/Gemfile-Rails-5-0
+      BUNDLE_GEMFILE: test/rails_50/Gemfile
 
     steps:
       *test_steps
@@ -130,7 +130,7 @@ jobs:
       - image: circleci/ruby:2.5.3
 
     environment:
-      BUNDLE_GEMFILE: test/gemfiles/Gemfile-Rails-5-1
+      BUNDLE_GEMFILE: test/rails_51/Gemfile
 
     steps:
       *test_steps
@@ -150,7 +150,7 @@ jobs:
     - image: circleci/ruby:2.5.3
 
     environment:
-      BUNDLE_GEMFILE: test/gemfiles/Gemfile-Rails-6-0
+      BUNDLE_GEMFILE: test/rails_60/Gemfile
 
     steps:
       *test_steps
@@ -160,7 +160,7 @@ jobs:
       - image: circleci/ruby:2.6.1
 
     environment:
-      BUNDLE_GEMFILE: test/gemfiles/Gemfile-Rails-5-0
+      BUNDLE_GEMFILE: test/rails_50/Gemfile
 
     steps:
       *test_steps
@@ -170,7 +170,7 @@ jobs:
       - image: circleci/ruby:2.6.1
 
     environment:
-      BUNDLE_GEMFILE: test/gemfiles/Gemfile-Rails-5-1
+      BUNDLE_GEMFILE: test/rails_51/Gemfile
 
     steps:
       *test_steps
@@ -190,7 +190,7 @@ jobs:
       - image: circleci/ruby:2.6.1
 
     environment:
-      BUNDLE_GEMFILE: test/gemfiles/Gemfile-Rails-6-0
+      BUNDLE_GEMFILE: test/rails_60/Gemfile
 
     steps:
       *test_steps
@@ -200,7 +200,7 @@ jobs:
       - image: circleci/jruby:9.1.17.0
 
     environment:
-      BUNDLE_GEMFILE: test/gemfiles/Gemfile-Rails-5-0
+      BUNDLE_GEMFILE: test/rails_50/Gemfile
       JRUBY_OPTS: -J-Xmx1024m --dev --debug
 
     steps:
@@ -211,7 +211,7 @@ jobs:
       - image: circleci/jruby:9.1.17.0
 
     environment:
-      BUNDLE_GEMFILE: test/gemfiles/Gemfile-Rails-5-1
+      BUNDLE_GEMFILE: test/rails_51/Gemfile
       JRUBY_OPTS: -J-Xmx1024m --dev --debug
 
     steps:
@@ -233,7 +233,7 @@ jobs:
       - image: circleci/jruby:9.2.6.0
 
     environment:
-      BUNDLE_GEMFILE: test/gemfiles/Gemfile-Rails-5-0
+      BUNDLE_GEMFILE: test/rails_50/Gemfile
       JRUBY_OPTS: -J-Xmx1024m --dev --debug
 
     steps:
@@ -244,7 +244,7 @@ jobs:
       - image: circleci/jruby:9.2.6.0
 
     environment:
-      BUNDLE_GEMFILE: test/gemfiles/Gemfile-Rails-5-1
+      BUNDLE_GEMFILE: test/rails_51/Gemfile
       JRUBY_OPTS: -J-Xmx1024m --dev --debug
 
     steps:
@@ -266,7 +266,7 @@ jobs:
       - image: circleci/jruby:9.2.6.0
 
     environment:
-      BUNDLE_GEMFILE: test/gemfiles/Gemfile-Rails-6-0
+      BUNDLE_GEMFILE: test/rails_60/Gemfile
       JRUBY_OPTS: -J-Xmx1024m --dev --debug
 
     steps:
