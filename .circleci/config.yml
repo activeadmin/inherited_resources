@@ -5,7 +5,7 @@ version: 2.1
 .install_bundler: &install_bundler
   run:
     name: Install a specific bundler version
-    command: gem install bundler -v 2.0.1
+    command: gem install bundler -v 2.0.2
 
 .copy_current_gemfile: &copy_current_gemfile
   run:
@@ -57,7 +57,7 @@ version: 2.1
 jobs:
   ruby24rails50:
     docker:
-      - image: circleci/ruby:2.4.5
+      - image: circleci/ruby:2.4.6
 
     environment:
       BUNDLE_GEMFILE: test/rails_50/Gemfile
@@ -67,7 +67,7 @@ jobs:
 
   ruby24rails51:
     docker:
-      - image: circleci/ruby:2.4.5
+      - image: circleci/ruby:2.4.6
 
     environment:
       BUNDLE_GEMFILE: test/rails_51/Gemfile
@@ -77,7 +77,7 @@ jobs:
 
   ruby24rails52:
     docker:
-      - image: circleci/ruby:2.4.5
+      - image: circleci/ruby:2.4.6
 
     environment:
       BUNDLE_GEMFILE: Gemfile
@@ -87,7 +87,7 @@ jobs:
 
   ruby25rails50:
     docker:
-      - image: circleci/ruby:2.5.3
+      - image: circleci/ruby:2.5.5
 
     environment:
       BUNDLE_GEMFILE: test/rails_50/Gemfile
@@ -97,7 +97,7 @@ jobs:
 
   ruby25rails51:
     docker:
-      - image: circleci/ruby:2.5.3
+      - image: circleci/ruby:2.5.5
 
     environment:
       BUNDLE_GEMFILE: test/rails_51/Gemfile
@@ -107,7 +107,7 @@ jobs:
 
   ruby25rails52:
     docker:
-      - image: circleci/ruby:2.5.3
+      - image: circleci/ruby:2.5.5
 
     environment:
       BUNDLE_GEMFILE: Gemfile
@@ -117,7 +117,7 @@ jobs:
 
   ruby25rails60:
     docker:
-    - image: circleci/ruby:2.5.3
+    - image: circleci/ruby:2.5.5
 
     environment:
       BUNDLE_GEMFILE: test/rails_60/Gemfile
@@ -127,7 +127,7 @@ jobs:
 
   ruby26rails50:
     docker:
-      - image: circleci/ruby:2.6.1
+      - image: circleci/ruby:2.6.3
 
     environment:
       BUNDLE_GEMFILE: test/rails_50/Gemfile
@@ -137,7 +137,7 @@ jobs:
 
   ruby26rails51:
     docker:
-      - image: circleci/ruby:2.6.1
+      - image: circleci/ruby:2.6.3
 
     environment:
       BUNDLE_GEMFILE: test/rails_51/Gemfile
@@ -147,7 +147,7 @@ jobs:
 
   ruby26rails52:
     docker:
-      - image: circleci/ruby:2.6.1
+      - image: circleci/ruby:2.6.3
 
     environment:
       BUNDLE_GEMFILE: Gemfile
@@ -157,7 +157,7 @@ jobs:
 
   ruby26rails60:
     docker:
-      - image: circleci/ruby:2.6.1
+      - image: circleci/ruby:2.6.3
 
     environment:
       BUNDLE_GEMFILE: test/rails_60/Gemfile
@@ -167,7 +167,7 @@ jobs:
 
   jruby92rails50:
     docker:
-      - image: circleci/jruby:9.2.6.0
+      - image: circleci/jruby:9.2.7.0
 
     environment:
       BUNDLE_GEMFILE: test/rails_50/Gemfile
@@ -178,7 +178,7 @@ jobs:
 
   jruby92rails51:
     docker:
-      - image: circleci/jruby:9.2.6.0
+      - image: circleci/jruby:9.2.7.0
 
     environment:
       BUNDLE_GEMFILE: test/rails_51/Gemfile
@@ -189,7 +189,7 @@ jobs:
 
   jruby92rails52:
     docker:
-      - image: circleci/jruby:9.2.6.0
+      - image: circleci/jruby:9.2.7.0
 
     environment:
       BUNDLE_GEMFILE: Gemfile
@@ -200,7 +200,7 @@ jobs:
 
   jruby92rails60:
     docker:
-      - image: circleci/jruby:9.2.6.0
+      - image: circleci/jruby:9.2.7.0
 
     environment:
       BUNDLE_GEMFILE: test/rails_60/Gemfile
