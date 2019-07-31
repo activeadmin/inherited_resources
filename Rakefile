@@ -1,7 +1,6 @@
 require 'bundler/gem_tasks'
 require 'rake/testtask'
 require 'rdoc/task'
-require 'rubocop/rake_task'
 
 import 'tasks/gemfiles.rake'
 import 'tasks/release.rake'
@@ -24,7 +23,8 @@ Rake::RDocTask.new(:rdoc) do |rdoc|
   rdoc.rdoc_files.include('lib/**/*.rb')
 end
 
-RuboCop::RakeTask.new
+task :rubocop do
+  sh('bin/rubocop')
+end
 
-# Make test the default task.
 task default: [:test, :rubocop]
