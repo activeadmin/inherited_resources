@@ -55,8 +55,6 @@ version: 2.1
   - *restore_cache
   - *install_dependencies
   - *save_cache
-  - *check_gemfiles
-  - *check_gemspec
   - *run_tests
 
 .lint_steps: &lint_steps
