@@ -16,13 +16,13 @@ _No changes_.
 ## Version 1.9.0
 
 * Support Rails 5.2.1.
-* Remove support for Ruby < 2.3.
+* Remove support for Ruby `< 2.3`.
 
 ## Version 1.8.0
 
 * Support Rails 5.2.
 * Supports Ruby 2.4.
-* Remove support for Ruby < 2.2, Rails < 4.2.
+* Remove support for Ruby `< 2.2`, and Rails `< 4.2`.
 * Fixed broken class name in belongs_to.
 * Remove use of HttpCacheResponder.
 * Correct request_name in isolated engines.
@@ -40,9 +40,9 @@ _No changes_.
 ## Version 1.7.0
 
 * Support Rails 5.
-* Remove support for Ruby < 2.1.
+* Remove support for Ruby `< 2.1`.
 * Fix URL helpers on mountable engines.
-* Allow support to has_scope > 0.6 and < 1.0. Users are now able to choose which version they want to use in their applications.
+* Allow support to has_scope `< 0.6` and `> 1.0`. Users are now able to choose which version they want to use in their applications.
 
 ## Version 1.6.0
 
@@ -112,6 +112,7 @@ _No changes_.
     sudo gem install responders
 
 * has_scope was removed from InheritedResources core and is now available as a standalone gem.
+
   To install it, please do:
 
     sudo gem install has_scope
@@ -187,7 +188,7 @@ _No changes_.
 * Minor bump after three bug fixes.
 * Bug fix when showing warning of constant redefinition.
 * Bug fix with ApplicationController not being unloaded properly on development.
-* Bug fix when having root singleton resources. Calling collection_url would raise "NoMethodError _url", not it will call root_url.
+* Bug fix when having root singleton resources. Calling `collection_url` would raise "NoMethodError \_url", not it will call root_url.
 * More comments on UrlHelpers.
 
 ## Version 0.2
