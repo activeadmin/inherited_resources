@@ -29,7 +29,7 @@ Layout/EmptyLinesAroundClassBody:
 
 Layout/IndentationConsistency:
   Enabled: true
-  EnforcedStyle: rails
+  EnforcedStyle: indented_internal_methods
 
 Layout/IndentationWidth:
   Enabled: true
