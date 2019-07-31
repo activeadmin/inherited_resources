@@ -31,17 +31,22 @@ version: 2.1
 .check_gemfiles: &check_gemfiles
   run:
     name: Make sure gemfiles are up to date
-    command: bundle exec ruby -Itest -e 'require "gemfiles/lint.rb"; exit(Minitest.run)'
+    command: ruby -Itest -rbundler/setup -rgemfiles/lint -e 'exit(Minitest.run)'
 
 .check_gemspec: &check_gemspec
   run:
     name: Make sure gemspec builds without warnings
-    command: bundle exec ruby -Itest -e 'require "gemfiles/gemspec_lint.rb"; exit(Minitest.run)'
+    command: ruby -Itest -rbundler/setup -rgemfiles/gemspec_lint -e 'exit(Minitest.run)'
 
 .run_tests: &run_tests
   run:
     name: Run tests
     command: bundle exec rake test TESTOPTS="--verbose"
+
+.run_linters: &run_linters
+  run:
+    name: Run linters
+    command: bin/rubocop
 
 .test_steps: &test_steps
   - checkout
@@ -50,11 +55,30 @@ version: 2.1
   - *restore_cache
   - *install_dependencies
   - *save_cache
-  - *check_gemfiles
-  - *check_gemspec
   - *run_tests
 
+.lint_steps: &lint_steps
+  - checkout
+  - *install_bundler
+  - *copy_current_gemfile
+  - *restore_cache
+  - *install_dependencies
+  - *save_cache
+  - *check_gemfiles
+  - *check_gemspec
+  - *run_linters
+
 jobs:
+  lint:
+    docker:
+      - image: circleci/ruby:2.6.3
+
+    environment:
+      BUNDLE_GEMFILE: Gemfile
+
+    steps:
+      *lint_steps
+
   ruby24rails50:
     docker:
       - image: circleci/ruby:2.4.6
@@ -214,6 +238,8 @@ workflows:
 
   build:
     jobs:
+      - lint
+
       # Ruby 2.4
       - ruby24rails50
       - ruby24rails51
