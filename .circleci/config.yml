@@ -31,12 +31,12 @@ version: 2.1
 .check_gemfiles: &check_gemfiles
   run:
     name: Make sure gemfiles are up to date
-    command: ruby -Itest -rbundle/setup -e 'require "gemfiles/lint.rb"; exit(Minitest.run)'
+    command: ruby -Itest -rbundler/setup -rgemfiles/lint -e 'exit(Minitest.run)'
 
 .check_gemspec: &check_gemspec
   run:
     name: Make sure gemspec builds without warnings
-    command: ruby -Itest -rbundle/setup -e 'require "gemfiles/gemspec_lint.rb"; exit(Minitest.run)'
+    command: ruby -Itest -rbundler/setup -rgemfiles/gemspec_lint -e 'exit(Minitest.run)'
 
 .run_tests: &run_tests
   run:
