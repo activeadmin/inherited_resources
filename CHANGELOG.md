@@ -1,5 +1,7 @@
 # Master (unreleased)
 
+* Remove support for Ruby `< 2.4`.
+
 # Version 1.10.0
 
 _No changes_.
