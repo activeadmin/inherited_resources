@@ -5,7 +5,7 @@ PATH
       actionpack (>= 5.0, < 6.1)
       has_scope (~> 0.6)
       railties (>= 5.0, < 6.1)
-      responders (~> 2.0)
+      responders (>= 2, < 4)
 
 GEM
   remote: https://rubygems.org/
