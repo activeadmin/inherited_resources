@@ -2,6 +2,8 @@
 
 ## Master (unreleased)
 
+## Version 1.11.0
+
 * Add support for responders `>= 3.0`.
 * Remove support for Ruby `< 2.4`.
 
