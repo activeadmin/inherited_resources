@@ -1,6 +1,6 @@
 source 'https://rubygems.org'
 
-gemspec path: '.'
+gemspec path: '.', development_group: :production
 
 group :development do
   gem 'rails', '~> 6.0.a'
