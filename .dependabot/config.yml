@@ -10,7 +10,7 @@ update_configs:
 
     allowed_updates:
       - match:
-          dependency_type: production
+          dependency_type: all
           update_type: security
 
     automerged_updates:
@@ -25,7 +25,7 @@ update_configs:
 
     allowed_updates:
       - match:
-          dependency_type: production
+          dependency_type: all
           update_type: security
 
     automerged_updates:
@@ -40,7 +40,7 @@ update_configs:
 
     allowed_updates:
       - match:
-          dependency_type: production
+          dependency_type: all
           update_type: security
 
     automerged_updates:
@@ -55,7 +55,7 @@ update_configs:
 
     allowed_updates:
       - match:
-          dependency_type: production
+          dependency_type: all
           update_type: security
 
     automerged_updates:
