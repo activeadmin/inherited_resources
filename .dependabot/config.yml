@@ -19,36 +19,6 @@ update_configs:
           update_type: all
 
   - package_manager: ruby:bundler
-    directory: /test/rails_50
-    update_schedule: live
-    version_requirement_updates: increase_versions_if_necessary
-
-    allowed_updates:
-      - match:
-          dependency_type: all
-          update_type: security
-
-    automerged_updates:
-      - match:
-          dependency_type: development
-          update_type: all
-
-  - package_manager: ruby:bundler
-    directory: /test/rails_51
-    update_schedule: live
-    version_requirement_updates: increase_versions_if_necessary
-
-    allowed_updates:
-      - match:
-          dependency_type: all
-          update_type: security
-
-    automerged_updates:
-      - match:
-          dependency_type: development
-          update_type: all
-
-  - package_manager: ruby:bundler
     directory: /test/rails_52
     update_schedule: live
     version_requirement_updates: increase_versions_if_necessary
