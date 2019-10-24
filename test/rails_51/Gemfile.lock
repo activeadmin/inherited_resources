@@ -59,7 +59,7 @@ GEM
       netrc
       octokit (>= 2.2.0)
     concurrent-ruby (1.1.5)
-    crass (1.0.4)
+    crass (1.0.5)
     erubi (1.8.0)
     faraday (0.15.4)
       multipart-post (>= 1.2, < 3)
@@ -70,7 +70,7 @@ GEM
       activesupport (>= 4.1)
     i18n (1.6.0)
       concurrent-ruby (~> 1.0)
-    loofah (2.2.3)
+    loofah (2.3.1)
       crass (~> 1.0.2)
       nokogiri (>= 1.5.9)
     mail (2.7.1)
