@@ -2,6 +2,8 @@
 
 ## Master (unreleased)
 
+* Remove support for Rails 5.0 and Rails 5.1.
+
 ## Version 1.11.0
 
 * Add support for responders `>= 3.0`.
