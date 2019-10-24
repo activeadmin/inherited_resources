@@ -44,11 +44,7 @@ module UserTestHelper
   protected
 
     def new_request
-      if ActionPack::VERSION::MAJOR == 5 && ActionPack::VERSION::MINOR < 1
-        ActionController::TestRequest.new({}, ActionController::TestSession.new)
-      else
-        ActionController::TestRequest.create(UsersController)
-      end
+      ActionController::TestRequest.create(UsersController)
     end
 
     def new_response

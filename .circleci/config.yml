@@ -79,52 +79,12 @@ jobs:
     steps:
       *lint_steps
 
-  ruby24rails50:
-    docker:
-      - image: circleci/ruby:2.4.6
-
-    environment:
-      BUNDLE_GEMFILE: test/rails_50/Gemfile
-
-    steps:
-      *test_steps
-
-  ruby24rails51:
-    docker:
-      - image: circleci/ruby:2.4.6
-
-    environment:
-      BUNDLE_GEMFILE: test/rails_51/Gemfile
-
-    steps:
-      *test_steps
-
   ruby24rails52:
     docker:
       - image: circleci/ruby:2.4.6
 
     environment:
       BUNDLE_GEMFILE: test/rails_52/Gemfile
-
-    steps:
-      *test_steps
-
-  ruby25rails50:
-    docker:
-      - image: circleci/ruby:2.5.5
-
-    environment:
-      BUNDLE_GEMFILE: test/rails_50/Gemfile
-
-    steps:
-      *test_steps
-
-  ruby25rails51:
-    docker:
-      - image: circleci/ruby:2.5.5
-
-    environment:
-      BUNDLE_GEMFILE: test/rails_51/Gemfile
 
     steps:
       *test_steps
@@ -149,26 +109,6 @@ jobs:
     steps:
       *test_steps
 
-  ruby26rails50:
-    docker:
-      - image: circleci/ruby:2.6.3
-
-    environment:
-      BUNDLE_GEMFILE: test/rails_50/Gemfile
-
-    steps:
-      *test_steps
-
-  ruby26rails51:
-    docker:
-      - image: circleci/ruby:2.6.3
-
-    environment:
-      BUNDLE_GEMFILE: test/rails_51/Gemfile
-
-    steps:
-      *test_steps
-
   ruby26rails52:
     docker:
       - image: circleci/ruby:2.6.3
@@ -185,28 +125,6 @@ jobs:
 
     environment:
       BUNDLE_GEMFILE: Gemfile
-
-    steps:
-      *test_steps
-
-  jruby92rails50:
-    docker:
-      - image: circleci/jruby:9.2.7.0
-
-    environment:
-      BUNDLE_GEMFILE: test/rails_50/Gemfile
-      JRUBY_OPTS: -J-Xmx1024m --dev --debug
-
-    steps:
-      *test_steps
-
-  jruby92rails51:
-    docker:
-      - image: circleci/jruby:9.2.7.0
-
-    environment:
-      BUNDLE_GEMFILE: test/rails_51/Gemfile
-      JRUBY_OPTS: -J-Xmx1024m --dev --debug
 
     steps:
       *test_steps
@@ -241,24 +159,16 @@ workflows:
       - lint
 
       # Ruby 2.4
-      - ruby24rails50
-      - ruby24rails51
       - ruby24rails52
 
       # Ruby 2.5
-      - ruby25rails50
-      - ruby25rails51
       - ruby25rails52
       - ruby25rails60
 
       # Ruby 2.6
-      - ruby26rails50
-      - ruby26rails51
       - ruby26rails52
       - ruby26rails60
 
       # JRuby 9.2.0
-      - jruby92rails50
-      - jruby92rails51
       - jruby92rails52
       - jruby92rails60
