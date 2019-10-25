@@ -8,11 +8,6 @@ update_configs:
     update_schedule: live
     version_requirement_updates: increase_versions_if_necessary
 
-    allowed_updates:
-      - match:
-          dependency_type: all
-          update_type: security
-
     automerged_updates:
       - match:
           dependency_type: development
@@ -22,11 +17,6 @@ update_configs:
     directory: /test/rails_52
     update_schedule: live
     version_requirement_updates: increase_versions_if_necessary
-
-    allowed_updates:
-      - match:
-          dependency_type: all
-          update_type: security
 
     automerged_updates:
       - match:
