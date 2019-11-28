@@ -40,7 +40,7 @@ Layout/Tab:
 Layout/TrailingWhitespace:
   Enabled: true
 
-Layout/TrailingBlankLines:
+Layout/TrailingEmptyLines:
   Enabled: true
 
 Style/HashSyntax:
