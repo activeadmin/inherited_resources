@@ -129,6 +129,26 @@ jobs:
     steps:
       *test_steps
 
+  ruby27rails52:
+    docker:
+      - image: circleci/ruby:2.7.0
+
+    environment:
+      BUNDLE_GEMFILE: test/rails_52/Gemfile
+
+    steps:
+      *test_steps
+
+  ruby27rails60:
+    docker:
+      - image: circleci/ruby:2.7.0
+
+    environment:
+      BUNDLE_GEMFILE: Gemfile
+
+    steps:
+      *test_steps
+
   jruby92rails52:
     docker:
       - image: circleci/jruby:9.2.11.0
@@ -168,6 +188,10 @@ workflows:
       # Ruby 2.6
       - ruby26rails52
       - ruby26rails60
+
+      # Ruby 2.7
+      - ruby27rails52
+      - ruby27rails60
 
       # JRuby 9.2.x
       - jruby92rails52
