@@ -71,7 +71,7 @@ version: 2.1
 jobs:
   lint:
     docker:
-      - image: circleci/ruby:2.6.3
+      - image: circleci/ruby:2.6.5
 
     environment:
       BUNDLE_GEMFILE: Gemfile
@@ -81,7 +81,7 @@ jobs:
 
   ruby24rails52:
     docker:
-      - image: circleci/ruby:2.4.6
+      - image: circleci/ruby:2.4.9
 
     environment:
       BUNDLE_GEMFILE: test/rails_52/Gemfile
@@ -91,7 +91,7 @@ jobs:
 
   ruby25rails52:
     docker:
-      - image: circleci/ruby:2.5.5
+      - image: circleci/ruby:2.5.7
 
     environment:
       BUNDLE_GEMFILE: test/rails_52/Gemfile
@@ -101,7 +101,7 @@ jobs:
 
   ruby25rails60:
     docker:
-    - image: circleci/ruby:2.5.5
+    - image: circleci/ruby:2.5.7
 
     environment:
       BUNDLE_GEMFILE: Gemfile
@@ -111,7 +111,7 @@ jobs:
 
   ruby26rails52:
     docker:
-      - image: circleci/ruby:2.6.3
+      - image: circleci/ruby:2.6.5
 
     environment:
       BUNDLE_GEMFILE: test/rails_52/Gemfile
@@ -121,7 +121,27 @@ jobs:
 
   ruby26rails60:
     docker:
-      - image: circleci/ruby:2.6.3
+      - image: circleci/ruby:2.6.5
+
+    environment:
+      BUNDLE_GEMFILE: Gemfile
+
+    steps:
+      *test_steps
+
+  ruby27rails52:
+    docker:
+      - image: circleci/ruby:2.7.0
+
+    environment:
+      BUNDLE_GEMFILE: test/rails_52/Gemfile
+
+    steps:
+      *test_steps
+
+  ruby27rails60:
+    docker:
+      - image: circleci/ruby:2.7.0
 
     environment:
       BUNDLE_GEMFILE: Gemfile
@@ -131,7 +151,7 @@ jobs:
 
   jruby92rails52:
     docker:
-      - image: circleci/jruby:9.2.7.0
+      - image: circleci/jruby:9.2.11.0
 
     environment:
       BUNDLE_GEMFILE: test/rails_52/Gemfile
@@ -142,7 +162,7 @@ jobs:
 
   jruby92rails60:
     docker:
-      - image: circleci/jruby:9.2.7.0
+      - image: circleci/jruby:9.2.11.0
 
     environment:
       BUNDLE_GEMFILE: Gemfile
@@ -169,6 +189,10 @@ workflows:
       - ruby26rails52
       - ruby26rails60
 
-      # JRuby 9.2.0
+      # Ruby 2.7
+      - ruby27rails52
+      - ruby27rails60
+
+      # JRuby 9.2.x
       - jruby92rails52
       - jruby92rails60
