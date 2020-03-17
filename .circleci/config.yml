@@ -131,7 +131,7 @@ jobs:
 
   jruby92rails52:
     docker:
-      - image: circleci/jruby:9.2.7.0
+      - image: circleci/jruby:9.2.11.0
 
     environment:
       BUNDLE_GEMFILE: test/rails_52/Gemfile
@@ -142,7 +142,7 @@ jobs:
 
   jruby92rails60:
     docker:
-      - image: circleci/jruby:9.2.7.0
+      - image: circleci/jruby:9.2.11.0
 
     environment:
       BUNDLE_GEMFILE: Gemfile
@@ -169,6 +169,6 @@ workflows:
       - ruby26rails52
       - ruby26rails60
 
-      # JRuby 9.2.0
+      # JRuby 9.2.x
       - jruby92rails52
       - jruby92rails60
