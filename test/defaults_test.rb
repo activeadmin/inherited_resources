@@ -168,7 +168,7 @@ class NamespacedModelForNamespacedController < ActionController::TestCase
 
   def test_that_it_picked_the_namespaced_model
     # make public so we can test it
-    Admin::GroupsController.send(:public, *Admin::GroupsController.protected_instance_methods)
+    Admin::GroupsController.send(:public, :resource_class)
     assert_equal Admin::Group, @controller.resource_class
   end
 end
@@ -184,7 +184,7 @@ class TwoPartNameModelForNamespacedController < ActionController::TestCase
 
   def test_that_it_picked_the_camelcased_model
     # make public so we can test it
-    Admin::RolesController.send(:public, *Admin::RolesController.protected_instance_methods)
+    Admin::RolesController.send(:public, :resource_class)
     assert_equal AdminRole, @controller.resource_class
   end
 end
@@ -196,16 +196,15 @@ end
 class AnotherTwoPartNameModelForNamespacedController < ActionController::TestCase
   tests Admin::UsersController
 
-  def setup
-    # make public so we can test it
-    Admin::UsersController.send(:public, *Admin::UsersController.protected_instance_methods)
-  end
-
   def test_that_it_picked_the_camelcased_model
+    # make public so we can test it
+    Admin::UsersController.send(:public, :resource_class)
     assert_equal User, @controller.resource_class
   end
 
-  def test_that_it_got_the_rquest_params_right
+  def test_that_it_got_the_request_params_right
+    # make public so we can test it
+    Admin::UsersController.send(:public, :resources_configuration)
     assert_equal 'user', @controller.resources_configuration[:self][:request_name]
   end
 end
