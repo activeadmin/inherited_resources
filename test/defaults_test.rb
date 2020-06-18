@@ -205,7 +205,7 @@ class AnotherTwoPartNameModelForNamespacedController < ActionController::TestCas
     assert_equal User, @controller.resource_class
   end
 
-  def test_that_it_got_the_rquest_params_right
+  def test_that_it_got_the_request_params_right
     assert_equal 'user', @controller.resources_configuration[:self][:request_name]
   end
 end
