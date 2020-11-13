@@ -22,7 +22,7 @@ Gem::Specification.new do |s|
   s.required_ruby_version = '>= 2.4'
 
   s.add_dependency("responders", ">= 2", "< 4")
-  s.add_dependency("actionpack", ">= 5.2", "< 6.1")
-  s.add_dependency("railties", ">= 5.2", "< 6.1")
+  s.add_dependency("actionpack", ">= 5.2", "< 6.2")
+  s.add_dependency("railties", ">= 5.2", "< 6.2")
   s.add_dependency("has_scope",  "~> 0.6")
 end

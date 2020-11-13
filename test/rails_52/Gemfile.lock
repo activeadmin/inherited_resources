@@ -2,9 +2,9 @@ PATH
   remote: ../..
   specs:
     inherited_resources (1.11.0)
-      actionpack (>= 5.2, < 6.1)
+      actionpack (>= 5.2, < 6.2)
       has_scope (~> 0.6)
-      railties (>= 5.2, < 6.1)
+      railties (>= 5.2, < 6.2)
       responders (>= 2, < 4)
 
 GEM
@@ -165,4 +165,4 @@ DEPENDENCIES
   rails-controller-testing
 
 BUNDLED WITH
-   2.0.2
+   2.2.0.rc.2
