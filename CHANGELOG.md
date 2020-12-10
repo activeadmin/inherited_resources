@@ -2,6 +2,8 @@
 
 ## Master (unreleased)
 
+## Version 1.12.0
+
 * Remove support for Rails 5.0 and Rails 5.1.
 * Allow using Rails 6.1.
 
