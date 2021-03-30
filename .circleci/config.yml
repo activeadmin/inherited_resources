@@ -73,7 +73,7 @@ version: 2.1
 jobs:
   lint:
     docker:
-      - image: circleci/ruby:2.6.6
+      - image: circleci/ruby:2.7.2
 
     environment:
       BUNDLE_GEMFILE: Gemfile
