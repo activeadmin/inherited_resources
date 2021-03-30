@@ -79,16 +79,6 @@ jobs:
     steps:
       *lint_steps
 
-  ruby24rails52:
-    docker:
-      - image: circleci/ruby:2.4.9
-
-    environment:
-      BUNDLE_GEMFILE: test/rails_52/Gemfile
-
-    steps:
-      *test_steps
-
   ruby25rails52:
     docker:
       - image: circleci/ruby:2.5.7
@@ -177,9 +167,6 @@ workflows:
   build:
     jobs:
       - lint
-
-      # Ruby 2.4
-      - ruby24rails52
 
       # Ruby 2.5
       - ruby25rails52

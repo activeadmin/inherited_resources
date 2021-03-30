@@ -2,6 +2,8 @@
 
 ## Master (unreleased)
 
+* Remove support for Ruby `< 2.5`.
+
 ## Version 1.12.0
 
 * Remove support for Rails 5.0 and Rails 5.1.
