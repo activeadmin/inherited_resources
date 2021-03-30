@@ -20,7 +20,9 @@ version: 2.1
 .install_dependencies: &install_dependencies
   run:
     name: Install dependencies
-    command: bundle install --path /home/circleci/project/vendor/bundle
+    command: |
+      bundle config set path /home/circleci/project/vendor/bundle
+      bundle install
 
 .save_cache: &save_cache
   save_cache:
