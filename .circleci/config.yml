@@ -71,7 +71,7 @@ version: 2.1
 jobs:
   lint:
     docker:
-      - image: circleci/ruby:2.6.5
+      - image: circleci/ruby:2.6.6
 
     environment:
       BUNDLE_GEMFILE: Gemfile
@@ -81,7 +81,7 @@ jobs:
 
   ruby25rails52:
     docker:
-      - image: circleci/ruby:2.5.7
+      - image: circleci/ruby:2.5.8
 
     environment:
       BUNDLE_GEMFILE: test/rails_52/Gemfile
@@ -91,7 +91,7 @@ jobs:
 
   ruby25rails60:
     docker:
-    - image: circleci/ruby:2.5.7
+    - image: circleci/ruby:2.5.8
 
     environment:
       BUNDLE_GEMFILE: Gemfile
@@ -101,7 +101,7 @@ jobs:
 
   ruby26rails52:
     docker:
-      - image: circleci/ruby:2.6.5
+      - image: circleci/ruby:2.6.6
 
     environment:
       BUNDLE_GEMFILE: test/rails_52/Gemfile
@@ -111,7 +111,7 @@ jobs:
 
   ruby26rails60:
     docker:
-      - image: circleci/ruby:2.6.5
+      - image: circleci/ruby:2.6.6
 
     environment:
       BUNDLE_GEMFILE: Gemfile
@@ -121,7 +121,7 @@ jobs:
 
   ruby27rails52:
     docker:
-      - image: circleci/ruby:2.7.0
+      - image: circleci/ruby:2.7.2
 
     environment:
       BUNDLE_GEMFILE: test/rails_52/Gemfile
@@ -131,7 +131,7 @@ jobs:
 
   ruby27rails60:
     docker:
-      - image: circleci/ruby:2.7.0
+      - image: circleci/ruby:2.7.2
 
     environment:
       BUNDLE_GEMFILE: Gemfile
@@ -141,7 +141,7 @@ jobs:
 
   jruby92rails52:
     docker:
-      - image: circleci/jruby:9.2.11.0
+      - image: circleci/jruby:9.2.16.0
 
     environment:
       BUNDLE_GEMFILE: test/rails_52/Gemfile
@@ -152,7 +152,7 @@ jobs:
 
   jruby92rails60:
     docker:
-      - image: circleci/jruby:9.2.11.0
+      - image: circleci/jruby:9.2.16.0
 
     environment:
       BUNDLE_GEMFILE: Gemfile
