@@ -18,6 +18,9 @@ jobs:
     strategy:
       fail-fast: false
 
+    env:
+      RUBYOPT: -w
+
     steps:
       - uses: actions/checkout@v2
 
@@ -75,5 +78,10 @@ jobs:
           ruby-version: ${{ matrix.ruby.value }}
           bundler-cache: true
 
-      - name: Run tests
+      - name: Run tests (with warnings enabled)
+        run: RUBYOPT=-w bundle exec rake test TESTOPTS="--verbose"
+        if: matrix.ruby.name == 'ruby-2.7'
+
+      - name: Run tests (without warnings enabled)
         run: bundle exec rake test TESTOPTS="--verbose"
+        if: matrix.ruby.name != 'ruby-2.7'
