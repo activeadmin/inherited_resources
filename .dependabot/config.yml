@@ -14,7 +14,7 @@ update_configs:
           update_type: all
 
   - package_manager: ruby:bundler
-    directory: /test/rails_61
+    directory: /test/rails_60
     update_schedule: live
     version_requirement_updates: increase_versions_if_necessary
 
