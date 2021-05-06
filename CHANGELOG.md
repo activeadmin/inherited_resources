@@ -3,6 +3,7 @@
 ## Master (unreleased)
 
 * Remove support for Ruby `< 2.5`.
+* Coerce `:route_prefix` config option to a Symbol, ensuring compatibility with Rails versions that have resolved CVE-2021-22885.
 
 ## Version 1.12.0
 

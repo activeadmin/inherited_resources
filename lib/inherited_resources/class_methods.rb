@@ -48,7 +48,6 @@ module InheritedResources
         acts_as_singleton! if options.delete(:singleton)
 
         config = self.resources_configuration[:self]
-        config[:route_prefix] = options.delete(:route_prefix) if options.key?(:route_prefix)
 
         if options.key?(:resource_class) or options.key?(:class_name)
           config[:request_name] = begin
@@ -60,7 +59,7 @@ module InheritedResources
         end
 
         options.each do |key, value|
-          config[key] = value.to_sym
+          config[key] = value&.to_sym
         end
 
         create_resources_url_helpers!
@@ -379,7 +378,7 @@ module InheritedResources
           end
         end
 
-        config[:route_prefix] = namespaces.join('_') unless namespaces.empty?
+        config[:route_prefix] = namespaces.join('_').to_sym unless namespaces.empty?
 
         # Deal with default request parameters in namespaced controllers, e.g.
         # Forum::Thread#create will properly pick up the request parameter

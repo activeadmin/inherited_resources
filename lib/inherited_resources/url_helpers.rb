@@ -54,7 +54,7 @@ module InheritedResources
         # Add route_prefix if any.
         unless resource_config[:route_prefix].blank?
           if polymorphic
-            resource_ivars << resource_config[:route_prefix].to_s
+            resource_ivars << resource_config[:route_prefix]
           else
             resource_segments << resource_config[:route_prefix]
           end
