@@ -1,0 +1,24 @@
+---
+
+pull_request_rules:
+  - name: Automatic merge for dependabot pull requests
+
+    conditions:
+      - author~=^dependabot(|-preview)\[bot\]$
+      - check-success=lint
+      - check-success=test(ruby-2.5, rails_52)
+      - check-success=test(ruby-2.5, rails_60)
+      - check-success=test(ruby-2.5, rails_61)
+      - check-success=test(ruby-2.6, rails_52)
+      - check-success=test(ruby-2.6, rails_60)
+      - check-success=test(ruby-2.6, rails_61)
+      - check-success=test(ruby-2.7, rails_52)
+      - check-success=test(ruby-2.7, rails_60)
+      - check-success=test(ruby-2.7, rails_61)
+      - check-success=test(jruby-9.2, rails_52)
+      - check-success=test(jruby-9.2, rails_60)
+      - check-success=test(jruby-9.2, rails_61)
+
+    actions:
+      merge:
+        method: merge

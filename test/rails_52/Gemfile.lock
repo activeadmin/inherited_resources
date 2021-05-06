@@ -159,7 +159,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
-  chandler (= 0.9.0)
+  chandler
   inherited_resources!
   minitest-rg
   mocha

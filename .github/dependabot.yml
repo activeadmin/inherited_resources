@@ -1,0 +1,22 @@
+---
+
+version: 2
+
+updates:
+  - package-ecosystem: bundler
+    directory: /
+    schedule:
+      interval: daily
+    versioning-strategy: lockfile-only
+
+  - package-ecosystem: bundler
+    directory: /test/rails_60
+    schedule:
+      interval: daily
+    versioning-strategy: lockfile-only
+
+  - package-ecosystem: bundler
+    directory: /test/rails_52
+    schedule:
+      interval: daily
+    versioning-strategy: lockfile-only
