@@ -52,7 +52,7 @@ jobs:
           - { name: ruby-2.7, value: 2.7.2 }
           - { name: jruby-9.2, value: jruby-9.2.16.0 }
 
-        rails: [rails_52, rails_60]
+        rails: [rails_52, rails_60, rails_61]
 
     env:
       COVERAGE: true
