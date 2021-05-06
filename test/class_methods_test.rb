@@ -221,7 +221,7 @@ class MountableEngineTest < ActiveSupport::TestCase
   end
 
   def test_route_prefix_present_when_parent_module_is_not_a_engine
-    assert_equal 'my_namespace', MyNamespace::PeopleController.send(:resources_configuration)[:self][:route_prefix]
+    assert_equal :my_namespace, MyNamespace::PeopleController.send(:resources_configuration)[:self][:route_prefix]
   end
 end
 

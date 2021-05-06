@@ -189,7 +189,7 @@ different route prefix you can do the following:
 
 ```ruby
 class Administrators::PeopleController < InheritedResources::Base
-  defaults :route_prefix => 'admin'
+  defaults :route_prefix => :admin
 end
 ```
 

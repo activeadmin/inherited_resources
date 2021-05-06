@@ -223,7 +223,7 @@ class UrlHelpersTest < ActiveSupport::TestCase
     controller = Admin::BackpacksController.new
     controller.instance_variable_set('@backpack', :backpack)
 
-    assert_equal 'admin', controller.class.resources_configuration[:self][:route_prefix]
+    assert_equal :admin, controller.class.resources_configuration[:self][:route_prefix]
 
     [:url, :path].each do |path_or_url|
       controller.expects("admin_tour_backpacks_#{path_or_url}").with({}).once
@@ -687,16 +687,16 @@ class UrlHelpersTest < ActiveSupport::TestCase
     controller.send("parent_url", page: 1)
 
     # With args
-    controller.expects("polymorphic_url").with(['admin', :arg, new_desk], {}).once
+    controller.expects("polymorphic_url").with([:admin, :arg, new_desk], {}).once
     controller.send("collection_url", :arg)
 
-    controller.expects("polymorphic_url").with(['admin', house, :arg], {}).once
+    controller.expects("polymorphic_url").with([:admin, house, :arg], {}).once
     controller.send("resource_url", :arg)
 
-    controller.expects("edit_polymorphic_url").with(['admin', house, :arg], {}).once
+    controller.expects("edit_polymorphic_url").with([:admin, house, :arg], {}).once
     controller.send("edit_resource_url", :arg)
 
-    controller.expects("polymorphic_url").with(['admin', :arg], {}).once
+    controller.expects("polymorphic_url").with([:admin, :arg], {}).once
     controller.send("parent_url", :arg)
   end
 
