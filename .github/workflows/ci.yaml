@@ -23,7 +23,7 @@ jobs:
 
       - uses: ruby/setup-ruby@v1
         with:
-          ruby-version: 2.7.2
+          ruby-version: 3.0.1
           bundler-cache: true
 
       - name: Make sure gemfiles are up to date
@@ -47,12 +47,17 @@ jobs:
 
       matrix:
         ruby:
-          - { name: ruby-2.5, value: 2.5.8 }
-          - { name: ruby-2.6, value: 2.6.6 }
-          - { name: ruby-2.7, value: 2.7.2 }
-          - { name: jruby-9.2, value: jruby-9.2.16.0 }
+          - { name: ruby-2.5, value: 2.5.9 }
+          - { name: ruby-2.6, value: 2.6.7 }
+          - { name: ruby-2.7, value: 2.7.3 }
+          - { name: ruby-3.0, value: 3.0.1 }
+          - { name: jruby-9.2, value: jruby-9.2.17.0 }
 
         rails: [rails_52, rails_60, rails_61]
+
+        exclude:
+          - ruby: { name: ruby-3.0, value: 3.0.1 }
+            rails: rails_52
 
     env:
       COVERAGE: true
