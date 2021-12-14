@@ -53,11 +53,17 @@ jobs:
           - { name: ruby-3.0, value: 3.0.1 }
           - { name: jruby-9.2, value: jruby-9.2.17.0 }
 
-        rails: [rails_52, rails_60, rails_61]
+        rails: [rails_52, rails_60, rails_61, rails_70]
 
         exclude:
+          - ruby: { name: ruby-2.5, value: 2.5.9 }
+            rails: rails_70
+          - ruby: { name: ruby-2.6, value: 2.6.7 }
+            rails: rails_70
           - ruby: { name: ruby-3.0, value: 3.0.1 }
             rails: rails_52
+          - ruby: { name: jruby-9.2, value: jruby-9.2.17.0 }
+            rails: rails_70
 
     env:
       COVERAGE: true
@@ -68,12 +74,12 @@ jobs:
       - name: Configure bundler (default)
         run: |
           echo "BUNDLE_GEMFILE=Gemfile" >> $GITHUB_ENV
-        if: matrix.rails == 'rails_61'
+        if: matrix.rails == 'rails_70'
 
       - name: Configure bundler (alternative)
         run: |
           echo "BUNDLE_GEMFILE=test/${{ matrix.rails }}/Gemfile" >> $GITHUB_ENV
-        if: matrix.rails != 'rails_61'
+        if: matrix.rails != 'rails_70'
 
       - uses: ruby/setup-ruby@v1
         with:

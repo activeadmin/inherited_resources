@@ -2,6 +2,8 @@
 
 ## Master (unreleased)
 
+* Allow using Rails 7.0.
+
 ## Version 1.13.0
 
 * Remove support for Ruby `< 2.5`.
