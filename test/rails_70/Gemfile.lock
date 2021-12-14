@@ -1,5 +1,5 @@
 PATH
-  remote: .
+  remote: ../..
   specs:
     inherited_resources (1.13.0)
       actionpack (>= 5.2, < 7.1)
@@ -71,7 +71,6 @@ GEM
       tzinfo (~> 2.0)
     addressable (2.8.0)
       public_suffix (>= 2.0.2, < 5.0)
-    ast (2.4.2)
     builder (3.2.4)
     chandler (0.9.0)
       netrc
@@ -130,9 +129,6 @@ GEM
     octokit (4.21.0)
       faraday (>= 0.9)
       sawyer (~> 0.8.0, >= 0.5.3)
-    parallel (1.21.0)
-    parser (3.0.3.2)
-      ast (~> 2.4.1)
     public_suffix (4.0.6)
     racc (1.6.0)
     racc (1.6.0-java)
@@ -169,25 +165,10 @@ GEM
       rake (>= 12.2)
       thor (~> 1.0)
       zeitwerk (~> 2.5)
-    rainbow (3.0.0)
     rake (13.0.6)
-    regexp_parser (2.2.0)
     responders (3.0.1)
       actionpack (>= 5.0)
       railties (>= 5.0)
-    rexml (3.2.5)
-    rubocop (1.23.0)
-      parallel (~> 1.10)
-      parser (>= 3.0.0.0)
-      rainbow (>= 2.2.2, < 4.0)
-      regexp_parser (>= 1.8, < 3.0)
-      rexml
-      rubocop-ast (>= 1.12.0, < 2.0)
-      ruby-progressbar (~> 1.7)
-      unicode-display_width (>= 1.4.0, < 3.0)
-    rubocop-ast (1.15.0)
-      parser (>= 3.0.1.1)
-    ruby-progressbar (1.11.0)
     ruby2_keywords (0.0.5)
     sawyer (0.8.2)
       addressable (>= 2.3.5)
@@ -195,7 +176,6 @@ GEM
     thor (1.1.0)
     tzinfo (2.0.4)
       concurrent-ruby (~> 1.0)
-    unicode-display_width (2.1.0)
     websocket-driver (0.7.5)
       websocket-extensions (>= 0.1.0)
     websocket-driver (0.7.5-java)
@@ -214,7 +194,6 @@ DEPENDENCIES
   mocha
   rails (~> 7.0.0)
   rails-controller-testing
-  rubocop
 
 BUNDLED WITH
    2.2.31

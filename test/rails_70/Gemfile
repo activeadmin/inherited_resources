@@ -1,6 +1,6 @@
 source 'https://rubygems.org'
 
-gemspec path: '.'
+gemspec path: '../..'
 
 group :development do
   gem 'rails', '~> 7.0.0'
@@ -8,6 +8,5 @@ group :development do
   gem 'mocha'
   gem 'minitest-rg'
   gem 'rails-controller-testing'
-  gem 'rubocop'
   gem 'chandler'
 end
