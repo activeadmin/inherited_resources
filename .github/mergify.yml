@@ -12,12 +12,15 @@ pull_request_rules:
       - check-success=test(ruby-2.6, rails_52)
       - check-success=test(ruby-2.6, rails_60)
       - check-success=test(ruby-2.6, rails_61)
-      - check-success=test(ruby-2.7, rails_52)
       - check-success=test(ruby-2.7, rails_60)
       - check-success=test(ruby-2.7, rails_61)
-      - check-success=test(jruby-9.2, rails_52)
-      - check-success=test(jruby-9.2, rails_60)
-      - check-success=test(jruby-9.2, rails_61)
+      - check-success=test(ruby-2.7, rails_70)
+      - check-success=test(ruby-3.0, rails_60)
+      - check-success=test(ruby-3.0, rails_61)
+      - check-success=test(ruby-3.0, rails_70)
+      - check-success=test(jruby-9.3, rails_52)
+      - check-success=test(jruby-9.3, rails_60)
+      - check-success=test(jruby-9.3, rails_61)
 
     actions:
       merge:
