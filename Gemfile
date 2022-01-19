@@ -9,5 +9,4 @@ group :development do
   gem 'minitest-rg'
   gem 'rails-controller-testing'
   gem 'rubocop'
-  gem 'chandler'
 end

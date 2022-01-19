@@ -8,5 +8,4 @@ group :development do
   gem 'mocha'
   gem 'minitest-rg'
   gem 'rails-controller-testing'
-  gem 'chandler'
 end
