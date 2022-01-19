@@ -3,7 +3,6 @@ require 'rake/testtask'
 require 'rdoc/task'
 
 import 'tasks/gemfiles.rake'
-import 'tasks/release.rake'
 
 desc 'Run tests for InheritedResources.'
 Rake::TestTask.new(:test) do |t|
