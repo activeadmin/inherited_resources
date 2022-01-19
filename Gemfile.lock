@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    inherited_resources (1.13.0)
+    inherited_resources (1.13.1)
       actionpack (>= 5.2, < 7.1)
       has_scope (~> 0.6)
       railties (>= 5.2, < 7.1)
@@ -217,4 +217,4 @@ DEPENDENCIES
   rubocop
 
 BUNDLED WITH
-   2.2.31
+   2.2.32
