@@ -6,7 +6,7 @@ AllCops:
   DisplayCopNames: true
   DisplayStyleGuide: true
 
-  TargetRubyVersion: 2.5
+  TargetRubyVersion: 2.6
 
 Metrics:
   Enabled: false
