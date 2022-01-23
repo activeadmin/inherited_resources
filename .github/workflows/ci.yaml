@@ -23,7 +23,7 @@ jobs:
 
       - uses: ruby/setup-ruby@v1
         with:
-          ruby-version: 3.0.3
+          ruby-version: 3.1.0
           bundler-cache: true
 
       - name: Make sure gemfiles are up to date
@@ -50,6 +50,7 @@ jobs:
           - { name: ruby-2.6, value: 2.6.9 }
           - { name: ruby-2.7, value: 2.7.5 }
           - { name: ruby-3.0, value: 3.0.3 }
+          - { name: ruby-3.1, value: 3.1.0 }
           - { name: jruby-9.3, value: jruby-9.3.2.0 }
 
         rails: [rails_52, rails_60, rails_61, rails_70]
@@ -60,6 +61,8 @@ jobs:
           - ruby: { name: ruby-2.7, value: 2.7.5 }
             rails: rails_52
           - ruby: { name: ruby-3.0, value: 3.0.3 }
+            rails: rails_52
+          - ruby: { name: ruby-3.1, value: 3.1.0 }
             rails: rails_52
           - ruby: { name: jruby-9.3, value: jruby-9.3.2.0 }
             rails: rails_70
