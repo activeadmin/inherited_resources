@@ -16,7 +16,13 @@ updates:
     versioning-strategy: lockfile-only
 
   - package-ecosystem: bundler
-    directory: /test/rails_52
+    directory: /test/rails_61
+    schedule:
+      interval: daily
+    versioning-strategy: lockfile-only
+
+  - package-ecosystem: bundler
+    directory: /test/rails_70
     schedule:
       interval: daily
     versioning-strategy: lockfile-only
