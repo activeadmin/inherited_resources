@@ -1,0 +1,1 @@
+../../inherited_resources.gemspec

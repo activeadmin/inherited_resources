@@ -1,5 +1,5 @@
 PATH
-  remote: ../..
+  remote: .
   specs:
     inherited_resources (1.13.1)
       actionpack (>= 6.0, < 7.1)

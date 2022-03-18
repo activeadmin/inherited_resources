@@ -67,15 +67,9 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
-      - name: Configure bundler (default)
-        run: |
-          echo "BUNDLE_GEMFILE=Gemfile" >> $GITHUB_ENV
-        if: matrix.rails == 'rails_70'
-
-      - name: Configure bundler (alternative)
+      - name: Configure bundler
         run: |
           echo "BUNDLE_GEMFILE=test/${{ matrix.rails }}/Gemfile" >> $GITHUB_ENV
-        if: matrix.rails != 'rails_70'
 
       - uses: ruby/setup-ruby@v1
         with:

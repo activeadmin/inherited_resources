@@ -1,4 +1,4 @@
-lib = File.expand_path("lib", __dir__)
+lib = File.expand_path("../lib", File.realpath(__FILE__))
 $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
 require "inherited_resources/version"
 

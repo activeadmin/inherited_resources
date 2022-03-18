@@ -3,7 +3,7 @@ source 'https://rubygems.org'
 gemspec
 
 group :development do
-  gem 'rails', '~> 6.0.3.a'
+  gem 'rails', '~> 7.0.0'
 
   gem 'mocha'
   gem 'minitest-rg'

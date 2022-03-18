@@ -1,7 +1,7 @@
 require "minitest"
 
 class GemfilesTest < Minitest::Test
-  ["Gemfile", *Dir.glob("test/rails_[5-9][0-9]/Gemfile")].each do |gemfile|
+  Dir.glob("test/rails_[5-9][0-9]/Gemfile").each do |gemfile|
     define_method :"test_#{gemfile}_is_up_to_date" do
       current_lockfile = File.read("#{gemfile}.lock")
 
