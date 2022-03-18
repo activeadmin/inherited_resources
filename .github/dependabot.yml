@@ -20,9 +20,3 @@ updates:
     schedule:
       interval: daily
     versioning-strategy: lockfile-only
-
-  - package-ecosystem: bundler
-    directory: /test/rails_70
-    schedule:
-      interval: daily
-    versioning-strategy: lockfile-only
