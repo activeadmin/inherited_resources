@@ -120,10 +120,10 @@ GEM
       timeout
     nio4r (2.5.8)
     nio4r (2.5.8-java)
-    nokogiri (1.13.3)
+    nokogiri (1.13.4)
       mini_portile2 (~> 2.8.0)
       racc (~> 1.4)
-    nokogiri (1.13.3-java)
+    nokogiri (1.13.4-java)
       racc (~> 1.4)
     parallel (1.22.1)
     parser (3.1.1.0)
