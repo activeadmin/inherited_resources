@@ -88,7 +88,7 @@ GEM
     minitest (5.15.0)
     minitest-rg (5.2.0)
       minitest (~> 5.0)
-    mocha (1.13.0)
+    mocha (1.14.0)
     nio4r (2.5.8)
     nio4r (2.5.8-java)
     nokogiri (1.13.4)
