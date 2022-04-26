@@ -15,8 +15,6 @@ pull_request_rules:
       - check-success=test(ruby-3.1, rails_60)
       - check-success=test(ruby-3.1, rails_61)
       - check-success=test(ruby-3.1, rails_70)
-      - check-success=test(jruby-9.3, rails_60)
-      - check-success=test(jruby-9.3, rails_61)
 
     actions:
       merge:
