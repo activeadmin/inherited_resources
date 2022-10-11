@@ -103,7 +103,7 @@ GEM
     minitest (5.16.2)
     minitest-rg (5.2.0)
       minitest (~> 5.0)
-    mocha (1.14.0)
+    mocha (1.15.0)
     net-imap (0.2.3)
       digest
       net-protocol
