@@ -101,7 +101,8 @@ GEM
     minitest (5.16.3)
     minitest-rg (5.2.0)
       minitest (~> 5.0)
-    mocha (1.15.0)
+    mocha (2.0.1)
+      ruby2_keywords (>= 0.0.5)
     net-imap (0.3.1)
       net-protocol
     net-pop (0.1.2)
@@ -175,6 +176,7 @@ GEM
     rubocop-ast (1.21.0)
       parser (>= 3.1.1.0)
     ruby-progressbar (1.11.0)
+    ruby2_keywords (0.0.5)
     thor (1.2.1)
     timeout (0.3.0)
     tzinfo (2.0.5)
