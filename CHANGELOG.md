@@ -3,6 +3,7 @@
 ## Master (unreleased)
 
 - Allow using Rails 7.0.
+- [PLAT-1175] Update to Ruby 3.2 and Remove support for Ruby `< 2.7`.
 
 ## Version 1.13.0
 

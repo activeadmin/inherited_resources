@@ -1,12 +1,11 @@
 ---
-
 AllCops:
   DisabledByDefault: true
 
   DisplayCopNames: true
   DisplayStyleGuide: true
 
-  TargetRubyVersion: 2.5
+  TargetRubyVersion: 3.2
 
 Metrics:
   Enabled: false
