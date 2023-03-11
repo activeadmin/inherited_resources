@@ -14,4 +14,3 @@ en:
       addresses:
         create:
           notice: "Admin, you created a new address close to <b>{{reference}}</b>."
-
