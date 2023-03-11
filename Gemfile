@@ -8,5 +8,8 @@ group :development do
   gem 'mocha'
   gem 'minitest-rg'
   gem 'rails-controller-testing'
+end
+
+group :rubocop do
   gem 'rubocop'
 end
