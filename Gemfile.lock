@@ -169,7 +169,7 @@ GEM
       actionpack (>= 5.2)
       railties (>= 5.2)
     rexml (3.2.5)
-    rubocop (1.48.0)
+    rubocop (1.48.1)
       json (~> 2.3)
       parallel (~> 1.10)
       parser (>= 3.2.0.0)
