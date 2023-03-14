@@ -6,6 +6,9 @@ group :development do
   gem 'rails', '~> 6.0.3.a'
 
   gem 'mocha'
-  gem 'minitest-rg'
+  gem 'minitest'
+  gem 'minitest-reporters'
   gem 'rails-controller-testing'
+  gem 'simplecov', require: false
+  gem 'simplecov-cobertura'
 end
