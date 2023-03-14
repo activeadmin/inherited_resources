@@ -75,6 +75,7 @@ GEM
       i18n (>= 1.6, < 2)
       minitest (>= 5.1)
       tzinfo (~> 2.0)
+    ansi (1.5.0)
     ast (2.4.2)
     builder (3.2.4)
     concurrent-ruby (1.2.2)
@@ -104,8 +105,11 @@ GEM
     method_source (1.0.0)
     mini_mime (1.1.2)
     minitest (5.18.0)
-    minitest-rg (5.2.0)
-      minitest (~> 5.0)
+    minitest-reporters (1.6.0)
+      ansi
+      builder
+      minitest (>= 5.0)
+      ruby-progressbar
     mocha (2.0.2)
       ruby2_keywords (>= 0.0.5)
     net-imap (0.3.4)
@@ -209,7 +213,8 @@ PLATFORMS
 
 DEPENDENCIES
   inherited_resources!
-  minitest-rg
+  minitest
+  minitest-reporters
   mocha
   rails (~> 7.0.0)
   rails-controller-testing

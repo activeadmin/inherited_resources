@@ -16,7 +16,8 @@ Bundler.setup
 
 require 'minitest/autorun'
 require 'mocha/minitest'
-require 'minitest/rg'
+require 'minitest/autorun'
+require 'minitest/reporters'
 
 ENV["RAILS_ENV"] = "test"
 RAILS_ROOT = "anywhere"
