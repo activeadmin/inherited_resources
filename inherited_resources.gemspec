@@ -19,6 +19,8 @@ Gem::Specification.new do |s|
   s.files         = Dir["app/**/*", "lib/**/*", "README.md", "MIT-LICENSE"]
   s.require_paths = ["lib"]
 
+  s.metadata = { "rubygems_mfa_required" => "true" }
+
   s.required_ruby_version = '>= 2.7'
 
   s.add_dependency("responders", ">= 2", "< 4")
