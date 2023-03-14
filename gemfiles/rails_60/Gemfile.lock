@@ -70,6 +70,7 @@ GEM
     crass (1.0.6)
     date (3.3.3)
     date (3.3.3-java)
+    docile (1.4.0)
     erubi (1.12.0)
     globalid (1.1.0)
       activesupport (>= 5.0)
@@ -89,7 +90,6 @@ GEM
     marcel (1.0.2)
     method_source (1.0.0)
     mini_mime (1.1.2)
-    mini_portile2 (2.8.1)
     minitest (5.18.0)
     minitest-rg (5.2.0)
       minitest (~> 5.0)
@@ -106,8 +106,7 @@ GEM
       net-protocol
     nio4r (2.5.8)
     nio4r (2.5.8-java)
-    nokogiri (1.14.2)
-      mini_portile2 (~> 2.8.0)
+    nokogiri (1.14.2-arm64-darwin)
       racc (~> 1.4)
     nokogiri (1.14.2-java)
       racc (~> 1.4)
@@ -150,7 +149,17 @@ GEM
     responders (3.1.0)
       actionpack (>= 5.2)
       railties (>= 5.2)
+    rexml (3.2.5)
     ruby2_keywords (0.0.5)
+    simplecov (0.22.0)
+      docile (~> 1.1)
+      simplecov-html (~> 0.11)
+      simplecov_json_formatter (~> 0.1)
+    simplecov-cobertura (2.1.0)
+      rexml
+      simplecov (~> 0.19)
+    simplecov-html (0.12.3)
+    simplecov_json_formatter (0.1.4)
     sprockets (4.2.0)
       concurrent-ruby (~> 1.0)
       rack (>= 2.2.4, < 4)
@@ -172,8 +181,8 @@ GEM
     zeitwerk (2.6.7)
 
 PLATFORMS
+  arm64-darwin-22
   java
-  ruby
 
 DEPENDENCIES
   inherited_resources!
@@ -181,6 +190,8 @@ DEPENDENCIES
   mocha
   rails (~> 6.0.3.a)
   rails-controller-testing
+  simplecov
+  simplecov-cobertura
 
 BUNDLED WITH
    2.4.8

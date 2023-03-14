@@ -8,6 +8,8 @@ group :development do
   gem 'mocha'
   gem 'minitest-rg'
   gem 'rails-controller-testing'
+  gem 'simplecov', require: false
+  gem 'simplecov-cobertura'
 end
 
 group :rubocop do
