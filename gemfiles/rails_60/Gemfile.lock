@@ -114,6 +114,8 @@ GEM
       racc (~> 1.4)
     nokogiri (1.14.2-java)
       racc (~> 1.4)
+    nokogiri (1.14.2-x86_64-linux)
+      racc (~> 1.4)
     racc (1.6.2)
     racc (1.6.2-java)
     rack (2.2.6.4)
@@ -188,6 +190,7 @@ GEM
 PLATFORMS
   arm64-darwin-22
   java
+  x86_64-linux
 
 DEPENDENCIES
   inherited_resources!
