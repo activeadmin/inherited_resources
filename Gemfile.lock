@@ -105,7 +105,7 @@ GEM
     method_source (1.0.0)
     mini_mime (1.1.5)
     minitest (5.18.0)
-    minitest-reporters (1.6.0)
+    minitest-reporters (1.6.1)
       ansi
       builder
       minitest (>= 5.0)
