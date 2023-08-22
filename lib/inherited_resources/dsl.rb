@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module InheritedResources
   # Allows controllers to write actions using a class method DSL.
   #

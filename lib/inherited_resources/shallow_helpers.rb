@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module InheritedResources
   # Shallow provides a functionality that goes on pair with Rails' shallow.
   # It is very similar to "optional" but it actually finds all the parents

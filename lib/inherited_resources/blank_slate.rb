@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module InheritedResources
   # An object from BlankSlate simply discards all messages sent to it.
   class BlankSlate
