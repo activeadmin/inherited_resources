@@ -95,7 +95,7 @@ GEM
     marcel (1.0.2)
     method_source (1.0.0)
     mini_mime (1.1.2)
-    minitest (5.18.0)
+    minitest (5.19.0)
     minitest-reporters (1.6.0)
       ansi
       builder
