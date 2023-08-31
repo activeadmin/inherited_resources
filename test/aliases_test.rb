@@ -107,7 +107,7 @@ class AliasesTest < ActionController::TestCase
     @controller.stubs(:resource_url).returns('http://test.host/')
     post :create
 
-    assert_response :success
+    assert_response :unprocessable_entity
     assert_equal "New HTML", @response.body.strip
   end
 
@@ -117,7 +117,7 @@ class AliasesTest < ActionController::TestCase
     @controller.stubs(:resource_url).returns('http://test.host/')
     post :create
 
-    assert_response :success
+    assert_response :unprocessable_entity
     assert_equal "New HTML", @response.body.strip
   end
 
