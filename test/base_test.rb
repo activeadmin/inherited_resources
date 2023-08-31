@@ -222,7 +222,7 @@ class CreateActionBaseTest < ActionController::TestCase
   def test_render_new_template_when_user_cannot_be_saved
     User.stubs(:new).returns(mock_user(save: false, errors: {some: :error}))
     post :create
-    assert_response :success
+    assert_response :unprocessable_entity
     assert_equal "New HTML", @response.body.strip
   end
 
@@ -289,7 +289,7 @@ class UpdateActionBaseTest < ActionController::TestCase
   def test_render_edit_template_when_user_cannot_be_saved
     User.stubs(:find).returns(mock_user(update: false, errors: {some: :error}))
     put :update, params: { id: '42' }
-    assert_response :success
+    assert_response :unprocessable_entity
     assert_equal "Edit HTML", @response.body.strip
   end
 
