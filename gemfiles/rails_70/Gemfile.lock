@@ -114,7 +114,7 @@ GEM
       ruby-progressbar
     mocha (2.1.0)
       ruby2_keywords (>= 0.0.5)
-    net-imap (0.3.7)
+    net-imap (0.4.0)
       date
       net-protocol
     net-pop (0.1.2)
@@ -132,7 +132,7 @@ GEM
     nokogiri (1.15.4-x86_64-linux)
       racc (~> 1.4)
     parallel (1.23.0)
-    parser (3.2.2.3)
+    parser (3.2.2.4)
       ast (~> 2.4.1)
       racc
     racc (1.7.1)
@@ -208,7 +208,7 @@ GEM
     timeout (0.4.0)
     tzinfo (2.0.6)
       concurrent-ruby (~> 1.0)
-    unicode-display_width (2.4.2)
+    unicode-display_width (2.5.0)
     websocket-driver (0.7.6)
       websocket-extensions (>= 0.1.0)
     websocket-driver (0.7.6-java)
