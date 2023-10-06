@@ -2,6 +2,7 @@
 
 ## Master (unreleased)
 
+* Remove upper bound dependency limits from gemspec.
 * Allow using Rails 7.1.
 
 ## Version 1.13.1
