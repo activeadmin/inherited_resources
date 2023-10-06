@@ -2,10 +2,10 @@ PATH
   remote: .
   specs:
     inherited_resources (1.13.1)
-      actionpack (>= 6.0, < 7.2)
-      has_scope (~> 0.6)
-      railties (>= 6.0, < 7.2)
-      responders (>= 2, < 4)
+      actionpack (>= 6.0)
+      has_scope (>= 0.6)
+      railties (>= 6.0)
+      responders (>= 2)
 
 GEM
   remote: https://rubygems.org/
