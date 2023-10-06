@@ -2,6 +2,8 @@
 
 ## Master (unreleased)
 
+* Allow using Rails 7.1.
+
 ## Version 1.13.1
 
 * Allow using Rails 7.0.
