@@ -1,16 +1,21 @@
----
-
 version: 2
-
 updates:
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: daily
   - package-ecosystem: bundler
     directory: /
     schedule:
       interval: daily
     versioning-strategy: lockfile-only
-
   - package-ecosystem: bundler
     directory: /gemfiles/rails_61
+    schedule:
+      interval: daily
+    versioning-strategy: lockfile-only
+  - package-ecosystem: bundler
+    directory: /gemfiles/rails_70
     schedule:
       interval: daily
     versioning-strategy: lockfile-only
