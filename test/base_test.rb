@@ -65,6 +65,10 @@ module UserTestHelper
         user
       end
     end
+
+    def build_parameters(hash)
+      ActionController::Parameters.new(hash)
+    end
 end
 
 class IndexActionBaseTest < ActionController::TestCase
@@ -181,21 +185,21 @@ class CreateActionBaseTest < ActionController::TestCase
   include UserTestHelper
 
   def test_expose_a_newly_create_user_when_saved_with_success
-    User.expects(:new).with({'these' => 'params'}).returns(mock_user(save: true))
+    User.expects(:new).with(build_parameters({'these' => 'params'})).returns(mock_user(save: true))
     post :create, params: { user: {these: 'params'} }
     assert_equal mock_user, assigns(:user)
   end
 
   def test_expose_a_newly_create_user_when_saved_with_success_and_role_setted
     @controller.class.send(:with_role, :admin)
-    User.expects(:new).with({'these' => 'params'}, {as: :admin}).returns(mock_user(save: true))
+    User.expects(:new).with(build_parameters({'these' => 'params'}), {as: :admin}).returns(mock_user(save: true))
     post :create, params: { user: {these: 'params'} }
     assert_equal mock_user, assigns(:user)
   end
 
   def test_expose_a_newly_create_user_when_saved_with_success_and_without_protection_setted
     @controller.class.send(:without_protection, true)
-    User.expects(:new).with({'these' => 'params'}, {without_protection: true}).returns(mock_user(save: true))
+    User.expects(:new).with(build_parameters({'these' => 'params'}), {without_protection: true}).returns(mock_user(save: true))
     post :create, params: { user: {these: 'params'} }
     assert_equal mock_user, assigns(:user)
   end
@@ -238,7 +242,7 @@ class UpdateActionBaseTest < ActionController::TestCase
 
   def test_update_the_requested_object
     User.expects(:find).with('42').returns(mock_user)
-    mock_user.expects(:update).with({'these' => 'params'}).returns(true)
+    mock_user.expects(:update).with(build_parameters({'these' => 'params'})).returns(true)
     put :update, params: { id: '42', user: {these: 'params'} }
     assert_equal mock_user, assigns(:user)
   end
@@ -246,7 +250,7 @@ class UpdateActionBaseTest < ActionController::TestCase
   def test_update_the_requested_object_when_setted_role
     @controller.class.send(:with_role, :admin)
     User.expects(:find).with('42').returns(mock_user)
-    mock_user.expects(:update).with({'these' => 'params'}, {as: :admin}).returns(true)
+    mock_user.expects(:update).with(build_parameters({'these' => 'params'}), {as: :admin}).returns(true)
     put :update, params: { id: '42', user: {these: 'params'} }
     assert_equal mock_user, assigns(:user)
   end
@@ -254,7 +258,7 @@ class UpdateActionBaseTest < ActionController::TestCase
   def test_update_the_requested_object_when_setted_without_protection
     @controller.class.send(:without_protection, true)
     User.expects(:find).with('42').returns(mock_user)
-    mock_user.expects(:update).with({'these' => 'params'}, {without_protection: true}).returns(true)
+    mock_user.expects(:update).with(build_parameters({'these' => 'params'}), {without_protection: true}).returns(true)
     put :update, params: { id: '42', user: {these: 'params'} }
     assert_equal mock_user, assigns(:user)
   end

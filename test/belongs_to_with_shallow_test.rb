@@ -45,7 +45,7 @@ class BelongsToWithShallowTest < ActionController::TestCase
   end
 
   def test_expose_a_newly_create_tag_on_create
-    Tag.expects(:build).with({'these' => 'params'}).returns(mock_tag(save: true))
+    Tag.expects(:build).with(build_parameters({'these' => 'params'})).returns(mock_tag(save: true))
     post :create, params: { post_id: 'thirty_seven', tag: {these: 'params'} }
     assert_equal mock_post, assigns(:post)
     assert_equal mock_tag, assigns(:tag)
@@ -67,7 +67,7 @@ class BelongsToWithShallowTest < ActionController::TestCase
 
   def test_update_the_requested_object_on_update
     should_find_parents
-    mock_tag.expects(:update).with({'these' => 'params'}).returns(true)
+    mock_tag.expects(:update).with(build_parameters({'these' => 'params'})).returns(true)
     put :update, params: { id: '42', tag: {these: 'params'} }
     assert_equal mock_post, assigns(:post)
     assert_equal mock_tag, assigns(:tag)
@@ -95,5 +95,9 @@ class BelongsToWithShallowTest < ActionController::TestCase
 
     def mock_tag(stubs={})
       @mock_tag ||= mock(stubs)
+    end
+
+    def build_parameters(hash)
+      ActionController::Parameters.new(hash)
     end
 end
