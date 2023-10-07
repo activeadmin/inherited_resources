@@ -68,6 +68,10 @@ module CarTestHelper
         car
       end
     end
+
+    def build_parameters(hash)
+      ActionController::Parameters.new(hash)
+    end
 end
 
 class IndexActionCustomizedBaseTest < ActionController::TestCase
@@ -115,7 +119,7 @@ class CreateActionCustomizedBaseTest < ActionController::TestCase
   include CarTestHelper
 
   def test_expose_a_newly_create_user_when_saved_with_success
-    Car.expects(:create_new).with({'these' => 'params'}).returns(mock_car(save_successfully: true))
+    Car.expects(:create_new).with(build_parameters({'these' => 'params'})).returns(mock_car(save_successfully: true))
     post :create, params: { car: {these: 'params'} }
     assert_equal mock_car, assigns(:car)
   end
@@ -140,7 +144,7 @@ class UpdateActionCustomizedBaseTest < ActionController::TestCase
 
   def test_update_the_requested_object
     Car.expects(:get).with('42').returns(mock_car)
-    mock_car.expects(:update_successfully).with({'these' => 'params'}).returns(true)
+    mock_car.expects(:update_successfully).with(build_parameters({'these' => 'params'})).returns(true)
     put :update, params: { id: '42', car: {these: 'params'} }
     assert_equal mock_car, assigns(:car)
   end

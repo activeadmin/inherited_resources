@@ -93,14 +93,14 @@ class OptionalTest < ActionController::TestCase
   def test_expose_a_newly_create_product_with_category
     Category.expects(:find).with('37').returns(mock_category)
     mock_category.expects(:products).returns(Product)
-    Product.expects(:build).with({'these' => 'params'}).returns(mock_product(save: true))
+    Product.expects(:build).with(build_parameters({'these' => 'params'})).returns(mock_product(save: true))
     post :create, params: { category_id: '37', product: {these: 'params'} }
     assert_equal mock_category, assigns(:category)
     assert_equal mock_product, assigns(:product)
   end
 
   def test_expose_a_newly_create_product_without_category
-    Product.expects(:new).with({'these' => 'params'}).returns(mock_product(save: true))
+    Product.expects(:new).with(build_parameters({'these' => 'params'})).returns(mock_product(save: true))
     post :create, params: { product: {these: 'params'} }
     assert_nil assigns(:category)
     assert_equal mock_product, assigns(:product)
@@ -110,7 +110,7 @@ class OptionalTest < ActionController::TestCase
     Category.expects(:find).with('37').returns(mock_category)
     mock_category.expects(:products).returns(Product)
     Product.expects(:find).with('42').returns(mock_product)
-    mock_product.expects(:update).with({'these' => 'params'}).returns(true)
+    mock_product.expects(:update).with(build_parameters({'these' => 'params'})).returns(true)
 
     put :update, params: { id: '42', category_id: '37', product: {these: 'params'} }
     assert_equal mock_category, assigns(:category)
@@ -119,7 +119,7 @@ class OptionalTest < ActionController::TestCase
 
   def test_update_the_requested_object_without_category
     Product.expects(:find).with('42').returns(mock_product)
-    mock_product.expects(:update).with({'these' => 'params'}).returns(true)
+    mock_product.expects(:update).with(build_parameters({'these' => 'params'})).returns(true)
 
     put :update, params: { id: '42', product: {these: 'params'} }
     assert_nil assigns(:category)
@@ -168,5 +168,9 @@ class OptionalTest < ActionController::TestCase
 
     def mock_product(stubs={})
       @mock_product ||= mock(stubs)
+    end
+
+    def build_parameters(hash)
+      ActionController::Parameters.new(hash)
     end
 end

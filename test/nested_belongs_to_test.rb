@@ -71,7 +71,7 @@ class NestedBelongsToTest < ActionController::TestCase
   end
 
   def test_assigns_country_and_state_and_city_on_create
-    City.expects(:build).with({'these' => 'params'}).returns(mock_city)
+    City.expects(:build).with(build_parameters({'these' => 'params'})).returns(mock_city)
     mock_city.expects(:save).returns(true)
     post :create, params: { state_id: '37', country_id: '13', city: {these: 'params'} }
 
@@ -112,5 +112,9 @@ class NestedBelongsToTest < ActionController::TestCase
 
     def mock_city(stubs={})
       @mock_city ||= mock(stubs)
+    end
+
+    def build_parameters(hash)
+      ActionController::Parameters.new(hash)
     end
 end

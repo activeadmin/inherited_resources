@@ -58,7 +58,7 @@ class SingletonTest < ActionController::TestCase
 
   def test_expose_a_newly_create_manager_on_create
     Store.expects(:find).with('37').returns(mock_store)
-    mock_store.expects(:build_manager).with({'these' => 'params'}).returns(mock_manager(save: true))
+    mock_store.expects(:build_manager).with(build_parameters({'these' => 'params'})).returns(mock_manager(save: true))
     post :create, params: { store_id: '37', manager: {these: 'params'} }
     assert_equal mock_store, assigns(:store)
     assert_equal mock_manager, assigns(:manager)
@@ -66,7 +66,7 @@ class SingletonTest < ActionController::TestCase
 
   def test_update_the_requested_object_on_update
     Store.expects(:find).with('37').returns(mock_store(manager: mock_manager))
-    mock_manager.expects(:update).with({'these' => 'params'}).returns(true)
+    mock_manager.expects(:update).with(build_parameters({'these' => 'params'})).returns(true)
     put :update, params: { store_id: '37', manager: {these: 'params'} }
     assert_equal mock_store, assigns(:store)
     assert_equal mock_manager, assigns(:manager)
@@ -90,5 +90,9 @@ class SingletonTest < ActionController::TestCase
 
     def mock_manager(stubs={})
       @mock_manager ||= mock(stubs)
+    end
+
+    def build_parameters(hash)
+      ActionController::Parameters.new(hash)
     end
 end

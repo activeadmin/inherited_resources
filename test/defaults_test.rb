@@ -53,14 +53,14 @@ class DefaultsTest < ActionController::TestCase
   end
 
   def test_expose_a_newly_create_painter_when_saved_with_success
-    Malarz.expects(:new).with({'these' => 'params'}).returns(mock_painter(save: true))
+    Malarz.expects(:new).with(build_parameters({'these' => 'params'})).returns(mock_painter(save: true))
     post :create, params: { malarz: {these: 'params'} }
     assert_equal mock_painter, assigns(:malarz)
   end
 
   def test_update_the_requested_object
     Malarz.expects(:find_by_slug).with('forty_two').returns(mock_painter)
-    mock_painter.expects(:update).with({'these' => 'params'}).returns(true)
+    mock_painter.expects(:update).with(build_parameters({'these' => 'params'})).returns(true)
     put :update, params: { id: 'forty_two', malarz: {these: 'params'} }
     assert_equal mock_painter, assigns(:malarz)
   end
@@ -76,6 +76,10 @@ class DefaultsTest < ActionController::TestCase
 
     def mock_painter(stubs={})
       @mock_painter ||= mock(stubs)
+    end
+
+    def build_parameters(hash)
+      ActionController::Parameters.new(hash)
     end
 end
 
@@ -128,14 +132,14 @@ class DefaultsNamespaceTest < ActionController::TestCase
   end
 
   def test_expose_a_newly_create_lecturer_when_saved_with_success
-    Lecturer.expects(:new).with({'these' => 'params'}).returns(mock_lecturer(save: true))
+    Lecturer.expects(:new).with(build_parameters({'these' => 'params'})).returns(mock_lecturer(save: true))
     post :create, params: { lecturer: {these: 'params'} }
     assert_equal mock_lecturer, assigns(:lecturer)
   end
 
   def test_update_the_lecturer
     Lecturer.expects(:find_by_slug).with('forty_two').returns(mock_lecturer)
-    mock_lecturer.expects(:update).with({'these' => 'params'}).returns(true)
+    mock_lecturer.expects(:update).with(build_parameters({'these' => 'params'})).returns(true)
     put :update, params: { id: 'forty_two', lecturer: {these: 'params'} }
     assert_equal mock_lecturer, assigns(:lecturer)
   end
@@ -151,6 +155,10 @@ class DefaultsNamespaceTest < ActionController::TestCase
 
     def mock_lecturer(stubs={})
       @mock_lecturer ||= mock(stubs)
+    end
+
+    def build_parameters(hash)
+      ActionController::Parameters.new(hash)
     end
 end
 

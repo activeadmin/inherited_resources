@@ -71,7 +71,7 @@ class PolymorphicFactoriesTest < ActionController::TestCase
   end
 
   def test_expose_a_newly_create_employee_on_create
-    Employee.expects(:build).with({'these' => 'params'}).returns(mock_employee(save: true))
+    Employee.expects(:build).with(build_parameters({'these' => 'params'})).returns(mock_employee(save: true))
     post :create, params: { factory_id: '37', employee: {these: 'params'} }
     assert_equal mock_factory, assigns(:factory)
     assert_equal mock_employee, assigns(:employee)
@@ -79,7 +79,7 @@ class PolymorphicFactoriesTest < ActionController::TestCase
 
   def test_update_the_requested_object_on_update
     Employee.expects(:find).with('42').returns(mock_employee)
-    mock_employee.expects(:update).with({'these' => 'params'}).returns(true)
+    mock_employee.expects(:update).with(build_parameters({'these' => 'params'})).returns(true)
     put :update, params: { id: '42', factory_id: '37', employee: {these: 'params'} }
     assert_equal mock_factory, assigns(:factory)
     assert_equal mock_employee, assigns(:employee)
@@ -115,6 +115,10 @@ class PolymorphicFactoriesTest < ActionController::TestCase
 
     def mock_employee(stubs={})
       @mock_employee ||= mock(stubs)
+    end
+
+    def build_parameters(hash)
+      ActionController::Parameters.new(hash)
     end
 end
 
@@ -167,7 +171,7 @@ class PolymorphicCompanyTest < ActionController::TestCase
   end
 
   def test_expose_a_newly_create_employee_on_create
-    Employee.expects(:build).with({'these' => 'params'}).returns(mock_employee(save: true))
+    Employee.expects(:build).with(build_parameters({'these' => 'params'})).returns(mock_employee(save: true))
     post :create, params: { company_id: '37', employee: {these: 'params'} }
     assert_equal mock_company, assigns(:company)
     assert_equal mock_employee, assigns(:employee)
@@ -175,7 +179,7 @@ class PolymorphicCompanyTest < ActionController::TestCase
 
   def test_update_the_requested_object_on_update
     Employee.expects(:find).with('42').returns(mock_employee)
-    mock_employee.expects(:update).with({'these' => 'params'}).returns(true)
+    mock_employee.expects(:update).with(build_parameters({'these' => 'params'})).returns(true)
     put :update, params: { id: '42', company_id: '37', employee: {these: 'params'} }
     assert_equal mock_company, assigns(:company)
     assert_equal mock_employee, assigns(:employee)
@@ -211,6 +215,10 @@ class PolymorphicCompanyTest < ActionController::TestCase
 
     def mock_employee(stubs={})
       @mock_employee ||= mock(stubs)
+    end
+
+    def build_parameters(hash)
+      ActionController::Parameters.new(hash)
     end
 end
 

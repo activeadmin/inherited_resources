@@ -128,23 +128,29 @@ class StrongParametersIntegrationTest < ActionController::TestCase
   end
 
   def test_permitted_params_from_new
-    Widget.expects(:new).with('permitted' => 'param')
+    Widget.expects(:new).with(build_parameters({'permitted' => 'param'}).permit!)
     get :new, params: { widget: { permitted: 'param', prohibited: 'param' } }
   end
 
   def test_permitted_params_from_create
-    Widget.expects(:new).with('permitted' => 'param').returns(mock(save: true))
+    Widget.expects(:new).with(build_parameters({'permitted' => 'param'}).permit!).returns(mock(save: true))
     post :create, params: { widget: { permitted: 'param', prohibited: 'param' } }
   end
 
   def test_permitted_params_from_update
     mock_widget = mock
     mock_widget.stubs(:class).returns(Widget)
-    mock_widget.expects(:update).with('permitted' => 'param')
+    mock_widget.expects(:update).with(build_parameters({'permitted' => 'param'}).permit!)
     mock_widget.stubs(:persisted?).returns(true)
     mock_widget.stubs(:to_model).returns(mock_widget)
     mock_widget.stubs(:model_name).returns(Widget.model_name)
     Widget.expects(:find).with('42').returns(mock_widget)
     put :update, params: { id: '42', widget: {permitted: 'param', prohibited: 'param'} }
   end
+
+  protected
+
+    def build_parameters(hash)
+      ActionController::Parameters.new(hash)
+    end
 end
