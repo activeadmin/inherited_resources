@@ -7,15 +7,15 @@ updates:
   - package-ecosystem: bundler
     directory: /
     schedule:
-      interval: daily
+      interval: monthly
     versioning-strategy: lockfile-only
   - package-ecosystem: bundler
     directory: /gemfiles/rails_61
     schedule:
-      interval: daily
+      interval: monthly
     versioning-strategy: lockfile-only
   - package-ecosystem: bundler
     directory: /gemfiles/rails_70
     schedule:
-      interval: daily
+      interval: monthly
     versioning-strategy: lockfile-only
