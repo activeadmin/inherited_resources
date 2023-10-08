@@ -1,9 +1,10 @@
 # Changelog
 
-## Master (unreleased)
+## Version 1.14.0
 
 * Remove upper bound dependency limits from gemspec.
 * Allow using Rails 7.1.
+* Remove support for Ruby `< 2.6`.
 
 ## Version 1.13.1
 
