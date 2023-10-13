@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # This is here because responders don't require it.
 require 'rails/engine'
 require 'responders'

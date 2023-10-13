@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module InheritedResources
   class Railtie < ::Rails::Engine
     config.inherited_resources = InheritedResources

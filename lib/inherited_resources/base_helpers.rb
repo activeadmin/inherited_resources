@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # Whenever base is required load the dumb responder since it's used inside actions.
 require 'inherited_resources/blank_slate'
 
