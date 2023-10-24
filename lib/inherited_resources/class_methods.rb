@@ -229,7 +229,7 @@ module InheritedResources
       #
       def polymorphic_belongs_to(*symbols, &block)
         options = symbols.extract_options!
-        options.merge!(polymorphic: true)
+        options[:polymorphic] = true
         belongs_to(*symbols, options, &block)
       end
 
@@ -237,7 +237,7 @@ module InheritedResources
       #
       def singleton_belongs_to(*symbols, &block)
         options = symbols.extract_options!
-        options.merge!(singleton: true)
+        options[:singleton] = true
         belongs_to(*symbols, options, &block)
       end
 
@@ -245,7 +245,7 @@ module InheritedResources
       #
       def optional_belongs_to(*symbols, &block)
         options = symbols.extract_options!
-        options.merge!(optional: true)
+        options[:optional] = true
         belongs_to(*symbols, options, &block)
       end
 
