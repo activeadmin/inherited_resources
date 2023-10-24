@@ -15,7 +15,7 @@ updates:
       interval: monthly
     versioning-strategy: lockfile-only
     groups:
-      rails_70_gemfile:
+      rails_61:
         patterns:
           - "*"
   - package-ecosystem: bundler
@@ -24,6 +24,6 @@ updates:
       interval: monthly
     versioning-strategy: lockfile-only
     groups:
-      rails_70_gemfile:
+      rails_70:
         patterns:
           - "*"
