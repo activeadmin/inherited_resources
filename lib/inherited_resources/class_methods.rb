@@ -55,7 +55,7 @@ module InheritedResources
           config[:request_name] = begin
             request_name = self.resource_class
             request_name = request_name.model_name.param_key if request_name.respond_to?(:model_name)
-            request_name.to_s.underscore.gsub('/', '_')
+            request_name.to_s.underscore.tr('/', '_')
           end
           options.delete(:resource_class) and options.delete(:class_name)
         end
@@ -217,7 +217,7 @@ module InheritedResources
           config[:finder]          = finder || :find
         end
 
-        if block_given?
+        if block
           class_eval(&block)
         else
           create_resources_url_helpers!
@@ -386,7 +386,7 @@ module InheritedResources
         # Forum::Thread#create will properly pick up the request parameter
         # which will be forum_thread, and not thread
         # Additionally make this work orthogonally with instance_name
-        config[:request_name] = self.resource_class.to_s.underscore.gsub('/', '_')
+        config[:request_name] = self.resource_class.to_s.underscore.tr('/', '_')
 
         # Initialize polymorphic, singleton, scopes and belongs_to parameters
         polymorphic = self.resources_configuration[:polymorphic] || { symbols: [], optional: false }
