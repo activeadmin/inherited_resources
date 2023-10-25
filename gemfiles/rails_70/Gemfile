@@ -12,7 +12,3 @@ group :development do
   gem 'simplecov', require: false
   gem 'simplecov-cobertura'
 end
-
-group :rubocop do
-  gem 'rubocop'
-end
