@@ -15,4 +15,5 @@ end
 
 group :rubocop do
   gem 'rubocop'
+  gem 'rubocop-performance'
 end

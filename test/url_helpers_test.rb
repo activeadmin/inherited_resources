@@ -106,7 +106,7 @@ class Spot < ModelBase
 end
 class SpotsController < InheritedResources::Base
   belongs_to :house do
-    belongs_to :dishwasher, singleton: true do
+    singleton_belongs_to :dishwasher do
       polymorphic_belongs_to :dish, :fork
     end
   end
@@ -161,7 +161,7 @@ class UrlHelpersTest < ActiveSupport::TestCase
 
   def test_url_helpers_on_simple_inherited_resource
     controller = HousesController.new
-    controller.instance_variable_set('@house', :house)
+    controller.instance_variable_set(:@house, :house)
 
     [:url, :path].each do |path_or_url|
       controller.expects("houses_#{path_or_url}").with({}).once
@@ -191,7 +191,7 @@ class UrlHelpersTest < ActiveSupport::TestCase
 
   def test_url_helpers_on_simple_inherited_resource_using_uncountable
     controller = NewsController.new
-    controller.instance_variable_set('@news', :news)
+    controller.instance_variable_set(:@news, :news)
 
     [:url, :path].each do |path_or_url|
       controller.expects("news_index_#{path_or_url}").with({}).once
@@ -221,7 +221,7 @@ class UrlHelpersTest < ActiveSupport::TestCase
 
   def test_url_helpers_on_simple_inherited_namespaced_resource
     controller = Admin::BackpacksController.new
-    controller.instance_variable_set('@backpack', :backpack)
+    controller.instance_variable_set(:@backpack, :backpack)
 
     assert_equal :admin, controller.class.resources_configuration[:self][:route_prefix]
 
@@ -253,7 +253,7 @@ class UrlHelpersTest < ActiveSupport::TestCase
 
   def test_url_helpers_on_simple_inherited_singleton_resource
     controller = UniversesController.new
-    controller.instance_variable_set('@universe', :universe)
+    controller.instance_variable_set(:@universe, :universe)
 
     [:url, :path].each do |path_or_url|
       controller.expects("root_#{path_or_url}").with({}).once
@@ -277,9 +277,9 @@ class UrlHelpersTest < ActiveSupport::TestCase
 
   def test_url_helpers_on_singleton_belongs_to
     controller = FlamesController.new
-    controller.instance_variable_set('@house', :house)
-    controller.instance_variable_set('@fireplace', :fireplace)
-    controller.instance_variable_set('@flame', :flame)
+    controller.instance_variable_set(:@house, :house)
+    controller.instance_variable_set(:@fireplace, :fireplace)
+    controller.instance_variable_set(:@flame, :flame)
 
     [:url, :path].each do |path_or_url|
       controller.expects("house_fireplace_flames_#{path_or_url}").with(:house, {}).once
@@ -309,8 +309,8 @@ class UrlHelpersTest < ActiveSupport::TestCase
 
   def test_url_helpers_on_belongs_to
     controller = TablesController.new
-    controller.instance_variable_set('@house', :house)
-    controller.instance_variable_set('@table', :table)
+    controller.instance_variable_set(:@house, :house)
+    controller.instance_variable_set(:@table, :table)
 
     [:url, :path].each do |path_or_url|
       controller.expects("house_tables_#{path_or_url}").with(:house, {}).once
@@ -349,8 +349,8 @@ class UrlHelpersTest < ActiveSupport::TestCase
 
   def test_url_helpers_on_not_default_belongs_to
     controller = RoomsController.new
-    controller.instance_variable_set('@house', :house)
-    controller.instance_variable_set('@room', :room)
+    controller.instance_variable_set(:@house, :house)
+    controller.instance_variable_set(:@room, :room)
 
     [:url, :path].each do |path_or_url|
       controller.expects("big_house_rooms_#{path_or_url}").with(:house, {}).once
@@ -389,9 +389,9 @@ class UrlHelpersTest < ActiveSupport::TestCase
 
   def test_url_helpers_on_nested_belongs_to
     controller = ChairsController.new
-    controller.instance_variable_set('@house', :house)
-    controller.instance_variable_set('@table', :table)
-    controller.instance_variable_set('@chair', :chair)
+    controller.instance_variable_set(:@house, :house)
+    controller.instance_variable_set(:@table, :table)
+    controller.instance_variable_set(:@chair, :chair)
 
     [:url, :path].each do |path_or_url|
       controller.expects("house_table_chairs_#{path_or_url}").with(:house, :table, {}).once
@@ -430,8 +430,8 @@ class UrlHelpersTest < ActiveSupport::TestCase
 
   def test_url_helpers_on_singletons_with_belongs_to
     controller = OwnersController.new
-    controller.instance_variable_set('@house', :house)
-    controller.instance_variable_set('@owner', :owner)
+    controller.instance_variable_set(:@house, :house)
+    controller.instance_variable_set(:@owner, :owner)
 
     [:url, :path].each do |path_or_url|
       controller.expects("house_#{path_or_url}").with(:house, {}).once
@@ -472,11 +472,11 @@ class UrlHelpersTest < ActiveSupport::TestCase
     new_spot.stubs(:persisted?).returns(false)
 
     controller = SpotsController.new
-    controller.instance_variable_set('@parent_type', :fork)
-    controller.instance_variable_set('@house', house)
-    controller.instance_variable_set('@dishwasher', dishwasher)
-    controller.instance_variable_set('@fork', fork)
-    controller.instance_variable_set('@spot', spot)
+    controller.instance_variable_set(:@parent_type, :fork)
+    controller.instance_variable_set(:@house, house)
+    controller.instance_variable_set(:@dishwasher, dishwasher)
+    controller.instance_variable_set(:@fork, fork)
+    controller.instance_variable_set(:@spot, spot)
 
     [:url, :path].each do |path_or_url|
       mock_polymorphic(controller, "house_dishwasher_fork_spots_#{path_or_url}").with(house, fork).once
@@ -510,9 +510,9 @@ class UrlHelpersTest < ActiveSupport::TestCase
     new_bed.stubs(:persisted?).returns(false)
 
     controller = BedsController.new
-    controller.instance_variable_set('@parent_type', :house)
-    controller.instance_variable_set('@house', house)
-    controller.instance_variable_set('@bed', bed)
+    controller.instance_variable_set(:@parent_type, :house)
+    controller.instance_variable_set(:@house, house)
+    controller.instance_variable_set(:@bed, bed)
 
     [:url, :path].each do |path_or_url|
       mock_polymorphic(controller, "house_beds_#{path_or_url}").with(house).once
@@ -536,23 +536,23 @@ class UrlHelpersTest < ActiveSupport::TestCase
 
     # With options
     mock_polymorphic(controller, "house_bed_url").with(house, bed, page: 1).once
-    controller.send("resource_url", page: 1)
+    controller.send(:resource_url, page: 1)
 
     mock_polymorphic(controller, "house_url").with(house, page: 1).once
-    controller.send("parent_url", page: 1)
+    controller.send(:parent_url, page: 1)
 
     # With args
     controller.expects("polymorphic_url").with([:arg, new_bed], {}).once
-    controller.send("collection_url", :arg)
+    controller.send(:collection_url, :arg)
 
     controller.expects("polymorphic_url").with([house, :arg], {}).once
-    controller.send("resource_url", :arg)
+    controller.send(:resource_url, :arg)
 
     controller.expects("edit_polymorphic_url").with([house, :arg], {}).once
-    controller.send("edit_resource_url", :arg)
+    controller.send(:edit_resource_url, :arg)
 
     controller.expects("polymorphic_url").with([:arg], {}).once
-    controller.send("parent_url", :arg)
+    controller.send(:parent_url, :arg)
   end
 
   def test_url_helpers_on_polymorphic_belongs_to_using_uncountable
@@ -566,9 +566,9 @@ class UrlHelpersTest < ActiveSupport::TestCase
     new_sheep.stubs(:persisted?).returns(false)
 
     controller = SheepController.new
-    controller.instance_variable_set('@parent_type', :news)
-    controller.instance_variable_set('@news', news)
-    controller.instance_variable_set('@sheep', sheep)
+    controller.instance_variable_set(:@parent_type, :news)
+    controller.instance_variable_set(:@news, news)
+    controller.instance_variable_set(:@sheep, sheep)
 
     [:url, :path].each do |path_or_url|
       mock_polymorphic(controller, "news_sheep_index_#{path_or_url}").with(news).once
@@ -592,23 +592,23 @@ class UrlHelpersTest < ActiveSupport::TestCase
 
     # With options
     mock_polymorphic(controller, "news_sheep_url").with(news, sheep, page: 1).once
-    controller.send("resource_url", page: 1)
+    controller.send(:resource_url, page: 1)
 
     mock_polymorphic(controller, "news_url").with(news, page: 1).once
-    controller.send("parent_url", page: 1)
+    controller.send(:parent_url, page: 1)
 
     # With args
     controller.expects("polymorphic_url").with([:arg, new_sheep], {}).once
-    controller.send("collection_url", :arg)
+    controller.send(:collection_url, :arg)
 
     controller.expects("polymorphic_url").with([news, :arg], {}).once
-    controller.send("resource_url", :arg)
+    controller.send(:resource_url, :arg)
 
     controller.expects("edit_polymorphic_url").with([news, :arg], {}).once
-    controller.send("edit_resource_url", :arg)
+    controller.send(:edit_resource_url, :arg)
 
     controller.expects("polymorphic_url").with([:arg], {}).once
-    controller.send("parent_url", :arg)
+    controller.send(:parent_url, :arg)
   end
 
   def test_url_helpers_on_shallow_belongs_to_using_uncountable
@@ -620,8 +620,8 @@ class UrlHelpersTest < ActiveSupport::TestCase
     Sheep.stubs(:new).returns(new_fish)
 
     controller = FishController.new
-    controller.instance_variable_set('@bed', bed)
-    controller.instance_variable_set('@fish', fish)
+    controller.instance_variable_set(:@bed, bed)
+    controller.instance_variable_set(:@fish, fish)
 
     [:url, :path].each do |path_or_url|
       controller.expects("bed_fish_index_#{path_or_url}").with(bed, {}).once
@@ -655,9 +655,9 @@ class UrlHelpersTest < ActiveSupport::TestCase
     new_desk.stubs(:persisted?).returns(false)
 
     controller = Admin::DesksController.new
-    controller.instance_variable_set('@parent_type', :house)
-    controller.instance_variable_set('@house', house)
-    controller.instance_variable_set('@desk', desk)
+    controller.instance_variable_set(:@parent_type, :house)
+    controller.instance_variable_set(:@house, house)
+    controller.instance_variable_set(:@desk, desk)
 
     [:url, :path].each do |path_or_url|
       mock_polymorphic(controller, "admin_house_desks_#{path_or_url}").with(house).once
@@ -681,23 +681,23 @@ class UrlHelpersTest < ActiveSupport::TestCase
 
     # With options
     mock_polymorphic(controller, "admin_house_desk_url").with(house, desk, page: 1).once
-    controller.send("resource_url", page: 1)
+    controller.send(:resource_url, page: 1)
 
     mock_polymorphic(controller, "admin_house_url").with(house, page: 1).once
-    controller.send("parent_url", page: 1)
+    controller.send(:parent_url, page: 1)
 
     # With args
     controller.expects("polymorphic_url").with([:admin, :arg, new_desk], {}).once
-    controller.send("collection_url", :arg)
+    controller.send(:collection_url, :arg)
 
     controller.expects("polymorphic_url").with([:admin, house, :arg], {}).once
-    controller.send("resource_url", :arg)
+    controller.send(:resource_url, :arg)
 
     controller.expects("edit_polymorphic_url").with([:admin, house, :arg], {}).once
-    controller.send("edit_resource_url", :arg)
+    controller.send(:edit_resource_url, :arg)
 
     controller.expects("polymorphic_url").with([:admin, :arg], {}).once
-    controller.send("parent_url", :arg)
+    controller.send(:parent_url, :arg)
   end
 
   def test_url_helpers_on_nested_polymorphic_belongs_to
@@ -712,10 +712,10 @@ class UrlHelpersTest < ActiveSupport::TestCase
     new_dish.stubs(:persisted?).returns(false)
 
     controller = DishesController.new
-    controller.instance_variable_set('@parent_type', :table)
-    controller.instance_variable_set('@house', house)
-    controller.instance_variable_set('@table', table)
-    controller.instance_variable_set('@dish', dish)
+    controller.instance_variable_set(:@parent_type, :table)
+    controller.instance_variable_set(:@house, house)
+    controller.instance_variable_set(:@table, table)
+    controller.instance_variable_set(:@dish, dish)
 
     [:url, :path].each do |path_or_url|
       mock_polymorphic(controller, "house_table_dishes_#{path_or_url}").with(house, table).once
@@ -739,20 +739,20 @@ class UrlHelpersTest < ActiveSupport::TestCase
 
     # With options
     mock_polymorphic(controller, "house_table_dish_url").with(house, table, dish, page: 1).once
-    controller.send("resource_url", page: 1)
+    controller.send(:resource_url, page: 1)
 
     mock_polymorphic(controller, "house_table_url").with(house, table, page: 1).once
-    controller.send("parent_url", page: 1)
+    controller.send(:parent_url, page: 1)
 
     # With args
     controller.expects("polymorphic_url").with([house, table, :arg], {}).once
-    controller.send("resource_url", :arg)
+    controller.send(:resource_url, :arg)
 
     controller.expects("edit_polymorphic_url").with([house, table, :arg], {}).once
-    controller.send("edit_resource_url", :arg)
+    controller.send(:edit_resource_url, :arg)
 
     controller.expects("polymorphic_url").with([house, :arg], {}).once
-    controller.send("parent_url", :arg)
+    controller.send(:parent_url, :arg)
   end
 
   def test_url_helpers_on_singleton_nested_polymorphic_belongs_to
@@ -764,9 +764,9 @@ class UrlHelpersTest < ActiveSupport::TestCase
     table.stubs(:persisted?).returns(true)
 
     controller = CentersController.new
-    controller.instance_variable_set('@parent_type', :table)
-    controller.instance_variable_set('@house', house)
-    controller.instance_variable_set('@table', table)
+    controller.instance_variable_set(:@parent_type, :table)
+    controller.instance_variable_set(:@house, house)
+    controller.instance_variable_set(:@table, table)
 
     # This must not be useful in singleton controllers...
     # controller.instance_variable_set('@center', :center)
@@ -793,17 +793,17 @@ class UrlHelpersTest < ActiveSupport::TestCase
 
     # With options
     mock_polymorphic(controller, "house_table_center_url").with(house, table, page: 1)
-    controller.send("resource_url", page: 1)
+    controller.send(:resource_url, page: 1)
 
     mock_polymorphic(controller, "house_table_url").with(house, table, page: 1)
-    controller.send("parent_url", page: 1)
+    controller.send(:parent_url, page: 1)
 
     # With args
     controller.expects("polymorphic_url").with([house, table, :center], {}).once
-    controller.send("resource_url", :arg)
+    controller.send(:resource_url, :arg)
 
     controller.expects("polymorphic_url").with([house, :arg], {}).once
-    controller.send("parent_url", :arg)
+    controller.send(:parent_url, :arg)
   end
 
   def test_url_helpers_on_optional_polymorphic_belongs_to
@@ -815,7 +815,7 @@ class UrlHelpersTest < ActiveSupport::TestCase
 
     controller = BedsController.new
     controller.stubs(:parent_type).returns(nil)
-    controller.instance_variable_set('@bed', bed)
+    controller.instance_variable_set(:@bed, bed)
 
     [:url, :path].each do |path_or_url|
       mock_polymorphic(controller, "beds_#{path_or_url}").with().once
@@ -833,20 +833,20 @@ class UrlHelpersTest < ActiveSupport::TestCase
 
     # With options
     mock_polymorphic(controller, "bed_url").with(bed, page: 1).once
-    controller.send("resource_url", page: 1)
+    controller.send(:resource_url, page: 1)
 
     # With args
     controller.expects("polymorphic_url").with([:arg], {}).once
-    controller.send("resource_url", :arg)
+    controller.send(:resource_url, :arg)
 
     controller.expects("edit_polymorphic_url").with([:arg], {}).once
-    controller.send("edit_resource_url", :arg)
+    controller.send(:edit_resource_url, :arg)
   end
 
   def test_url_helpers_on_belongs_to_with_shallowed_route
     controller = MirrorsController.new
-    controller.instance_variable_set('@house', :house)
-    controller.instance_variable_set('@mirror', :mirror)
+    controller.instance_variable_set(:@house, :house)
+    controller.instance_variable_set(:@mirror, :mirror)
 
     [:url, :path].each do |path_or_url|
       controller.expects("house_mirrors_#{path_or_url}").with(:house, {}).once
@@ -871,9 +871,9 @@ class UrlHelpersTest < ActiveSupport::TestCase
 
   def test_url_helpers_on_nested_belongs_to_with_shallowed_route
     controller = ButtonsController.new
-    controller.instance_variable_set('@display', :display)
-    controller.instance_variable_set('@window', :window)
-    controller.instance_variable_set('@button', :button)
+    controller.instance_variable_set(:@display, :display)
+    controller.instance_variable_set(:@window, :window)
+    controller.instance_variable_set(:@button, :button)
 
     [:url, :path].each do |path_or_url|
       controller.expects("window_buttons_#{path_or_url}").with(:window, {}).once
@@ -898,9 +898,9 @@ class UrlHelpersTest < ActiveSupport::TestCase
 
   def test_url_helpers_with_custom_actions
     controller = ButtonsController.new
-    controller.instance_variable_set('@display', :display)
-    controller.instance_variable_set('@window', :window)
-    controller.instance_variable_set('@button', :button)
+    controller.instance_variable_set(:@display, :display)
+    controller.instance_variable_set(:@window, :window)
+    controller.instance_variable_set(:@button, :button)
     [:url, :path].each do |path_or_url|
       controller.expects("delete_button_#{path_or_url}").with(:button, {}).once
       controller.send("delete_resource_#{path_or_url}")
@@ -922,15 +922,15 @@ class UrlHelpersTest < ActiveSupport::TestCase
   def test_helpers_on_inherited_controller
     controller = ImageButtonsController.new
     controller.expects("edit_image_button_path").once
-    controller.send("edit_resource_path")
+    controller.send(:edit_resource_path)
     controller.expects("delete_image_button_path").once
-    controller.send("delete_resource_path")
+    controller.send(:delete_resource_path)
   end
 
   def test_url_helpers_on_namespaced_resource_with_shallowed_route
     controller = Admin::MirrorsController.new
-    controller.instance_variable_set('@house', :house)
-    controller.instance_variable_set('@mirror', :mirror)
+    controller.instance_variable_set(:@house, :house)
+    controller.instance_variable_set(:@mirror, :mirror)
 
     [:url, :path].each do |path_or_url|
 
@@ -959,7 +959,7 @@ class UrlHelpersTest < ActiveSupport::TestCase
     parameters.permit!
 
     controller = HousesController.new
-    controller.instance_variable_set('@house', :house)
+    controller.instance_variable_set(:@house, :house)
 
     [:url, :path].each do |path_or_url|
       controller.expects("houses_#{path_or_url}").with({'page' => 2}).once
