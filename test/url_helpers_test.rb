@@ -106,7 +106,7 @@ class Spot < ModelBase
 end
 class SpotsController < InheritedResources::Base
   belongs_to :house do
-    belongs_to :dishwasher, singleton: true do
+    singleton_belongs_to :dishwasher do
       polymorphic_belongs_to :dish, :fork
     end
   end
