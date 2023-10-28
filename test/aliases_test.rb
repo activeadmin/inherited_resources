@@ -54,6 +54,7 @@ class AliasesTest < ActionController::TestCase
   def test_assignments_before_calling_alias
     Student.stubs(:new).returns(mock_student)
     get :new
+
     assert_response :success
     assert_equal 'magical', assigns(:something)
   end
@@ -61,6 +62,7 @@ class AliasesTest < ActionController::TestCase
   def test_controller_should_render_new
     Student.stubs(:new).returns(mock_student)
     get :new
+
     assert_response :success
     assert_equal 'New HTML', @response.body.strip
   end
@@ -68,6 +70,7 @@ class AliasesTest < ActionController::TestCase
   def test_expose_the_requested_user_on_edit
     Student.expects(:find).with('42').returns(mock_student)
     get :edit, params: { id: '42' }
+
     assert_equal mock_student, assigns(:student)
     assert_response :success
   end
@@ -75,6 +78,7 @@ class AliasesTest < ActionController::TestCase
   def test_controller_should_render_edit
     Student.stubs(:find).returns(mock_student)
     get :edit, params: { id: '42' }
+
     assert_response :success
     assert_equal 'Edit HTML', @response.body.strip
   end
@@ -83,6 +87,7 @@ class AliasesTest < ActionController::TestCase
     @request.accept = 'application/xml'
     Student.stubs(:find).returns(mock_student)
     get :edit, params: { id: '42' }
+
     assert_response :success
     assert_equal 'Render XML', @response.body
   end
@@ -91,6 +96,7 @@ class AliasesTest < ActionController::TestCase
     Student.stubs(:new).returns(mock_student(save: true))
     @controller.stubs(:resource_url).returns('http://test.host/')
     post :create
+
     assert_response :success
     assert_equal "I won't redirect!", @response.body
   end
@@ -100,6 +106,7 @@ class AliasesTest < ActionController::TestCase
     Student.stubs(:new).returns(mock_student(save: false, errors: {some: :error}))
     @controller.stubs(:resource_url).returns('http://test.host/')
     post :create
+
     assert_response :success
     assert_equal "New HTML", @response.body.strip
   end
@@ -109,6 +116,7 @@ class AliasesTest < ActionController::TestCase
     Student.stubs(:new).returns(mock_student(save: false, errors: {some: :error}))
     @controller.stubs(:resource_url).returns('http://test.host/')
     post :create
+
     assert_response :success
     assert_equal "New HTML", @response.body.strip
   end
@@ -116,6 +124,7 @@ class AliasesTest < ActionController::TestCase
   def test_wont_render_edit_template_on_update_with_failure_if_failure_block_is_given
     Student.stubs(:find).returns(mock_student(update: false, errors: { fail: true }))
     put :update, params: { id: '42' }
+
     assert_response :success
     assert_equal "I won't render!", @response.body
   end
@@ -124,12 +133,14 @@ class AliasesTest < ActionController::TestCase
     Student.stubs(:find).returns(mock_student(update: true))
     @controller.stubs(:resource_url).returns('http://test.host/')
     put :update, params: { id: '42', student: {these: 'params'} }
+
     assert_equal mock_student, assigns(:student)
   end
 
   def test_block_is_called_when_student_is_destroyed
     Student.stubs(:find).returns(mock_student(destroy: true))
     delete :destroy, params: { id: '42' }
+
     assert_response :success
     assert_equal "Destroyed!", @response.body
   end
@@ -140,6 +151,7 @@ class AliasesTest < ActionController::TestCase
     Student.stubs(:new).returns(mock_student)
 
     post :create
+
     assert_equal "http://test.host/", @response.location
   end
 

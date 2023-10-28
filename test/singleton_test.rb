@@ -35,6 +35,7 @@ class SingletonTest < ActionController::TestCase
     Store.expects(:find).with('37').returns(mock_store)
     mock_store.expects(:manager).returns(mock_manager)
     get :show, params: { store_id: '37' }
+
     assert_equal mock_store, assigns(:store)
     assert_equal mock_manager, assigns(:manager)
   end
@@ -43,6 +44,7 @@ class SingletonTest < ActionController::TestCase
     Store.expects(:find).with('37').returns(mock_store)
     mock_store.expects(:build_manager).returns(mock_manager)
     get :new, params: { store_id: '37' }
+
     assert_equal mock_store, assigns(:store)
     assert_equal mock_manager, assigns(:manager)
   end
@@ -51,6 +53,7 @@ class SingletonTest < ActionController::TestCase
     Store.expects(:find).with('37').returns(mock_store)
     mock_store.expects(:manager).returns(mock_manager)
     get :edit, params: { store_id: '37' }
+
     assert_equal mock_store, assigns(:store)
     assert_equal mock_manager, assigns(:manager)
     assert_response :success
@@ -60,6 +63,7 @@ class SingletonTest < ActionController::TestCase
     Store.expects(:find).with('37').returns(mock_store)
     mock_store.expects(:build_manager).with(build_parameters({'these' => 'params'})).returns(mock_manager(save: true))
     post :create, params: { store_id: '37', manager: {these: 'params'} }
+
     assert_equal mock_store, assigns(:store)
     assert_equal mock_manager, assigns(:manager)
   end
@@ -68,6 +72,7 @@ class SingletonTest < ActionController::TestCase
     Store.expects(:find).with('37').returns(mock_store(manager: mock_manager))
     mock_manager.expects(:update).with(build_parameters({'these' => 'params'})).returns(true)
     put :update, params: { store_id: '37', manager: {these: 'params'} }
+
     assert_equal mock_store, assigns(:store)
     assert_equal mock_manager, assigns(:manager)
   end
@@ -78,6 +83,7 @@ class SingletonTest < ActionController::TestCase
     @controller.expects(:parent_url).returns('http://test.host/')
     mock_manager.expects(:destroy)
     delete :destroy, params: { store_id: '37' }
+
     assert_equal mock_store, assigns(:store)
     assert_equal mock_manager, assigns(:manager)
   end

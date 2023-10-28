@@ -46,6 +46,7 @@ class BeginOfAssociationChainTest < ActionController::TestCase
     @controller.current_user.expects(:pets).returns(Pet)
     Pet.expects(:all).returns(mock_pet)
     get :index
+
     assert_response :success
     assert_equal 'Index HTML', @response.body.strip
   end
@@ -54,6 +55,7 @@ class BeginOfAssociationChainTest < ActionController::TestCase
     @controller.current_user.expects(:pets).returns(Pet)
     Pet.expects(:build).returns(mock_pet)
     get :new
+
     assert_response :success
     assert_equal 'New HTML', @response.body.strip
   end
@@ -62,6 +64,7 @@ class BeginOfAssociationChainTest < ActionController::TestCase
     @controller.current_user.expects(:pets).returns(Pet)
     Pet.expects(:find).with('47').returns(mock_pet)
     get :show, params: { id: '47' }
+
     assert_response :success
     assert_equal 'Show HTML', @response.body.strip
   end
@@ -70,6 +73,7 @@ class BeginOfAssociationChainTest < ActionController::TestCase
     @controller.current_user.expects(:pets).never
     Pet.expects(:find).never
     get :edit, params: { id: '47' }
+
     assert_response :success
     assert_equal 'new pet', assigns(:pet)
   end
@@ -78,6 +82,7 @@ class BeginOfAssociationChainTest < ActionController::TestCase
     @controller.current_user.expects(:pets).returns(Pet)
     Pet.expects(:build).with({}).returns(mock_pet)
     get :new
+
     assert_equal mock_pet, assigns(:pet)
   end
 
@@ -85,6 +90,7 @@ class BeginOfAssociationChainTest < ActionController::TestCase
     @controller.current_user.expects(:pets).returns(Pet)
     Pet.expects(:build).with({}).returns(mock_pet)
     get :new
+
     assert_equal [@controller.current_user], @controller.send(:association_chain)
   end
 
@@ -120,6 +126,7 @@ class AssociationChainTest < ActionController::TestCase
     Puppet.expects(:find).with('42').returns(mock_puppet)
     mock_puppet.expects(:destroy)
     delete :destroy, params: { id: '42', pet_id: '37' }
+
     assert_equal [mock_pet], @controller.send(:association_chain)
   end
 
@@ -127,7 +134,8 @@ class AssociationChainTest < ActionController::TestCase
     Puppet.expects(:find).with('42').returns(mock_puppet)
     mock_puppet.expects(:destroy)
     delete :destroy, params: { id: '42' }
-    assert_equal [], @controller.send(:association_chain)
+
+    assert_empty @controller.send(:association_chain)
   end
 
   protected

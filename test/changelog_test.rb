@@ -8,6 +8,7 @@ class ChangelogTest < ActiveSupport::TestCase
 
   def test_has_definitions_for_all_implicit_links
     implicit_link_names = @changelog.scan(/\[([^\]]+)\]\[\]/).flatten.uniq
+
     implicit_link_names.each do |name|
       assert_includes @changelog, "[#{name}]: https"
     end

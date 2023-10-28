@@ -914,8 +914,8 @@ class UrlHelpersTest < ActiveSupport::TestCase
     controller = ButtonsController.new
     helper_methods = controller.class._helpers.instance_methods.map {|m| m.to_s }
     [:url, :path].each do |path_or_url|
-      assert helper_methods.include?("delete_resource_#{path_or_url}")
-      assert helper_methods.include?("search_resources_#{path_or_url}")
+      assert_includes helper_methods, "delete_resource_#{path_or_url}"
+      assert_includes helper_methods, "search_resources_#{path_or_url}"
     end
   end
 

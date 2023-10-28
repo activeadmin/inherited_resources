@@ -31,6 +31,7 @@ class BelongsToTest < ActionController::TestCase
   def test_expose_all_comments_as_instance_variable_on_index
     Comment.expects(:scoped).returns([mock_comment])
     get :index, params: { post_id: '37' }
+
     assert_equal mock_post, assigns(:post)
     assert_equal [mock_comment], assigns(:comments)
   end
@@ -38,6 +39,7 @@ class BelongsToTest < ActionController::TestCase
   def test_expose_the_requested_comment_on_show
     Comment.expects(:find).with('42').returns(mock_comment)
     get :show, params: { id: '42', post_id: '37' }
+
     assert_equal mock_post, assigns(:post)
     assert_equal mock_comment, assigns(:comment)
   end
@@ -45,6 +47,7 @@ class BelongsToTest < ActionController::TestCase
   def test_expose_a_new_comment_on_new
     Comment.expects(:build).returns(mock_comment)
     get :new, params: { post_id: '37' }
+
     assert_equal mock_post, assigns(:post)
     assert_equal mock_comment, assigns(:comment)
   end
@@ -52,6 +55,7 @@ class BelongsToTest < ActionController::TestCase
   def test_expose_the_requested_comment_on_edit
     Comment.expects(:find).with('42').returns(mock_comment)
     get :edit, params: { id: '42', post_id: '37' }
+
     assert_equal mock_post, assigns(:post)
     assert_equal mock_comment, assigns(:comment)
   end
@@ -59,6 +63,7 @@ class BelongsToTest < ActionController::TestCase
   def test_expose_a_newly_create_comment_on_create
     Comment.expects(:build).with(build_parameters({'these' => 'params'})).returns(mock_comment(save: true))
     post :create, params: { post_id: '37', comment: {these: 'params'} }
+
     assert_equal mock_post, assigns(:post)
     assert_equal mock_comment, assigns(:comment)
   end
@@ -67,6 +72,7 @@ class BelongsToTest < ActionController::TestCase
     Comment.expects(:find).with('42').returns(mock_comment)
     mock_comment.expects(:update).with(build_parameters({'these' => 'params'})).returns(true)
     put :update, params: { id: '42', post_id: '37', comment: {these: 'params'} }
+
     assert_equal mock_post, assigns(:post)
     assert_equal mock_comment, assigns(:comment)
   end
@@ -75,6 +81,7 @@ class BelongsToTest < ActionController::TestCase
     Comment.expects(:find).with('42').returns(mock_comment)
     mock_comment.expects(:destroy)
     delete :destroy, params: { id: '42', post_id: '37' }
+
     assert_equal mock_post, assigns(:post)
     assert_equal mock_comment, assigns(:comment)
   end
@@ -87,10 +94,10 @@ class BelongsToTest < ActionController::TestCase
     Comment.expects(:scoped).returns([mock_comment])
     get :index, params: { post_id: '37' }
 
-    assert helper_methods.include?('parent?')
+    assert_includes helper_methods, 'parent?'
     assert @controller.send(:parent?)
     assert_equal mock_post, assigns(:post)
-    assert helper_methods.include?('parent')
+    assert_includes helper_methods, 'parent'
     assert_equal mock_post, @controller.send(:parent)
   end
 
@@ -138,6 +145,7 @@ class BelongsToWithRedirectsTest < ActionController::TestCase
     @controller.expects(:parent_url).returns('http://test.host/')
     Reply.expects(:build).with(build_parameters({'these' => 'params'})).returns(mock_reply(save: true))
     post :create, params: { post_id: '37', reply: { these: 'params' } }
+
     assert_redirected_to 'http://test.host/'
   end
 
@@ -145,6 +153,7 @@ class BelongsToWithRedirectsTest < ActionController::TestCase
     Reply.stubs(:find).returns(mock_reply(update: true))
     @controller.expects(:parent_url).returns('http://test.host/')
     put :update, params: { id: '42', post_id: '37', reply: { these: 'params' } }
+
     assert_redirected_to 'http://test.host/'
   end
 
@@ -153,6 +162,7 @@ class BelongsToWithRedirectsTest < ActionController::TestCase
     mock_reply.expects(:destroy)
     @controller.expects(:parent_url).returns('http://test.host/')
     delete :destroy, params: { id: '42', post_id: '37' }
+
     assert_redirected_to 'http://test.host/'
   end
 
