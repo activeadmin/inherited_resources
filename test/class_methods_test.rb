@@ -98,7 +98,7 @@ class ActionsClassMethodTest < ActionController::TestCase
     instance_methods = BooksController.send(:instance_methods).map(&:to_sym)
 
     [:new, :edit, :create, :update, :destroy].each do |action|
-      assert !instance_methods.include?(action)
+      refute_includes instance_methods, action
     end
   end
 

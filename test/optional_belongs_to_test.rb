@@ -166,7 +166,7 @@ class OptionalTest < ActionController::TestCase
     Product.expects(:scoped).returns([mock_product])
     get :index
 
-    assert !@controller.send(:parent?)
+    refute @controller.send(:parent?)
     assert_nil assigns(:parent_type)
     assert_nil @controller.send(:parent_type)
     assert_nil @controller.send(:parent_class)

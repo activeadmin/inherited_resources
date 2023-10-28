@@ -24,7 +24,7 @@ class RedirectToIndexWithoutShowTest < ActionController::TestCase
   def test_redirect_index_url_after_create
     Post.stubs(:new).returns(mock_machine(save: true))
 
-    assert !PostsController.respond_to?(:show)
+    refute_respond_to PostsController, :show
     post :create
 
     assert_redirected_to 'http://test.host/posts'
@@ -33,7 +33,7 @@ class RedirectToIndexWithoutShowTest < ActionController::TestCase
   def test_redirect_to_index_url_after_update
     Post.stubs(:find).returns(mock_machine(update: true))
 
-    assert !PostsController.respond_to?(:show)
+    refute_respond_to PostsController, :show
     put :update, params: { id: '42' }
 
     assert_redirected_to 'http://test.host/posts'
