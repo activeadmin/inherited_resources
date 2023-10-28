@@ -129,7 +129,7 @@ Minitest/LiteralAsActualArgument:
   Enabled: true
 
 Minitest/MultipleAssertions:
-  Enabled: true
+  Enabled: false
 
 Minitest/NoAssertions:
   Enabled: true
