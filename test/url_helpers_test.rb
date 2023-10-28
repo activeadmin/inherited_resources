@@ -159,7 +159,7 @@ class UrlHelpersTest < ActiveSupport::TestCase
     controller.expects(route)
   end
 
-  def test_url_helpers_on_simple_inherited_resource
+  def test_url_helpers_on_simple_inherited_resource # rubocop:disable Minitest/NoAssertions
     controller = HousesController.new
     controller.instance_variable_set(:@house, :house)
 
@@ -189,7 +189,7 @@ class UrlHelpersTest < ActiveSupport::TestCase
     end
   end
 
-  def test_url_helpers_on_simple_inherited_resource_using_uncountable
+  def test_url_helpers_on_simple_inherited_resource_using_uncountable # rubocop:disable Minitest/NoAssertions
     controller = NewsController.new
     controller.instance_variable_set(:@news, :news)
 
@@ -251,7 +251,7 @@ class UrlHelpersTest < ActiveSupport::TestCase
     end
   end
 
-  def test_url_helpers_on_simple_inherited_singleton_resource
+  def test_url_helpers_on_simple_inherited_singleton_resource # rubocop:disable Minitest/NoAssertions
     controller = UniversesController.new
     controller.instance_variable_set(:@universe, :universe)
 
@@ -275,7 +275,7 @@ class UrlHelpersTest < ActiveSupport::TestCase
     end
   end
 
-  def test_url_helpers_on_singleton_belongs_to
+  def test_url_helpers_on_singleton_belongs_to # rubocop:disable Minitest/NoAssertions
     controller = FlamesController.new
     controller.instance_variable_set(:@house, :house)
     controller.instance_variable_set(:@fireplace, :fireplace)
@@ -307,7 +307,7 @@ class UrlHelpersTest < ActiveSupport::TestCase
     end
   end
 
-  def test_url_helpers_on_belongs_to
+  def test_url_helpers_on_belongs_to # rubocop:disable Minitest/NoAssertions
     controller = TablesController.new
     controller.instance_variable_set(:@house, :house)
     controller.instance_variable_set(:@table, :table)
@@ -347,7 +347,7 @@ class UrlHelpersTest < ActiveSupport::TestCase
     end
   end
 
-  def test_url_helpers_on_not_default_belongs_to
+  def test_url_helpers_on_not_default_belongs_to # rubocop:disable Minitest/NoAssertions
     controller = RoomsController.new
     controller.instance_variable_set(:@house, :house)
     controller.instance_variable_set(:@room, :room)
@@ -387,7 +387,7 @@ class UrlHelpersTest < ActiveSupport::TestCase
     end
   end
 
-  def test_url_helpers_on_nested_belongs_to
+  def test_url_helpers_on_nested_belongs_to # rubocop:disable Minitest/NoAssertions
     controller = ChairsController.new
     controller.instance_variable_set(:@house, :house)
     controller.instance_variable_set(:@table, :table)
@@ -428,7 +428,7 @@ class UrlHelpersTest < ActiveSupport::TestCase
     end
   end
 
-  def test_url_helpers_on_singletons_with_belongs_to
+  def test_url_helpers_on_singletons_with_belongs_to # rubocop:disable Minitest/NoAssertions
     controller = OwnersController.new
     controller.instance_variable_set(:@house, :house)
     controller.instance_variable_set(:@owner, :owner)
@@ -459,7 +459,7 @@ class UrlHelpersTest < ActiveSupport::TestCase
     end
   end
 
-  def test_url_helpers_on_singleton_and_polymorphic_belongs_to
+  def test_url_helpers_on_singleton_and_polymorphic_belongs_to # rubocop:disable Minitest/NoAssertions
     house = House.new
     dishwasher = Dishwasher.new
     fork = Fork.new
@@ -499,7 +499,7 @@ class UrlHelpersTest < ActiveSupport::TestCase
     end
   end
 
-  def test_url_helpers_on_polymorphic_belongs_to
+  def test_url_helpers_on_polymorphic_belongs_to # rubocop:disable Minitest/NoAssertions
     house = House.new
     house.stubs(:persisted?).returns(true)
     bed   = Bed.new
@@ -555,7 +555,7 @@ class UrlHelpersTest < ActiveSupport::TestCase
     controller.send(:parent_url, :arg)
   end
 
-  def test_url_helpers_on_polymorphic_belongs_to_using_uncountable
+  def test_url_helpers_on_polymorphic_belongs_to_using_uncountable # rubocop:disable Minitest/NoAssertions
     sheep  = Sheep.new
     sheep.stubs(:persisted?).returns(true)
     news = News.new
@@ -611,7 +611,7 @@ class UrlHelpersTest < ActiveSupport::TestCase
     controller.send(:parent_url, :arg)
   end
 
-  def test_url_helpers_on_shallow_belongs_to_using_uncountable
+  def test_url_helpers_on_shallow_belongs_to_using_uncountable # rubocop:disable Minitest/NoAssertions
     fish = Fish.new
     bed  = Bed.new
 
@@ -644,7 +644,7 @@ class UrlHelpersTest < ActiveSupport::TestCase
     end
   end
 
-  def test_url_helpers_on_namespaced_polymorphic_belongs_to
+  def test_url_helpers_on_namespaced_polymorphic_belongs_to # rubocop:disable Minitest/NoAssertions
     house = House.new
     house.stubs(:persisted?).returns(true)
     desk  = Desk.new
@@ -700,7 +700,7 @@ class UrlHelpersTest < ActiveSupport::TestCase
     controller.send(:parent_url, :arg)
   end
 
-  def test_url_helpers_on_nested_polymorphic_belongs_to
+  def test_url_helpers_on_nested_polymorphic_belongs_to # rubocop:disable Minitest/NoAssertions
     house = House.new
     table = Table.new
     table.stubs(:persisted?).returns(true)
@@ -755,7 +755,7 @@ class UrlHelpersTest < ActiveSupport::TestCase
     controller.send(:parent_url, :arg)
   end
 
-  def test_url_helpers_on_singleton_nested_polymorphic_belongs_to
+  def test_url_helpers_on_singleton_nested_polymorphic_belongs_to # rubocop:disable Minitest/NoAssertions
     # This must not be usefull in singleton controllers...
     # Center.new
     house = House.new
@@ -806,7 +806,7 @@ class UrlHelpersTest < ActiveSupport::TestCase
     controller.send(:parent_url, :arg)
   end
 
-  def test_url_helpers_on_optional_polymorphic_belongs_to
+  def test_url_helpers_on_optional_polymorphic_belongs_to # rubocop:disable Minitest/NoAssertions
     bed   = Bed.new
     bed.stubs(:persisted?).returns(true)
     new_bed = Bed.new
@@ -843,7 +843,7 @@ class UrlHelpersTest < ActiveSupport::TestCase
     controller.send(:edit_resource_url, :arg)
   end
 
-  def test_url_helpers_on_belongs_to_with_shallowed_route
+  def test_url_helpers_on_belongs_to_with_shallowed_route # rubocop:disable Minitest/NoAssertions
     controller = MirrorsController.new
     controller.instance_variable_set(:@house, :house)
     controller.instance_variable_set(:@mirror, :mirror)
@@ -869,7 +869,7 @@ class UrlHelpersTest < ActiveSupport::TestCase
     end
   end
 
-  def test_url_helpers_on_nested_belongs_to_with_shallowed_route
+  def test_url_helpers_on_nested_belongs_to_with_shallowed_route # rubocop:disable Minitest/NoAssertions
     controller = ButtonsController.new
     controller.instance_variable_set(:@display, :display)
     controller.instance_variable_set(:@window, :window)
@@ -896,7 +896,7 @@ class UrlHelpersTest < ActiveSupport::TestCase
     end
   end
 
-  def test_url_helpers_with_custom_actions
+  def test_url_helpers_with_custom_actions # rubocop:disable Minitest/NoAssertions
     controller = ButtonsController.new
     controller.instance_variable_set(:@display, :display)
     controller.instance_variable_set(:@window, :window)
@@ -919,7 +919,7 @@ class UrlHelpersTest < ActiveSupport::TestCase
     end
   end
 
-  def test_helpers_on_inherited_controller
+  def test_helpers_on_inherited_controller # rubocop:disable Minitest/NoAssertions
     controller = ImageButtonsController.new
     controller.expects("edit_image_button_path").once
     controller.send(:edit_resource_path)
@@ -927,7 +927,7 @@ class UrlHelpersTest < ActiveSupport::TestCase
     controller.send(:delete_resource_path)
   end
 
-  def test_url_helpers_on_namespaced_resource_with_shallowed_route
+  def test_url_helpers_on_namespaced_resource_with_shallowed_route # rubocop:disable Minitest/NoAssertions
     controller = Admin::MirrorsController.new
     controller.instance_variable_set(:@house, :house)
     controller.instance_variable_set(:@mirror, :mirror)
@@ -954,7 +954,7 @@ class UrlHelpersTest < ActiveSupport::TestCase
     end
   end
 
-  def test_url_helpers_with_action_controller_parameters
+  def test_url_helpers_with_action_controller_parameters # rubocop:disable Minitest/NoAssertions
     parameters = ActionController::Parameters.new(page: 2)
     parameters.permit!
 

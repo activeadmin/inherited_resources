@@ -144,7 +144,7 @@ class DefaultsClassMethodTest < ActiveSupport::TestCase
     end
   end
 
-  def test_url_helpers_are_recreated_when_defaults_change
+  def test_url_helpers_are_recreated_when_defaults_change # rubocop:disable Minitest/NoAssertions
     BooksController.expects(:create_resources_url_helpers!).returns(true).once
     BooksController.send(:defaults, instance_name: 'string', collection_name: 'strings')
   end
@@ -167,7 +167,7 @@ class BelongsToErrorsTest < ActiveSupport::TestCase
     end
   end
 
-  def test_url_helpers_are_recreated_just_once_when_belongs_to_is_called_with_block
+  def test_url_helpers_are_recreated_just_once_when_belongs_to_is_called_with_block # rubocop:disable Minitest/NoAssertions
     DeansController.expects(:create_resources_url_helpers!).returns(true).once
     DeansController.send(:belongs_to, :school) do
       belongs_to :association
@@ -176,7 +176,7 @@ class BelongsToErrorsTest < ActiveSupport::TestCase
     DeansController.send(:parents_symbols=, [:school])
   end
 
-  def test_url_helpers_are_recreated_just_once_when_belongs_to_is_called_with_multiple_blocks
+  def test_url_helpers_are_recreated_just_once_when_belongs_to_is_called_with_multiple_blocks # rubocop:disable Minitest/NoAssertions
     DeansController.expects(:create_resources_url_helpers!).returns(true).once
     DeansController.send(:belongs_to, :school) do
       belongs_to :association do
@@ -233,7 +233,7 @@ class MountableEngineTest < ActiveSupport::TestCase
 end
 
 class EngineLoadErrorTest < ActiveSupport::TestCase
-  def test_does_not_crash_on_engine_load_error
+  def test_does_not_crash_on_engine_load_error # rubocop:disable Minitest/NoAssertions
     ActiveSupport::Dependencies.autoload_paths << 'test/autoload'
 
     EmptyNamespace.class_eval <<-RUBY
