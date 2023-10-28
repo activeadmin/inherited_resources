@@ -1,6 +1,7 @@
 ---
 
 require:
+  - rubocop-minitest
   - rubocop-performance
 
 AllCops:
@@ -44,6 +45,165 @@ Layout/TrailingWhitespace:
   Enabled: true
 
 Layout/TrailingEmptyLines:
+  Enabled: true
+
+Minitest:
+  Enabled: true
+
+Minitest/AssertEmpty:
+  Enabled: true
+
+Minitest/AssertEmptyLiteral:
+  Enabled: true
+
+Minitest/AssertEqual:
+  Enabled: true
+
+Minitest/AssertInDelta:
+  Enabled: true
+
+Minitest/AssertIncludes:
+  Enabled: true
+
+Minitest/AssertInstanceOf:
+  Enabled: true
+
+Minitest/AssertKindOf:
+  Enabled: true
+
+Minitest/AssertMatch:
+  Enabled: true
+
+Minitest/AssertNil:
+  Enabled: true
+
+Minitest/AssertOperator:
+  Enabled: true
+
+Minitest/AssertOutput:
+  Enabled: true
+
+Minitest/AssertPathExists:
+  Enabled: true
+
+Minitest/AssertPredicate:
+  Enabled: true
+
+Minitest/AssertRaisesCompoundBody:
+  Enabled: true
+
+Minitest/AssertRaisesWithRegexpArgument:
+  Enabled: true
+
+Minitest/AssertRespondTo:
+  Enabled: true
+
+Minitest/AssertSame:
+  Enabled: true
+
+Minitest/AssertSilent:
+  Enabled: true
+
+Minitest/AssertTruthy:
+  Enabled: true
+
+Minitest/AssertWithExpectedArgument:
+  Enabled: true
+
+Minitest/AssertionInLifecycleHook:
+  Enabled: true
+
+Minitest/DuplicateTestRun:
+  Enabled: true
+
+Minitest/EmptyLineBeforeAssertionMethods:
+  Enabled: true
+
+Minitest/GlobalExpectations:
+  Enabled: true
+
+Minitest/LifecycleHooksOrder:
+  Enabled: true
+
+Minitest/LiteralAsActualArgument:
+  Enabled: true
+
+Minitest/MultipleAssertions:
+  Enabled: true
+
+Minitest/NoAssertions:
+  Enabled: true
+
+Minitest/NoTestCases:
+  Enabled: true
+
+Minitest/NonPublicTestMethod:
+  Enabled: true
+
+Minitest/RefuteEmpty:
+  Enabled: true
+
+Minitest/RefuteEqual:
+  Enabled: true
+
+Minitest/RefuteFalse:
+  Enabled: true
+
+Minitest/RefuteInDelta:
+  Enabled: true
+
+Minitest/RefuteIncludes:
+  Enabled: true
+
+Minitest/RefuteInstanceOf:
+  Enabled: true
+
+Minitest/RefuteKindOf:
+  Enabled: true
+
+Minitest/RefuteMatch:
+  Enabled: true
+
+Minitest/RefuteNil:
+  Enabled: true
+
+Minitest/RefuteOperator:
+  Enabled: true
+
+Minitest/RefutePathExists:
+  Enabled: true
+
+Minitest/RefutePredicate:
+  Enabled: true
+
+Minitest/RefuteRespondTo:
+  Enabled: true
+
+Minitest/RefuteSame:
+  Enabled: true
+
+Minitest/ReturnInTestMethod:
+  Enabled: true
+
+Minitest/SkipEnsure:
+  Enabled: true
+
+Minitest/SkipWithoutReason:
+  Enabled: true
+
+Minitest/TestFileName:
+  Enabled: true
+
+Minitest/TestMethodName:
+  Enabled: true
+
+Minitest/UnreachableAssertion:
+  Enabled: true
+
+Minitest/UnspecifiedException:
+  Enabled: true
+
+Minitest/UselessAssertion:
   Enabled: true
 
 Performance:

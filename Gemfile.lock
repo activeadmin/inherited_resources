@@ -230,6 +230,8 @@ GEM
       unicode-display_width (>= 2.4.0, < 3.0)
     rubocop-ast (1.29.0)
       parser (>= 3.2.1.0)
+    rubocop-minitest (0.33.0)
+      rubocop (>= 1.39, < 2.0)
     rubocop-performance (1.19.1)
       rubocop (>= 1.7.0, < 2.0)
       rubocop-ast (>= 0.4.0)
@@ -272,6 +274,7 @@ DEPENDENCIES
   rails (~> 7.1.0)
   rails-controller-testing
   rubocop
+  rubocop-minitest
   rubocop-performance
   simplecov
   simplecov-cobertura
