@@ -88,25 +88,27 @@ class ActionsClassMethodTest < ActionController::TestCase
 
   def test_actions_are_undefined
     action_methods = BooksController.send(:action_methods).map(&:to_sym)
+
     assert_equal 4, action_methods.size
 
     [:index, :show, :delete, :search].each do |action|
-      assert action_methods.include?(action)
+      assert_includes action_methods, action
     end
 
     instance_methods = BooksController.send(:instance_methods).map(&:to_sym)
 
     [:new, :edit, :create, :update, :destroy].each do |action|
-      assert !instance_methods.include?(action)
+      refute_includes instance_methods, action
     end
   end
 
   def test_actions_are_undefined_when_except_option_is_given
     action_methods = ReadersController.send(:action_methods)
+
     assert_equal 5, action_methods.size
 
     ['index', 'new', 'show', 'create', 'destroy'].each do |action|
-      assert action_methods.include? action
+      assert_includes action_methods, action
     end
   end
 end
@@ -142,7 +144,7 @@ class DefaultsClassMethodTest < ActiveSupport::TestCase
     end
   end
 
-  def test_url_helpers_are_recreated_when_defaults_change
+  def test_url_helpers_are_recreated_when_defaults_change # rubocop:disable Minitest/NoAssertions
     BooksController.expects(:create_resources_url_helpers!).returns(true).once
     BooksController.send(:defaults, instance_name: 'string', collection_name: 'strings')
   end
@@ -165,7 +167,7 @@ class BelongsToErrorsTest < ActiveSupport::TestCase
     end
   end
 
-  def test_url_helpers_are_recreated_just_once_when_belongs_to_is_called_with_block
+  def test_url_helpers_are_recreated_just_once_when_belongs_to_is_called_with_block # rubocop:disable Minitest/NoAssertions
     DeansController.expects(:create_resources_url_helpers!).returns(true).once
     DeansController.send(:belongs_to, :school) do
       belongs_to :association
@@ -174,7 +176,7 @@ class BelongsToErrorsTest < ActiveSupport::TestCase
     DeansController.send(:parents_symbols=, [:school])
   end
 
-  def test_url_helpers_are_recreated_just_once_when_belongs_to_is_called_with_multiple_blocks
+  def test_url_helpers_are_recreated_just_once_when_belongs_to_is_called_with_multiple_blocks # rubocop:disable Minitest/NoAssertions
     DeansController.expects(:create_resources_url_helpers!).returns(true).once
     DeansController.send(:belongs_to, :school) do
       belongs_to :association do
@@ -187,21 +189,25 @@ class BelongsToErrorsTest < ActiveSupport::TestCase
 
   def test_belongs_to_for_namespaced_controller_and_namespaced_model_fetches_model_in_the_namespace_firstly
     Library::SubcategoriesController.send(:belongs_to, :category)
+
     assert_equal Library::Category, Library::SubcategoriesController.resources_configuration[:category][:parent_class]
   end
 
   def test_belongs_to_for_namespaced_controller_and_non_namespaced_model_sets_parent_class_properly
     Library::SubcategoriesController.send(:belongs_to, :book)
+
     assert_equal Book, Library::SubcategoriesController.resources_configuration[:book][:parent_class]
   end
 
   def test_belongs_to_for_namespaced_model_sets_parent_class_properly
     Library::SubcategoriesController.send(:belongs_to, :library, class_name: 'Library::Base')
+
     assert_equal Library::Base, Library::SubcategoriesController.resources_configuration[:library][:parent_class]
   end
 
   def test_belongs_to_without_namespace_sets_parent_class_properly
     FoldersController.send(:belongs_to, :book)
+
     assert_equal Book, FoldersController.resources_configuration[:book][:parent_class]
   end
 end
@@ -217,6 +223,7 @@ end
 class MountableEngineTest < ActiveSupport::TestCase
   def test_route_prefix_do_not_include_engine_name
     puts MyEngine::PeopleController.send(:resources_configuration)[:self][:route_prefix]
+
     assert_nil MyEngine::PeopleController.send(:resources_configuration)[:self][:route_prefix]
   end
 
@@ -226,7 +233,7 @@ class MountableEngineTest < ActiveSupport::TestCase
 end
 
 class EngineLoadErrorTest < ActiveSupport::TestCase
-  def test_does_not_crash_on_engine_load_error
+  def test_does_not_crash_on_engine_load_error # rubocop:disable Minitest/NoAssertions
     ActiveSupport::Dependencies.autoload_paths << 'test/autoload'
 
     EmptyNamespace.class_eval <<-RUBY

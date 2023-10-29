@@ -12,6 +12,6 @@ class GemspecTest < Minitest::Test
   end
 
   def test_succeeds
-    assert_equal true, @build[2].success?
+    assert_predicate @build[2], :success?
   end
 end

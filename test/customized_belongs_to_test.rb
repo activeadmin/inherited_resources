@@ -31,42 +31,49 @@ class CustomizedBelongsToTest < ActionController::TestCase
   def test_expose_the_requested_school_with_chosen_instance_variable_on_index
     Professor.stubs(:scoped).returns([mock_professor])
     get :index, params: { school_title: 'nice' }
+
     assert_equal mock_school, assigns(:great_school)
   end
 
   def test_expose_the_requested_school_with_chosen_instance_variable_on_show
     Professor.stubs(:find).returns(mock_professor)
     get :show, params: { id: 42, school_title: 'nice' }
+
     assert_equal mock_school, assigns(:great_school)
   end
 
   def test_expose_the_requested_school_with_chosen_instance_variable_on_new
     Professor.stubs(:build).returns(mock_professor)
     get :new, params: { school_title: 'nice' }
+
     assert_equal mock_school, assigns(:great_school)
   end
 
   def test_expose_the_requested_school_with_chosen_instance_variable_on_edit
     Professor.stubs(:find).returns(mock_professor)
     get :edit, params: { id: 42, school_title: 'nice' }
+
     assert_equal mock_school, assigns(:great_school)
   end
 
   def test_expose_the_requested_school_with_chosen_instance_variable_on_create
     Professor.stubs(:build).returns(mock_professor(save: true))
     post :create, params: { school_title: 'nice' }
+
     assert_equal mock_school, assigns(:great_school)
   end
 
   def test_expose_the_requested_school_with_chosen_instance_variable_on_update
     Professor.stubs(:find).returns(mock_professor(update: true))
     put :update, params: { id: 42, school_title: 'nice' }
+
     assert_equal mock_school, assigns(:great_school)
   end
 
   def test_expose_the_requested_school_with_chosen_instance_variable_on_destroy
     Professor.stubs(:find).returns(mock_professor(destroy: true))
     delete :destroy, params: { id: 42, school_title: 'nice' }
+
     assert_equal mock_school, assigns(:great_school)
   end
 
