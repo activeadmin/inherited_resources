@@ -11,6 +11,7 @@ group :development do
   gem 'rails-controller-testing'
   gem 'simplecov', require: false
   gem 'simplecov-cobertura'
+  gem 'warning'
 end
 
 group :rubocop do

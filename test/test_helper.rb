@@ -26,6 +26,10 @@ require "active_support"
 require "active_model"
 require "action_controller"
 
+# TODO: Remove warning gem and the following lines when freerange/mocha#593 will be fixed
+require "warning"
+Warning.ignore(/Mocha deprecation warning .+ expected keyword arguments .+ but received positional hash/)
+
 require 'rails-controller-testing'
 Rails::Controller::Testing.install
 
