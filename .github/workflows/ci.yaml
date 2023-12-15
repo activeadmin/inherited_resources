@@ -42,7 +42,9 @@ jobs:
       - name: Run tests
         env:
           COVERAGE: true
-        run: bundle exec rake test TESTOPTS="--verbose"
+        run: |
+          bundle exec rake test TESTOPTS="--verbose"
+          mv coverage/coverage.xml coverage/coverage-ruby-${{ matrix.ruby }}-${{ matrix.deps }}.xml
       - uses: actions/upload-artifact@v3
         with:
           name: coverage
