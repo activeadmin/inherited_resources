@@ -47,7 +47,7 @@ jobs:
           mv coverage/coverage.xml coverage/coverage-ruby-${{ matrix.ruby }}-${{ matrix.deps }}.xml
       - uses: actions/upload-artifact@v4
         with:
-          name: coverage
+          name: coverage-ruby-${{ matrix.ruby }}-${{ matrix.deps }}
           path: coverage
           if-no-files-found: error
 
@@ -60,8 +60,9 @@ jobs:
       - uses: actions/checkout@v4
       - uses: actions/download-artifact@v4
         with:
-          name: coverage
+          pattern: coverage-ruby-*
           path: coverage
+          merge-multiple: true
       - uses: codecov/codecov-action@v3
         with:
           directory: coverage
