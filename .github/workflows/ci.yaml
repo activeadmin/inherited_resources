@@ -44,10 +44,10 @@ jobs:
           COVERAGE: true
         run: |
           bundle exec rake test TESTOPTS="--verbose"
-          mv coverage/coverage.xml coverage/coverage-ruby-${{ matrix.ruby }}-${{ matrix.deps }}.xml
-      - uses: actions/upload-artifact@v3
+          mv coverage/coverage.xml coverage/coverage-ruby-${{ matrix.ruby.value }}-${{ matrix.rails }}.xml
+      - uses: actions/upload-artifact@v4
         with:
-          name: coverage
+          name: coverage-ruby-${{ matrix.ruby.value }}-${{ matrix.rails }}
           path: coverage
           if-no-files-found: error
 
@@ -58,10 +58,11 @@ jobs:
       - test
     steps:
       - uses: actions/checkout@v4
-      - uses: actions/download-artifact@v3
+      - uses: actions/download-artifact@v4
         with:
-          name: coverage
+          pattern: coverage-ruby-*
           path: coverage
+          merge-multiple: true
       - uses: codecov/codecov-action@v3
         with:
           directory: coverage
