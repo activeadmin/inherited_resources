@@ -79,7 +79,7 @@ module InheritedResources
 
       def get_parent_ivar(instance_name) #:nodoc:
         instance_variable_defined?(:"@#{instance_name}") &&
-          instance_variable_get("@#{instance_name}")
+          instance_variable_get(:"@#{instance_name}")
       end
 
       def set_parent_instance(parent_config, chain) #:nodoc:
@@ -99,7 +99,7 @@ module InheritedResources
           parent = parent.send(parent_config[:finder], params[parent_config[:param]])
         end
 
-        instance_variable_set("@#{parent_config[:instance_name]}", parent)
+        instance_variable_set(:"@#{parent_config[:instance_name]}", parent)
       end
 
       # Maps parents_symbols to build association chain. In this case, it

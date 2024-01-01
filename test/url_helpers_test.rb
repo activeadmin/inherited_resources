@@ -165,27 +165,27 @@ class UrlHelpersTest < ActiveSupport::TestCase
 
     [:url, :path].each do |path_or_url|
       controller.expects("houses_#{path_or_url}").with({}).once
-      controller.send("collection_#{path_or_url}")
+      controller.send(:"collection_#{path_or_url}")
 
       controller.expects("house_#{path_or_url}").with(:house, {}).once
-      controller.send("resource_#{path_or_url}")
+      controller.send(:"resource_#{path_or_url}")
 
       controller.expects("new_house_#{path_or_url}").with({}).once
-      controller.send("new_resource_#{path_or_url}")
+      controller.send(:"new_resource_#{path_or_url}")
 
       controller.expects("edit_house_#{path_or_url}").with(:house, {}).once
-      controller.send("edit_resource_#{path_or_url}")
+      controller.send(:"edit_resource_#{path_or_url}")
 
       # With arg
       controller.expects("house_#{path_or_url}").with(:arg, {}).once
-      controller.send("resource_#{path_or_url}", :arg)
+      controller.send(:"resource_#{path_or_url}", :arg)
 
       controller.expects("house_#{path_or_url}").with(:arg, {}).once
-      controller.send("resource_#{path_or_url}", :arg)
+      controller.send(:"resource_#{path_or_url}", :arg)
 
       # With options
       controller.expects("house_#{path_or_url}").with(:arg, page: 1).once
-      controller.send("resource_#{path_or_url}", :arg, page: 1)
+      controller.send(:"resource_#{path_or_url}", :arg, page: 1)
     end
   end
 
@@ -195,27 +195,27 @@ class UrlHelpersTest < ActiveSupport::TestCase
 
     [:url, :path].each do |path_or_url|
       controller.expects("news_index_#{path_or_url}").with({}).once
-      controller.send("collection_#{path_or_url}")
+      controller.send(:"collection_#{path_or_url}")
 
       controller.expects("news_#{path_or_url}").with(:news, {}).once
-      controller.send("resource_#{path_or_url}")
+      controller.send(:"resource_#{path_or_url}")
 
       controller.expects("new_news_#{path_or_url}").with({}).once
-      controller.send("new_resource_#{path_or_url}")
+      controller.send(:"new_resource_#{path_or_url}")
 
       controller.expects("edit_news_#{path_or_url}").with(:news, {}).once
-      controller.send("edit_resource_#{path_or_url}")
+      controller.send(:"edit_resource_#{path_or_url}")
 
       # With arg
       controller.expects("news_#{path_or_url}").with(:arg, {}).once
-      controller.send("resource_#{path_or_url}", :arg)
+      controller.send(:"resource_#{path_or_url}", :arg)
 
       controller.expects("news_#{path_or_url}").with(:arg, {}).once
-      controller.send("resource_#{path_or_url}", :arg)
+      controller.send(:"resource_#{path_or_url}", :arg)
 
       # With options
       controller.expects("news_#{path_or_url}").with(:arg, page: 1).once
-      controller.send("resource_#{path_or_url}", :arg, page: 1)
+      controller.send(:"resource_#{path_or_url}", :arg, page: 1)
     end
   end
 
@@ -227,27 +227,27 @@ class UrlHelpersTest < ActiveSupport::TestCase
 
     [:url, :path].each do |path_or_url|
       controller.expects("admin_tour_backpacks_#{path_or_url}").with({}).once
-      controller.send("collection_#{path_or_url}")
+      controller.send(:"collection_#{path_or_url}")
 
       controller.expects("admin_backpack_#{path_or_url}").with(:backpack, {}).once
-      controller.send("resource_#{path_or_url}")
+      controller.send(:"resource_#{path_or_url}")
 
       controller.expects("new_admin_backpack_#{path_or_url}").with({}).once
-      controller.send("new_resource_#{path_or_url}")
+      controller.send(:"new_resource_#{path_or_url}")
 
       controller.expects("edit_admin_backpack_#{path_or_url}").with(:backpack, {}).once
-      controller.send("edit_resource_#{path_or_url}")
+      controller.send(:"edit_resource_#{path_or_url}")
 
       # With arg
       controller.expects("admin_backpack_#{path_or_url}").with(:arg, {}).once
-      controller.send("resource_#{path_or_url}", :arg)
+      controller.send(:"resource_#{path_or_url}", :arg)
 
       controller.expects("admin_backpack_#{path_or_url}").with(:arg, {}).once
-      controller.send("resource_#{path_or_url}", :arg)
+      controller.send(:"resource_#{path_or_url}", :arg)
 
       # With options
       controller.expects("admin_backpack_#{path_or_url}").with(:arg, page: 1).once
-      controller.send("resource_#{path_or_url}", :arg, page: 1)
+      controller.send(:"resource_#{path_or_url}", :arg, page: 1)
     end
   end
 
@@ -257,21 +257,21 @@ class UrlHelpersTest < ActiveSupport::TestCase
 
     [:url, :path].each do |path_or_url|
       controller.expects("root_#{path_or_url}").with({}).once
-      controller.send("collection_#{path_or_url}")
+      controller.send(:"collection_#{path_or_url}")
 
       controller.expects("universum_#{path_or_url}").with({}).once
-      controller.send("resource_#{path_or_url}")
+      controller.send(:"resource_#{path_or_url}")
 
       controller.expects("new_universum_#{path_or_url}").with({}).once
-      controller.send("new_resource_#{path_or_url}")
+      controller.send(:"new_resource_#{path_or_url}")
 
       controller.expects("edit_universum_#{path_or_url}").with({}).once
-      controller.send("edit_resource_#{path_or_url}")
+      controller.send(:"edit_resource_#{path_or_url}")
 
       # With options
       # Also tests that argument sent are not used
       controller.expects("universum_#{path_or_url}").with(page: 1).once
-      controller.send("resource_#{path_or_url}", :arg, page: 1)
+      controller.send(:"resource_#{path_or_url}", :arg, page: 1)
     end
   end
 
@@ -283,27 +283,27 @@ class UrlHelpersTest < ActiveSupport::TestCase
 
     [:url, :path].each do |path_or_url|
       controller.expects("house_fireplace_flames_#{path_or_url}").with(:house, {}).once
-      controller.send("collection_#{path_or_url}")
+      controller.send(:"collection_#{path_or_url}")
 
       controller.expects("house_fireplace_flame_#{path_or_url}").with(:house, :flame, {}).once
-      controller.send("resource_#{path_or_url}")
+      controller.send(:"resource_#{path_or_url}")
 
       controller.expects("new_house_fireplace_flame_#{path_or_url}").with(:house, {}).once
-      controller.send("new_resource_#{path_or_url}")
+      controller.send(:"new_resource_#{path_or_url}")
 
       controller.expects("edit_house_fireplace_flame_#{path_or_url}").with(:house, :flame, {}).once
-      controller.send("edit_resource_#{path_or_url}")
+      controller.send(:"edit_resource_#{path_or_url}")
 
       controller.expects("house_fireplace_#{path_or_url}").with(:house, {}).once
-      controller.send("parent_#{path_or_url}")
+      controller.send(:"parent_#{path_or_url}")
 
       controller.expects("edit_house_fireplace_#{path_or_url}").with(:house, {}).once
-      controller.send("edit_parent_#{path_or_url}")
+      controller.send(:"edit_parent_#{path_or_url}")
 
       # With options
       # Also tests that argument sent are not used
       controller.expects("house_fireplace_flame_#{path_or_url}").with(:house, :arg, page: 1).once
-      controller.send("resource_#{path_or_url}", :arg, page: 1)
+      controller.send(:"resource_#{path_or_url}", :arg, page: 1)
     end
   end
 
@@ -314,36 +314,36 @@ class UrlHelpersTest < ActiveSupport::TestCase
 
     [:url, :path].each do |path_or_url|
       controller.expects("house_tables_#{path_or_url}").with(:house, {}).once
-      controller.send("collection_#{path_or_url}")
+      controller.send(:"collection_#{path_or_url}")
 
       controller.expects("house_table_#{path_or_url}").with(:house, :table, {}).once
-      controller.send("resource_#{path_or_url}")
+      controller.send(:"resource_#{path_or_url}")
 
       controller.expects("new_house_table_#{path_or_url}").with(:house, {}).once
-      controller.send("new_resource_#{path_or_url}")
+      controller.send(:"new_resource_#{path_or_url}")
 
       controller.expects("edit_house_table_#{path_or_url}").with(:house, :table, {}).once
-      controller.send("edit_resource_#{path_or_url}")
+      controller.send(:"edit_resource_#{path_or_url}")
 
       controller.expects("house_#{path_or_url}").with(:house, {}).once
-      controller.send("parent_#{path_or_url}")
+      controller.send(:"parent_#{path_or_url}")
 
       controller.expects("edit_house_#{path_or_url}").with(:house, {}).once
-      controller.send("edit_parent_#{path_or_url}")
+      controller.send(:"edit_parent_#{path_or_url}")
 
       # With arg
       controller.expects("house_table_#{path_or_url}").with(:house, :arg, {}).once
-      controller.send("resource_#{path_or_url}", :arg)
+      controller.send(:"resource_#{path_or_url}", :arg)
 
       controller.expects("edit_house_table_#{path_or_url}").with(:house, :arg, {}).once
-      controller.send("edit_resource_#{path_or_url}", :arg)
+      controller.send(:"edit_resource_#{path_or_url}", :arg)
 
       controller.expects("house_#{path_or_url}").with(:arg, {}).once
-      controller.send("parent_#{path_or_url}", :arg)
+      controller.send(:"parent_#{path_or_url}", :arg)
 
       # With options
       controller.expects("house_table_#{path_or_url}").with(:house, :arg, page: 1).once
-      controller.send("resource_#{path_or_url}", :arg, page: 1)
+      controller.send(:"resource_#{path_or_url}", :arg, page: 1)
     end
   end
 
@@ -354,36 +354,36 @@ class UrlHelpersTest < ActiveSupport::TestCase
 
     [:url, :path].each do |path_or_url|
       controller.expects("big_house_rooms_#{path_or_url}").with(:house, {}).once
-      controller.send("collection_#{path_or_url}")
+      controller.send(:"collection_#{path_or_url}")
 
       controller.expects("big_house_room_#{path_or_url}").with(:house, :room, {}).once
-      controller.send("resource_#{path_or_url}")
+      controller.send(:"resource_#{path_or_url}")
 
       controller.expects("new_big_house_room_#{path_or_url}").with(:house, {}).once
-      controller.send("new_resource_#{path_or_url}")
+      controller.send(:"new_resource_#{path_or_url}")
 
       controller.expects("edit_big_house_room_#{path_or_url}").with(:house, :room, {}).once
-      controller.send("edit_resource_#{path_or_url}")
+      controller.send(:"edit_resource_#{path_or_url}")
 
       controller.expects("big_house_#{path_or_url}").with(:house, {}).once
-      controller.send("parent_#{path_or_url}")
+      controller.send(:"parent_#{path_or_url}")
 
       controller.expects("edit_big_house_#{path_or_url}").with(:house, {}).once
-      controller.send("edit_parent_#{path_or_url}")
+      controller.send(:"edit_parent_#{path_or_url}")
 
       # With args
       controller.expects("big_house_room_#{path_or_url}").with(:house, :arg, {}).once
-      controller.send("resource_#{path_or_url}", :arg)
+      controller.send(:"resource_#{path_or_url}", :arg)
 
       controller.expects("edit_big_house_room_#{path_or_url}").with(:house, :arg, {}).once
-      controller.send("edit_resource_#{path_or_url}", :arg)
+      controller.send(:"edit_resource_#{path_or_url}", :arg)
 
       controller.expects("big_house_#{path_or_url}").with(:arg, {}).once
-      controller.send("parent_#{path_or_url}", :arg)
+      controller.send(:"parent_#{path_or_url}", :arg)
 
       # With options
       controller.expects("big_house_room_#{path_or_url}").with(:house, :arg, page: 1).once
-      controller.send("resource_#{path_or_url}", :arg, page: 1)
+      controller.send(:"resource_#{path_or_url}", :arg, page: 1)
     end
   end
 
@@ -395,36 +395,36 @@ class UrlHelpersTest < ActiveSupport::TestCase
 
     [:url, :path].each do |path_or_url|
       controller.expects("house_table_chairs_#{path_or_url}").with(:house, :table, {}).once
-      controller.send("collection_#{path_or_url}")
+      controller.send(:"collection_#{path_or_url}")
 
       controller.expects("house_table_chair_#{path_or_url}").with(:house, :table, :chair, {}).once
-      controller.send("resource_#{path_or_url}")
+      controller.send(:"resource_#{path_or_url}")
 
       controller.expects("new_house_table_chair_#{path_or_url}").with(:house, :table, {}).once
-      controller.send("new_resource_#{path_or_url}")
+      controller.send(:"new_resource_#{path_or_url}")
 
       controller.expects("edit_house_table_chair_#{path_or_url}").with(:house, :table, :chair, {}).once
-      controller.send("edit_resource_#{path_or_url}")
+      controller.send(:"edit_resource_#{path_or_url}")
 
       controller.expects("house_table_#{path_or_url}").with(:house, :table, {}).once
-      controller.send("parent_#{path_or_url}")
+      controller.send(:"parent_#{path_or_url}")
 
       controller.expects("edit_house_table_#{path_or_url}").with(:house, :table, {}).once
-      controller.send("edit_parent_#{path_or_url}")
+      controller.send(:"edit_parent_#{path_or_url}")
 
       # With args
       controller.expects("edit_house_table_chair_#{path_or_url}").with(:house, :table, :arg, {}).once
-      controller.send("edit_resource_#{path_or_url}", :arg)
+      controller.send(:"edit_resource_#{path_or_url}", :arg)
 
       controller.expects("house_table_chair_#{path_or_url}").with(:house, :table, :arg, {}).once
-      controller.send("resource_#{path_or_url}", :arg)
+      controller.send(:"resource_#{path_or_url}", :arg)
 
       controller.expects("house_table_#{path_or_url}").with(:house, :arg, {}).once
-      controller.send("parent_#{path_or_url}", :arg)
+      controller.send(:"parent_#{path_or_url}", :arg)
 
       # With options
       controller.expects("edit_house_table_chair_#{path_or_url}").with(:house, :table, :arg, page: 1).once
-      controller.send("edit_resource_#{path_or_url}", :arg, page: 1)
+      controller.send(:"edit_resource_#{path_or_url}", :arg, page: 1)
     end
   end
 
@@ -435,27 +435,27 @@ class UrlHelpersTest < ActiveSupport::TestCase
 
     [:url, :path].each do |path_or_url|
       controller.expects("house_#{path_or_url}").with(:house, {}).once
-      controller.send("collection_#{path_or_url}")
+      controller.send(:"collection_#{path_or_url}")
 
       controller.expects("house_owner_#{path_or_url}").with(:house, {}).once
-      controller.send("resource_#{path_or_url}")
+      controller.send(:"resource_#{path_or_url}")
 
       controller.expects("new_house_owner_#{path_or_url}").with(:house, {}).once
-      controller.send("new_resource_#{path_or_url}")
+      controller.send(:"new_resource_#{path_or_url}")
 
       controller.expects("edit_house_owner_#{path_or_url}").with(:house, {}).once
-      controller.send("edit_resource_#{path_or_url}")
+      controller.send(:"edit_resource_#{path_or_url}")
 
       controller.expects("house_#{path_or_url}").with(:house, {}).once
-      controller.send("parent_#{path_or_url}")
+      controller.send(:"parent_#{path_or_url}")
 
       controller.expects("edit_house_#{path_or_url}").with(:house, {}).once
-      controller.send("edit_parent_#{path_or_url}")
+      controller.send(:"edit_parent_#{path_or_url}")
 
       # With options
       # Also tests that argument sent are not used
       controller.expects("house_owner_#{path_or_url}").with(:house, page: 1).once
-      controller.send("resource_#{path_or_url}", :arg, page: 1)
+      controller.send(:"resource_#{path_or_url}", :arg, page: 1)
     end
   end
 
@@ -480,22 +480,22 @@ class UrlHelpersTest < ActiveSupport::TestCase
 
     [:url, :path].each do |path_or_url|
       mock_polymorphic(controller, "house_dishwasher_fork_spots_#{path_or_url}").with(house, fork).once
-      controller.send("collection_#{path_or_url}")
+      controller.send(:"collection_#{path_or_url}")
 
       mock_polymorphic(controller, "house_dishwasher_fork_spot_#{path_or_url}").with(house, fork, spot).once
-      controller.send("resource_#{path_or_url}")
+      controller.send(:"resource_#{path_or_url}")
 
       mock_polymorphic(controller, "new_house_dishwasher_fork_spot_#{path_or_url}").with(house, fork).once
-      controller.send("new_resource_#{path_or_url}")
+      controller.send(:"new_resource_#{path_or_url}")
 
       mock_polymorphic(controller, "edit_house_dishwasher_fork_spot_#{path_or_url}").with(house, fork, spot).once
-      controller.send("edit_resource_#{path_or_url}")
+      controller.send(:"edit_resource_#{path_or_url}")
 
       mock_polymorphic(controller, "house_dishwasher_fork_#{path_or_url}").with(house, fork).once
-      controller.send("parent_#{path_or_url}")
+      controller.send(:"parent_#{path_or_url}")
 
       mock_polymorphic(controller, "edit_house_dishwasher_fork_#{path_or_url}").with(house, fork).once
-      controller.send("edit_parent_#{path_or_url}")
+      controller.send(:"edit_parent_#{path_or_url}")
     end
   end
 
@@ -516,22 +516,22 @@ class UrlHelpersTest < ActiveSupport::TestCase
 
     [:url, :path].each do |path_or_url|
       mock_polymorphic(controller, "house_beds_#{path_or_url}").with(house).once
-      controller.send("collection_#{path_or_url}")
+      controller.send(:"collection_#{path_or_url}")
 
       mock_polymorphic(controller, "house_bed_#{path_or_url}").with(house, bed).once
-      controller.send("resource_#{path_or_url}")
+      controller.send(:"resource_#{path_or_url}")
 
       mock_polymorphic(controller, "new_house_bed_#{path_or_url}").with(house).once
-      controller.send("new_resource_#{path_or_url}")
+      controller.send(:"new_resource_#{path_or_url}")
 
       mock_polymorphic(controller, "edit_house_bed_#{path_or_url}").with(house, bed).once
-      controller.send("edit_resource_#{path_or_url}")
+      controller.send(:"edit_resource_#{path_or_url}")
 
       mock_polymorphic(controller, "house_#{path_or_url}").with(house).once
-      controller.send("parent_#{path_or_url}")
+      controller.send(:"parent_#{path_or_url}")
 
       mock_polymorphic(controller, "edit_house_#{path_or_url}").with(house).once
-      controller.send("edit_parent_#{path_or_url}")
+      controller.send(:"edit_parent_#{path_or_url}")
     end
 
     # With options
@@ -572,22 +572,22 @@ class UrlHelpersTest < ActiveSupport::TestCase
 
     [:url, :path].each do |path_or_url|
       mock_polymorphic(controller, "news_sheep_index_#{path_or_url}").with(news).once
-      controller.send("collection_#{path_or_url}")
+      controller.send(:"collection_#{path_or_url}")
 
       mock_polymorphic(controller, "news_sheep_#{path_or_url}").with(news, sheep).once
-      controller.send("resource_#{path_or_url}")
+      controller.send(:"resource_#{path_or_url}")
 
       mock_polymorphic(controller, "new_news_sheep_#{path_or_url}").with(news).once
-      controller.send("new_resource_#{path_or_url}")
+      controller.send(:"new_resource_#{path_or_url}")
 
       mock_polymorphic(controller, "edit_news_sheep_#{path_or_url}").with(news, sheep).once
-      controller.send("edit_resource_#{path_or_url}")
+      controller.send(:"edit_resource_#{path_or_url}")
 
       mock_polymorphic(controller, "news_#{path_or_url}").with(news).once
-      controller.send("parent_#{path_or_url}")
+      controller.send(:"parent_#{path_or_url}")
 
       mock_polymorphic(controller, "edit_news_#{path_or_url}").with(news).once
-      controller.send("edit_parent_#{path_or_url}")
+      controller.send(:"edit_parent_#{path_or_url}")
     end
 
     # With options
@@ -625,22 +625,22 @@ class UrlHelpersTest < ActiveSupport::TestCase
 
     [:url, :path].each do |path_or_url|
       controller.expects("bed_fish_index_#{path_or_url}").with(bed, {}).once
-      controller.send("collection_#{path_or_url}")
+      controller.send(:"collection_#{path_or_url}")
 
       controller.expects("fish_#{path_or_url}").with(fish, {}).once
-      controller.send("resource_#{path_or_url}")
+      controller.send(:"resource_#{path_or_url}")
 
       controller.expects("new_bed_fish_#{path_or_url}").with(bed, {}).once
-      controller.send("new_resource_#{path_or_url}")
+      controller.send(:"new_resource_#{path_or_url}")
 
       controller.expects("edit_fish_#{path_or_url}").with(fish, {}).once
-      controller.send("edit_resource_#{path_or_url}")
+      controller.send(:"edit_resource_#{path_or_url}")
 
       controller.expects("bed_#{path_or_url}").with(bed, {}).once
-      controller.send("parent_#{path_or_url}")
+      controller.send(:"parent_#{path_or_url}")
 
       controller.expects("edit_bed_#{path_or_url}").with(bed, {}).once
-      controller.send("edit_parent_#{path_or_url}")
+      controller.send(:"edit_parent_#{path_or_url}")
     end
   end
 
@@ -661,22 +661,22 @@ class UrlHelpersTest < ActiveSupport::TestCase
 
     [:url, :path].each do |path_or_url|
       mock_polymorphic(controller, "admin_house_desks_#{path_or_url}").with(house).once
-      controller.send("collection_#{path_or_url}")
+      controller.send(:"collection_#{path_or_url}")
 
       mock_polymorphic(controller, "admin_house_desk_#{path_or_url}").with(house, desk).once
-      controller.send("resource_#{path_or_url}")
+      controller.send(:"resource_#{path_or_url}")
 
       mock_polymorphic(controller, "new_admin_house_desk_#{path_or_url}").with(house).once
-      controller.send("new_resource_#{path_or_url}")
+      controller.send(:"new_resource_#{path_or_url}")
 
       mock_polymorphic(controller, "edit_admin_house_desk_#{path_or_url}").with(house, desk).once
-      controller.send("edit_resource_#{path_or_url}")
+      controller.send(:"edit_resource_#{path_or_url}")
 
       mock_polymorphic(controller, "admin_house_#{path_or_url}").with(house).once
-      controller.send("parent_#{path_or_url}")
+      controller.send(:"parent_#{path_or_url}")
 
       mock_polymorphic(controller, "edit_admin_house_#{path_or_url}").with(house).once
-      controller.send("edit_parent_#{path_or_url}")
+      controller.send(:"edit_parent_#{path_or_url}")
     end
 
     # With options
@@ -719,22 +719,22 @@ class UrlHelpersTest < ActiveSupport::TestCase
 
     [:url, :path].each do |path_or_url|
       mock_polymorphic(controller, "house_table_dishes_#{path_or_url}").with(house, table).once
-      controller.send("collection_#{path_or_url}")
+      controller.send(:"collection_#{path_or_url}")
 
       mock_polymorphic(controller, "house_table_dish_#{path_or_url}").with(house, table, dish).once
-      controller.send("resource_#{path_or_url}")
+      controller.send(:"resource_#{path_or_url}")
 
       mock_polymorphic(controller, "new_house_table_dish_#{path_or_url}").with(house, table).once
-      controller.send("new_resource_#{path_or_url}")
+      controller.send(:"new_resource_#{path_or_url}")
 
       mock_polymorphic(controller, "edit_house_table_dish_#{path_or_url}").with(house, table, dish).once
-      controller.send("edit_resource_#{path_or_url}")
+      controller.send(:"edit_resource_#{path_or_url}")
 
       mock_polymorphic(controller, "house_table_#{path_or_url}").with(house, table).once
-      controller.send("parent_#{path_or_url}")
+      controller.send(:"parent_#{path_or_url}")
 
       mock_polymorphic(controller, "edit_house_table_#{path_or_url}").with(house, table).once
-      controller.send("edit_parent_#{path_or_url}")
+      controller.send(:"edit_parent_#{path_or_url}")
     end
 
     # With options
@@ -773,22 +773,22 @@ class UrlHelpersTest < ActiveSupport::TestCase
 
     [:url, :path].each do |path_or_url|
       mock_polymorphic(controller, "house_table_#{path_or_url}").with(house, table).once
-      controller.send("collection_#{path_or_url}")
+      controller.send(:"collection_#{path_or_url}")
 
       mock_polymorphic(controller, "house_table_center_#{path_or_url}").with(house, table).once
-      controller.send("resource_#{path_or_url}")
+      controller.send(:"resource_#{path_or_url}")
 
       mock_polymorphic(controller, "new_house_table_center_#{path_or_url}").with(house, table).once
-      controller.send("new_resource_#{path_or_url}")
+      controller.send(:"new_resource_#{path_or_url}")
 
       mock_polymorphic(controller, "edit_house_table_center_#{path_or_url}").with(house, table).once
-      controller.send("edit_resource_#{path_or_url}")
+      controller.send(:"edit_resource_#{path_or_url}")
 
       mock_polymorphic(controller, "house_table_#{path_or_url}").with(house, table).once
-      controller.send("parent_#{path_or_url}")
+      controller.send(:"parent_#{path_or_url}")
 
       mock_polymorphic(controller, "edit_house_table_#{path_or_url}").with(house, table).once
-      controller.send("edit_parent_#{path_or_url}")
+      controller.send(:"edit_parent_#{path_or_url}")
     end
 
     # With options
@@ -819,16 +819,16 @@ class UrlHelpersTest < ActiveSupport::TestCase
 
     [:url, :path].each do |path_or_url|
       mock_polymorphic(controller, "beds_#{path_or_url}").with().once
-      controller.send("collection_#{path_or_url}")
+      controller.send(:"collection_#{path_or_url}")
 
       mock_polymorphic(controller, "bed_#{path_or_url}").with(bed).once
-      controller.send("resource_#{path_or_url}")
+      controller.send(:"resource_#{path_or_url}")
 
       mock_polymorphic(controller, "new_bed_#{path_or_url}").with().once
-      controller.send("new_resource_#{path_or_url}")
+      controller.send(:"new_resource_#{path_or_url}")
 
       mock_polymorphic(controller, "edit_bed_#{path_or_url}").with(bed).once
-      controller.send("edit_resource_#{path_or_url}")
+      controller.send(:"edit_resource_#{path_or_url}")
     end
 
     # With options
@@ -850,22 +850,22 @@ class UrlHelpersTest < ActiveSupport::TestCase
 
     [:url, :path].each do |path_or_url|
       controller.expects("house_mirrors_#{path_or_url}").with(:house, {}).once
-      controller.send("collection_#{path_or_url}")
+      controller.send(:"collection_#{path_or_url}")
 
       controller.expects("mirror_#{path_or_url}").with(:mirror, {}).once
-      controller.send("resource_#{path_or_url}")
+      controller.send(:"resource_#{path_or_url}")
 
       controller.expects("new_house_mirror_#{path_or_url}").with(:house, {}).once
-      controller.send("new_resource_#{path_or_url}")
+      controller.send(:"new_resource_#{path_or_url}")
 
       controller.expects("edit_mirror_#{path_or_url}").with(:mirror, {}).once
-      controller.send("edit_resource_#{path_or_url}")
+      controller.send(:"edit_resource_#{path_or_url}")
 
       controller.expects("house_#{path_or_url}").with(:house, {}).once
-      controller.send("parent_#{path_or_url}")
+      controller.send(:"parent_#{path_or_url}")
 
       controller.expects("edit_house_#{path_or_url}").with(:house, {}).once
-      controller.send("edit_parent_#{path_or_url}")
+      controller.send(:"edit_parent_#{path_or_url}")
     end
   end
 
@@ -877,22 +877,22 @@ class UrlHelpersTest < ActiveSupport::TestCase
 
     [:url, :path].each do |path_or_url|
       controller.expects("window_buttons_#{path_or_url}").with(:window, {}).once
-      controller.send("collection_#{path_or_url}")
+      controller.send(:"collection_#{path_or_url}")
 
       controller.expects("button_#{path_or_url}").with(:button, {}).once
-      controller.send("resource_#{path_or_url}")
+      controller.send(:"resource_#{path_or_url}")
 
       controller.expects("new_window_button_#{path_or_url}").with(:window, {}).once
-      controller.send("new_resource_#{path_or_url}")
+      controller.send(:"new_resource_#{path_or_url}")
 
       controller.expects("edit_button_#{path_or_url}").with(:button, {}).once
-      controller.send("edit_resource_#{path_or_url}")
+      controller.send(:"edit_resource_#{path_or_url}")
 
       controller.expects("window_#{path_or_url}").with(:window, {}).once
-      controller.send("parent_#{path_or_url}")
+      controller.send(:"parent_#{path_or_url}")
 
       controller.expects("edit_window_#{path_or_url}").with(:window, {}).once
-      controller.send("edit_parent_#{path_or_url}")
+      controller.send(:"edit_parent_#{path_or_url}")
     end
   end
 
@@ -903,10 +903,10 @@ class UrlHelpersTest < ActiveSupport::TestCase
     controller.instance_variable_set(:@button, :button)
     [:url, :path].each do |path_or_url|
       controller.expects("delete_button_#{path_or_url}").with(:button, {}).once
-      controller.send("delete_resource_#{path_or_url}")
+      controller.send(:"delete_resource_#{path_or_url}")
 
       controller.expects("search_window_buttons_#{path_or_url}").with(:window, {}).once
-      controller.send("search_resources_#{path_or_url}")
+      controller.send(:"search_resources_#{path_or_url}")
     end
   end
 
@@ -935,22 +935,22 @@ class UrlHelpersTest < ActiveSupport::TestCase
     [:url, :path].each do |path_or_url|
 
       controller.expects("admin_house_mirrors_#{path_or_url}").with(:house, {}).once
-      controller.send("collection_#{path_or_url}")
+      controller.send(:"collection_#{path_or_url}")
 
       controller.expects("admin_mirror_#{path_or_url}").with(:mirror, {}).once
-      controller.send("resource_#{path_or_url}")
+      controller.send(:"resource_#{path_or_url}")
 
       controller.expects("new_admin_house_mirror_#{path_or_url}").with(:house, {}).once
-      controller.send("new_resource_#{path_or_url}")
+      controller.send(:"new_resource_#{path_or_url}")
 
       controller.expects("edit_admin_mirror_#{path_or_url}").with(:mirror, {}).once
-      controller.send("edit_resource_#{path_or_url}")
+      controller.send(:"edit_resource_#{path_or_url}")
 
       controller.expects("admin_house_#{path_or_url}").with(:house, {}).once
-      controller.send("parent_#{path_or_url}")
+      controller.send(:"parent_#{path_or_url}")
 
       controller.expects("edit_admin_house_#{path_or_url}").with(:house, {}).once
-      controller.send("edit_parent_#{path_or_url}")
+      controller.send(:"edit_parent_#{path_or_url}")
     end
   end
 
@@ -963,7 +963,7 @@ class UrlHelpersTest < ActiveSupport::TestCase
 
     [:url, :path].each do |path_or_url|
       controller.expects("houses_#{path_or_url}").with({'page' => 2}).once
-      controller.send("collection_#{path_or_url}", parameters)
+      controller.send(:"collection_#{path_or_url}", parameters)
     end
   end
 end
