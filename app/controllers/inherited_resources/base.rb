@@ -8,7 +8,7 @@ module InheritedResources
   # call <tt>default</tt> class method, call <<tt>actions</tt> class method
   # or overwrite some helpers in the base_helpers.rb file.
   #
-  class Base < ::ApplicationController
+  class Base < InheritedResources.parent_controller.constantize
     # Overwrite inherit_resources to add specific InheritedResources behavior.
     def self.inherit_resources(base)
       base.class_eval do
