@@ -34,6 +34,14 @@ class DefaultsTest < ActionController::TestCase
     assert_equal [mock_painter], assigns(:malarze)
   end
 
+  def test_collection_instance_variable_should_not_be_set_if_already_defined
+    @controller.instance_variable_set(:@malarze, [mock_painter])
+    Malarz.expects(:scoped).never
+    get :index
+
+    assert_equal [mock_painter], assigns(:malarze)
+  end
+
   def test_expose_the_requested_painter_on_show
     Malarz.expects(:find_by_slug).with('forty_two').returns(mock_painter)
     get :show, params: { id: 'forty_two' }

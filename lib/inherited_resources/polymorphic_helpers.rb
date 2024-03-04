@@ -122,8 +122,8 @@ module InheritedResources
       #
       def parent
         if parent_type
-          p = instance_variable_defined?("@#{parent_type}") && instance_variable_get("@#{parent_type}")
-          p || instance_variable_set("@#{parent_type}", association_chain[-1])
+          p = instance_variable_defined?(:"@#{parent_type}") && instance_variable_get(:"@#{parent_type}")
+          p || instance_variable_set(:"@#{parent_type}", association_chain[-1])
         end
       end
 

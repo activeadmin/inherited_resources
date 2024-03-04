@@ -217,7 +217,7 @@ module InheritedResources
       #
       def get_resource_ivar #:nodoc:
         if instance_variable_defined?(:"@#{resource_instance_name}")
-          instance_variable_get("@#{resource_instance_name}")
+          instance_variable_get(:"@#{resource_instance_name}")
         else
           nil
         end
@@ -226,14 +226,14 @@ module InheritedResources
       # Set resource ivar based on the current resource controller.
       #
       def set_resource_ivar(resource) #:nodoc:
-        instance_variable_set("@#{resource_instance_name}", resource)
+        instance_variable_set(:"@#{resource_instance_name}", resource)
       end
 
       # Get collection ivar based on the current resource controller.
       #
       def get_collection_ivar #:nodoc:
         if instance_variable_defined?(:"@#{resource_collection_name}")
-          instance_variable_get("@#{resource_collection_name}")
+          instance_variable_get(:"@#{resource_collection_name}")
         else
           nil
         end
@@ -242,7 +242,7 @@ module InheritedResources
       # Set collection ivar based on the current resource controller.
       #
       def set_collection_ivar(collection) #:nodoc:
-        instance_variable_set("@#{resource_collection_name}", collection)
+        instance_variable_set(:"@#{resource_collection_name}", collection)
       end
 
       # Used to allow to specify success and failure within just one block:

@@ -137,7 +137,13 @@ Minitest/NoAssertions:
 Minitest/NoTestCases:
   Enabled: true
 
+Minitest/NonExecutableTestMethod:
+  Enabled: true
+
 Minitest/NonPublicTestMethod:
+  Enabled: true
+
+Minitest/RedundantMessageArgument:
   Enabled: true
 
 Minitest/RefuteEmpty:
