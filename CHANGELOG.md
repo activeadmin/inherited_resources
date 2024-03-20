@@ -83,7 +83,7 @@ _No changes_.
 ## Version 1.4.1
 
 * Supports Rails 4.
-* Improved compatability with strong params.
+* Improved compatibility with strong params.
 
 ## Version 1.4.0
 
@@ -178,7 +178,7 @@ _No changes_.
 
 * Fixed a bug that happens only when format.xml is given to blocks and then it acts as default, instead of format.html.
 * Fixed a strange bug where when you have create.html.erb or update.html.erb, it makes IE6 and IE7 return unprocessable entity (because they send Mime::ALL).
-* Stop rescueing any error when constantizing the resource class and allow route_prefix to be nil.
+* Stop rescuing any error when constantizing the resource class and allow route_prefix to be nil.
 * Cleaned up tests and responder structure. Whenever you pass a block to aliases and this block responds to the request, the other blocks are not parsed improving performance.
 * [BACKWARDS INCOMPATIBLE] By default, Inherited Resources respond only :html requests.
 * Added a quick way to overwrite the redirect to url in :create, :update and :destroy.

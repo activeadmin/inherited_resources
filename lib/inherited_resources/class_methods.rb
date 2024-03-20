@@ -27,7 +27,7 @@ module InheritedResources
       #
       # * <tt>:route_instance_name</tt> - The name of the singular route. Defaults to :instance_name.
       #
-      # * <tt>:route_prefix</tt> - The route prefix which is automically set in namespaced
+      # * <tt>:route_prefix</tt> - The route prefix which is automatically set in namespaced
       #                            controllers. Default to :admin on Admin::ProjectsController.
       #
       # * <tt>:singleton</tt> - Tells if this controller is singleton or not.
@@ -67,7 +67,7 @@ module InheritedResources
         create_resources_url_helpers!
       end
 
-      # Defines wich actions will be inherited from the inherited controller.
+      # Defines which actions will be inherited from the inherited controller.
       # Syntax is borrowed from resource_controller.
       #
       #   actions :index, :show, :edit

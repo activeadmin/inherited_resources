@@ -56,7 +56,7 @@ module InheritedResources
 
       # Responsible for saving the resource on :create method. Overwriting this
       # allow you to control the way resource is saved. Let's say you have a
-      # PassworsController who is responsible for finding an user by email and
+      # PasswordsController who is responsible for finding an user by email and
       # sent password instructions for him. Instead of overwriting the entire
       # :create method, you could do something:
       #
@@ -370,7 +370,7 @@ module InheritedResources
         self.resources_configuration[:self][:role].present?
       end
 
-      # getting role for mass-asignment
+      # getting role for mass-assignment
       def as_role
         { as: self.resources_configuration[:self][:role] }
       end

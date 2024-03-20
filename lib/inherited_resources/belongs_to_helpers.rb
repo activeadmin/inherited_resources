@@ -5,7 +5,7 @@ module InheritedResources
   # = belongs_to
   #
   # Let's suppose that we have some tasks that belongs to projects. To specify
-  # this assoication in your controllers, just do:
+  # this association in your controllers, just do:
   #
   #    class TasksController < InheritedResources::Base
   #      belongs_to :project

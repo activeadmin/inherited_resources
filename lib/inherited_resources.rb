@@ -30,7 +30,7 @@ end
 ActiveSupport.on_load(:action_controller_base) do
   # If you cannot inherit from InheritedResources::Base you can call
   # inherit_resources in your controller to have all the required modules and
-  # funcionality included.
+  # functionality included.
   def self.inherit_resources
     InheritedResources::Base.inherit_resources(self)
     initialize_resources_class_accessors!
