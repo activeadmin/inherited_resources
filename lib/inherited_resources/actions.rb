@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 module InheritedResources
-  # Holds all default actions for InheritedResouces.
+  # Holds all default actions for InheritedResources.
   module Actions
 
     # GET /resources

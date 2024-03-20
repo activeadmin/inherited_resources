@@ -756,7 +756,7 @@ class UrlHelpersTest < ActiveSupport::TestCase
   end
 
   def test_url_helpers_on_singleton_nested_polymorphic_belongs_to # rubocop:disable Minitest/NoAssertions
-    # This must not be usefull in singleton controllers...
+    # This must not be useful in singleton controllers...
     # Center.new
     house = House.new
     house.stubs(:persisted?).returns(true)

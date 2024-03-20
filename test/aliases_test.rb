@@ -111,7 +111,7 @@ class AliasesTest < ActionController::TestCase
     assert_equal "New HTML", @response.body.strip
   end
 
-  def test_html_is_the_default_when_only_xml_is_overwriten
+  def test_html_is_the_default_when_only_xml_is_overwritten
     @request.accept = '*/*'
     Student.stubs(:new).returns(mock_student(save: false, errors: {some: :error}))
     @controller.stubs(:resource_url).returns('http://test.host/')
