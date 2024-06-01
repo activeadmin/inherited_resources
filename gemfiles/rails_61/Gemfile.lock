@@ -96,13 +96,13 @@ GEM
     method_source (1.0.0)
     mini_mime (1.1.5)
     mini_portile2 (2.8.6)
-    minitest (5.22.3)
+    minitest (5.23.1)
     minitest-reporters (1.6.1)
       ansi
       builder
       minitest (>= 5.0)
       ruby-progressbar
-    mocha (2.2.0)
+    mocha (2.3.0)
       ruby2_keywords (>= 0.0.5)
     net-imap (0.4.10)
       date
@@ -188,7 +188,7 @@ GEM
     timeout (0.4.1)
     tzinfo (2.0.6)
       concurrent-ruby (~> 1.0)
-    warning (1.3.0)
+    warning (1.4.0)
     websocket-driver (0.7.6)
       websocket-extensions (>= 0.1.0)
     websocket-driver (0.7.6-java)
