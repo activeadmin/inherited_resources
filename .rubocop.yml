@@ -119,6 +119,9 @@ Minitest/DuplicateTestRun:
 Minitest/EmptyLineBeforeAssertionMethods:
   Enabled: true
 
+Minitest/Focus:
+  Enabled: true
+
 Minitest/GlobalExpectations:
   Enabled: true
 
