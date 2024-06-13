@@ -236,7 +236,7 @@ class EngineLoadErrorTest < ActiveSupport::TestCase
   def test_does_not_crash_on_engine_load_error # rubocop:disable Minitest/NoAssertions
     ActiveSupport::Dependencies.autoload_paths << 'test/autoload'
 
-    EmptyNamespace.class_eval <<-RUBY
+    assert_nil EmptyNamespace.class_eval <<~RUBY
       class PeopleController < InheritedResources::Base; end
     RUBY
   end
