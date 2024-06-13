@@ -3,7 +3,7 @@
 ## Version 1.14.0
 
 * Remove upper bound dependency limits from gemspec.
-* Allow using Rails 7.1.
+* Allow using Rails 7.1 [#873][].
 * Remove support for Ruby `< 2.6`.
 
 ## Version 1.13.1
@@ -223,3 +223,5 @@ _No changes_.
 * Added more helper_methods.
 * Added Rails 2.3.0 and changed tests to work with ActionController::TestCase.
 * First release. Support to I18n, singleton controllers, polymorphic controllers, belongs_to, nested_belongs_to and url helpers.
+
+[#873]: https://github.com/activeadmin/inherited_resources/pull/873
