@@ -25,6 +25,10 @@ module InheritedResources
   def self.flash_keys=(array)
     Responders::FlashResponder.flash_keys = array
   end
+
+  # Inherit from a different controller. This only has an effect if changed
+  # before InheritedResources::Base is loaded, e.g. in a rails initializer.
+  mattr_accessor(:parent_controller) { '::ApplicationController' }
 end
 
 ActiveSupport.on_load(:action_controller_base) do
