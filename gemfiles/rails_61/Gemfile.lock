@@ -95,13 +95,13 @@ GEM
     method_source (1.1.0)
     mini_mime (1.1.5)
     mini_portile2 (2.8.7)
-    minitest (5.23.1)
-    minitest-reporters (1.6.1)
+    minitest (5.24.1)
+    minitest-reporters (1.7.1)
       ansi
       builder
       minitest (>= 5.0)
       ruby-progressbar
-    mocha (2.3.0)
+    mocha (2.4.0)
       ruby2_keywords (>= 0.0.5)
     net-imap (0.4.12)
       date
