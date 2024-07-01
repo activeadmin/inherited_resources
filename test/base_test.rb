@@ -246,7 +246,7 @@ class CreateActionBaseTest < ActionController::TestCase
     User.stubs(:new).returns(mock_user(save: false, errors: {some: :error}))
     post :create
 
-    assert_response :success
+    assert_response :unprocessable_entity
     assert_equal "New HTML", @response.body.strip
   end
 
@@ -322,7 +322,7 @@ class UpdateActionBaseTest < ActionController::TestCase
     User.stubs(:find).returns(mock_user(update: false, errors: {some: :error}))
     put :update, params: { id: '42' }
 
-    assert_response :success
+    assert_response :unprocessable_entity
     assert_equal "Edit HTML", @response.body.strip
   end
 
@@ -370,6 +370,7 @@ class DestroyActionBaseTest < ActionController::TestCase
     User.stubs(:find).returns(mock_user(destroy: false, errors: { fail: true }))
     delete :destroy, params: { id: '42' }, format: :js
 
+    assert_response :unprocessable_entity
     assert_equal 'User could not be destroyed.', flash[:alert]
   end
 
@@ -378,6 +379,7 @@ class DestroyActionBaseTest < ActionController::TestCase
     @controller.expects(:collection_url).returns('http://test.host/')
     delete :destroy, params: { id: '42' }
 
+    assert_response :see_other
     assert_redirected_to 'http://test.host/'
   end
 
@@ -386,6 +388,7 @@ class DestroyActionBaseTest < ActionController::TestCase
     @controller.expects(:collection_url).returns('http://test.host/')
     delete :destroy, params: { id: '42' }
 
+    assert_response :see_other
     assert_redirected_to 'http://test.host/'
   end
 end
