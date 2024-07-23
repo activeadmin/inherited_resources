@@ -75,7 +75,7 @@ GEM
     crass (1.0.6)
     date (3.3.4)
     docile (1.4.0)
-    erubi (1.12.0)
+    erubi (1.13.0)
     globalid (1.2.1)
       activesupport (>= 6.1)
     has_scope (0.8.2)
@@ -101,9 +101,9 @@ GEM
       builder
       minitest (>= 5.0)
       ruby-progressbar
-    mocha (2.4.0)
+    mocha (2.4.4)
       ruby2_keywords (>= 0.0.5)
-    net-imap (0.4.12)
+    net-imap (0.4.14)
       date
       net-protocol
     net-pop (0.1.2)
@@ -113,16 +113,16 @@ GEM
     net-smtp (0.5.0)
       net-protocol
     nio4r (2.7.3)
-    nokogiri (1.16.5)
+    nokogiri (1.16.6)
       mini_portile2 (~> 2.8.2)
       racc (~> 1.4)
-    nokogiri (1.16.5-aarch64-linux)
+    nokogiri (1.16.6-aarch64-linux)
       racc (~> 1.4)
-    nokogiri (1.16.5-arm64-darwin)
+    nokogiri (1.16.6-arm64-darwin)
       racc (~> 1.4)
-    nokogiri (1.16.5-x86_64-darwin)
+    nokogiri (1.16.6-x86_64-darwin)
       racc (~> 1.4)
-    nokogiri (1.16.5-x86_64-linux)
+    nokogiri (1.16.6-x86_64-linux)
       racc (~> 1.4)
     racc (1.8.0)
     rack (2.2.9)
@@ -164,7 +164,7 @@ GEM
     responders (3.1.1)
       actionpack (>= 5.2)
       railties (>= 5.2)
-    rexml (3.3.0)
+    rexml (3.3.2)
       strscan
     ruby-progressbar (1.13.0)
     ruby2_keywords (0.0.5)
@@ -193,7 +193,7 @@ GEM
     websocket-driver (0.7.6)
       websocket-extensions (>= 0.1.0)
     websocket-extensions (0.1.5)
-    zeitwerk (2.6.15)
+    zeitwerk (2.6.16)
 
 PLATFORMS
   aarch64-linux
@@ -214,4 +214,4 @@ DEPENDENCIES
   warning
 
 BUNDLED WITH
-   2.5.11
+   2.5.15
