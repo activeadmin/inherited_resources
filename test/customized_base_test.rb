@@ -141,7 +141,7 @@ class CreateActionCustomizedBaseTest < ActionController::TestCase
     Car.stubs(:create_new).returns(mock_car(save_successfully: false, errors: {some: :error}))
     post :create
 
-    assert_response :success
+    assert_response :unprocessable_entity
     assert_equal "New HTML", @response.body.strip
   end
 end
@@ -169,7 +169,7 @@ class UpdateActionCustomizedBaseTest < ActionController::TestCase
     Car.stubs(:get).returns(mock_car(update_successfully: false, errors: {some: :error}))
     put :update, params: { id: '42' }
 
-    assert_response :success
+    assert_response :unprocessable_entity
     assert_equal "Edit HTML", @response.body.strip
   end
 end
