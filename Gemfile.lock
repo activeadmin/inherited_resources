@@ -93,7 +93,7 @@ GEM
     connection_pool (2.4.1)
     crass (1.0.6)
     date (3.3.4)
-    docile (1.4.0)
+    docile (1.4.1)
     drb (2.2.1)
     erubi (1.13.0)
     globalid (1.2.1)
@@ -126,7 +126,7 @@ GEM
       builder
       minitest (>= 5.0)
       ruby-progressbar
-    mocha (2.4.4)
+    mocha (2.4.5)
       ruby2_keywords (>= 0.0.5)
     mutex_m (0.2.0)
     net-imap (0.4.14)
@@ -151,7 +151,7 @@ GEM
     nokogiri (1.16.6-x86_64-linux)
       racc (~> 1.4)
     parallel (1.25.1)
-    parser (3.3.3.0)
+    parser (3.3.4.0)
       ast (~> 2.4.1)
       racc
     psych (5.1.2)
@@ -210,23 +210,23 @@ GEM
       railties (>= 5.2)
     rexml (3.3.2)
       strscan
-    rubocop (1.64.1)
+    rubocop (1.65.0)
       json (~> 2.3)
       language_server-protocol (>= 3.17.0)
       parallel (~> 1.10)
       parser (>= 3.3.0.2)
       rainbow (>= 2.2.2, < 4.0)
-      regexp_parser (>= 1.8, < 3.0)
+      regexp_parser (>= 2.4, < 3.0)
       rexml (>= 3.2.5, < 4.0)
       rubocop-ast (>= 1.31.1, < 2.0)
       ruby-progressbar (~> 1.7)
       unicode-display_width (>= 2.4.0, < 3.0)
     rubocop-ast (1.31.3)
       parser (>= 3.3.1.0)
-    rubocop-minitest (0.35.0)
+    rubocop-minitest (0.35.1)
       rubocop (>= 1.61, < 2.0)
       rubocop-ast (>= 1.31.1, < 2.0)
-    rubocop-performance (1.21.0)
+    rubocop-performance (1.21.1)
       rubocop (>= 1.48.1, < 2.0)
       rubocop-ast (>= 1.31.1, < 2.0)
     ruby-progressbar (1.13.0)
@@ -276,4 +276,4 @@ DEPENDENCIES
   warning
 
 BUNDLED WITH
-   2.5.15
+   2.5.16
