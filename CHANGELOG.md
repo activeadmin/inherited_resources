@@ -145,7 +145,7 @@ _No changes_.
 * Added create_resource, update_resource and delete_resource hooks (thanks to Carlos Antonio da Silva).
 * Backported ActionController::Responder from Rails 3.
 * Added parent_url helper.
-* Added association_chain helper (as suggested by http://github.com/emmanuel).
+* Added association_chain helper (as suggested by https://github.com/emmanuel).
 
 ## Version 0.8
 
@@ -172,7 +172,7 @@ _No changes_.
 
 * Ensure that the default template is not rendered if the default_template_format is not accepted. This is somehow related with the security breach report:
 
-  http://www.rorsecurity.info/journal/2009/4/24/hidden-actions-render-templates.html
+  https://rorsecurity.info/journal/2009/4/24/hidden-actions-render-templates.html
 
   IR forbids based on mime types. For example: respond_to :html, :except => :index ensures that the index.html.erb view is not rendered, making your IR controllers safer.
 
