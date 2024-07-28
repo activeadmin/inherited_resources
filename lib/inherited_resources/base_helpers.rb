@@ -135,7 +135,7 @@ module InheritedResources
       end
 
       # rubocop:disable Layout/CommentIndentation
-      # See https://github.com/rubocop-hq/rubocop/issues/6450
+      # See https://github.com/rubocop/rubocop/issues/6450
       #
       # Overwrite this method to provide other interpolation options when
       # the flash message is going to be set.

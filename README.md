@@ -5,7 +5,7 @@ has been transferred to the ActiveAdmin organization for maintenance.  New featu
 requests are not encouraged.
 
 If you are not already using Inherited Resources we suggest instead using Rails'
-`respond_with` feature alongside the [responders gem](https://github.com/plataformatec/responders).
+`respond_with` feature alongside the [responders gem](https://github.com/heartcombo/responders).
 
 ## Inherited Resources
 
@@ -22,7 +22,7 @@ code by following fat models and skinny controllers convention. There are
 two screencasts available besides this README:
 
 * http://railscasts.com/episodes/230-inherited-resources
-* http://akitaonrails.com/2009/09/01/screencast-real-thin-restful-controllers-with-inherited-resources
+* https://www.akitaonrails.com/2009/09/01/screencast-real-thin-restful-controllers-with-inherited-resources
 
 ## Installation
 
@@ -49,7 +49,7 @@ $ gem install inherited_resources
 Since Inherited Resources 1.0, has_scope is not part of its core anymore but
 a gem dependency. Be sure to check the documentation to see how you can use it:
 
-- <http://github.com/plataformatec/has_scope>
+- <https://github.com/heartcombo/has_scope>
 
 And it can be installed as:
 
@@ -64,7 +64,7 @@ but is set as Inherited Resources dependency and it's used by default by
 InheritedResources controllers. Be sure to check the documentation to see
 how it will change your application:
 
-- <http://github.com/plataformatec/responders>
+- <https://github.com/heartcombo/responders>
 
 And it can be installed with:
 
@@ -737,7 +737,7 @@ MIT License. Copyright (c) 2009-2017 José Valim.
 Please use the Tidelift security contact to [report a security vulnerability][Tidelift security contact].
 Tidelift will coordinate the fix and disclosure.
 
-[rubygems_badge]: http://img.shields.io/gem/v/inherited_resources.svg
+[rubygems_badge]: https://img.shields.io/gem/v/inherited_resources.svg
 [rubygems]: https://rubygems.org/gems/inherited_resources
 [actions_badge]: https://github.com/activeadmin/inherited_resources/workflows/ci/badge.svg
 [actions]: https://github.com/activeadmin/inherited_resources/actions
