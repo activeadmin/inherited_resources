@@ -1,5 +1,9 @@
 # Changelog
 
+## Unreleased
+
+* Test against Rails 7.2 [#921][].
+
 ## Version 1.14.0
 
 * Remove upper bound dependency limits from gemspec.
@@ -225,3 +229,4 @@ _No changes_.
 * First release. Support to I18n, singleton controllers, polymorphic controllers, belongs_to, nested_belongs_to and url helpers.
 
 [#873]: https://github.com/activeadmin/inherited_resources/pull/873
+[#921]: https://github.com/activeadmin/inherited_resources/pull/921
