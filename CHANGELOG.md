@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+## Version 2.0.0
+
 * Test against Rails 7.2 [#921][].
 * Change return codes to new Responders defaults [#918][].
 
