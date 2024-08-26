@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 if ENV.fetch('COVERAGE', false)
   require 'simplecov'
   require 'simplecov-cobertura'

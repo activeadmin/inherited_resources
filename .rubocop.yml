@@ -373,5 +373,13 @@ Performance/UnfreezeString:
 Performance/UriDefaultParser:
   Enabled: true
 
+Style/Encoding:
+  Enabled: true
+
+Style/FrozenStringLiteralComment:
+  Enabled: true
+  Exclude:
+    - bin/console
+
 Style/HashSyntax:
   Enabled: true
