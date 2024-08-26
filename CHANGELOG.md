@@ -5,6 +5,7 @@
 ## Version 2.0.0
 
 * Test against Rails 7.2 [#921][].
+* Add frozen string literal to `InheritedResources` module [#933][].
 * Change return codes to new Responders defaults [#918][].
 
 ## Version 1.14.0
@@ -234,3 +235,4 @@ _No changes_.
 [#873]: https://github.com/activeadmin/inherited_resources/pull/873
 [#918]: https://github.com/activeadmin/inherited_resources/pull/918
 [#921]: https://github.com/activeadmin/inherited_resources/pull/921
+[#933]: https://github.com/activeadmin/inherited_resources/pull/933

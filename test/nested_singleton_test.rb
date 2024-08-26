@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 require 'test_helper'
 
 # This test file is instead to test the how controller flow and actions
