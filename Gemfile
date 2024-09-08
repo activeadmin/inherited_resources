@@ -18,5 +18,6 @@ end
 group :rubocop do
   gem 'rubocop'
   gem 'rubocop-minitest'
+  gem 'rubocop-packaging'
   gem 'rubocop-performance'
 end

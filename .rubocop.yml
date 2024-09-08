@@ -2,6 +2,7 @@
 
 require:
   - rubocop-minitest
+  - rubocop-packaging
   - rubocop-performance
 
 AllCops:
@@ -213,6 +214,18 @@ Minitest/UnspecifiedException:
   Enabled: true
 
 Minitest/UselessAssertion:
+  Enabled: true
+
+Packaging/BundlerSetupInTests:
+  Enabled: true
+
+Packaging/GemspecGit:
+  Enabled: true
+
+Packaging/RequireHardcodingLib:
+  Enabled: true
+
+Packaging/RequireRelativeHardcodingLib:
   Enabled: true
 
 Performance:
