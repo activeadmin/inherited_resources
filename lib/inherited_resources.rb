@@ -3,9 +3,10 @@
 # This is here because responders don't require it.
 require 'rails/engine'
 require 'responders'
-require 'inherited_resources/engine'
-require 'inherited_resources/blank_slate'
-require 'inherited_resources/responder'
+
+require_relative 'inherited_resources/engine'
+require_relative 'inherited_resources/blank_slate'
+require_relative 'inherited_resources/responder'
 
 module InheritedResources
   ACTIONS = [ :index, :show, :new, :edit, :create, :update, :destroy ] unless self.const_defined?(:ACTIONS)
