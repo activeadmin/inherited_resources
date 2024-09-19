@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 # Whenever base is required load the dumb responder since it's used inside actions.
-require 'inherited_resources/blank_slate'
+require_relative 'blank_slate'
 
 module InheritedResources
   # Base helpers for InheritedResource work. Some methods here can be overwritten
