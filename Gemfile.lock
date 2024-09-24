@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    inherited_resources (2.0.0)
+    inherited_resources (2.0.1)
       actionpack (>= 6.0)
       has_scope (>= 0.6)
       railties (>= 6.0)
@@ -97,7 +97,7 @@ GEM
     has_scope (0.8.2)
       actionpack (>= 5.2)
       activesupport (>= 5.2)
-    i18n (1.14.5)
+    i18n (1.14.6)
       concurrent-ruby (~> 1.0)
     io-console (0.7.2)
     irb (1.14.0)
@@ -222,7 +222,7 @@ GEM
       rubocop-ast (>= 1.31.1, < 2.0)
     rubocop-packaging (0.5.2)
       rubocop (>= 1.33, < 2.0)
-    rubocop-performance (1.21.1)
+    rubocop-performance (1.22.1)
       rubocop (>= 1.48.1, < 2.0)
       rubocop-ast (>= 1.31.1, < 2.0)
     ruby-progressbar (1.13.0)
@@ -274,4 +274,4 @@ DEPENDENCIES
   warning
 
 BUNDLED WITH
-   2.5.18
+   2.5.19

@@ -2,6 +2,10 @@
 
 ## Unreleased
 
+## Version 2.0.1
+
+* Prefer `require_relative` for internal requires [#939][].
+
 ## Version 2.0.0
 
 * Test against Rails 7.2 [#921][].
@@ -236,3 +240,4 @@ _No changes_.
 [#918]: https://github.com/activeadmin/inherited_resources/pull/918
 [#921]: https://github.com/activeadmin/inherited_resources/pull/921
 [#933]: https://github.com/activeadmin/inherited_resources/pull/933
+[#939]: https://github.com/activeadmin/inherited_resources/pull/939
