@@ -153,9 +153,9 @@ module InheritedResources
           if symbol == :polymorphic
             params_keys = params.keys
 
-            keys = polymorphic_config[:symbols].map do |poly|
-              params_keys.include?(resources_configuration[poly][:param].to_s) ? poly : nil
-            end.compact
+            keys = polymorphic_config[:symbols].select do |poly|
+              params_keys.include?(resources_configuration[poly][:param].to_s)
+            end
 
             if keys.empty?
               raise ScriptError, "Could not find param for polymorphic association. The request " <<
