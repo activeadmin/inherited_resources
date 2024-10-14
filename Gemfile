@@ -13,6 +13,9 @@ group :development do
   gem 'simplecov', require: false
   gem 'simplecov-cobertura'
   gem 'warning'
+
+  # FIXME: relax this dependency when Ruby 3.1 support will be dropped
+  gem "zeitwerk", "~> 2.6.18"
 end
 
 group :rubocop do

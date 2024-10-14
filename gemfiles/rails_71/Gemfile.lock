@@ -103,7 +103,7 @@ GEM
     i18n (1.14.6)
       concurrent-ruby (~> 1.0)
     io-console (0.7.2)
-    irb (1.14.0)
+    irb (1.14.1)
       rdoc (>= 4.0.0)
       reline (>= 0.4.2)
     loofah (2.22.0)
@@ -199,7 +199,7 @@ GEM
     responders (3.1.1)
       actionpack (>= 5.2)
       railties (>= 5.2)
-    rexml (3.3.7)
+    rexml (3.3.8)
     ruby-progressbar (1.13.0)
     ruby2_keywords (0.0.5)
     simplecov (0.22.0)
@@ -240,6 +240,7 @@ DEPENDENCIES
   simplecov
   simplecov-cobertura
   warning
+  zeitwerk (~> 2.6.18)
 
 BUNDLED WITH
-   2.5.19
+   2.5.21
