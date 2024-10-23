@@ -4,7 +4,7 @@ source 'https://rubygems.org'
 gemspec path: '../..'
 
 group :development do
-  gem 'rails', '~> 7.0.0'
+  gem 'rails', '~> 7.2.0'
 
   gem 'mocha'
   gem 'minitest'
@@ -13,9 +13,6 @@ group :development do
   gem 'simplecov', require: false
   gem 'simplecov-cobertura'
   gem 'warning'
-
-  # FIXME: relax this dependency when Ruby 3.0 support will be dropped
-  gem 'net-imap', '~> 0.4.17'
 
   # FIXME: relax this dependency when Ruby 3.1 support will be dropped
   gem "zeitwerk", "~> 2.6.18"

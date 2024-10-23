@@ -4,7 +4,7 @@ source 'https://rubygems.org'
 gemspec path: '.'
 
 group :development do
-  gem 'rails', '~> 7.2.0'
+  gem 'rails', '~> 8.0.0.rc1'
 
   gem 'mocha'
   gem 'minitest'
