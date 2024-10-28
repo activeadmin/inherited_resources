@@ -15,7 +15,6 @@ jobs:
       fail-fast: false
       matrix:
         ruby:
-          - "3.0"
           - "3.1"
           - "3.2"
           - "3.3"
@@ -24,9 +23,6 @@ jobs:
           - rails_70
           - rails_71
           - rails_72
-        exclude:
-          - ruby: "3.0"
-            rails: rails_72
     steps:
       - uses: actions/checkout@v4
       - name: Configure bundler (default)
