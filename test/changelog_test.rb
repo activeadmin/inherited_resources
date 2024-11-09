@@ -20,7 +20,7 @@ class ChangelogTest < ActiveSupport::TestCase
     entries = lines.grep(/^\*/)
 
     entries.each do |entry|
-      assert_match(/(\.|\:)$/, entry)
+      assert_no_match(/(\.|\:)$/, entry)
     end
   end
 end
