@@ -19,7 +19,6 @@ jobs:
           - "3.2"
           - "3.3"
         rails:
-          - rails_61
           - rails_70
           - rails_71
           - rails_72
