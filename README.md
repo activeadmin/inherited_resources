@@ -168,6 +168,13 @@ class AccountsController < ApplicationController
 end
 ```
 
+By default, `InheritedResources::Base` will inherit from `::ApplicationController`. You can change this in a rails initializer:
+
+```ruby
+# config/initializers/inherited_resources.rb
+InheritedResources.parent_controller = 'MyController'
+```
+
 ## Overwriting defaults
 
 Whenever you inherit from InheritedResources, several defaults are assumed.
