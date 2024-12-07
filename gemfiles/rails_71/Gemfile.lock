@@ -1,7 +1,7 @@
 PATH
   remote: ../..
   specs:
-    inherited_resources (2.0.1)
+    inherited_resources (2.1.0)
       actionpack (>= 7.0)
       has_scope (>= 0.6)
       railties (>= 7.0)
@@ -122,13 +122,13 @@ GEM
     marcel (1.0.4)
     mini_mime (1.1.5)
     mini_portile2 (2.8.8)
-    minitest (5.25.2)
+    minitest (5.25.4)
     minitest-reporters (1.7.1)
       ansi
       builder
       minitest (>= 5.0)
       ruby-progressbar
-    mocha (2.6.1)
+    mocha (2.7.0)
       ruby2_keywords (>= 0.0.5)
     mutex_m (0.3.0)
     net-imap (0.5.1)
@@ -248,4 +248,4 @@ DEPENDENCIES
   zeitwerk (~> 2.6.18)
 
 BUNDLED WITH
-   2.5.22
+   2.5.23

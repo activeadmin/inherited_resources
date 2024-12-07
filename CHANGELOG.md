@@ -1,7 +1,8 @@
 # Changelog
 
-## Unreleased
+## Version 2.1.0
 
+* Support for setting the parent controller class [#903][]
 * Remove support for Ruby `< 3.1`
 * Remove support for Rails `< 7.0`
 * Test against Rails 8.0
@@ -241,6 +242,7 @@ _No changes_
 * First release. Support to I18n, singleton controllers, polymorphic controllers, belongs_to, nested_belongs_to and url helpers
 
 [#873]: https://github.com/activeadmin/inherited_resources/pull/873
+[#903]: https://github.com/activeadmin/inherited_resources/pull/903
 [#918]: https://github.com/activeadmin/inherited_resources/pull/918
 [#921]: https://github.com/activeadmin/inherited_resources/pull/921
 [#933]: https://github.com/activeadmin/inherited_resources/pull/933
