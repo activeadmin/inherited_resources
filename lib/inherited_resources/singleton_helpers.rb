@@ -42,9 +42,7 @@ module InheritedResources
 
       # Singleton methods does not deal with collections.
       #
-      def collection
-        nil
-      end
+      def collection; end
 
       # Overwrites how singleton deals with resource.
       #
