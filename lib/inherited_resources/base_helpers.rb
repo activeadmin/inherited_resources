@@ -297,7 +297,7 @@ module InheritedResources
         if respond_to? :show
           url = resource_url rescue nil
         end
-        url ||= smart_collection_url
+        url || smart_collection_url
       end
 
       # URL to redirect to when redirect implies collection url.
@@ -309,7 +309,7 @@ module InheritedResources
         if respond_to? :parent, true
           url ||= parent_url rescue nil
         end
-        url ||= root_url rescue nil
+        url || root_url rescue nil
       end
 
       # memoize the extraction of attributes from params
