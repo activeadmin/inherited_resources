@@ -48,6 +48,15 @@ Layout/TrailingWhitespace:
 Layout/TrailingEmptyLines:
   Enabled: true
 
+Lint/AmbiguousOperator:
+  Enabled: true
+
+Lint/AmbiguousRegexpLiteral:
+  Enabled: true
+
+Lint/UselessAssignment:
+  Enabled: true
+
 Minitest:
   Enabled: true
 
