@@ -1,6 +1,6 @@
 ---
 
-require:
+plugins:
   - rubocop-minitest
   - rubocop-packaging
   - rubocop-performance
@@ -396,6 +396,9 @@ Performance/UnfreezeString:
   Enabled: true
 
 Performance/UriDefaultParser:
+  Enabled: true
+
+Performance/ZipWithoutBlock:
   Enabled: true
 
 Style/Encoding:
