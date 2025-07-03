@@ -18,15 +18,6 @@ updates:
         patterns:
           - "*"
   - package-ecosystem: bundler
-    directory: /gemfiles/rails_61
-    schedule:
-      interval: monthly
-    versioning-strategy: lockfile-only
-    groups:
-      rails_61:
-        patterns:
-          - "*"
-  - package-ecosystem: bundler
     directory: /gemfiles/rails_70
     schedule:
       interval: monthly
@@ -35,3 +26,40 @@ updates:
       rails_70:
         patterns:
           - "*"
+    ignore:
+      - dependency-name: rails
+        versions: ">= 7.1.0"
+      - dependency-name: railties
+        versions: ">= 7.1.0"
+  - package-ecosystem: bundler
+    directory: /gemfiles/rails_71
+    schedule:
+      interval: monthly
+    versioning-strategy: lockfile-only
+    groups:
+      rails_71:
+        patterns:
+          - "*"
+    ignore:
+      - dependency-name: erb
+        versions: ">= 5"
+      - dependency-name: rails
+        versions: ">= 7.2.0"
+      - dependency-name: railties
+        versions: ">= 7.2.0"
+  - package-ecosystem: bundler
+    directory: /gemfiles/rails_72
+    schedule:
+      interval: monthly
+    versioning-strategy: lockfile-only
+    groups:
+      rails_72:
+        patterns:
+          - "*"
+    ignore:
+      - dependency-name: erb
+        versions: ">= 5"
+      - dependency-name: rails
+        versions: ">= 8.0.0"
+      - dependency-name: railties
+        versions: ">= 8.0.0"
