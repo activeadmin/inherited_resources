@@ -1,7 +1,7 @@
 PATH
   remote: ../..
   specs:
-    inherited_resources (2.1.0)
+    inherited_resources (3.0.0)
       actionpack (>= 7.0)
       has_scope (>= 0.6)
       railties (>= 7.0)
@@ -215,4 +215,4 @@ DEPENDENCIES
   zeitwerk (~> 2.6.18)
 
 BUNDLED WITH
-   2.6.9
+   2.7.1
