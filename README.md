@@ -44,6 +44,19 @@ Or install it yourself with:
 $ gem install inherited_resources
 ```
 
+## Upgrading to 3.x from an older version
+
+Starting from version 3.0, InheritedResources uses `:unprocessable_content` as
+the default error status for unprocessable requests, following updates in
+[Rack 3.1.0](https://github.com/rack/rack/pull/2137).
+
+If you are using a version of Rack older than 3.1.0, you can restore the
+previous behavior by configuring:
+
+```ruby
+InheritedResources.error_status = :unprocessable_entity
+```
+
 ## HasScope
 
 Since Inherited Resources 1.0, has_scope is not part of its core anymore but
