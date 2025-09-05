@@ -1,9 +1,5 @@
 # Changelog
 
-## Version 3.0.0
-
-* Change default error code to `:unprocessable_content` [#968][]
-
 ## Version 2.1.0
 
 * Support for setting the parent controller class [#903][]
@@ -252,4 +248,3 @@ _No changes_
 [#933]: https://github.com/activeadmin/inherited_resources/pull/933
 [#939]: https://github.com/activeadmin/inherited_resources/pull/939
 [#942]: https://github.com/activeadmin/inherited_resources/pull/942
-[#968]: https://github.com/activeadmin/inherited_resources/pull/968
