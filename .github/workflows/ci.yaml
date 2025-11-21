@@ -28,7 +28,7 @@ jobs:
           - ruby: "3.4"
             rails: rails_70
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v6
       - name: Configure bundler (default)
         run: |
           echo "BUNDLE_GEMFILE=Gemfile" >> "$GITHUB_ENV"
@@ -59,7 +59,7 @@ jobs:
     needs:
       - test
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v6
       - uses: actions/download-artifact@v6
         with:
           pattern: coverage-ruby-*
