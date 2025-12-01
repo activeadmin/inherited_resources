@@ -69,7 +69,7 @@ updates:
       interval: monthly
     versioning-strategy: lockfile-only
     groups:
-      rails_72:
+      rails_80:
         patterns:
           - "*"
     ignore:
