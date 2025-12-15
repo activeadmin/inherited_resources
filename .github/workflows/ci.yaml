@@ -47,7 +47,7 @@ jobs:
         run: |
           bundle exec rake test TESTOPTS="--verbose"
           mv coverage/coverage.xml coverage/coverage-ruby-${{ matrix.ruby }}-${{ matrix.rails }}.xml
-      - uses: actions/upload-artifact@v5
+      - uses: actions/upload-artifact@v6
         with:
           name: coverage-ruby-${{ matrix.ruby }}-${{ matrix.rails }}
           path: coverage
@@ -60,7 +60,7 @@ jobs:
       - test
     steps:
       - uses: actions/checkout@v6
-      - uses: actions/download-artifact@v6
+      - uses: actions/download-artifact@v7
         with:
           pattern: coverage-ruby-*
           path: coverage
