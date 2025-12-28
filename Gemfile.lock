@@ -132,7 +132,7 @@ GEM
       builder
       minitest (>= 5.0)
       ruby-progressbar
-    mocha (2.8.2)
+    mocha (3.0.1)
       ruby2_keywords (>= 0.0.5)
     net-imap (0.6.2)
       date
@@ -288,7 +288,7 @@ DEPENDENCIES
   inherited_resources!
   minitest
   minitest-reporters
-  mocha (~> 2.8)
+  mocha
   rails (~> 8.1.0)
   rails-controller-testing
   rubocop

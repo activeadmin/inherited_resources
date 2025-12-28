@@ -29,19 +29,19 @@ class StrongParametersTest < ActionController::TestCase
   end
 
   def test_permitted_params_from_new # rubocop:disable Minitest/NoAssertions
-    Widget.expects(:new).with(permitted: 'param')
+    Widget.expects(:new).with({ permitted: 'param' })
     get :new, params: { widget: { permitted: 'param', prohibited: 'param' } }
   end
 
   def test_permitted_params_from_create # rubocop:disable Minitest/NoAssertions
-    Widget.expects(:new).with(permitted: 'param').returns(mock(save: true))
+    Widget.expects(:new).with({ permitted: 'param' }).returns(mock(save: true))
     post :create, params: { widget: { permitted: 'param', prohibited: 'param' } }
   end
 
   def test_permitted_params_from_update # rubocop:disable Minitest/NoAssertions
     mock_widget = mock
     mock_widget.stubs(:class).returns(Widget)
-    mock_widget.expects(:update).with(permitted: 'param')
+    mock_widget.expects(:update).with({ permitted: 'param' })
     mock_widget.stubs(:persisted?).returns(true)
     mock_widget.stubs(:to_model).returns(mock_widget)
     mock_widget.stubs(:model_name).returns(Widget.model_name)
@@ -55,7 +55,7 @@ class StrongParametersTest < ActionController::TestCase
     class << @controller
       private :widget_params
     end
-    Widget.expects(:new).with(permitted: 'param')
+    Widget.expects(:new).with({ permitted: 'param' })
     get :new, params: { widget: { permitted: 'param', prohibited: 'param' } }
   end
 end
@@ -80,19 +80,19 @@ class StrongParametersWithoutPermittedParamsTest < ActionController::TestCase
   end
 
   def test_permitted_params_from_new # rubocop:disable Minitest/NoAssertions
-    Widget.expects(:new).with(permitted: 'param')
+    Widget.expects(:new).with({ permitted: 'param' })
     get :new, params: { widget: { permitted: 'param', prohibited: 'param' } }
   end
 
   def test_permitted_params_from_create # rubocop:disable Minitest/NoAssertions
-    Widget.expects(:new).with(permitted: 'param').returns(mock(save: true))
+    Widget.expects(:new).with({ permitted: 'param' }).returns(mock(save: true))
     post :create, params: { widget: { permitted: 'param', prohibited: 'param' } }
   end
 
   def test_permitted_params_from_update # rubocop:disable Minitest/NoAssertions
     mock_widget = mock
     mock_widget.stubs(:class).returns(Widget)
-    mock_widget.expects(:update).with(permitted: 'param')
+    mock_widget.expects(:update).with({ permitted: 'param' })
     mock_widget.stubs(:persisted?).returns(true)
     mock_widget.stubs(:to_model).returns(mock_widget)
     mock_widget.stubs(:model_name).returns(Widget.model_name)
