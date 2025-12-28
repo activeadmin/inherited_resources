@@ -185,7 +185,7 @@ class UrlHelpersTest < ActiveSupport::TestCase
       controller.send(:"resource_#{path_or_url}", :arg)
 
       # With options
-      controller.expects("house_#{path_or_url}").with(:arg, page: 1).once
+      controller.expects("house_#{path_or_url}").with(:arg, { page: 1 }).once
       controller.send(:"resource_#{path_or_url}", :arg, page: 1)
     end
   end
@@ -215,7 +215,7 @@ class UrlHelpersTest < ActiveSupport::TestCase
       controller.send(:"resource_#{path_or_url}", :arg)
 
       # With options
-      controller.expects("news_#{path_or_url}").with(:arg, page: 1).once
+      controller.expects("news_#{path_or_url}").with(:arg, { page: 1 }).once
       controller.send(:"resource_#{path_or_url}", :arg, page: 1)
     end
   end
@@ -247,7 +247,7 @@ class UrlHelpersTest < ActiveSupport::TestCase
       controller.send(:"resource_#{path_or_url}", :arg)
 
       # With options
-      controller.expects("admin_backpack_#{path_or_url}").with(:arg, page: 1).once
+      controller.expects("admin_backpack_#{path_or_url}").with(:arg, { page: 1 }).once
       controller.send(:"resource_#{path_or_url}", :arg, page: 1)
     end
   end
@@ -271,7 +271,7 @@ class UrlHelpersTest < ActiveSupport::TestCase
 
       # With options
       # Also tests that argument sent are not used
-      controller.expects("universum_#{path_or_url}").with(page: 1).once
+      controller.expects("universum_#{path_or_url}").with({ page: 1 }).once
       controller.send(:"resource_#{path_or_url}", :arg, page: 1)
     end
   end
@@ -303,7 +303,7 @@ class UrlHelpersTest < ActiveSupport::TestCase
 
       # With options
       # Also tests that argument sent are not used
-      controller.expects("house_fireplace_flame_#{path_or_url}").with(:house, :arg, page: 1).once
+      controller.expects("house_fireplace_flame_#{path_or_url}").with(:house, :arg, { page: 1 }).once
       controller.send(:"resource_#{path_or_url}", :arg, page: 1)
     end
   end
@@ -343,7 +343,7 @@ class UrlHelpersTest < ActiveSupport::TestCase
       controller.send(:"parent_#{path_or_url}", :arg)
 
       # With options
-      controller.expects("house_table_#{path_or_url}").with(:house, :arg, page: 1).once
+      controller.expects("house_table_#{path_or_url}").with(:house, :arg, { page: 1 }).once
       controller.send(:"resource_#{path_or_url}", :arg, page: 1)
     end
   end
@@ -383,7 +383,7 @@ class UrlHelpersTest < ActiveSupport::TestCase
       controller.send(:"parent_#{path_or_url}", :arg)
 
       # With options
-      controller.expects("big_house_room_#{path_or_url}").with(:house, :arg, page: 1).once
+      controller.expects("big_house_room_#{path_or_url}").with(:house, :arg, { page: 1 }).once
       controller.send(:"resource_#{path_or_url}", :arg, page: 1)
     end
   end
@@ -424,7 +424,7 @@ class UrlHelpersTest < ActiveSupport::TestCase
       controller.send(:"parent_#{path_or_url}", :arg)
 
       # With options
-      controller.expects("edit_house_table_chair_#{path_or_url}").with(:house, :table, :arg, page: 1).once
+      controller.expects("edit_house_table_chair_#{path_or_url}").with(:house, :table, :arg, { page: 1 }).once
       controller.send(:"edit_resource_#{path_or_url}", :arg, page: 1)
     end
   end
@@ -455,7 +455,7 @@ class UrlHelpersTest < ActiveSupport::TestCase
 
       # With options
       # Also tests that argument sent are not used
-      controller.expects("house_owner_#{path_or_url}").with(:house, page: 1).once
+      controller.expects("house_owner_#{path_or_url}").with(:house, { page: 1 }).once
       controller.send(:"resource_#{path_or_url}", :arg, page: 1)
     end
   end
@@ -536,10 +536,10 @@ class UrlHelpersTest < ActiveSupport::TestCase
     end
 
     # With options
-    mock_polymorphic(controller, "house_bed_url").with(house, bed, page: 1).once
+    mock_polymorphic(controller, "house_bed_url").with(house, bed, { page: 1 }).once
     controller.send(:resource_url, page: 1)
 
-    mock_polymorphic(controller, "house_url").with(house, page: 1).once
+    mock_polymorphic(controller, "house_url").with(house, { page: 1 }).once
     controller.send(:parent_url, page: 1)
 
     # With args
@@ -592,10 +592,10 @@ class UrlHelpersTest < ActiveSupport::TestCase
     end
 
     # With options
-    mock_polymorphic(controller, "news_sheep_url").with(news, sheep, page: 1).once
+    mock_polymorphic(controller, "news_sheep_url").with(news, sheep, { page: 1 }).once
     controller.send(:resource_url, page: 1)
 
-    mock_polymorphic(controller, "news_url").with(news, page: 1).once
+    mock_polymorphic(controller, "news_url").with(news, { page: 1 }).once
     controller.send(:parent_url, page: 1)
 
     # With args
@@ -681,10 +681,10 @@ class UrlHelpersTest < ActiveSupport::TestCase
     end
 
     # With options
-    mock_polymorphic(controller, "admin_house_desk_url").with(house, desk, page: 1).once
+    mock_polymorphic(controller, "admin_house_desk_url").with(house, desk, { page: 1 }).once
     controller.send(:resource_url, page: 1)
 
-    mock_polymorphic(controller, "admin_house_url").with(house, page: 1).once
+    mock_polymorphic(controller, "admin_house_url").with(house, { page: 1 }).once
     controller.send(:parent_url, page: 1)
 
     # With args
@@ -739,10 +739,10 @@ class UrlHelpersTest < ActiveSupport::TestCase
     end
 
     # With options
-    mock_polymorphic(controller, "house_table_dish_url").with(house, table, dish, page: 1).once
+    mock_polymorphic(controller, "house_table_dish_url").with(house, table, dish, { page: 1 }).once
     controller.send(:resource_url, page: 1)
 
-    mock_polymorphic(controller, "house_table_url").with(house, table, page: 1).once
+    mock_polymorphic(controller, "house_table_url").with(house, table, { page: 1 }).once
     controller.send(:parent_url, page: 1)
 
     # With args
@@ -793,10 +793,10 @@ class UrlHelpersTest < ActiveSupport::TestCase
     end
 
     # With options
-    mock_polymorphic(controller, "house_table_center_url").with(house, table, page: 1)
+    mock_polymorphic(controller, "house_table_center_url").with(house, table, { page: 1 }).once
     controller.send(:resource_url, page: 1)
 
-    mock_polymorphic(controller, "house_table_url").with(house, table, page: 1)
+    mock_polymorphic(controller, "house_table_url").with(house, table, { page: 1 }).once
     controller.send(:parent_url, page: 1)
 
     # With args
@@ -833,7 +833,7 @@ class UrlHelpersTest < ActiveSupport::TestCase
     end
 
     # With options
-    mock_polymorphic(controller, "bed_url").with(bed, page: 1).once
+    mock_polymorphic(controller, "bed_url").with(bed, { page: 1 }).once
     controller.send(:resource_url, page: 1)
 
     # With args
