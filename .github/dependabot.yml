@@ -2,7 +2,7 @@ version: 2
 multi-ecosystem-groups:
   bundler:
     schedule:
-      interval: weekly
+      interval: monthly
 updates:
   - package-ecosystem: github-actions
     directory: /
