@@ -22,7 +22,7 @@ Gem::Specification.new do |s|
 
   s.metadata = { "rubygems_mfa_required" => "true" }
 
-  s.required_ruby_version = '>= 3.1'
+  s.required_ruby_version = '>= 3.2'
 
   s.add_dependency("actionpack", ">= 7.0")
   s.add_dependency("has_scope", ">= 0.6")

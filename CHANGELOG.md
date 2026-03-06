@@ -1,5 +1,9 @@
 # Changelog
 
+## Unreleased
+
+* Drop Ruby 3.1 support
+
 ## Version 2.1.0
 
 * Support for setting the parent controller class [#903][]
