@@ -15,10 +15,14 @@ updates:
   - package-ecosystem: bundler
     directory: /
     versioning-strategy: lockfile-only
+    patterns:
+      - "*"
     multi-ecosystem-group: bundler
   - package-ecosystem: bundler
     directory: /gemfiles/rails_70
     versioning-strategy: lockfile-only
+    patterns:
+      - "*"
     multi-ecosystem-group: bundler
     ignore:
       - dependency-name: minitest
@@ -30,6 +34,8 @@ updates:
   - package-ecosystem: bundler
     directory: /gemfiles/rails_71
     versioning-strategy: lockfile-only
+    patterns:
+      - "*"
     multi-ecosystem-group: bundler
     ignore:
       - dependency-name: erb
@@ -43,6 +49,8 @@ updates:
   - package-ecosystem: bundler
     directory: /gemfiles/rails_72
     versioning-strategy: lockfile-only
+    patterns:
+      - "*"
     multi-ecosystem-group: bundler
     ignore:
       - dependency-name: erb
@@ -56,6 +64,8 @@ updates:
   - package-ecosystem: bundler
     directory: /gemfiles/rails_80
     versioning-strategy: lockfile-only
+    patterns:
+      - "*"
     multi-ecosystem-group: bundler
     ignore:
       - dependency-name: rails
