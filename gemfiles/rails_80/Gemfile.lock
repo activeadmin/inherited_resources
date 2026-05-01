@@ -81,7 +81,7 @@ GEM
       securerandom (>= 0.3)
       tzinfo (~> 2.0, >= 2.0.5)
       uri (>= 0.13.1)
-    ansi (1.5.0)
+    ansi (1.6.0)
     base64 (0.3.0)
     benchmark (0.5.0)
     bigdecimal (4.1.0)
@@ -120,13 +120,13 @@ GEM
     marcel (1.1.0)
     mini_mime (1.1.5)
     mini_portile2 (2.8.9)
-    minitest (6.0.3)
+    minitest (6.0.6)
       drb (~> 2.0)
       prism (~> 1.5)
-    minitest-reporters (1.7.1)
+    minitest-reporters (1.8.0)
       ansi
       builder
-      minitest (>= 5.0)
+      minitest (>= 5.0, < 7)
       ruby-progressbar
     mocha (3.1.0)
       ruby2_keywords (>= 0.0.5)
