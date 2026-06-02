@@ -205,7 +205,7 @@ GEM
     timeout (0.6.0)
     tzinfo (2.0.6)
       concurrent-ruby (~> 1.0)
-    warning (1.5.0)
+    warning (1.6.0)
     websocket-driver (0.8.0)
       base64
       websocket-extensions (>= 0.1.0)
