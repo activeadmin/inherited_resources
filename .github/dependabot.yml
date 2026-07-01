@@ -30,6 +30,8 @@ updates:
     ignore:
       - dependency-name: minitest
         versions: ">= 6.0.0"
+      - dependency-name: parallel
+        versions: ">= 2.0" # TODO: remove when dropping Ruby < 3.3 compatibility
       - dependency-name: rails
         versions: ">= 7.1.0"
       - dependency-name: railties
@@ -45,6 +47,8 @@ updates:
         versions: ">= 5"
       - dependency-name: minitest
         versions: ">= 6.0.0"
+      - dependency-name: parallel
+        versions: ">= 2.0" # TODO: remove when dropping Ruby < 3.3 compatibility
       - dependency-name: rails
         versions: ">= 7.2.0"
       - dependency-name: railties
@@ -60,6 +64,8 @@ updates:
         versions: ">= 5"
       - dependency-name: minitest
         versions: ">= 6.0.0"
+      - dependency-name: parallel
+        versions: ">= 2.0" # TODO: remove when dropping Ruby < 3.3 compatibility
       - dependency-name: rails
         versions: ">= 8.0.0"
       - dependency-name: railties
@@ -71,6 +77,8 @@ updates:
       - "*"
     multi-ecosystem-group: bundler
     ignore:
+      - dependency-name: parallel
+        versions: ">= 2.0" # TODO: remove when dropping Ruby < 3.3 compatibility
       - dependency-name: rails
         versions: ">= 8.1.0"
       - dependency-name: railties
