@@ -3,7 +3,6 @@ if ENV.fetch('COVERAGE', false)
   require 'simplecov'
   require 'simplecov-cobertura'
   SimpleCov.start do
-    add_filter %r{^/test/}
     minimum_coverage 98
     maximum_coverage_drop 0.2
     formatter SimpleCov::Formatter::CoberturaFormatter
