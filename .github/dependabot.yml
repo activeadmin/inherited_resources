@@ -21,6 +21,8 @@ updates:
     ignore:
       - dependency-name: parallel
         versions: ">= 2.0" # TODO: remove when dropping Ruby < 3.3 compatibility
+      - dependency-name: rbs
+        versions: ">= 4.2.0" # TODO: remove when dropping Ruby < 3.3 compatibility
   - package-ecosystem: bundler
     directory: /gemfiles/rails_70
     versioning-strategy: lockfile-only
@@ -36,6 +38,8 @@ updates:
         versions: ">= 7.1.0"
       - dependency-name: railties
         versions: ">= 7.1.0"
+      - dependency-name: rbs
+        versions: ">= 4.2.0" # TODO: remove when dropping Ruby < 3.3 compatibility
   - package-ecosystem: bundler
     directory: /gemfiles/rails_71
     versioning-strategy: lockfile-only
@@ -53,6 +57,8 @@ updates:
         versions: ">= 7.2.0"
       - dependency-name: railties
         versions: ">= 7.2.0"
+      - dependency-name: rbs
+        versions: ">= 4.2.0" # TODO: remove when dropping Ruby < 3.3 compatibility
   - package-ecosystem: bundler
     directory: /gemfiles/rails_72
     versioning-strategy: lockfile-only
@@ -70,6 +76,8 @@ updates:
         versions: ">= 8.0.0"
       - dependency-name: railties
         versions: ">= 8.0.0"
+      - dependency-name: rbs
+        versions: ">= 4.2.0" # TODO: remove when dropping Ruby < 3.3 compatibility
   - package-ecosystem: bundler
     directory: /gemfiles/rails_80
     versioning-strategy: lockfile-only
@@ -83,3 +91,5 @@ updates:
         versions: ">= 8.1.0"
       - dependency-name: railties
         versions: ">= 8.1.0"
+      - dependency-name: rbs
+        versions: ">= 4.2.0" # TODO: remove when dropping Ruby < 3.3 compatibility
