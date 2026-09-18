@@ -13,14 +13,7 @@ AllCops:
 
   TargetRubyVersion: 3.2
 
-Metrics:
-  Enabled: false
-
 Layout/CommentIndentation:
-  Enabled: true
-
-Layout/EndAlignment:
-  EnforcedStyleAlignWith: variable
   Enabled: true
 
 Layout/EmptyLines:
@@ -32,20 +25,24 @@ Layout/EmptyLinesAroundAccessModifier:
 Layout/EmptyLinesAroundClassBody:
   Enabled: true
 
+Layout/EndAlignment:
+  EnforcedStyleAlignWith: variable
+  Enabled: true
+
 Layout/IndentationConsistency:
   Enabled: true
   EnforcedStyle: indented_internal_methods
 
-Layout/IndentationWidth:
-  Enabled: true
-
 Layout/IndentationStyle:
   Enabled: true
 
-Layout/TrailingWhitespace:
+Layout/IndentationWidth:
   Enabled: true
 
 Layout/TrailingEmptyLines:
+  Enabled: true
+
+Layout/TrailingWhitespace:
   Enabled: true
 
 Lint/AmbiguousOperator:
@@ -57,8 +54,8 @@ Lint/AmbiguousRegexpLiteral:
 Lint/UselessAssignment:
   Enabled: true
 
-Minitest:
-  Enabled: true
+Metrics:
+  Enabled: false
 
 Minitest/AssertEmpty:
   Enabled: true
@@ -69,13 +66,16 @@ Minitest/AssertEmptyLiteral:
 Minitest/AssertEqual:
   Enabled: true
 
-Minitest/AssertInDelta:
-  Enabled: true
-
 Minitest/AssertIncludes:
   Enabled: true
 
+Minitest/AssertInDelta:
+  Enabled: true
+
 Minitest/AssertInstanceOf:
+  Enabled: true
+
+Minitest/AssertionInLifecycleHook:
   Enabled: true
 
 Minitest/AssertKindOf:
@@ -120,9 +120,6 @@ Minitest/AssertTruthy:
 Minitest/AssertWithExpectedArgument:
   Enabled: true
 
-Minitest/AssertionInLifecycleHook:
-  Enabled: true
-
 Minitest/DuplicateTestRun:
   Enabled: true
 
@@ -147,13 +144,13 @@ Minitest/MultipleAssertions:
 Minitest/NoAssertions:
   Enabled: true
 
-Minitest/NoTestCases:
-  Enabled: true
-
 Minitest/NonExecutableTestMethod:
   Enabled: true
 
 Minitest/NonPublicTestMethod:
+  Enabled: true
+
+Minitest/NoTestCases:
   Enabled: true
 
 Minitest/RedundantMessageArgument:
@@ -168,10 +165,10 @@ Minitest/RefuteEqual:
 Minitest/RefuteFalse:
   Enabled: true
 
-Minitest/RefuteInDelta:
+Minitest/RefuteIncludes:
   Enabled: true
 
-Minitest/RefuteIncludes:
+Minitest/RefuteInDelta:
   Enabled: true
 
 Minitest/RefuteInstanceOf:
@@ -237,9 +234,6 @@ Packaging/RequireHardcodingLib:
 Packaging/RequireRelativeHardcodingLib:
   Enabled: true
 
-Performance:
-  Enabled: true
-
 Performance/AncestorsInclude:
   Enabled: false
 
@@ -258,11 +252,11 @@ Performance/BlockGivenWithExplicitBlock:
 Performance/Caller:
   Enabled: true
 
-Performance/CaseWhenSplat:
-  Enabled: true
-
 Performance/Casecmp:
   Enabled: false
+
+Performance/CaseWhenSplat:
+  Enabled: true
 
 Performance/ChainArrayAllocation:
   Enabled: false
