@@ -19,6 +19,8 @@ updates:
       - "*"
     multi-ecosystem-group: bundler
     ignore:
+      - dependency-name: json
+        versions: ">= 3.0.0" # TODO: remove when a Rails release includes rails/rails#58601
       - dependency-name: parallel
         versions: ">= 2.0" # TODO: remove when dropping Ruby < 3.3 compatibility
       - dependency-name: rbs
