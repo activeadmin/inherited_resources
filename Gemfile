@@ -5,7 +5,6 @@ gemspec path: '.'
 
 group :development do
   gem 'rails', '~> 8.1.0'
-  gem 'json', '< 3.0' # TODO: relax this constraint when rails/rails#58601 will be released
 
   gem 'mocha'
   gem 'minitest'
