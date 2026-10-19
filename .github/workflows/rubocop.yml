@@ -3,6 +3,11 @@ name: Rubocop
 on:
   pull_request:
 
+permissions:
+  contents: read
+  checks: write
+  pull-requests: read
+
 env:
   RUBY_VERSION: ${{ vars.RUBOCOP_RUBY_VERSION || '3.4' }}
 
@@ -13,8 +18,10 @@ jobs:
     env:
       BUNDLE_ONLY: ${{ vars.RUBOCOP_BUNDLE_ONLY || 'rubocop' }}
     steps:
-      - uses: actions/checkout@v7
-      - uses: tj-actions/changed-files@v47
+      - uses: actions/checkout@v7.0.1
+        with:
+          persist-credentials: false
+      - uses: tj-actions/changed-files@v47.0.6
         id: changed-files
         with:
           files: |
@@ -26,12 +33,12 @@ jobs:
             Gemfile*
             Rakefile
             *.gemspec
-      - uses: ruby/setup-ruby@v1
+      - uses: ruby/setup-ruby@v1.329.0
         if: steps.changed-files.outputs.any_changed == 'true'
         with:
           ruby-version: ${{ env.RUBY_VERSION }}
           bundler-cache: true
-      - uses: reviewdog/action-rubocop@v2
+      - uses: reviewdog/action-rubocop@v2.22.0
         if: steps.changed-files.outputs.any_changed == 'true'
         with:
           fail_level: any
