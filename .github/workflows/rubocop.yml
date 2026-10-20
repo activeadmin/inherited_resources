@@ -6,6 +6,11 @@ on:
 env:
   RUBY_VERSION: ${{ vars.RUBOCOP_RUBY_VERSION || '3.4' }}
 
+permissions:
+  contents: read
+  checks: write
+  pull-requests: read
+
 jobs:
   rubocop:
     name: Run rubocop
@@ -14,6 +19,8 @@ jobs:
       BUNDLE_ONLY: ${{ vars.RUBOCOP_BUNDLE_ONLY || 'rubocop' }}
     steps:
       - uses: actions/checkout@v7
+        with:
+          persist-credentials: false
       - uses: tj-actions/changed-files@v47
         id: changed-files
         with:
