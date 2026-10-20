@@ -3,12 +3,19 @@ name: GitHub Actions Lint
 on:
   pull_request:
 
+permissions:
+  contents: read
+  checks: write
+  pull-requests: read
+
 jobs:
   github_actions_lint:
     name: Run actionlint
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v7
+        with:
+          persist-credentials: false
       - uses: tj-actions/changed-files@v47
         id: changed-files
         with:
