@@ -109,6 +109,12 @@ class ActionsClassMethodTest < ActionController::TestCase
       assert_includes action_methods, action
     end
   end
+
+  def test_actions_raises_when_no_actions_are_given
+    error = assert_raises(ArgumentError) { build_controller('BooksController').send(:actions) }
+
+    assert_match(/You have to provide which actions you want to keep/, error.message)
+  end
 end
 
 class DefaultsClassMethodTest < ActiveSupport::TestCase
@@ -155,13 +161,57 @@ class DefaultsClassMethodTest < ActiveSupport::TestCase
     end
   end
 
+  def test_defaults_raises_when_options_are_not_a_hash
+    error = assert_raises(ArgumentError) { @controller_class.send(:defaults, :magazine) }
+
+    assert_equal 'Class method :defaults expects a hash of options.', error.message
+  end
+
+  def test_defaults_singleton_option_can_be_given_more_than_once
+    @controller_class.send(:defaults, singleton: true)
+    @controller_class.send(:defaults, singleton: true)
+
+    assert @controller_class.send(:resources_configuration)[:self][:singleton]
+    refute_includes @controller_class.action_methods, 'index'
+  end
+
   def test_url_helpers_are_recreated_when_defaults_change # rubocop:disable Minitest/NoAssertions
     @controller_class.expects(:create_resources_url_helpers!).returns(true).once
     @controller_class.send(:defaults, instance_name: 'string', collection_name: 'strings')
   end
 end
 
+# A NameError raised while loading a model, about some other constant, has to
+# reach the developer. It must not be mistaken for the model not existing.
+module BrokenModelLoading
+  private
+
+    # Makes BrokenModel autoload from a file that raises a NameError.
+    # stub_const removes the constant, and so the autoload, afterwards.
+    def with_broken_model
+      stub_const(Object, :BrokenModel, nil, exists: false) do
+        Object.send(:remove_const, :BrokenModel)
+        Object.autoload(:BrokenModel, File.expand_path('fixtures/broken_model.rb', __dir__))
+        yield
+      end
+    end
+end
+
+class ResourceClassLookupErrorsTest < ActiveSupport::TestCase
+  include BrokenModelLoading
+
+  def test_name_errors_raised_while_loading_the_model_are_not_swallowed
+    error = assert_raises(NameError) do
+      with_broken_model { build_controller('BrokenModelsController') }
+    end
+
+    assert_match(/SomeDependency::Missing/, error.message)
+  end
+end
+
 class BelongsToErrorsTest < ActiveSupport::TestCase
+  include BrokenModelLoading
+
   def setup
     @controller_class = build_controller('DeansController') { belongs_to :school }
   end
@@ -182,6 +232,14 @@ class BelongsToErrorsTest < ActiveSupport::TestCase
     end
   end
 
+  def test_belongs_to_does_not_swallow_name_errors_raised_while_loading_the_parent
+    error = assert_raises(NameError) do
+      with_broken_model { @controller_class.send(:belongs_to, :broken_model) }
+    end
+
+    assert_match(/SomeDependency::Missing/, error.message)
+  end
+
   def test_url_helpers_are_recreated_just_once_when_belongs_to_is_called_with_block # rubocop:disable Minitest/NoAssertions
     @controller_class.expects(:create_resources_url_helpers!).returns(true).once
     @controller_class.send(:belongs_to, :school) do
@@ -196,6 +254,14 @@ class BelongsToErrorsTest < ActiveSupport::TestCase
         belongs_to :nested
       end
     end
+  end
+
+  def test_polymorphic_belongs_to_can_be_called_more_than_once
+    @controller_class.send(:polymorphic_belongs_to, :book)
+    @controller_class.send(:polymorphic_belongs_to, :folder)
+
+    assert_equal [:school, :polymorphic], @controller_class.send(:parents_symbols)
+    assert_equal [:book, :folder], @controller_class.send(:resources_configuration)[:polymorphic][:symbols]
   end
 
   def test_belongs_to_does_not_change_the_superclass

@@ -29,6 +29,14 @@ class BelongsToTest < ActionController::TestCase
     clear_routes
   end
 
+  def test_parent_type_is_the_parent_model_name
+    Comment.stubs(:scoped).returns([])
+    mock_article.stubs(:class).returns(Article)
+    get :index, params: { article_id: '37' }
+
+    assert_equal :article, @controller.send(:parent_type)
+  end
+
   def test_expose_all_comments_as_instance_variable_on_index
     Comment.expects(:scoped).returns([mock_comment])
     get :index, params: { article_id: '37' }
@@ -179,5 +187,36 @@ class BelongsToWithRedirectsTest < ActionController::TestCase
 
     def build_parameters(hash)
       ActionController::Parameters.new(hash)
+    end
+end
+
+class SingletonParentTest < ActiveSupport::TestCase
+  def test_singleton_parent_is_fetched_from_the_beginning_of_the_chain
+    user = mock
+    office = mock
+    user.expects(:office).returns(office)
+    controller = build_reports_controller { define_method(:begin_of_association_chain) { user } }.new
+
+    assert_equal [user, office], controller.send(:association_chain)
+    assert_same office, controller.send(:parent)
+  end
+
+  # Singleton parents are reached through the object before them; they're never
+  # looked up by id, so there's nothing to fetch without a chain.
+  def test_singleton_parent_is_nil_without_anything_before_it_in_the_chain
+    controller = build_reports_controller.new
+    controller.params = ActionController::Parameters.new(office_id: '1')
+
+    assert_empty controller.send(:association_chain)
+    assert_nil controller.send(:parent)
+  end
+
+  private
+
+    def build_reports_controller(&body)
+      build_controller('ReportsController') do
+        belongs_to :office, singleton: true, parent_class: Class.new
+        class_eval(&body) if body
+      end
     end
 end

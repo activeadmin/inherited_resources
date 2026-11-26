@@ -128,6 +128,15 @@ class StrongParametersIntegrationTest < ActionController::TestCase
     get :new, params: {}
   end
 
+  # Only :new falls back to empty params; other actions need the resource.
+  def test_missing_resource_params_raise_outside_of_new
+    Widget.expects(:new).never
+
+    assert_raises(ActionController::ParameterMissing) do
+      post :create, params: {}
+    end
+  end
+
   def test_permitted_params_from_new # rubocop:disable Minitest/NoAssertions
     Widget.expects(:new).with(build_parameters({'permitted' => 'param'}).permit!)
     get :new, params: { widget: { permitted: 'param', prohibited: 'param' } }

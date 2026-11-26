@@ -294,3 +294,23 @@ class PolymorphicPhotosTest < ActionController::TestCase
       @mock_photographer ||= mock(stubs)
     end
 end
+
+class PolymorphicParentAfterRegularParentTest < ActiveSupport::TestCase
+  def test_association_chain_includes_both_parents
+    factory_class = Class.new
+    controller = build_controller('MachinesController') do
+      belongs_to :factory, parent_class: factory_class
+      polymorphic_belongs_to :line, :cell
+    end.new
+    controller.params = ActionController::Parameters.new(factory_id: '1', cell_id: '2')
+
+    factory = mock
+    cell = mock
+    factory_class.expects(:find).with('1').returns(factory)
+    factory.expects(:cells).returns(cells = mock)
+    cells.expects(:find).with('2').returns(cell)
+
+    assert_equal [factory, cell], controller.send(:association_chain)
+    assert_equal :cell, controller.send(:parent_type)
+  end
+end
