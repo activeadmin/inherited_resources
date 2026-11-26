@@ -246,6 +246,27 @@ class PolymorphicCompanyTest < ActionController::TestCase
     end
 end
 
+class PolymorphicMissingParentTest < ActionController::TestCase
+  tests PhotosController
+
+  def setup
+    draw_routes do
+      resources :photos
+    end
+  end
+
+  def teardown
+    clear_routes
+  end
+
+  def test_raises_when_no_polymorphic_parent_param_is_given
+    error = assert_raises(ScriptError) { get :index, params: { album_id: '37' } }
+
+    assert_match(/Could not find param for polymorphic association/, error.message)
+    assert_match(/\[:photographer, :task\]/, error.message)
+  end
+end
+
 class PolymorphicPhotosTest < ActionController::TestCase
   tests PhotosController
 
