@@ -1,5 +1,5 @@
 # frozen_string_literal: true
-require "minitest"
+require "minitest/autorun"
 
 class GemfilesTest < Minitest::Test
   def test_gemfile_is_up_to_date
