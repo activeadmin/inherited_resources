@@ -7,7 +7,7 @@ end
 class Company
 end
 
-class User
+class Photographer
 end
 
 class Photo
@@ -24,7 +24,7 @@ class EmployeesController < InheritedResources::Base
 end
 
 class PhotosController < InheritedResources::Base
-  belongs_to :user, :task, polymorphic: true
+  belongs_to :photographer, :task, polymorphic: true
 
   def index
     parent
@@ -254,7 +254,7 @@ class PolymorphicPhotosTest < ActionController::TestCase
       resources :photos
     end
 
-    User.expects(:find).with('37').returns(mock_user)
+    Photographer.expects(:find).with('37').returns(mock_photographer)
   end
 
   def teardown
@@ -262,14 +262,14 @@ class PolymorphicPhotosTest < ActionController::TestCase
   end
 
   def test_parent_as_instance_variable_on_index_when_method_overwritten
-    get :index, params: { user_id: '37' }
+    get :index, params: { photographer_id: '37' }
 
-    assert_equal mock_user, assigns(:user)
+    assert_equal mock_photographer, assigns(:photographer)
   end
 
   protected
 
-    def mock_user(stubs={})
-      @mock_user ||= mock(stubs)
+    def mock_photographer(stubs={})
+      @mock_photographer ||= mock(stubs)
     end
 end

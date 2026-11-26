@@ -1,13 +1,13 @@
 # frozen_string_literal: true
 require 'test_helper'
 
-class Student
+class Mentor
 end
 
-class Manager
+class Supervisor
 end
 
-class Employee
+class Contractor
 end
 
 class Project
@@ -17,7 +17,7 @@ class Project
 end
 
 class ProjectsController < InheritedResources::Base
-  belongs_to :student, :manager, :employee, optional: true
+  belongs_to :mentor, :supervisor, :contractor, optional: true
 end
 
 class MultipleNestedOptionalTest < ActionController::TestCase
@@ -37,46 +37,46 @@ class MultipleNestedOptionalTest < ActionController::TestCase
   end
 
   # INDEX
-  def test_expose_all_projects_as_instance_variable_with_student
-    Student.expects(:find).with('37').returns(mock_student)
-    mock_student.expects(:projects).returns(Project)
+  def test_expose_all_projects_as_instance_variable_with_mentor
+    Mentor.expects(:find).with('37').returns(mock_mentor)
+    mock_mentor.expects(:projects).returns(Project)
     Project.expects(:scoped).returns([mock_project])
-    get :index, params: { student_id: '37' }
+    get :index, params: { mentor_id: '37' }
 
-    assert_equal mock_student, assigns(:student)
+    assert_equal mock_mentor, assigns(:mentor)
     assert_equal [mock_project], assigns(:projects)
   end
 
-  def test_expose_all_projects_as_instance_variable_with_manager
-    Manager.expects(:find).with('38').returns(mock_manager)
-    mock_manager.expects(:projects).returns(Project)
+  def test_expose_all_projects_as_instance_variable_with_supervisor
+    Supervisor.expects(:find).with('38').returns(mock_supervisor)
+    mock_supervisor.expects(:projects).returns(Project)
     Project.expects(:scoped).returns([mock_project])
-    get :index, params: { manager_id: '38' }
+    get :index, params: { supervisor_id: '38' }
 
-    assert_equal mock_manager, assigns(:manager)
+    assert_equal mock_supervisor, assigns(:supervisor)
     assert_equal [mock_project], assigns(:projects)
   end
 
-  def test_expose_all_projects_as_instance_variable_with_employee
-    Employee.expects(:find).with('666').returns(mock_employee)
-    mock_employee.expects(:projects).returns(Project)
+  def test_expose_all_projects_as_instance_variable_with_contractor
+    Contractor.expects(:find).with('666').returns(mock_contractor)
+    mock_contractor.expects(:projects).returns(Project)
     Project.expects(:scoped).returns([mock_project])
-    get :index, params: { employee_id: '666' }
+    get :index, params: { contractor_id: '666' }
 
-    assert_equal mock_employee, assigns(:employee)
+    assert_equal mock_contractor, assigns(:contractor)
     assert_equal [mock_project], assigns(:projects)
   end
 
-  def test_expose_all_projects_as_instance_variable_with_manager_and_employee
-    Manager.expects(:find).with('37').returns(mock_manager)
-    mock_manager.expects(:employees).returns(Employee)
-    Employee.expects(:find).with('42').returns(mock_employee)
-    mock_employee.expects(:projects).returns(Project)
+  def test_expose_all_projects_as_instance_variable_with_supervisor_and_contractor
+    Supervisor.expects(:find).with('37').returns(mock_supervisor)
+    mock_supervisor.expects(:contractors).returns(Contractor)
+    Contractor.expects(:find).with('42').returns(mock_contractor)
+    mock_contractor.expects(:projects).returns(Project)
     Project.expects(:scoped).returns([mock_project])
-    get :index, params: { manager_id: '37', employee_id: '42' }
+    get :index, params: { supervisor_id: '37', contractor_id: '42' }
 
-    assert_equal mock_manager, assigns(:manager)
-    assert_equal mock_employee, assigns(:employee)
+    assert_equal mock_supervisor, assigns(:supervisor)
+    assert_equal mock_contractor, assigns(:contractor)
     assert_equal [mock_project], assigns(:projects)
   end
 
@@ -88,46 +88,46 @@ class MultipleNestedOptionalTest < ActionController::TestCase
   end
 
   # SHOW
-  def test_expose_the_requested_project_with_student
-    Student.expects(:find).with('37').returns(mock_student)
-    mock_student.expects(:projects).returns(Project)
+  def test_expose_the_requested_project_with_mentor
+    Mentor.expects(:find).with('37').returns(mock_mentor)
+    mock_mentor.expects(:projects).returns(Project)
     Project.expects(:find).with('42').returns(mock_project)
-    get :show, params: { id: '42', student_id: '37' }
+    get :show, params: { id: '42', mentor_id: '37' }
 
-    assert_equal mock_student, assigns(:student)
+    assert_equal mock_mentor, assigns(:mentor)
     assert_equal mock_project, assigns(:project)
   end
 
-  def test_expose_the_requested_project_with_manager
-    Manager.expects(:find).with('37').returns(mock_manager)
-    mock_manager.expects(:projects).returns(Project)
+  def test_expose_the_requested_project_with_supervisor
+    Supervisor.expects(:find).with('37').returns(mock_supervisor)
+    mock_supervisor.expects(:projects).returns(Project)
     Project.expects(:find).with('42').returns(mock_project)
-    get :show, params: { id: '42', manager_id: '37' }
+    get :show, params: { id: '42', supervisor_id: '37' }
 
-    assert_equal mock_manager, assigns(:manager)
+    assert_equal mock_supervisor, assigns(:supervisor)
     assert_equal mock_project, assigns(:project)
   end
 
-  def test_expose_the_requested_project_with_employee
-    Employee.expects(:find).with('37').returns(mock_employee)
-    mock_employee.expects(:projects).returns(Project)
+  def test_expose_the_requested_project_with_contractor
+    Contractor.expects(:find).with('37').returns(mock_contractor)
+    mock_contractor.expects(:projects).returns(Project)
     Project.expects(:find).with('42').returns(mock_project)
-    get :show, params: { id: '42', employee_id: '37' }
+    get :show, params: { id: '42', contractor_id: '37' }
 
-    assert_equal mock_employee, assigns(:employee)
+    assert_equal mock_contractor, assigns(:contractor)
     assert_equal mock_project, assigns(:project)
   end
 
-  def test_expose_the_requested_project_with_manager_and_employee
-    Manager.expects(:find).with('37').returns(mock_manager)
-    mock_manager.expects(:employees).returns(Employee)
-    Employee.expects(:find).with('42').returns(mock_employee)
-    mock_employee.expects(:projects).returns(Project)
+  def test_expose_the_requested_project_with_supervisor_and_contractor
+    Supervisor.expects(:find).with('37').returns(mock_supervisor)
+    mock_supervisor.expects(:contractors).returns(Contractor)
+    Contractor.expects(:find).with('42').returns(mock_contractor)
+    mock_contractor.expects(:projects).returns(Project)
     Project.expects(:find).with('13').returns(mock_project)
-    get :show, params: { id: '13', manager_id: '37', employee_id: '42' }
+    get :show, params: { id: '13', supervisor_id: '37', contractor_id: '42' }
 
-    assert_equal mock_manager, assigns(:manager)
-    assert_equal mock_employee, assigns(:employee)
+    assert_equal mock_supervisor, assigns(:supervisor)
+    assert_equal mock_contractor, assigns(:contractor)
     assert_equal mock_project, assigns(:project)
   end
 
@@ -139,46 +139,46 @@ class MultipleNestedOptionalTest < ActionController::TestCase
   end
 
   # NEW
-  def test_expose_a_new_project_with_student
-    Student.expects(:find).with('37').returns(mock_student)
-    mock_student.expects(:projects).returns(Project)
+  def test_expose_a_new_project_with_mentor
+    Mentor.expects(:find).with('37').returns(mock_mentor)
+    mock_mentor.expects(:projects).returns(Project)
     Project.expects(:build).returns(mock_project)
-    get :new, params: { student_id: '37' }
+    get :new, params: { mentor_id: '37' }
 
-    assert_equal mock_student, assigns(:student)
+    assert_equal mock_mentor, assigns(:mentor)
     assert_equal mock_project, assigns(:project)
   end
 
-  def test_expose_a_new_project_with_manager
-    Manager.expects(:find).with('37').returns(mock_manager)
-    mock_manager.expects(:projects).returns(Project)
+  def test_expose_a_new_project_with_supervisor
+    Supervisor.expects(:find).with('37').returns(mock_supervisor)
+    mock_supervisor.expects(:projects).returns(Project)
     Project.expects(:build).returns(mock_project)
-    get :new, params: { manager_id: '37' }
+    get :new, params: { supervisor_id: '37' }
 
-    assert_equal mock_manager, assigns(:manager)
+    assert_equal mock_supervisor, assigns(:supervisor)
     assert_equal mock_project, assigns(:project)
   end
 
-  def test_expose_a_new_project_with_employee
-    Employee.expects(:find).with('37').returns(mock_employee)
-    mock_employee.expects(:projects).returns(Project)
+  def test_expose_a_new_project_with_contractor
+    Contractor.expects(:find).with('37').returns(mock_contractor)
+    mock_contractor.expects(:projects).returns(Project)
     Project.expects(:build).returns(mock_project)
-    get :new, params: { employee_id: '37' }
+    get :new, params: { contractor_id: '37' }
 
-    assert_equal mock_employee, assigns(:employee)
+    assert_equal mock_contractor, assigns(:contractor)
     assert_equal mock_project, assigns(:project)
   end
 
-  def test_expose_a_new_project_with_manager_and_employee
-    Manager.expects(:find).with('37').returns(mock_manager)
-    mock_manager.expects(:employees).returns(Employee)
-    Employee.expects(:find).with('42').returns(mock_employee)
-    mock_employee.expects(:projects).returns(Project)
+  def test_expose_a_new_project_with_supervisor_and_contractor
+    Supervisor.expects(:find).with('37').returns(mock_supervisor)
+    mock_supervisor.expects(:contractors).returns(Contractor)
+    Contractor.expects(:find).with('42').returns(mock_contractor)
+    mock_contractor.expects(:projects).returns(Project)
     Project.expects(:build).returns(mock_project)
-    get :new, params: { manager_id: '37', employee_id: '42' }
+    get :new, params: { supervisor_id: '37', contractor_id: '42' }
 
-    assert_equal mock_manager, assigns(:manager)
-    assert_equal mock_employee, assigns(:employee)
+    assert_equal mock_supervisor, assigns(:supervisor)
+    assert_equal mock_contractor, assigns(:contractor)
     assert_equal mock_project, assigns(:project)
   end
 
@@ -190,46 +190,46 @@ class MultipleNestedOptionalTest < ActionController::TestCase
   end
 
   # EDIT
-  def test_expose_the_requested_project_for_edition_with_student
-    Student.expects(:find).with('37').returns(mock_student)
-    mock_student.expects(:projects).returns(Project)
+  def test_expose_the_requested_project_for_edition_with_mentor
+    Mentor.expects(:find).with('37').returns(mock_mentor)
+    mock_mentor.expects(:projects).returns(Project)
     Project.expects(:find).with('42').returns(mock_project)
-    get :edit, params: { id: '42', student_id: '37' }
+    get :edit, params: { id: '42', mentor_id: '37' }
 
-    assert_equal mock_student, assigns(:student)
+    assert_equal mock_mentor, assigns(:mentor)
     assert_equal mock_project, assigns(:project)
   end
 
-  def test_expose_the_requested_project_for_edition_with_manager
-    Manager.expects(:find).with('37').returns(mock_manager)
-    mock_manager.expects(:projects).returns(Project)
+  def test_expose_the_requested_project_for_edition_with_supervisor
+    Supervisor.expects(:find).with('37').returns(mock_supervisor)
+    mock_supervisor.expects(:projects).returns(Project)
     Project.expects(:find).with('42').returns(mock_project)
-    get :edit, params: { id: '42', manager_id: '37' }
+    get :edit, params: { id: '42', supervisor_id: '37' }
 
-    assert_equal mock_manager, assigns(:manager)
+    assert_equal mock_supervisor, assigns(:supervisor)
     assert_equal mock_project, assigns(:project)
   end
 
-  def test_expose_the_requested_project_for_edition_with_employee
-    Employee.expects(:find).with('37').returns(mock_employee)
-    mock_employee.expects(:projects).returns(Project)
+  def test_expose_the_requested_project_for_edition_with_contractor
+    Contractor.expects(:find).with('37').returns(mock_contractor)
+    mock_contractor.expects(:projects).returns(Project)
     Project.expects(:find).with('42').returns(mock_project)
-    get :edit, params: { id: '42', employee_id: '37' }
+    get :edit, params: { id: '42', contractor_id: '37' }
 
-    assert_equal mock_employee, assigns(:employee)
+    assert_equal mock_contractor, assigns(:contractor)
     assert_equal mock_project, assigns(:project)
   end
 
-  def test_expose_the_requested_project_for_edition_with_manager_and_employee
-    Manager.expects(:find).with('37').returns(mock_manager)
-    mock_manager.expects(:employees).returns(Employee)
-    Employee.expects(:find).with('42').returns(mock_employee)
-    mock_employee.expects(:projects).returns(Project)
+  def test_expose_the_requested_project_for_edition_with_supervisor_and_contractor
+    Supervisor.expects(:find).with('37').returns(mock_supervisor)
+    mock_supervisor.expects(:contractors).returns(Contractor)
+    Contractor.expects(:find).with('42').returns(mock_contractor)
+    mock_contractor.expects(:projects).returns(Project)
     Project.expects(:find).with('13').returns(mock_project)
-    get :edit, params: { id: '13', manager_id: '37', employee_id: '42' }
+    get :edit, params: { id: '13', supervisor_id: '37', contractor_id: '42' }
 
-    assert_equal mock_manager, assigns(:manager)
-    assert_equal mock_employee, assigns(:employee)
+    assert_equal mock_supervisor, assigns(:supervisor)
+    assert_equal mock_contractor, assigns(:contractor)
     assert_equal mock_project, assigns(:project)
   end
 
@@ -241,46 +241,46 @@ class MultipleNestedOptionalTest < ActionController::TestCase
   end
 
   # CREATE
-  def test_expose_a_newly_created_project_with_student
-    Student.expects(:find).with('37').returns(mock_student)
-    mock_student.expects(:projects).returns(Project)
+  def test_expose_a_newly_created_project_with_mentor
+    Mentor.expects(:find).with('37').returns(mock_mentor)
+    mock_mentor.expects(:projects).returns(Project)
     Project.expects(:build).with(build_parameters({ 'these' => 'params' })).returns(mock_project(save: true))
-    post :create, params: { student_id: '37', project: { these: 'params' } }
+    post :create, params: { mentor_id: '37', project: { these: 'params' } }
 
-    assert_equal mock_student, assigns(:student)
+    assert_equal mock_mentor, assigns(:mentor)
     assert_equal mock_project, assigns(:project)
   end
 
-  def test_expose_a_newly_created_project_with_manager
-    Manager.expects(:find).with('37').returns(mock_manager)
-    mock_manager.expects(:projects).returns(Project)
+  def test_expose_a_newly_created_project_with_supervisor
+    Supervisor.expects(:find).with('37').returns(mock_supervisor)
+    mock_supervisor.expects(:projects).returns(Project)
     Project.expects(:build).with(build_parameters({ 'these' => 'params' })).returns(mock_project(save: true))
-    post :create, params: { manager_id: '37', project: { these: 'params' } }
+    post :create, params: { supervisor_id: '37', project: { these: 'params' } }
 
-    assert_equal mock_manager, assigns(:manager)
+    assert_equal mock_supervisor, assigns(:supervisor)
     assert_equal mock_project, assigns(:project)
   end
 
-  def test_expose_a_newly_created_project_with_employee
-    Employee.expects(:find).with('37').returns(mock_employee)
-    mock_employee.expects(:projects).returns(Project)
+  def test_expose_a_newly_created_project_with_contractor
+    Contractor.expects(:find).with('37').returns(mock_contractor)
+    mock_contractor.expects(:projects).returns(Project)
     Project.expects(:build).with(build_parameters({ 'these' => 'params' })).returns(mock_project(save: true))
-    post :create, params: { employee_id: '37', project: { these: 'params' } }
+    post :create, params: { contractor_id: '37', project: { these: 'params' } }
 
-    assert_equal mock_employee, assigns(:employee)
+    assert_equal mock_contractor, assigns(:contractor)
     assert_equal mock_project, assigns(:project)
   end
 
-  def test_expose_a_newly_created_project_with_manager_and_employee
-    Manager.expects(:find).with('37').returns(mock_manager)
-    mock_manager.expects(:employees).returns(Employee)
-    Employee.expects(:find).with('42').returns(mock_employee)
-    mock_employee.expects(:projects).returns(Project)
+  def test_expose_a_newly_created_project_with_supervisor_and_contractor
+    Supervisor.expects(:find).with('37').returns(mock_supervisor)
+    mock_supervisor.expects(:contractors).returns(Contractor)
+    Contractor.expects(:find).with('42').returns(mock_contractor)
+    mock_contractor.expects(:projects).returns(Project)
     Project.expects(:build).with(build_parameters({ 'these' => 'params' })).returns(mock_project(save: true))
-    post :create, params: { manager_id: '37', employee_id: '42', project: { these: 'params' } }
+    post :create, params: { supervisor_id: '37', contractor_id: '42', project: { these: 'params' } }
 
-    assert_equal mock_manager, assigns(:manager)
-    assert_equal mock_employee, assigns(:employee)
+    assert_equal mock_supervisor, assigns(:supervisor)
+    assert_equal mock_contractor, assigns(:contractor)
     assert_equal mock_project, assigns(:project)
   end
 
@@ -292,102 +292,102 @@ class MultipleNestedOptionalTest < ActionController::TestCase
   end
 
   # UPDATE
-  def test_update_the_requested_project_with_student
-    Student.expects(:find).with('37').returns(mock_student)
-    mock_student.expects(:projects).returns(Project)
+  def test_update_the_requested_project_with_mentor
+    Mentor.expects(:find).with('37').returns(mock_mentor)
+    mock_mentor.expects(:projects).returns(Project)
     Project.expects(:find).with('42').returns(mock_project)
     mock_project.expects(:update).with(build_parameters({ 'these' => 'params' })).returns(true)
-    put :update, params: { id: '42', student_id: '37', project: { these: 'params' } }
+    put :update, params: { id: '42', mentor_id: '37', project: { these: 'params' } }
 
-    assert_equal mock_student, assigns(:student)
+    assert_equal mock_mentor, assigns(:mentor)
     assert_equal mock_project, assigns(:project)
   end
 
-  def test_update_the_requested_project_with_manager
-    Manager.expects(:find).with('37').returns(mock_manager)
-    mock_manager.expects(:projects).returns(Project)
+  def test_update_the_requested_project_with_supervisor
+    Supervisor.expects(:find).with('37').returns(mock_supervisor)
+    mock_supervisor.expects(:projects).returns(Project)
     Project.expects(:find).with('42').returns(mock_project)
     mock_project.expects(:update).with(build_parameters({ 'these' => 'params' })).returns(true)
-    put :update, params: { id: '42', manager_id: '37', project: { these: 'params' } }
+    put :update, params: { id: '42', supervisor_id: '37', project: { these: 'params' } }
 
-    assert_equal mock_manager, assigns(:manager)
+    assert_equal mock_supervisor, assigns(:supervisor)
     assert_equal mock_project, assigns(:project)
   end
 
-  def test_update_the_requested_project_with_employee
-    Employee.expects(:find).with('37').returns(mock_employee)
-    mock_employee.expects(:projects).returns(Project)
+  def test_update_the_requested_project_with_contractor
+    Contractor.expects(:find).with('37').returns(mock_contractor)
+    mock_contractor.expects(:projects).returns(Project)
     Project.expects(:find).with('42').returns(mock_project)
     mock_project.expects(:update).with(build_parameters({ 'these' => 'params' })).returns(true)
-    put :update, params: { id: '42', employee_id: '37', project: { these: 'params' } }
+    put :update, params: { id: '42', contractor_id: '37', project: { these: 'params' } }
 
-    assert_equal mock_employee, assigns(:employee)
+    assert_equal mock_contractor, assigns(:contractor)
     assert_equal mock_project, assigns(:project)
   end
 
-  def test_update_the_requested_project_with_manager_and_employee
-    Manager.expects(:find).with('37').returns(mock_manager)
-    mock_manager.expects(:employees).returns(Employee)
-    Employee.expects(:find).with('13').returns(mock_employee)
-    mock_employee.expects(:projects).returns(Project)
+  def test_update_the_requested_project_with_supervisor_and_contractor
+    Supervisor.expects(:find).with('37').returns(mock_supervisor)
+    mock_supervisor.expects(:contractors).returns(Contractor)
+    Contractor.expects(:find).with('13').returns(mock_contractor)
+    mock_contractor.expects(:projects).returns(Project)
     Project.expects(:find).with('42').returns(mock_project)
     mock_project.expects(:update).with(build_parameters({ 'these' => 'params' })).returns(true)
-    put :update, params: { id: '42', manager_id: '37', employee_id: '13', project: { these: 'params' } }
+    put :update, params: { id: '42', supervisor_id: '37', contractor_id: '13', project: { these: 'params' } }
 
-    assert_equal mock_manager, assigns(:manager)
-    assert_equal mock_employee, assigns(:employee)
+    assert_equal mock_supervisor, assigns(:supervisor)
+    assert_equal mock_contractor, assigns(:contractor)
     assert_equal mock_project, assigns(:project)
   end
 
   # DESTROY
-  def test_the_requested_project_is_destroyed_with_student
-    Student.expects(:find).with('37').returns(mock_student)
-    mock_student.expects(:projects).returns(Project)
+  def test_the_requested_project_is_destroyed_with_mentor
+    Mentor.expects(:find).with('37').returns(mock_mentor)
+    mock_mentor.expects(:projects).returns(Project)
     Project.expects(:find).with('42').returns(mock_project)
     mock_project.expects(:destroy).returns(true)
 
-    delete :destroy, params: { id: '42', student_id: '37' }
+    delete :destroy, params: { id: '42', mentor_id: '37' }
 
-    assert_equal mock_student, assigns(:student)
+    assert_equal mock_mentor, assigns(:mentor)
     assert_equal mock_project, assigns(:project)
   end
 
-  def test_the_requested_project_is_destroyed_with_manager
-    Manager.expects(:find).with('37').returns(mock_manager)
-    mock_manager.expects(:projects).returns(Project)
+  def test_the_requested_project_is_destroyed_with_supervisor
+    Supervisor.expects(:find).with('37').returns(mock_supervisor)
+    mock_supervisor.expects(:projects).returns(Project)
     Project.expects(:find).with('42').returns(mock_project)
     mock_project.expects(:destroy).returns(true)
 
-    delete :destroy, params: { id: '42', manager_id: '37' }
+    delete :destroy, params: { id: '42', supervisor_id: '37' }
 
-    assert_equal mock_manager, assigns(:manager)
+    assert_equal mock_supervisor, assigns(:supervisor)
     assert_equal mock_project, assigns(:project)
   end
 
-  def test_the_requested_project_is_destroyed_with_employee
-    Employee.expects(:find).with('37').returns(mock_employee)
-    mock_employee.expects(:projects).returns(Project)
+  def test_the_requested_project_is_destroyed_with_contractor
+    Contractor.expects(:find).with('37').returns(mock_contractor)
+    mock_contractor.expects(:projects).returns(Project)
     Project.expects(:find).with('42').returns(mock_project)
     mock_project.expects(:destroy).returns(true)
 
-    delete :destroy, params: { id: '42', employee_id: '37' }
+    delete :destroy, params: { id: '42', contractor_id: '37' }
 
-    assert_equal mock_employee, assigns(:employee)
+    assert_equal mock_contractor, assigns(:contractor)
     assert_equal mock_project, assigns(:project)
   end
 
-  def test_the_requested_project_is_destroyed_with_manager_and_employee
-    Manager.expects(:find).with('37').returns(mock_manager)
-    mock_manager.expects(:employees).returns(Employee)
-    Employee.expects(:find).with('13').returns(mock_employee)
-    mock_employee.expects(:projects).returns(Project)
+  def test_the_requested_project_is_destroyed_with_supervisor_and_contractor
+    Supervisor.expects(:find).with('37').returns(mock_supervisor)
+    mock_supervisor.expects(:contractors).returns(Contractor)
+    Contractor.expects(:find).with('13').returns(mock_contractor)
+    mock_contractor.expects(:projects).returns(Project)
     Project.expects(:find).with('42').returns(mock_project)
     mock_project.expects(:destroy).returns(true)
 
-    delete :destroy, params: { id: '42', manager_id: '37', employee_id: '13' }
+    delete :destroy, params: { id: '42', supervisor_id: '37', contractor_id: '13' }
 
-    assert_equal mock_manager, assigns(:manager)
-    assert_equal mock_employee, assigns(:employee)
+    assert_equal mock_supervisor, assigns(:supervisor)
+    assert_equal mock_contractor, assigns(:contractor)
     assert_equal mock_project, assigns(:project)
   end
 
@@ -402,16 +402,16 @@ class MultipleNestedOptionalTest < ActionController::TestCase
 
   protected
 
-    def mock_manager(stubs={})
-      @mock_manager ||= mock(stubs)
+    def mock_supervisor(stubs={})
+      @mock_supervisor ||= mock(stubs)
     end
 
-    def mock_employee(stubs={})
-      @mock_employee ||= mock(stubs)
+    def mock_contractor(stubs={})
+      @mock_contractor ||= mock(stubs)
     end
 
-    def mock_student(stubs={})
-      @mock_student ||= mock(stubs)
+    def mock_mentor(stubs={})
+      @mock_mentor ||= mock(stubs)
     end
 
     def mock_project(stubs={})

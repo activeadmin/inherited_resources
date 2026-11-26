@@ -195,64 +195,64 @@ end
 class Group
 end
 
-class AdminGroup
+class StaffGroup
 end
 
-module Admin
+module Staff
 end
 
-class Admin::Group
+class Staff::Group
 end
 
-class Admin::GroupsController < InheritedResources::Base
+class Staff::GroupsController < InheritedResources::Base
 end
 
 class NamespacedModelForNamespacedController < ActionController::TestCase
-  tests Admin::GroupsController
+  tests Staff::GroupsController
 
   def test_that_it_picked_the_namespaced_model
-    assert_equal Admin::Group, @controller.send(:resource_class)
+    assert_equal Staff::Group, @controller.send(:resource_class)
   end
 end
 
 class Role
 end
 
-class AdminRole
+class StaffRole
 end
 
-class Admin::RolesController < InheritedResources::Base
+class Staff::RolesController < InheritedResources::Base
 end
 
 class TwoPartNameModelForNamespacedController < ActionController::TestCase
-  tests Admin::RolesController
+  tests Staff::RolesController
 
   def test_that_it_picked_the_camelcased_model
-    assert_equal AdminRole, @controller.send(:resource_class)
+    assert_equal StaffRole, @controller.send(:resource_class)
   end
 end
 
-class User
+class Member
 end
 
-class Admin::UsersController < InheritedResources::Base
+class Staff::MembersController < InheritedResources::Base
 end
 
 class AnotherTwoPartNameModelForNamespacedController < ActionController::TestCase
-  tests Admin::UsersController
+  tests Staff::MembersController
 
   def test_that_it_picked_the_camelcased_model
-    assert_equal User, @controller.send(:resource_class)
+    assert_equal Member, @controller.send(:resource_class)
   end
 
   def test_that_it_got_the_request_params_right
-    assert_equal 'user', @controller.send(:resources_configuration)[:self][:request_name]
+    assert_equal 'member', @controller.send(:resources_configuration)[:self][:request_name]
   end
 end
 
-module MyEngine
+module IsolatedEngine
   class Engine < Rails::Engine
-    isolate_namespace MyEngine
+    isolate_namespace IsolatedEngine
   end
 
   class Person
@@ -265,7 +265,7 @@ module MyEngine
 end
 
 class IsolatedEngineModelController < ActionController::TestCase
-  tests MyEngine::PeopleController
+  tests IsolatedEngine::PeopleController
 
   def test_isolated_model_name
     assert_equal 'person', @controller.send(:resources_configuration)[:self][:request_name]
