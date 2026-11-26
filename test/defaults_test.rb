@@ -211,10 +211,7 @@ class NamespacedModelForNamespacedController < ActionController::TestCase
   tests Admin::GroupsController
 
   def test_that_it_picked_the_namespaced_model
-    # make public so we can test it
-    Admin::GroupsController.send(:public, :resource_class)
-
-    assert_equal Admin::Group, @controller.resource_class
+    assert_equal Admin::Group, @controller.send(:resource_class)
   end
 end
 
@@ -231,10 +228,7 @@ class TwoPartNameModelForNamespacedController < ActionController::TestCase
   tests Admin::RolesController
 
   def test_that_it_picked_the_camelcased_model
-    # make public so we can test it
-    Admin::RolesController.send(:public, :resource_class)
-
-    assert_equal AdminRole, @controller.resource_class
+    assert_equal AdminRole, @controller.send(:resource_class)
   end
 end
 
@@ -248,17 +242,11 @@ class AnotherTwoPartNameModelForNamespacedController < ActionController::TestCas
   tests Admin::UsersController
 
   def test_that_it_picked_the_camelcased_model
-    # make public so we can test it
-    Admin::UsersController.send(:public, :resource_class)
-
-    assert_equal User, @controller.resource_class
+    assert_equal User, @controller.send(:resource_class)
   end
 
   def test_that_it_got_the_request_params_right
-    # make public so we can test it
-    Admin::UsersController.send(:public, :resources_configuration)
-
-    assert_equal 'user', @controller.resources_configuration[:self][:request_name]
+    assert_equal 'user', @controller.send(:resources_configuration)[:self][:request_name]
   end
 end
 
@@ -279,12 +267,7 @@ end
 class IsolatedEngineModelController < ActionController::TestCase
   tests MyEngine::PeopleController
 
-  def setup
-    # make public so we can test it
-    MyEngine::PeopleController.send(:public, *MyEngine::PeopleController.protected_instance_methods)
-  end
-
   def test_isolated_model_name
-    assert_equal 'person', @controller.resources_configuration[:self][:request_name]
+    assert_equal 'person', @controller.send(:resources_configuration)[:self][:request_name]
   end
 end

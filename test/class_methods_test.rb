@@ -19,16 +19,6 @@ end
 class FoldersController < InheritedResources::Base
 end
 
-class Dean
-  def self.human_name
-    'Dean'
-  end
-end
-
-class DeansController < InheritedResources::Base
-  belongs_to :school
-end
-
 module Controller
   class User
   end
@@ -59,9 +49,6 @@ module Library
 
   class Subcategory
   end
-
-  class SubcategoriesController < InheritedResources::Base
-  end
 end
 
 module MyEngine
@@ -76,9 +63,6 @@ end
 module MyNamespace
   class PeopleController < InheritedResources::Base
   end
-end
-
-module EmptyNamespace
 end
 
 class ActionsClassMethodTest < ActionController::TestCase
@@ -128,6 +112,10 @@ class ActionsClassMethodTest < ActionController::TestCase
 end
 
 class DefaultsClassMethodTest < ActiveSupport::TestCase
+  def setup
+    @controller_class = build_controller('BooksController')
+  end
+
   def test_resource_class_is_set_to_nil_when_resource_model_cannot_be_found
     assert_nil ReadersController.send(:resource_class)
   end
@@ -139,90 +127,111 @@ class DefaultsClassMethodTest < ActiveSupport::TestCase
   end
 
   def test_defaults_can_be_overwriten
-    BooksController.send(:defaults, resource_class: String, instance_name: 'string', collection_name: 'strings')
+    @controller_class.send(:defaults, resource_class: String, instance_name: 'string', collection_name: 'strings')
 
-    assert_equal String, BooksController.send(:resource_class)
-    assert_equal :string, BooksController.send(:resources_configuration)[:self][:instance_name]
-    assert_equal :strings, BooksController.send(:resources_configuration)[:self][:collection_name]
+    assert_equal String, @controller_class.send(:resource_class)
+    assert_equal :string, @controller_class.send(:resources_configuration)[:self][:instance_name]
+    assert_equal :strings, @controller_class.send(:resources_configuration)[:self][:collection_name]
 
-    BooksController.send(:defaults, class_name: 'Integer', instance_name: :integer, collection_name: :integers)
+    @controller_class.send(:defaults, class_name: 'Integer', instance_name: :integer, collection_name: :integers)
 
-    assert_equal Integer, BooksController.send(:resource_class)
-    assert_equal :integer, BooksController.send(:resources_configuration)[:self][:instance_name]
-    assert_equal :integers, BooksController.send(:resources_configuration)[:self][:collection_name]
+    assert_equal Integer, @controller_class.send(:resource_class)
+    assert_equal :integer, @controller_class.send(:resources_configuration)[:self][:instance_name]
+    assert_equal :integers, @controller_class.send(:resources_configuration)[:self][:collection_name]
+  end
+
+  def test_defaults_do_not_change_the_superclass
+    subclass = Class.new(@controller_class)
+    subclass.send(:defaults, resource_class: String, instance_name: 'string', collection_name: 'strings')
+
+    assert_equal Book, @controller_class.send(:resource_class)
+    assert_equal :book, @controller_class.send(:resources_configuration)[:self][:instance_name]
+    assert_equal :books, @controller_class.send(:resources_configuration)[:self][:collection_name]
   end
 
   def test_defaults_raises_invalid_key
     assert_raise ArgumentError do
-      BooksController.send(:defaults, boom: String)
+      @controller_class.send(:defaults, boom: String)
     end
   end
 
   def test_url_helpers_are_recreated_when_defaults_change # rubocop:disable Minitest/NoAssertions
-    BooksController.expects(:create_resources_url_helpers!).returns(true).once
-    BooksController.send(:defaults, instance_name: 'string', collection_name: 'strings')
+    @controller_class.expects(:create_resources_url_helpers!).returns(true).once
+    @controller_class.send(:defaults, instance_name: 'string', collection_name: 'strings')
   end
 end
 
 class BelongsToErrorsTest < ActiveSupport::TestCase
+  def setup
+    @controller_class = build_controller('DeansController') { belongs_to :school }
+  end
+
   def test_belongs_to_raise_errors_with_invalid_arguments
     assert_raise ArgumentError do
-      DeansController.send(:belongs_to)
+      @controller_class.send(:belongs_to)
     end
 
     assert_raise ArgumentError do
-      DeansController.send(:belongs_to, :nice, invalid_key: '')
+      @controller_class.send(:belongs_to, :nice, invalid_key: '')
     end
   end
 
   def test_belongs_to_raises_an_error_when_multiple_associations_are_given_with_options
     assert_raise ArgumentError do
-      DeansController.send(:belongs_to, :arguments, :with_options, parent_class: Book)
+      @controller_class.send(:belongs_to, :arguments, :with_options, parent_class: Book)
     end
   end
 
   def test_url_helpers_are_recreated_just_once_when_belongs_to_is_called_with_block # rubocop:disable Minitest/NoAssertions
-    DeansController.expects(:create_resources_url_helpers!).returns(true).once
-    DeansController.send(:belongs_to, :school) do
+    @controller_class.expects(:create_resources_url_helpers!).returns(true).once
+    @controller_class.send(:belongs_to, :school) do
       belongs_to :association
     end
-  ensure
-    DeansController.send(:parents_symbols=, [:school])
   end
 
   def test_url_helpers_are_recreated_just_once_when_belongs_to_is_called_with_multiple_blocks # rubocop:disable Minitest/NoAssertions
-    DeansController.expects(:create_resources_url_helpers!).returns(true).once
-    DeansController.send(:belongs_to, :school) do
+    @controller_class.expects(:create_resources_url_helpers!).returns(true).once
+    @controller_class.send(:belongs_to, :school) do
       belongs_to :association do
         belongs_to :nested
       end
     end
-  ensure
-    DeansController.send(:parents_symbols=, [:school])
+  end
+
+  def test_belongs_to_does_not_change_the_superclass
+    subclass = Class.new(@controller_class)
+    subclass.send(:belongs_to, :book)
+
+    assert_equal [:school], @controller_class.send(:parents_symbols)
+    refute_includes @controller_class.send(:resources_configuration).keys, :book
   end
 
   def test_belongs_to_for_namespaced_controller_and_namespaced_model_fetches_model_in_the_namespace_firstly
-    Library::SubcategoriesController.send(:belongs_to, :category)
+    controller = build_controller('Library::SubcategoriesController')
+    controller.send(:belongs_to, :category)
 
-    assert_equal Library::Category, Library::SubcategoriesController.resources_configuration[:category][:parent_class]
+    assert_equal Library::Category, controller.resources_configuration[:category][:parent_class]
   end
 
   def test_belongs_to_for_namespaced_controller_and_non_namespaced_model_sets_parent_class_properly
-    Library::SubcategoriesController.send(:belongs_to, :book)
+    controller = build_controller('Library::SubcategoriesController')
+    controller.send(:belongs_to, :book)
 
-    assert_equal Book, Library::SubcategoriesController.resources_configuration[:book][:parent_class]
+    assert_equal Book, controller.resources_configuration[:book][:parent_class]
   end
 
   def test_belongs_to_for_namespaced_model_sets_parent_class_properly
-    Library::SubcategoriesController.send(:belongs_to, :library, class_name: 'Library::Base')
+    controller = build_controller('Library::SubcategoriesController')
+    controller.send(:belongs_to, :library, class_name: 'Library::Base')
 
-    assert_equal Library::Base, Library::SubcategoriesController.resources_configuration[:library][:parent_class]
+    assert_equal Library::Base, controller.resources_configuration[:library][:parent_class]
   end
 
   def test_belongs_to_without_namespace_sets_parent_class_properly
-    FoldersController.send(:belongs_to, :book)
+    controller = build_controller('ShelvesController')
+    controller.send(:belongs_to, :book)
 
-    assert_equal Book, FoldersController.resources_configuration[:book][:parent_class]
+    assert_equal Book, controller.resources_configuration[:book][:parent_class]
   end
 end
 
@@ -236,8 +245,6 @@ end
 
 class MountableEngineTest < ActiveSupport::TestCase
   def test_route_prefix_do_not_include_engine_name
-    puts MyEngine::PeopleController.send(:resources_configuration)[:self][:route_prefix]
-
     assert_nil MyEngine::PeopleController.send(:resources_configuration)[:self][:route_prefix]
   end
 
@@ -247,12 +254,18 @@ class MountableEngineTest < ActiveSupport::TestCase
 end
 
 class EngineLoadErrorTest < ActiveSupport::TestCase
-  def test_does_not_crash_on_engine_load_error # rubocop:disable Minitest/NoAssertions
-    ActiveSupport::Dependencies.autoload_paths << 'test/autoload'
+  # Looking up the namespace's engine must not blow up when loading it fails,
+  # e.g. when the file it's autoloaded from is missing.
+  def test_does_not_crash_on_engine_load_error
+    namespace = Module.new
+    namespace.autoload(:Engine, File.join(__dir__, 'missing_engine'))
 
-    assert_nil EmptyNamespace.class_eval <<~RUBY
-      class PeopleController < InheritedResources::Base
-      end
-    RUBY
+    stub_const(Object, :EmptyNamespace, namespace, exists: false) do
+      assert_raises(LoadError) { EmptyNamespace::Engine }
+
+      controller = build_controller('EmptyNamespace::PeopleController')
+
+      assert_equal :empty_namespace, controller.send(:resources_configuration)[:self][:route_prefix]
+    end
   end
 end

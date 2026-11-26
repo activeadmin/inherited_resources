@@ -5,33 +5,22 @@ class User
   extend ActiveModel::Naming
 end
 
-class AccountsController < InheritedResources::Base
-end
-
-class UsersController < AccountsController
-  respond_to :html, :xml
-  respond_to :js, only: [:create, :update, :destroy]
-  attr_reader :scopes_applied
-
-  def self.name
-    "UsersController"
-  end
-
-  protected
-
-    def apply_scopes(object)
-      @scopes_applied = true
-      object
-    end
-end
-
 module UserTestHelper
   def setup
     draw_routes do
       resources :users
     end
 
-    @controller_class    = Class.new(UsersController)
+    @controller_class = build_controller('UsersController') do
+      respond_to :html, :xml
+      respond_to :js, only: [:create, :update, :destroy]
+      attr_reader :scopes_applied
+
+      protected def apply_scopes(object)
+        @scopes_applied = true
+        object
+      end
+    end
     @controller          = @controller_class.new
     @controller.request  = @request = new_request
     @controller.response = @response = new_response
@@ -45,7 +34,7 @@ module UserTestHelper
   protected
 
     def new_request
-      ActionController::TestRequest.create(UsersController)
+      ActionController::TestRequest.create(@controller_class)
     end
 
     def new_response

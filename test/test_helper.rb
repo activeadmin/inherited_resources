@@ -61,4 +61,19 @@ class ActiveSupport::TestCase
   setup do
     @routes = InheritedResources::Routes
   end
+
+  # Builds an anonymous controller that uses Inherited Resources, so a test can
+  # configure a controller of its own instead of one shared with other tests.
+  #
+  # Inherited Resources derives the model, instance variable names, and routes
+  # from the controller's name. The name is defined before calling
+  # `inherit_resources`, which a class created with Class.new wouldn't have yet.
+  # Subclasses of the returned controller have the same name.
+  def build_controller(name, &body)
+    Class.new(ApplicationController) do
+      define_singleton_method(:name) { name }
+      inherit_resources
+      class_eval(&body) if body
+    end
+  end
 end
