@@ -1,13 +1,22 @@
 # frozen_string_literal: true
 require 'test_helper'
 
-class Factory; end
-class Company; end
-class User; end
-class Photo; end
+class Factory
+end
+
+class Company
+end
+
+class User
+end
+
+class Photo
+end
 
 class Employee
-  def self.human_name; 'Employee'; end
+  def self.human_name
+    'Employee'
+  end
 end
 
 class EmployeesController < InheritedResources::Base

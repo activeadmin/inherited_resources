@@ -8,29 +8,36 @@ end
 
 class Universe < ModelBase
 end
+
 class UniversesController < InheritedResources::Base
   defaults singleton: true, route_instance_name: 'universum'
 end
 
 class House < ModelBase
 end
+
 class HousesController < InheritedResources::Base
 end
 
 class News < ModelBase
 end
+
 class NewsController < InheritedResources::Base
 end
 
 class Backpack < ModelBase
 end
-module Admin; end
+
+module Admin
+end
+
 class Admin::BackpacksController < InheritedResources::Base
   defaults route_collection_name: 'tour_backpacks'
 end
 
 class Table < ModelBase
 end
+
 class TablesController < InheritedResources::Base
   belongs_to :house
 end
@@ -54,9 +61,11 @@ end
 class Fireplace
   extend ActiveModel::Naming
 end
+
 class Flame
   extend ActiveModel::Naming
 end
+
 class FlamesController < InheritedResources::Base
   belongs_to :house do
     belongs_to :fireplace, singleton: true
@@ -67,24 +76,28 @@ class Bed
   extend ActiveModel::Naming
   include ActiveModel::Conversion
 end
+
 class BedsController < InheritedResources::Base
   optional_belongs_to :house, :building
 end
 
 class Sheep < ModelBase
 end
+
 class SheepController < InheritedResources::Base
   belongs_to :news, :table, polymorphic: true
 end
 
 class Fish < ModelBase
 end
+
 class FishController < InheritedResources::Base
   belongs_to :bed, shallow: true
 end
 
 class Desk < ModelBase
 end
+
 module Admin
   class DesksController < InheritedResources::Base
     optional_belongs_to :house
@@ -93,6 +106,7 @@ end
 
 class Dish < ModelBase
 end
+
 class DishesController < InheritedResources::Base
   belongs_to :house do
     polymorphic_belongs_to :table, :kitchen
@@ -101,10 +115,13 @@ end
 
 class Dishwasher < ModelBase
 end
+
 class Fork < ModelBase
 end
+
 class Spot < ModelBase
 end
+
 class SpotsController < InheritedResources::Base
   belongs_to :house do
     singleton_belongs_to :dishwasher do
@@ -116,6 +133,7 @@ end
 class Center
   extend ActiveModel::Naming
 end
+
 class CentersController < InheritedResources::Base
   acts_as_singleton!
 
@@ -127,9 +145,11 @@ end
 class Mirror
   extend ActiveModel::Naming
 end
+
 class MirrorsController < InheritedResources::Base
   belongs_to :house, shallow: true
 end
+
 class Admin::MirrorsController < InheritedResources::Base
   belongs_to :house, shallow: true
 end

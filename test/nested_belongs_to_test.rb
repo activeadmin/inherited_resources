@@ -8,7 +8,9 @@ class State
 end
 
 class City
-  def self.human_name; 'City'; end
+  def self.human_name
+    'City'
+  end
 end
 
 class CitiesController < InheritedResources::Base

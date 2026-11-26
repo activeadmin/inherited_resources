@@ -1,11 +1,16 @@
 # frozen_string_literal: true
 require 'test_helper'
 
-class Brands; end
-class Category; end
+class Brands
+end
+
+class Category
+end
 
 class Product
-  def self.human_name; 'Product'; end
+  def self.human_name
+    'Product'
+  end
 end
 
 class ProductsController < InheritedResources::Base

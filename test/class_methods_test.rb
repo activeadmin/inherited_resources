@@ -1,8 +1,11 @@
 # frozen_string_literal: true
 require 'test_helper'
 
-class Book; end
-class Folder; end
+class Book
+end
+
+class Folder
+end
 
 class BooksController < InheritedResources::Base
   custom_actions collection: :search, resource: [:delete]
@@ -17,7 +20,9 @@ class FoldersController < InheritedResources::Base
 end
 
 class Dean
-  def self.human_name; 'Dean'; end
+  def self.human_name
+    'Dean'
+  end
 end
 
 class DeansController < InheritedResources::Base
@@ -25,19 +30,24 @@ class DeansController < InheritedResources::Base
 end
 
 module Controller
-  class User; end
+  class User
+  end
 
-  class UsersController < InheritedResources::Base; end
+  class UsersController < InheritedResources::Base
+  end
 
   module Admin
-    class UsersController < InheritedResources::Base; end
+    class UsersController < InheritedResources::Base
+    end
   end
 end
 
-class ControllerGroup; end
+class ControllerGroup
+end
 
 module Controller
-  class GroupsController < InheritedResources::Base; end
+  class GroupsController < InheritedResources::Base
+  end
 end
 
 module Library
@@ -59,14 +69,17 @@ module MyEngine
     isolate_namespace MyEngine
   end
 
-  class PeopleController < InheritedResources::Base; end
+  class PeopleController < InheritedResources::Base
+  end
 end
 
 module MyNamespace
-  class PeopleController < InheritedResources::Base; end
+  class PeopleController < InheritedResources::Base
+  end
 end
 
-module EmptyNamespace; end
+module EmptyNamespace
+end
 
 class ActionsClassMethodTest < ActionController::TestCase
   tests BooksController
@@ -238,7 +251,8 @@ class EngineLoadErrorTest < ActiveSupport::TestCase
     ActiveSupport::Dependencies.autoload_paths << 'test/autoload'
 
     assert_nil EmptyNamespace.class_eval <<~RUBY
-      class PeopleController < InheritedResources::Base; end
+      class PeopleController < InheritedResources::Base
+      end
     RUBY
   end
 end

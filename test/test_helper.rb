@@ -36,7 +36,8 @@ Rails::Controller::Testing.install
 I18n.load_path << File.join(File.dirname(__FILE__), 'locales', 'en.yml')
 I18n.reload!
 
-class ApplicationController < ActionController::Base; end
+class ApplicationController < ActionController::Base
+end
 
 # Add IR to load path and load the main file
 $:.unshift File.expand_path(File.dirname(__FILE__) + '/../lib')

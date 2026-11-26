@@ -1,8 +1,10 @@
 # frozen_string_literal: true
 require 'test_helper'
 
-class Machine;
-  def self.human_name; 'Machine'; end
+class Machine
+  def self.human_name
+    'Machine'
+  end
 end
 
 class MachinesController < InheritedResources::Base

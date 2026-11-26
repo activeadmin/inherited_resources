@@ -1,4 +1,5 @@
 # frozen_string_literal: true
 module MyTestNamespace
-  class Engine; end
+  class Engine
+  end
 end

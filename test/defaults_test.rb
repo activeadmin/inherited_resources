@@ -2,7 +2,9 @@
 require 'test_helper'
 
 class Malarz
-  def self.human_name; 'Painter'; end
+  def self.human_name
+    'Painter'
+  end
 
   def to_param
     self.slug
@@ -100,9 +102,14 @@ class DefaultsTest < ActionController::TestCase
 end
 
 class Lecturer
-  def self.human_name; 'Einstein'; end
+  def self.human_name
+    'Einstein'
+  end
 end
-module University; end
+
+module University
+end
+
 class University::LecturersController < InheritedResources::Base
   defaults finder: :find_by_slug
 end
@@ -187,13 +194,19 @@ end
 
 class Group
 end
+
 class AdminGroup
 end
-module Admin; end
+
+module Admin
+end
+
 class Admin::Group
 end
+
 class Admin::GroupsController < InheritedResources::Base
 end
+
 class NamespacedModelForNamespacedController < ActionController::TestCase
   tests Admin::GroupsController
 
@@ -207,10 +220,13 @@ end
 
 class Role
 end
+
 class AdminRole
 end
+
 class Admin::RolesController < InheritedResources::Base
 end
+
 class TwoPartNameModelForNamespacedController < ActionController::TestCase
   tests Admin::RolesController
 
@@ -224,8 +240,10 @@ end
 
 class User
 end
+
 class Admin::UsersController < InheritedResources::Base
 end
+
 class AnotherTwoPartNameModelForNamespacedController < ActionController::TestCase
   tests Admin::UsersController
 

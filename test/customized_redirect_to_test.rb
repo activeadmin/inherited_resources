@@ -1,8 +1,10 @@
 # frozen_string_literal: true
 require 'test_helper'
 
-class Post;
-  def self.human_name; 'Post'; end
+class Post
+  def self.human_name
+    'Post'
+  end
 end
 
 class PostsController < InheritedResources::Base

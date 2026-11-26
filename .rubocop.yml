@@ -16,6 +16,9 @@ AllCops:
 Layout/CommentIndentation:
   Enabled: true
 
+Layout/EmptyLineBetweenDefs:
+  Enabled: true
+
 Layout/EmptyLines:
   Enabled: true
 
@@ -398,6 +401,14 @@ Performance/ZipWithoutBlock:
 Style/Encoding:
   Enabled: true
 
+Style/EmptyMethod:
+  Enabled: true
+  EnforcedStyle: expanded
+
+Style/EndlessMethod:
+  Enabled: true
+  EnforcedStyle: disallow
+
 Style/FrozenStringLiteralComment:
   Enabled: true
   Exclude:
@@ -405,3 +416,10 @@ Style/FrozenStringLiteralComment:
 
 Style/HashSyntax:
   Enabled: true
+
+Style/Semicolon:
+  Enabled: true
+
+Style/SingleLineMethods:
+  Enabled: true
+  AllowIfMethodIsEmpty: false

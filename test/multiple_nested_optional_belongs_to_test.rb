@@ -1,12 +1,19 @@
 # frozen_string_literal: true
 require 'test_helper'
 
-class Student; end
-class Manager; end
-class Employee; end
+class Student
+end
+
+class Manager
+end
+
+class Employee
+end
 
 class Project
-  def self.human_name; "Project"; end
+  def self.human_name
+    "Project"
+  end
 end
 
 class ProjectsController < InheritedResources::Base

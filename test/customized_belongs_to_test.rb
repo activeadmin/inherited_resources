@@ -5,7 +5,9 @@ class GreatSchool
 end
 
 class Professor
-  def self.human_name; 'Professor'; end
+  def self.human_name
+    'Professor'
+  end
 end
 
 class ProfessorsController < InheritedResources::Base
