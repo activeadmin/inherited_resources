@@ -3,6 +3,7 @@
 ## Unreleased
 
 * Drop Ruby 3.1 support
+* Remove support for Rails `< 7.1`
 
 ## Version 2.1.0
 
