@@ -3,6 +3,7 @@ if ENV.fetch('COVERAGE', false)
   require 'simplecov'
   require 'simplecov-cobertura'
   SimpleCov.start do
+    enable_coverage :branch
     minimum_coverage 98
     maximum_coverage_drop 0.2
     formatter SimpleCov::Formatter::CoberturaFormatter
@@ -16,7 +17,6 @@ Bundler.setup
 
 require 'minitest/autorun'
 require 'mocha/minitest'
-require 'minitest/autorun'
 require 'minitest/reporters'
 
 ENV["RAILS_ENV"] = "test"
