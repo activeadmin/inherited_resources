@@ -227,7 +227,6 @@ GEM
       concurrent-ruby (~> 1.0)
     uri (1.1.2)
     useragent (0.16.11)
-    warning (1.6.0)
     websocket-driver (0.8.2)
       base64
       websocket-extensions (>= 0.1.0)
@@ -251,7 +250,6 @@ DEPENDENCIES
   rbs (~> 4.1.0)
   simplecov
   simplecov-cobertura
-  warning
 
 BUNDLED WITH
   4.0.24

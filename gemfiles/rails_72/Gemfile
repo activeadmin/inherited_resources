@@ -15,5 +15,4 @@ group :development do
   gem 'rbs', '~> 4.1.0' # TODO: remove when dropping Ruby < 3.3 compatibility
   gem 'simplecov', require: false
   gem 'simplecov-cobertura'
-  gem 'warning'
 end

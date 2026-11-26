@@ -236,7 +236,6 @@ GEM
     tsort (0.2.0)
     tzinfo (2.0.6)
       concurrent-ruby (~> 1.0)
-    warning (1.6.0)
     websocket-driver (0.8.2)
       base64
       websocket-extensions (>= 0.1.0)
@@ -260,7 +259,6 @@ DEPENDENCIES
   rbs (~> 4.1.0)
   simplecov
   simplecov-cobertura
-  warning
 
 BUNDLED WITH
   4.0.24
