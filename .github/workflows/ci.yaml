@@ -23,13 +23,10 @@ jobs:
           - "3.4"
           - "4.0"
         rails:
-          - rails_71
           - rails_72
           - rails_80
           - rails_81
         exclude:
-          - ruby: "4.0"
-            rails: rails_71
           - ruby: "4.0"
             rails: rails_72
     steps:

@@ -2,9 +2,9 @@ PATH
   remote: ../..
   specs:
     inherited_resources (2.1.0)
-      actionpack (>= 7.1)
+      actionpack (>= 7.2)
       has_scope (>= 0.6)
-      railties (>= 7.1)
+      railties (>= 7.2)
       responders (>= 2)
 
 GEM

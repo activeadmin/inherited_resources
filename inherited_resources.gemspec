@@ -24,8 +24,8 @@ Gem::Specification.new do |s|
 
   s.required_ruby_version = '>= 3.2'
 
-  s.add_dependency("actionpack", ">= 7.1")
+  s.add_dependency("actionpack", ">= 7.2")
   s.add_dependency("has_scope", ">= 0.6")
-  s.add_dependency("railties", ">= 7.1")
+  s.add_dependency("railties", ">= 7.2")
   s.add_dependency("responders", ">= 2")
 end

@@ -3,7 +3,7 @@
 ## Unreleased
 
 * Drop Ruby 3.1 support
-* Remove support for Rails `< 7.1`
+* Remove support for Rails `< 7.2`
 * Fix polymorphic controllers raising `FrozenError` instead of `ScriptError` when the parent param is missing
 
 ## Version 2.1.0
