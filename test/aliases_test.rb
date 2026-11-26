@@ -5,11 +5,9 @@ class Student
   extend ActiveModel::Naming
 end
 
-class ApplicationController < ActionController::Base
-  include InheritedResources::DSL
-end
-
 class StudentsController < ApplicationController
+  include InheritedResources::DSL
+
   inherit_resources
   respond_to :html, :xml
 
